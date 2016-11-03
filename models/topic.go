@@ -29,12 +29,6 @@ type MonthList struct {
 	Topics []*Topic
 }
 
-//Topics store all the topic
-var Topics []*Topic
-
-//TopicGroupByMonth store the topic by month
-var TopicGroupByMonth []*MonthList
-
 //InitTopicList Load All The Topic On Start
 func InitTopicList() error {
 	Topics = Topics[:0]
@@ -132,7 +126,7 @@ func SetTopicToCategory(t *Topic) {
 func SetTopicToMonth(t *Topic) {
 	month := t.Time.Format("2006-01")
 	ml := &MonthList{}
-	for _, m := range TopicGroupByMonth {
+	for _, m := range TopicsGroupByMonth {
 		if m.Month == month {
 			ml = m
 		}
@@ -140,17 +134,17 @@ func SetTopicToMonth(t *Topic) {
 	if ml.Month == "" {
 		ml.Month = month
 		isFind := false
-		for i := range TopicGroupByMonth {
-			if strings.Compare(ml.Month, TopicGroupByMonth[i].Month) > 0 {
-				TopicGroupByMonth = append(TopicGroupByMonth, nil)
-				copy(TopicGroupByMonth[i+1:], TopicGroupByMonth[i:])
-				TopicGroupByMonth[i] = ml
+		for i := range TopicsGroupByMonth {
+			if strings.Compare(ml.Month, TopicsGroupByMonth[i].Month) > 0 {
+				TopicsGroupByMonth = append(TopicsGroupByMonth, nil)
+				copy(TopicsGroupByMonth[i+1:], TopicsGroupByMonth[i:])
+				TopicsGroupByMonth[i] = ml
 				isFind = true
 				break
 			}
 		}
 		if isFind == false {
-			TopicGroupByMonth = append(TopicGroupByMonth, ml)
+			TopicsGroupByMonth = append(TopicsGroupByMonth, ml)
 		}
 	}
 	for i := range ml.Topics {

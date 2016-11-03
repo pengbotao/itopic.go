@@ -8,6 +8,13 @@ import (
 var (
 	categoryJSONFile    = "posts/category.json"
 	topicMarkdownFolder = "posts"
+
+	//Topics store all the topic
+	Topics []*Topic
+	//TopicsGroupByMonth store the topic by month
+	TopicsGroupByMonth []*MonthList
+	//Categories store all the category
+	Categories []*TopicCategory
 )
 
 func init() {
