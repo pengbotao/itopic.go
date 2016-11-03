@@ -37,7 +37,9 @@ func init() {
 			continue
 		}
 		var buff bytes.Buffer
-		err := tpl.ExecuteTemplate(&buff, "topic.tpl", models.Topics[i])
+		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
+			"topic": models.Topics[i],
+		})
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
