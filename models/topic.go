@@ -33,24 +33,25 @@ type MonthList struct {
 func InitTopicList() error {
 	Topics = Topics[:0]
 	return filepath.Walk(topicMarkdownFolder, func(path string, info os.FileInfo, err error) error {
-		if !info.IsDir() && filepath.Ext(path) == ".md" {
-			t, err := GetTopicByPath(path)
-			if err != nil {
-				return err
-			}
-			SetTopicToCategory(t)
-			SetTopicToMonth(t)
-			//按时间倒序排列
-			for i := range Topics {
-				if t.Time.After(Topics[i].Time) {
-					Topics = append(Topics, nil)
-					copy(Topics[i+1:], Topics[i:])
-					Topics[i] = t
-					return nil
-				}
-			}
-			Topics = append(Topics, t)
+		if info.IsDir() || filepath.Ext(path) != ".md" {
+			return nil
 		}
+		t, err := GetTopicByPath(path)
+		if err != nil {
+			return err
+		}
+		SetTopicToCategory(t)
+		SetTopicToMonth(t)
+		//按时间倒序排列
+		for i := range Topics {
+			if t.Time.After(Topics[i].Time) {
+				Topics = append(Topics, nil)
+				copy(Topics[i+1:], Topics[i:])
+				Topics[i] = t
+				return nil
+			}
+		}
+		Topics = append(Topics, t)
 		return nil
 	})
 }
