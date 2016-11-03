@@ -20,7 +20,7 @@ var Categories []*TopicCategory
 //InitTopicCategoryList Load All The Category On Start
 func InitTopicCategoryList() error {
 	Categories = Categories[:0]
-	fp, err := os.OpenFile("posts/category.json", os.O_RDONLY, 0)
+	fp, err := os.OpenFile(categoryJSONFile, os.O_RDONLY, 0)
 	if err != nil {
 		return err
 	}

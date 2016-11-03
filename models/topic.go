@@ -38,7 +38,7 @@ var TopicGroupByMonth []*MonthList
 //InitTopicList Load All The Topic On Start
 func InitTopicList() error {
 	Topics = Topics[:0]
-	return filepath.Walk("posts", func(path string, info os.FileInfo, err error) error {
+	return filepath.Walk(topicMarkdownFolder, func(path string, info os.FileInfo, err error) error {
 		if !info.IsDir() && filepath.Ext(path) == ".md" {
 			t, err := GetTopicByPath(path)
 			if err != nil {

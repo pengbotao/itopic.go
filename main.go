@@ -17,14 +17,6 @@ var (
 )
 
 func init() {
-	if err := models.InitTopicCategoryList(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	if err := models.InitTopicList(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
 	var tpl *template.Template
 	tpl, err := template.ParseGlob("views/*.tpl")
 	if err != nil {
