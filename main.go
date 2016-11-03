@@ -39,17 +39,17 @@ func init() {
 		router["/"+models.Topics[i].TopicID] = buff
 	}
 	//category router
-	for i := range models.Categories {
+	for i := range models.TopicsGroupByCategory {
 		var buff bytes.Buffer
 		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
-			"title":  models.Categories[i].Title,
-			"topics": models.Categories[i].Topics,
+			"title":  models.TopicsGroupByCategory[i].Title,
+			"topics": models.TopicsGroupByCategory[i].Topics,
 		})
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		router["/category/"+models.Categories[i].CategoryID] = buff
+		router["/category/"+models.TopicsGroupByCategory[i].CategoryID] = buff
 	}
 	//month router
 	for i := range models.TopicsGroupByMonth {

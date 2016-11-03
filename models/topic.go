@@ -106,19 +106,19 @@ func GetTopicByPath(path string) (*Topic, error) {
 
 //SetTopicToCategory set topic to category struct
 func SetTopicToCategory(t *Topic) {
-	for k := range Categories {
-		if Categories[k].CategoryID != t.CategoryName || t.IsPublic == false {
+	for k := range TopicsGroupByCategory {
+		if TopicsGroupByCategory[k].CategoryID != t.CategoryName || t.IsPublic == false {
 			continue
 		}
-		for i := range Categories[k].Topics {
-			if t.Time.After(Categories[k].Topics[i].Time) {
-				Categories[k].Topics = append(Categories[k].Topics, nil)
-				copy(Categories[k].Topics[i+1:], Categories[k].Topics[i:])
-				Categories[k].Topics[i] = t
+		for i := range TopicsGroupByCategory[k].Topics {
+			if t.Time.After(TopicsGroupByCategory[k].Topics[i].Time) {
+				TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, nil)
+				copy(TopicsGroupByCategory[k].Topics[i+1:], TopicsGroupByCategory[k].Topics[i:])
+				TopicsGroupByCategory[k].Topics[i] = t
 				return
 			}
 		}
-		Categories[k].Topics = append(Categories[k].Topics, t)
+		TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, t)
 	}
 }
 

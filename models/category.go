@@ -16,7 +16,7 @@ type TopicCategory struct {
 
 //InitTopicCategoryList Load All The Category On Start
 func InitTopicCategoryList() error {
-	Categories = Categories[:0]
+	TopicsGroupByCategory = TopicsGroupByCategory[:0]
 	fp, err := os.OpenFile(categoryJSONFile, os.O_RDONLY, 0)
 	if err != nil {
 		return err
@@ -26,7 +26,7 @@ func InitTopicCategoryList() error {
 	if err != nil {
 		return err
 	}
-	if err := json.Unmarshal(c, &Categories); err != nil {
+	if err := json.Unmarshal(c, &TopicsGroupByCategory); err != nil {
 		return err
 	}
 	return nil

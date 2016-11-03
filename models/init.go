@@ -13,8 +13,8 @@ var (
 	Topics []*Topic
 	//TopicsGroupByMonth store the topic by month
 	TopicsGroupByMonth []*MonthList
-	//Categories store all the category
-	Categories []*TopicCategory
+	//TopicsGroupByCategory store all the category
+	TopicsGroupByCategory []*TopicCategory
 )
 
 func init() {
