@@ -107,8 +107,11 @@ func GetTopicByPath(path string) (*Topic, error) {
 
 //SetTopicToCategory set topic to category struct
 func SetTopicToCategory(t *Topic) {
+	if t.IsPublic == false {
+		return
+	}
 	for k := range TopicsGroupByCategory {
-		if TopicsGroupByCategory[k].CategoryID != t.CategoryName || t.IsPublic == false {
+		if TopicsGroupByCategory[k].CategoryID != t.CategoryName {
 			continue
 		}
 		for i := range TopicsGroupByCategory[k].Topics {
@@ -125,6 +128,9 @@ func SetTopicToCategory(t *Topic) {
 
 //SetTopicToMonth set topic to month struct
 func SetTopicToMonth(t *Topic) {
+	if t.IsPublic == false {
+		return
+	}
 	month := t.Time.Format("2006-01")
 	ml := &MonthList{}
 	for _, m := range TopicsGroupByMonth {
