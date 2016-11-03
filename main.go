@@ -42,7 +42,7 @@ func init() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		router["/"+models.Topics[i].TopicId] = buff
+		router["/"+models.Topics[i].TopicID] = buff
 	}
 	//category router
 	for i := range models.Categories {
@@ -55,7 +55,7 @@ func init() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		router["/category/"+models.Categories[i].CategoryId] = buff
+		router["/category/"+models.Categories[i].CategoryID] = buff
 	}
 	//month router
 	for i := range models.TopicGroupByMonth {

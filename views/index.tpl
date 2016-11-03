@@ -13,7 +13,7 @@
     <h1><a href="/{{.Month}}.html">{{.Month}}</a></h1>
     <ul>
     {{range .Topics}}
-        <li><a href="/{{.TopicId}}.html">{{.Title}}</a></li>
+        <li><a href="/{{.TopicID}}.html">{{.Title}}</a></li>
     {{end}}
     </ul>
 {{end}}
