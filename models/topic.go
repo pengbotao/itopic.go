@@ -130,7 +130,19 @@ func SetTopicToMonth(t *Topic) {
 	}
 	if ml.Month == "" {
 		ml.Month = month
-		TopicGroupByMonth = append(TopicGroupByMonth, ml)
+		is_find := false
+		for i := range TopicGroupByMonth {
+			if strings.Compare(ml.Month, TopicGroupByMonth[i].Month) > 0 {
+				TopicGroupByMonth = append(TopicGroupByMonth, nil)
+				copy(TopicGroupByMonth[i+1:], TopicGroupByMonth[i:])
+				TopicGroupByMonth[i] = ml
+				is_find = true
+				break
+			}
+		}
+		if is_find == false {
+			TopicGroupByMonth = append(TopicGroupByMonth, ml)
+		}
 	}
 	for i := range ml.Topics {
 		if t.Time.After(ml.Topics[i].Time) {
