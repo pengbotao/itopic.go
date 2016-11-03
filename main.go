@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	"./models"
+	"itopic.go/models"
 )
 
 var (
