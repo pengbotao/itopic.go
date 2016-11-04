@@ -24,9 +24,13 @@ Samba的主配置文件为`/etc/samba/smb.conf`，这里主要达到在win下通
 [public]
     comment = Public Files
     path = /data/share/public
-    public = no
+    public = yes
     writable = yes
     browseable = yes
+    create mode = 0664
+    directory mode = 0775
+    write list = smbuser
+    guest ok = no
 ```
 配置块通过TAB来缩进，拷贝出来的可能是空格。添加系统用户并将用户添加到samba账户中
 ```
@@ -111,4 +115,9 @@ OK                     \\42.121.104.209\public   Microsoft Windows Network
 ```
 C:\Users\Administrator>net use \\42.121.104.209\public /delete
 \\42.121.104.209\public 已经删除。
+```
+
+**说明**：如何Window下提示没有权限访问，请与管理员管理员联系请求访问权限。则可能是selinux防火墙的问题，执行下面命令关闭selinux防火墙试试：
+```
+setenforce 0
 ```
