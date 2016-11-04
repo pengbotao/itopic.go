@@ -77,9 +77,10 @@ func GetTopicByPath(path string) (*Topic, error) {
 	}
 	tHeadStr = strings.Trim(tHeadStr, "```")
 	type tHeadJSON struct {
-		URL  string
-		Time string
-		Tag  string
+		URL      string
+		Time     string
+		Tag      string
+		IsPublic string `json:"public"`
 	}
 	var thj tHeadJSON
 	if err := json.Unmarshal([]byte(tHeadStr), &thj); err != nil {
@@ -89,6 +90,9 @@ func GetTopicByPath(path string) (*Topic, error) {
 	t.Time, err = time.Parse("2006/01/02 15:04", thj.Time)
 	if err != nil {
 		return nil, err
+	}
+	if strings.Compare(thj.IsPublic, "no") == 0 {
+		t.IsPublic = false
 	}
 	tagArray := strings.Split(thj.Tag, ",")
 	for _, tagName := range tagArray {
