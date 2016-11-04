@@ -24,7 +24,7 @@ Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯（`John 
 - `Markdown` 转 `HTML` 非常方便。`HTML `是整个万维网（`web`）的标记语言，但更重要的是，它也是目前主流电子书格式所用的标记语言。若采用 `Markdown`，对于日后的文件转换工作也大有裨益。
 
 ##### H5超链接和图片
-http://www.baidu.com  [百度](http://www.baidu.com)  [腾讯](http://www.qq.com "腾讯官网")  ![](/favicon.ico)
+http://www.baidu.com  [百度](http://www.baidu.com)  [腾讯](http://www.qq.com "腾讯官网")  ![](/public/favicon.ico)
 
 ###### H6分割线
 ---
