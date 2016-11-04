@@ -79,9 +79,13 @@ func GetTopicByPath(path string) (*Topic, error) {
 		t.IsPublic = false
 	}
 	tagArray := strings.Split(thj.Tag, ",")
+	var isFind bool
 	for _, tagName := range tagArray {
 		tagName = strings.TrimSpace(tagName)
-		isFind := false
+		if len(tagName) == 0 {
+			continue
+		}
+		isFind = false
 		for kc := range TopicsGroupByTag {
 			if strings.Compare(strings.ToLower(tagName), TopicsGroupByTag[kc].TagID) == 0 {
 				t.Tag = append(t.Tag, TopicsGroupByTag[kc])
