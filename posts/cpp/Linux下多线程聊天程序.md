@@ -1,8 +1,10 @@
-url: linux-c-chatroom-demo
-des: 
-time: 2015/05/24 11:09
-tag: cpp
-++++++++
+```
+{
+    "url": "linux-c-chatroom-demo",
+    "time": "2015/05/24 11:09",
+    "tag": "cpp"
+}
+```
 
 基于socket和线程实现一个简单的群聊功能。编译方式
 

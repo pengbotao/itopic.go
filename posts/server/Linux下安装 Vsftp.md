@@ -1,8 +1,10 @@
-url: linux-vsftp-install
-des: 
-time: 2014/09/01 22:52
-tag: linux
-++++++++
+```
+{
+    "url": "linux-vsftp-install",
+    "time": "2014/09/01 22:52",
+    "tag": "linux"
+}
+```
 
 # 安装vsftpd
 

@@ -1,8 +1,10 @@
-url: win-web-server
-des: 
-time: 2016/06/04 18:00
-tag: linux
-++++++++
+```
+{
+    "url": "win-web-server",
+    "time": "2016/06/04 18:00",
+    "tag": "linux"
+}
+```
 
 # 一、Nginx安装
 > Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。

@@ -1,8 +1,10 @@
-url: lua-start
-des: 
-time: 2016/01/01 16:15
-tag: lua
-++++++++
+```
+{
+    "url": "lua-start",
+    "time": "2016/01/01 16:15",
+    "tag": "lua"
+}
+```
 
 > OpenResty （也称为 ngx_openresty）是一个全功能的 Web 应用服务器。它打包了标准的 Nginx核心，很多的常用的第三方模块，以及它们的大多数依赖项。
 

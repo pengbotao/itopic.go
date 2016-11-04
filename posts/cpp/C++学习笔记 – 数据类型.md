@@ -1,8 +1,10 @@
-url: cpp-primer-plus-type
-des: 
-time: 2015/03/26 21:05
-tag: cpp
-++++++++
+```
+{
+    "url": "cpp-primer-plus-type",
+    "time": "2015/03/26 21:05",
+    "tag": "cpp"
+}
+```
 
 # 基本类型
 

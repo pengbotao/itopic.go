@@ -1,8 +1,10 @@
-url: cpp-primer-plus-function-2
-des: 
-time: 2015/03/30 22:45
-tag: cpp
-++++++++
+```
+{
+    "url": "cpp-primer-plus-function-2",
+    "time": "2015/03/30 22:45",
+    "tag": "cpp"
+}
+```
 
 # 内联函数
 

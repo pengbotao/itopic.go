@@ -1,8 +1,10 @@
-url: php-phpize-ext
-des: 
-time: 2014/08/14 19:14
-tag: linux
-++++++++
+```
+{
+    "url": "php-phpize-ext",
+    "time": "2014/08/14 19:14",
+    "tag": "linux"
+}
+```
 
 # phpize
 phpize 命令是用来准备 PHP 扩展库的编译环境的。下面例子中，扩展库的源程序位于 extname 目录中：

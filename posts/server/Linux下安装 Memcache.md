@@ -1,8 +1,10 @@
-url: linux-memcache-install
-des: 
-time: 2014/08/16 16:33
-tag: linux
-++++++++
+```
+{
+    "url": "linux-memcache-install",
+    "time": "2014/08/16 16:33",
+    "tag": "linux"
+}
+```
 
 # 安装Memcached服务端
 

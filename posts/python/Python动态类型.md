@@ -1,8 +1,10 @@
-url: python-dynamically
-des: 
-time: 2015/12/07 15:38
-tag: python
-++++++++
+```
+{
+    "url": "python-dynamically",
+    "time": "2015/12/07 15:38",
+    "tag": "python"
+}
+```
 
 **静态类型与动态类型**
 

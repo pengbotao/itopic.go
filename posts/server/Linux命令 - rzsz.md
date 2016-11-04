@@ -1,8 +1,10 @@
-url: linux-sz-rz
-des: 
-time: 2014/01/23 10:24
-tag: linux
-++++++++
+```
+{
+    "url": "linux-sz-rz",
+    "time": "2014/01/23 10:24",
+    "tag": "linux"
+}
+```
 
 # 1、软件安装
 

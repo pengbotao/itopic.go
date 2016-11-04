@@ -1,8 +1,10 @@
-url: linux-php-install
-des: 
-time: 2014/08/14 23:16
-tag: linux
-++++++++
+```
+{
+    "url": "linux-php-install",
+    "time": "2014/08/14 23:16",
+    "tag": "linux"
+}
+```
 
 # PHP安装
 ```

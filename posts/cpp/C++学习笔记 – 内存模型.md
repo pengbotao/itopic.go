@@ -1,8 +1,10 @@
-url: cpp-primer-plus-memory-model
-des: 
-time: 2015/04/20 08:15
-tag: cpp
-++++++++
+```
+{
+    "url": "cpp-primer-plus-memory-model",
+    "time": "2015/04/20 08:15",
+    "tag": "cpp"
+}
+```
 
 # 单独编译
 

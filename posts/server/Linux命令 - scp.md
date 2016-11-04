@@ -1,8 +1,10 @@
-url: linux-scp
-des: 
-time: 2013/11/15 11:16
-tag: linux
-++++++++
+```
+{
+    "url": "linux-scp",
+    "time": "2013/11/15 11:16",
+    "tag": "linux"
+}
+```
 
 拷贝远程文件到本地
 ```

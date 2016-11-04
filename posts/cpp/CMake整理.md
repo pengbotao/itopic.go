@@ -1,8 +1,10 @@
-url: cmake
-des: 
-time: 2015/04/30 18:24
-tag: cpp
-++++++++
+```
+{
+    "url": "cmake",
+    "time": "2015/04/30 18:24",
+    "tag": "cpp"
+}
+```
 
 # CMake简介
 

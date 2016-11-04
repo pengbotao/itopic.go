@@ -1,8 +1,10 @@
-url: linux-c-thread
-des: 
-time: 2015/05/25 17:52
-tag: cpp
-++++++++
+```
+{
+    "url": "linux-c-thread",
+    "time": "2015/05/25 17:52",
+    "tag": "cpp"
+}
+```
 
 # 进程和线程
 

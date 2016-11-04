@@ -3,24 +3,23 @@ package models
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
 
+	"encoding/json"
 	"github.com/russross/blackfriday"
 )
 
 //Topic struct
 type Topic struct {
-	TopicID     string
-	Title       string
-	Description string
-	Time        time.Time
-	Tag         []*TopicTag
-	Content     string
-	IsPublic    bool //true for public，false for protected
+	TopicID  string
+	Title    string
+	Time     time.Time
+	Tag      []*TopicTag
+	Content  string
+	IsPublic bool //true for public，false for protected
 }
 
 //MonthList Show The Topic Group By Month
@@ -67,40 +66,37 @@ func GetTopicByPath(path string) (*Topic, error) {
 		Title:    strings.TrimSuffix(filepath.Base(path), filepath.Ext(path)),
 		IsPublic: true,
 	}
+	var tHeadStr string
 	scanner := bufio.NewScanner(fp)
-
 	for scanner.Scan() {
 		s := scanner.Text()
-		if strings.HasPrefix(s, "+++") {
+		tHeadStr += s
+		if len(s) == 0 {
 			break
 		}
-		sp := strings.SplitN(s, ":", 2)
-		if len(sp) != 2 {
-			return nil, fmt.Errorf("invalid header: %s", s)
-		}
-		k, v := strings.TrimSpace(sp[0]), strings.TrimSpace(sp[1])
-		switch k {
-		case "url":
-			t.TopicID = v
-		case "des":
-			t.Description = v
-		case "time":
-			t.Time, err = time.Parse("2006/01/02 15:04", v)
-			if err != nil {
-				return nil, err
+	}
+	tHeadStr = strings.Trim(tHeadStr, "```")
+	type tHeadJSON struct {
+		URL  string
+		Time string
+		Tag  string
+	}
+	var thj tHeadJSON
+	if err := json.Unmarshal([]byte(tHeadStr), &thj); err != nil {
+		return nil, err
+	}
+	t.TopicID = thj.URL
+	t.Time, err = time.Parse("2006/01/02 15:04", thj.Time)
+	if err != nil {
+		return nil, err
+	}
+	tagArray := strings.Split(thj.Tag, ",")
+	for _, tagName := range tagArray {
+		for kc := range TopicsGroupByTag {
+			if strings.Compare(tagName, TopicsGroupByTag[kc].TagID) == 0 {
+				t.Tag = append(t.Tag, TopicsGroupByTag[kc])
+				break
 			}
-		case "tag":
-			tagArray := strings.Split(v, ",")
-			for _, tagName := range tagArray {
-				for kc := range TopicsGroupByTag {
-					if strings.Compare(tagName, TopicsGroupByTag[kc].TagID) == 0 {
-						t.Tag = append(t.Tag, TopicsGroupByTag[kc])
-						break
-					}
-				}
-			}
-		default:
-			return nil, fmt.Errorf("invalid header: %s", s)
 		}
 	}
 	var content bytes.Buffer

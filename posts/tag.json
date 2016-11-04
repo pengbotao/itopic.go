@@ -1,62 +1,50 @@
 [
     {
         "TagID": "php",
-        "TagName": "PHP",
-        "Description": ""
+        "TagName": "PHP"
     },
     {
         "TagID": "soft",
-        "TagName": "精品软件",
-        "Description": ""
+        "TagName": "精品软件"
     },
     {
         "TagID": "thinking",
-        "TagName": "随笔",
-        "Description": ""
+        "TagName": "随笔"
     },
     {
         "TagID": "linux",
-        "TagName": "Linux",
-        "Description": ""
+        "TagName": "Linux"
     },
     {
         "TagID": "go",
-        "TagName": "Golang",
-        "Description": ""
+        "TagName": "Golang"
     },
     {
         "TagID": "http",
-        "TagName": "HTTP专题",
-        "Description": ""
+        "TagName": "HTTP专题"
     },
     {
         "TagID": "lua",
-        "TagName": "Lua",
-        "Description": ""
+        "TagName": "Lua"
     },
     {
         "TagID": "python",
-        "TagName": "Python",
-        "Description": ""
+        "TagName": "Python"
     },
     {
         "TagID": "database",
-        "TagName": "数据库",
-        "Description": ""
+        "TagName": "数据库"
     },
     {
         "TagID": "web",
-        "TagName": "前端设计",
-        "Description": ""
+        "TagName": "前端设计"
     },
     {
         "TagID": "cpp",
-        "TagName": "C/C++",
-        "Description": ""
+        "TagName": "C/C++"
     },
     {
         "TagID": "other",
-        "TagName": "其他",
-        "Description": ""
+        "TagName": "其他"
     }
 ]

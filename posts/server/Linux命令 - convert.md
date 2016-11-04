@@ -1,8 +1,10 @@
-url: linux-convert
-des: 
-time: 2015/03/26 17:50
-tag: linux
-++++++++
+```
+{
+    "url": "linux-convert",
+    "time": "2015/03/26 17:50",
+    "tag": "linux"
+}
+```
 
 # 安装ImageMagick
 ```

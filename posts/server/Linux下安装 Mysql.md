@@ -1,8 +1,10 @@
-url: linux-mysql-install
-des: 
-time: 2014/08/14 23:55
-tag: linux
-++++++++
+```
+{
+    "url": "linux-mysql-install",
+    "time": "2014/08/14 23:55",
+    "tag": "linux"
+}
+```
 
 # 1、通过官网下载mysql源码包。
 

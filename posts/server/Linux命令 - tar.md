@@ -1,8 +1,10 @@
-url: linux-tar
-des: 
-time: 2013/03/30 11:26
-tag: linux
-++++++++
+```
+{
+    "url": "linux-tar",
+    "time": "2013/03/30 11:26",
+    "tag": "linux"
+}
+```
 
 齐全的tar命令，备份于此：
 
