@@ -2,7 +2,7 @@
 {
     "url": "linux-split",
     "time": "2013/11/15 20:48",
-    "tag": "linux"
+    "tag": "Linux,split"
 }
 ```
 

@@ -2,7 +2,7 @@
 {
     "url": "win-web-server",
     "time": "2016/06/04 18:00",
-    "tag": "linux"
+    "tag": "Linux,环境部署"
 }
 ```
 
@@ -168,9 +168,9 @@ mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
 mysql> FLUSH PRIVILEGES;
 ```
 # 四、Redis服务端安装
-这里为Redis服务端，本地需要用到Redis的场景可直接连接本机的Redis，Win下直接下载即可使用。64位可直接[点此下载](/attachments/Redis-x64-2.8.2400.zip)。
+这里为Redis服务端，本地需要用到Redis的场景可直接连接本机的Redis，Win下直接下载即可使用。64位可直接[点此下载](/static/attachments/Redis-x64-2.8.2400.zip)。
 # 五、PHP、Nginx、启动
-前面PHP的启动命令输入后命令行窗口不可关掉，关掉后PHP就退出了， 所以需要把PHP放后台执行，系统需要先安装一个[RunHiddenConsole.exe](/attachments/2010-5-RunHiddenConsole.zip)（解压后放在system32目录），然后可以直接将启动命令写在一个批处理脚本，如：
+前面PHP的启动命令输入后命令行窗口不可关掉，关掉后PHP就退出了， 所以需要把PHP放后台执行，系统需要先安装一个[RunHiddenConsole.exe](/static/attachments/2010-5-RunHiddenConsole.zip)（解压后放在system32目录），然后可以直接将启动命令写在一个批处理脚本，如：
 ```
 @echo off
 echo Stopping nginx...

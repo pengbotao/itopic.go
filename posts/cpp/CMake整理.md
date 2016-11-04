@@ -2,7 +2,7 @@
 {
     "url": "cmake",
     "time": "2015/04/30 18:24",
-    "tag": "cpp"
+    "tag": "C++,CMake"
 }
 ```
 

@@ -2,7 +2,7 @@
 {
     "url": "linux-nginx-install",
     "time": "2014/08/14 19:21",
-    "tag": "linux"
+    "tag": "Linux,Nginx"
 }
 ```
 

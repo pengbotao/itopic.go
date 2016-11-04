@@ -2,7 +2,7 @@
 {
     "url": "python-dynamically",
     "time": "2015/12/07 15:38",
-    "tag": "python"
+    "tag": "Python"
 }
 ```
 

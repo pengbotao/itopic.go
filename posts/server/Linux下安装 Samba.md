@@ -2,7 +2,7 @@
 {
     "url": "linux-samba-install",
     "time": "2014/08/25 19:52",
-    "tag": "linux"
+    "tag": "Linux,Samba"
 }
 ```
 

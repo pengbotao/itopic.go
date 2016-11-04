@@ -2,7 +2,7 @@
 {
     "url": "markdown",
     "time": "2016/11/01 19:45",
-    "tag": "other, soft"
+    "tag": "Markdown"
 }
 ```
 

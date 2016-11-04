@@ -2,7 +2,7 @@
 {
     "url": "php-ignore-items",
     "time": "2014/01/06 11:30",
-    "tag": "php"
+    "tag": "PHP,规范"
 }
 ```
 

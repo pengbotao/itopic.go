@@ -11,7 +11,13 @@
 <h1>{{.topic.Title}}</h1>
 <code>{{.topic.Time}}</code>
 {{range .topic.Tag}}
-<code><a href="/tag/{{.TagID}}.html">{{.TagName}}</a></code>
+<code>
+{{if .TagID}}
+<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>
+{{else}}
+{{.TagName}}
+{{end}}
+</code>
 {{end}}
 {{.topic.Content}}
 </body>

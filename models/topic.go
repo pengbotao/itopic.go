@@ -12,23 +12,7 @@ import (
 	"github.com/russross/blackfriday"
 )
 
-//Topic struct
-type Topic struct {
-	TopicID  string
-	Title    string
-	Time     time.Time
-	Tag      []*TopicTag
-	Content  string
-	IsPublic bool //true for public，false for protected
-}
-
-//MonthList Show The Topic Group By Month
-type MonthList struct {
-	Month  string
-	Topics []*Topic
-}
-
-//InitTopicList Load All The Topic On Start
+//InitTopicList load all the topic on init
 func InitTopicList() error {
 	Topics = Topics[:0]
 	return filepath.Walk(topicMarkdownFolder, func(path string, info os.FileInfo, err error) error {
@@ -41,7 +25,7 @@ func InitTopicList() error {
 		}
 		SetTopicToTag(t)
 		SetTopicToMonth(t)
-		//按时间倒序排列
+		//append topics desc
 		for i := range Topics {
 			if t.Time.After(Topics[i].Time) {
 				Topics = append(Topics, nil)
@@ -55,7 +39,7 @@ func InitTopicList() error {
 	})
 }
 
-//GetTopicByPath Read The Topic By Path
+//GetTopicByPath read the topic by path
 func GetTopicByPath(path string) (*Topic, error) {
 	fp, err := os.OpenFile(path, os.O_RDONLY, 0)
 	if err != nil {
@@ -96,11 +80,19 @@ func GetTopicByPath(path string) (*Topic, error) {
 	}
 	tagArray := strings.Split(thj.Tag, ",")
 	for _, tagName := range tagArray {
+		tagName = strings.TrimSpace(tagName)
+		isFind := false
 		for kc := range TopicsGroupByTag {
-			if strings.Compare(tagName, TopicsGroupByTag[kc].TagID) == 0 {
+			if strings.Compare(strings.ToLower(tagName), TopicsGroupByTag[kc].TagID) == 0 {
 				t.Tag = append(t.Tag, TopicsGroupByTag[kc])
+				isFind = true
 				break
 			}
+		}
+		if isFind == false {
+			tt := &TopicTag{TagID: strings.ToLower(tagName), TagName: tagName}
+			t.Tag = append(t.Tag, tt)
+			TopicsGroupByTag = append(TopicsGroupByTag, tt)
 		}
 	}
 	var content bytes.Buffer
@@ -141,35 +133,35 @@ func SetTopicToMonth(t *Topic) {
 		return
 	}
 	month := t.Time.Format("2006-01")
-	ml := &MonthList{}
+	tm := &TopicMonth{}
 	for _, m := range TopicsGroupByMonth {
 		if m.Month == month {
-			ml = m
+			tm = m
 		}
 	}
-	if ml.Month == "" {
-		ml.Month = month
+	if tm.Month == "" {
+		tm.Month = month
 		isFind := false
 		for i := range TopicsGroupByMonth {
-			if strings.Compare(ml.Month, TopicsGroupByMonth[i].Month) > 0 {
+			if strings.Compare(tm.Month, TopicsGroupByMonth[i].Month) > 0 {
 				TopicsGroupByMonth = append(TopicsGroupByMonth, nil)
 				copy(TopicsGroupByMonth[i+1:], TopicsGroupByMonth[i:])
-				TopicsGroupByMonth[i] = ml
+				TopicsGroupByMonth[i] = tm
 				isFind = true
 				break
 			}
 		}
 		if isFind == false {
-			TopicsGroupByMonth = append(TopicsGroupByMonth, ml)
+			TopicsGroupByMonth = append(TopicsGroupByMonth, tm)
 		}
 	}
-	for i := range ml.Topics {
-		if t.Time.After(ml.Topics[i].Time) {
-			ml.Topics = append(ml.Topics, nil)
-			copy(ml.Topics[i+1:], ml.Topics[i:])
-			ml.Topics[i] = t
+	for i := range tm.Topics {
+		if t.Time.After(tm.Topics[i].Time) {
+			tm.Topics = append(tm.Topics, nil)
+			copy(tm.Topics[i+1:], tm.Topics[i:])
+			tm.Topics[i] = t
 			return
 		}
 	}
-	ml.Topics = append(ml.Topics, t)
+	tm.Topics = append(tm.Topics, t)
 }

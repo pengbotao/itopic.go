@@ -2,7 +2,7 @@
 {
     "url": "charles-proxy-tool",
     "time": "2016/07/28 19:52",
-    "tag": "soft"
+    "tag": "常用软件,Charles,抓包工具"
 }
 ```
 
@@ -38,7 +38,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.74-b02, mixed mode)
 - 通过[官网](https://www.charlesproxy.com/download/)下载Charles并安装
 - Charles是收费软件，未注册的情况下有一些限制，可下载破解补丁破解。
 
-[charles.jar](/attachments/charles3.9.2-64位破解版.zip) 是Charles3.9.2 64位的补丁文件。
+[charles.jar](/static/attachments/charles3.9.2-64位破解版.zip) 是Charles3.9.2 64位的补丁文件。
 
 
 复制补丁文件charles.jar到软件安装根目录的lib目录下，覆盖原文件。启动Charles.exe，看到如下启动界面即表示成功。
