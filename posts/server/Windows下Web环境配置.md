@@ -1,7 +1,7 @@
 url: win-web-server
 des: 
 time: 2016/06/04 18:00
-category: soft
+category: linux
 ++++++++
 
 # 一、Nginx安装
@@ -223,4 +223,4 @@ upstream php_fastcgi_pass{
     server 127.0.0.1:9005;
 }
 ```
-然后server中的 fastcgi_pass 127.0.0.1:9000; 改成 fastcgi_pass php_fastcgi_pass;
+然后server中的 `fastcgi_pass 127.0.0.1:9000;` 改成 `fastcgi_pass php_fastcgi_pass;`

@@ -53,5 +53,10 @@
         "CategoryID": "cpp",
         "Title": "C/C++",
         "Description": ""
+    },
+    {
+        "CategoryID": "other",
+        "Title": "其他",
+        "Description": ""
     }
 ]

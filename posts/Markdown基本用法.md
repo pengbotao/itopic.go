@@ -1,7 +1,7 @@
 url: markdown
 des: 
 time: 2016/11/01 19:45
-category: soft
+category: other,soft
 ++++++++
 
 # H1标题

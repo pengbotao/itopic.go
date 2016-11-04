@@ -14,13 +14,13 @@ import (
 
 //Topic struct
 type Topic struct {
-	TopicID      string
-	Title        string
-	Description  string
-	Time         time.Time
-	CategoryName string
-	Content      string
-	IsPublic     bool //true for public，false for protected
+	TopicID     string
+	Title       string
+	Description string
+	Time        time.Time
+	Category    []*TopicCategory
+	Content     string
+	IsPublic    bool //true for public，false for protected
 }
 
 //MonthList Show The Topic Group By Month
@@ -90,7 +90,15 @@ func GetTopicByPath(path string) (*Topic, error) {
 				return nil, err
 			}
 		case "category":
-			t.CategoryName = v
+			catArray := strings.Split(v, ",")
+			for _, catName := range catArray {
+				for kc := range TopicsGroupByCategory {
+					if strings.Compare(catName, TopicsGroupByCategory[kc].CategoryID) == 0 {
+						t.Category = append(t.Category, TopicsGroupByCategory[kc])
+						break
+					}
+				}
+			}
 		default:
 			return nil, fmt.Errorf("invalid header: %s", s)
 		}
@@ -101,7 +109,6 @@ func GetTopicByPath(path string) (*Topic, error) {
 		content.WriteString("\n")
 	}
 	t.Content = string(blackfriday.MarkdownCommon(content.Bytes()))
-
 	return t, nil
 }
 
@@ -111,18 +118,20 @@ func SetTopicToCategory(t *Topic) {
 		return
 	}
 	for k := range TopicsGroupByCategory {
-		if TopicsGroupByCategory[k].CategoryID != t.CategoryName {
-			continue
-		}
-		for i := range TopicsGroupByCategory[k].Topics {
-			if t.Time.After(TopicsGroupByCategory[k].Topics[i].Time) {
-				TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, nil)
-				copy(TopicsGroupByCategory[k].Topics[i+1:], TopicsGroupByCategory[k].Topics[i:])
-				TopicsGroupByCategory[k].Topics[i] = t
-				return
+		for i := range t.Category {
+			if TopicsGroupByCategory[k].CategoryID != t.Category[i].CategoryID {
+				continue
 			}
+			for j := range TopicsGroupByCategory[k].Topics {
+				if t.Time.After(TopicsGroupByCategory[k].Topics[j].Time) {
+					TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, nil)
+					copy(TopicsGroupByCategory[k].Topics[j+1:], TopicsGroupByCategory[k].Topics[j:])
+					TopicsGroupByCategory[k].Topics[j] = t
+					return
+				}
+			}
+			TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, t)
 		}
-		TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, t)
 	}
 }
 

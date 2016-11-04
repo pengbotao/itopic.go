@@ -9,6 +9,10 @@
 </head>
 <body>
 <h1>{{.topic.Title}}</h1>
+<code>{{.topic.Time}}</code>
+{{range .topic.Category}}
+<code><a href="/category/{{.CategoryID}}.html">{{.Title}}</a></code>
+{{end}}
 {{.topic.Content}}
 </body>
 </html>

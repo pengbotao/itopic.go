@@ -11,7 +11,7 @@
 <div id="wrapper">
 <h1>{{.title}}</h1>
 {{range .topics}}
-    <li><a href="/{{.TopicID}}.html">{{.Title}}</a></li>
+    <li>{{.Time}} <a href="/{{.TopicID}}.html">{{.Title}}</a></li>
 {{end}}
 </div>
 </body>

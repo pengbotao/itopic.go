@@ -46,7 +46,7 @@ category: linux
 # /usr/local/webserver/nginx/sbin/nginx -s reload
 ```
 
-# 配置
+# nginx.conf配置
 配置示例，通过vhost来配置新站点，避免nginx.conf文件过长，不方便管理。
 ```
 # vi nginx.conf 
@@ -108,4 +108,41 @@ server {
     root /data/www;
     access_log /data/logs/nginx/default.access.log;
 }
+```
+
+## upstream模块
+nginx可以通过upstream实现反向代理，将请求分发到后端的不同机器上。
+### 1、轮询
+轮询是upstream的默认分配方式，即每个请求按照时间顺序轮流分配到不同的后端服务器，如果某个后端服务器down掉后，能自动剔除。
+```
+upstream backend {
+    server 192.168.1.101:88;
+    server 192.168.1.102:88;
+    server 192.168.1.103:88;
+}
+```
+
+### 2、weight
+轮询的加强版，即可以指定轮询比率，weight和访问几率成正比，主要应用于后端服务器异质的场景下。
+```
+upstream backend {
+    server 192.168.1.101 weight=1;
+    server 192.168.1.102 weight=2;
+    server 192.168.1.103 weight=3;
+}
+```
+### 3、ip_hash
+每个请求按照访问ip（即Nginx的前置服务器或者客户端IP）的hash结果分配，这样每个访客会固定访问一个后端服务器，可以解决session一致问题。
+```
+upstream backend {
+    ip_hash;
+    server 192.168.1.101:88;
+    server 192.168.1.102:88;
+    server 192.168.1.103:88;
+}
+```
+
+使用上可在具体的配置文件里设置
+```
+proxy_pass http://backend; 
 ```
