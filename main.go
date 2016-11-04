@@ -76,9 +76,8 @@ func init() {
 }
 
 func main() {
-	http.Handle("/favicon.ico", http.FileServer(http.Dir("public")))
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("public"))))
-	http.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("public/uploads"))))
+	http.Handle("/favicon.ico", http.FileServer(http.Dir("static")))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=UTF-8")

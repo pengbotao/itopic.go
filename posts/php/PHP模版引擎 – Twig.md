@@ -93,7 +93,7 @@ padding-left:15px; display:block;}
 ```
 第一行为注释部分，可以省去，第二行表示index.html继承base.html， 未重写的情况下将直接使用base.html中的内容进行显示，也就是该页面将看到如下效果：
 
-![](/uploads/twig-1.png)
+![](/static/uploads/twig-1.png)
 
 效果比较简单，但是很神奇，index.html只是继承了base.html，没写其他内容呢？对，不用写了，在未重写父类方法时。子类是可以直接调用父类方法的。
 
@@ -116,7 +116,7 @@ padding-left:15px; display:block;}
 ```
 调用parent即可显示基类的内容，通过block('footer')则可获取footer中的Twig Footer内容。所以图片效果如下：
 
-![](/uploads/twig-2.png)
+![](/static/uploads/twig-2.png)
 
 很神奇吧！这种排版方式值得一试，等待机会中...
 

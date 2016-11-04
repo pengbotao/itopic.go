@@ -17,7 +17,7 @@
 
 这里安装OpenResty，安装方式同Nginx。安装过程十分简单，只需要下载解压缩即可。解压后根目录下有nginx.exe，双击即可运行Nginx，访问 http://localhost 看到如下页面则表示安装成功。
 
-![](/uploads/nginx-start.png)
+![](/static/uploads/nginx-start.png)
 
 ## 1.1 配置文件
 nginx配置文件位于./conf/nginx.conf。这里采用vhost的方式来配置nginx，即一个站点配置在一个文件中，主配置文件引入该配置文件即可。nginx.conf文件引入vhost配置文件方式为在http区域增加以下部分，并创建vhost目录。

@@ -14,13 +14,13 @@ Apache JMeter是Apache组织开发的基于Java的压力测试工具。用于对
 
 JMeter基于Java开发，需要系统有安装JDK环境。解压后进入bin目录，点击`jmeter.bat`。若运行正常则会进入JMeter控制面板。界面如下：
 
-![](/uploads/jmeter-start.png)
+![](/static/uploads/jmeter-start.png)
 
 # 三、常规测试 - HTTP
 ## 3.1 添加线程组
 测试计划 -> 添加 -> `Threads(User)` -> 线程组，添加后进入如下界面：
 
-![](/uploads/jmeter-threads.png)
+![](/static/uploads/jmeter-threads.png)
 
 
 - **线程数：**表示将模拟多少个用户进行测试。
@@ -34,7 +34,7 @@ JMeter基于Java开发，需要系统有安装JDK环境。解压后进入bin目�
 
 线程组 -> 添加 -> `Sampler` -> `HTTP请求`，添加后进入如下界面：
 
-![](/uploads/jmeter-HTTP-Sampler.png)
+![](/static/uploads/jmeter-HTTP-Sampler.png)
 
 从界面上可以看到，分别可以对GET和POST进行压测。同时需要设置请求的域名或IP，端口，请求路径等等参数。同时可以上传文件、设置代理等。
 
@@ -44,11 +44,11 @@ JMeter基于Java开发，需要系统有安装JDK环境。解压后进入bin目�
 ## 3.4 运行
 切换到察看结果树页面，点击工具栏上的绿色执行按钮。如果请求没错会看到HTTP请求的绿色图标。
 
-![](/uploads/jmeter-result.png)
+![](/static/uploads/jmeter-result.png)
 
 查看请求和响应是否正确。确保无误后可以清空全部（工具栏扫帚按钮）并删掉该页面（留着后面清空比较慢），然后设置线程组中的线程属性。重新执行，在聚合报告页看压测结果，如下图：
 
-![](/uploads/jmeter-report.png)
+![](/static/uploads/jmeter-report.png)
 
 聚合报告各指标：
 
@@ -70,7 +70,7 @@ KB/Sec|每秒从服务器端接收到的数据量，相当于LoadRunner中的Thr
 
 同HTTP请求流程，建立线程组后添加TCP取样器，然后根据实际情况配置TCP取样器。
 
-![](/uploads/jmeter-TCP-Sampler.png)
+![](/static/uploads/jmeter-TCP-Sampler.png)
 
 TCPClient classname有三种设置：
 
