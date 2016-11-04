@@ -1,7 +1,7 @@
 url: linux-c-thread
 des: 
 time: 2015/05/25 17:52
-category: cpp
+tag: cpp
 ++++++++
 
 # 进程和线程

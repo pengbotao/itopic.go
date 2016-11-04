@@ -10,8 +10,8 @@
 <body>
 <h1>{{.topic.Title}}</h1>
 <code>{{.topic.Time}}</code>
-{{range .topic.Category}}
-<code><a href="/category/{{.CategoryID}}.html">{{.Title}}</a></code>
+{{range .topic.Tag}}
+<code><a href="/tag/{{.TagID}}.html">{{.TagName}}</a></code>
 {{end}}
 {{.topic.Content}}
 </body>

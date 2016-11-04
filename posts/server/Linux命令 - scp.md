@@ -1,7 +1,7 @@
 url: linux-scp
 des: 
 time: 2013/11/15 11:16
-category: linux
+tag: linux
 ++++++++
 
 拷贝远程文件到本地

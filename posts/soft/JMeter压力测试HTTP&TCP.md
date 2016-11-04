@@ -1,7 +1,7 @@
 url: jmeter-http-tcp
 des: 
 time: 2016/01/11 16:21
-category: soft
+tag: soft
 ++++++++
 
 # 一、概述

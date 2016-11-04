@@ -1,7 +1,7 @@
 url: linux-nginx-install
 des: 
 time: 2014/08/14 19:21
-category: linux
+tag: linux
 ++++++++
 
 # Nginx安装

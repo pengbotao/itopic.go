@@ -1,7 +1,7 @@
 url: linux-redis-install
 des: 
 time: 2014/08/15 15:18
-category: linux
+tag: linux
 ++++++++
 
 # 安装Reids

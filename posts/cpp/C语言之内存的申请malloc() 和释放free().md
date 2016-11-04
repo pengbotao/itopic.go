@@ -1,7 +1,7 @@
 url: c-malloc-free
 des: 
 time: 2015/04/23 10:30
-category: cpp
+tag: cpp
 ++++++++
 
 # 1、如何使用 malloc 函数

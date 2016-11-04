@@ -1,7 +1,7 @@
 url: linux-split
 des: 
 time: 2013/11/15 20:48
-category: linux
+tag: linux
 ++++++++
 
 按大小切割，每100M切割

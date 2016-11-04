@@ -1,7 +1,7 @@
 url: lua-class
 des: 
 time: 2016/01/17 20:22
-category: lua
+tag: lua
 ++++++++
 
 Lua中没有类的概念，但可以通过table、函数以及一些语言特性来模拟类。table的值可以为函数。看下面这段代码：

@@ -1,7 +1,7 @@
 url: gcc
 des: 
 time: 2015/04/19 12:55
-category: cpp
+tag: cpp
 ++++++++
 
 # 一、GCC简介

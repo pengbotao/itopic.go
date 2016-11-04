@@ -38,18 +38,18 @@ func init() {
 		}
 		router["/"+models.Topics[i].TopicID] = buff
 	}
-	//category router
-	for i := range models.TopicsGroupByCategory {
+	//tag router
+	for i := range models.TopicsGroupByTag {
 		var buff bytes.Buffer
 		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
-			"title":  models.TopicsGroupByCategory[i].Title,
-			"topics": models.TopicsGroupByCategory[i].Topics,
+			"title":  models.TopicsGroupByTag[i].TagName,
+			"topics": models.TopicsGroupByTag[i].Topics,
 		})
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		router["/category/"+models.TopicsGroupByCategory[i].CategoryID] = buff
+		router["/tag/"+models.TopicsGroupByTag[i].TagID] = buff
 	}
 	//month router
 	for i := range models.TopicsGroupByMonth {

@@ -1,7 +1,7 @@
 url: linux-samba-install
 des: 
 time: 2014/08/25 19:52
-category: linux
+tag: linux
 ++++++++
 
 Samba可以实现Linux与Win之间的文件共享，在内部开发文档共享上还是极好的。

@@ -1,7 +1,7 @@
 url: linux-sz-rz
 des: 
 time: 2014/01/23 10:24
-category: linux
+tag: linux
 ++++++++
 
 # 1、软件安装

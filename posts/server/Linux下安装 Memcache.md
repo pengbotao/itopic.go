@@ -1,7 +1,7 @@
 url: linux-memcache-install
 des: 
 time: 2014/08/16 16:33
-category: linux
+tag: linux
 ++++++++
 
 # 安装Memcached服务端

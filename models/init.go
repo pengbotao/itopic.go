@@ -6,19 +6,19 @@ import (
 )
 
 var (
-	categoryJSONFile    = "posts/category.json"
+	topicTagJSONFile    = "posts/tag.json"
 	topicMarkdownFolder = "posts"
 
 	//Topics store all the topic
 	Topics []*Topic
 	//TopicsGroupByMonth store the topic by month
 	TopicsGroupByMonth []*MonthList
-	//TopicsGroupByCategory store all the category
-	TopicsGroupByCategory []*TopicCategory
+	//TopicsGroupByTag store all the tag
+	TopicsGroupByTag []*TopicTag
 )
 
 func init() {
-	if err := InitTopicCategoryList(); err != nil {
+	if err := InitTopicTagList(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}

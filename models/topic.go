@@ -18,7 +18,7 @@ type Topic struct {
 	Title       string
 	Description string
 	Time        time.Time
-	Category    []*TopicCategory
+	Tag         []*TopicTag
 	Content     string
 	IsPublic    bool //true for public，false for protected
 }
@@ -40,7 +40,7 @@ func InitTopicList() error {
 		if err != nil {
 			return err
 		}
-		SetTopicToCategory(t)
+		SetTopicToTag(t)
 		SetTopicToMonth(t)
 		//按时间倒序排列
 		for i := range Topics {
@@ -89,12 +89,12 @@ func GetTopicByPath(path string) (*Topic, error) {
 			if err != nil {
 				return nil, err
 			}
-		case "category":
-			catArray := strings.Split(v, ",")
-			for _, catName := range catArray {
-				for kc := range TopicsGroupByCategory {
-					if strings.Compare(catName, TopicsGroupByCategory[kc].CategoryID) == 0 {
-						t.Category = append(t.Category, TopicsGroupByCategory[kc])
+		case "tag":
+			tagArray := strings.Split(v, ",")
+			for _, tagName := range tagArray {
+				for kc := range TopicsGroupByTag {
+					if strings.Compare(tagName, TopicsGroupByTag[kc].TagID) == 0 {
+						t.Tag = append(t.Tag, TopicsGroupByTag[kc])
 						break
 					}
 				}
@@ -112,25 +112,25 @@ func GetTopicByPath(path string) (*Topic, error) {
 	return t, nil
 }
 
-//SetTopicToCategory set topic to category struct
-func SetTopicToCategory(t *Topic) {
+//SetTopicToTag set topic to tag struct
+func SetTopicToTag(t *Topic) {
 	if t.IsPublic == false {
 		return
 	}
-	for k := range TopicsGroupByCategory {
-		for i := range t.Category {
-			if TopicsGroupByCategory[k].CategoryID != t.Category[i].CategoryID {
+	for k := range TopicsGroupByTag {
+		for i := range t.Tag {
+			if TopicsGroupByTag[k].TagID != t.Tag[i].TagID {
 				continue
 			}
-			for j := range TopicsGroupByCategory[k].Topics {
-				if t.Time.After(TopicsGroupByCategory[k].Topics[j].Time) {
-					TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, nil)
-					copy(TopicsGroupByCategory[k].Topics[j+1:], TopicsGroupByCategory[k].Topics[j:])
-					TopicsGroupByCategory[k].Topics[j] = t
+			for j := range TopicsGroupByTag[k].Topics {
+				if t.Time.After(TopicsGroupByTag[k].Topics[j].Time) {
+					TopicsGroupByTag[k].Topics = append(TopicsGroupByTag[k].Topics, nil)
+					copy(TopicsGroupByTag[k].Topics[j+1:], TopicsGroupByTag[k].Topics[j:])
+					TopicsGroupByTag[k].Topics[j] = t
 					return
 				}
 			}
-			TopicsGroupByCategory[k].Topics = append(TopicsGroupByCategory[k].Topics, t)
+			TopicsGroupByTag[k].Topics = append(TopicsGroupByTag[k].Topics, t)
 		}
 	}
 }

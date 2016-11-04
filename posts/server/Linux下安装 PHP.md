@@ -1,7 +1,7 @@
 url: linux-php-install
 des: 
 time: 2014/08/14 23:16
-category: linux
+tag: linux
 ++++++++
 
 # PHP安装

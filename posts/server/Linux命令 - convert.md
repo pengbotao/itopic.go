@@ -1,7 +1,7 @@
 url: linux-convert
 des: 
 time: 2015/03/26 17:50
-category: linux
+tag: linux
 ++++++++
 
 # 安装ImageMagick

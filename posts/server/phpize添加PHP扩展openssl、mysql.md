@@ -1,7 +1,7 @@
 url: php-phpize-ext
 des: 
 time: 2014/08/14 19:14
-category: linux
+tag: linux
 ++++++++
 
 # phpize

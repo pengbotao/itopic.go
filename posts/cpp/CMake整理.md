@@ -1,7 +1,7 @@
 url: cmake
 des: 
 time: 2015/04/30 18:24
-category: cpp
+tag: cpp
 ++++++++
 
 # CMake简介

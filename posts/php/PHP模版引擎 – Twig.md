@@ -1,7 +1,7 @@
 url: php-moban-yinqing-twig
 des: 
 time: 2013/01/26 03:25
-category: php
+tag: php
 ++++++++
 
 在网站开发过程中模版引擎是必不可少的，PHP中用的最多的当属Smarty了。目前公司系统也是用的Smarty，如果要新增一个页面只需把网站的头、尾和左侧公共部分通过Smarty的include方式引入进来，然后主体部分写内容即可，用起来也是相当方便。这也是一种比较通用的做法。但维护一段时间后发现有些凌乱了：

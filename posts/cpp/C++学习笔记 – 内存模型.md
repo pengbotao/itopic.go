@@ -1,7 +1,7 @@
 url: cpp-primer-plus-memory-model
 des: 
 time: 2015/04/20 08:15
-category: cpp
+tag: cpp
 ++++++++
 
 # 单独编译

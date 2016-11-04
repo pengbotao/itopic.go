@@ -1,7 +1,7 @@
 url: linux-vsftp-install
 des: 
 time: 2014/09/01 22:52
-category: linux
+tag: linux
 ++++++++
 
 # 安装vsftpd

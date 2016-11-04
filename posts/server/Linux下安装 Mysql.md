@@ -1,7 +1,7 @@
 url: linux-mysql-install
 des: 
 time: 2014/08/14 23:55
-category: linux
+tag: linux
 ++++++++
 
 # 1、通过官网下载mysql源码包。

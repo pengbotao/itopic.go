@@ -1,7 +1,7 @@
 url: linux-svn-install
 des: 
 time: 2014/08/17 16:38
-category: linux
+tag: linux
 ++++++++
 
 # SVN服务端安装

@@ -1,7 +1,7 @@
 url: cpp-primer-plus-function-2
 des: 
 time: 2015/03/30 22:45
-category: cpp
+tag: cpp
 ++++++++
 
 # 内联函数

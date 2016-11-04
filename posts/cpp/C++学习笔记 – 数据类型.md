@@ -1,7 +1,7 @@
 url: cpp-primer-plus-type
 des: 
 time: 2015/03/26 21:05
-category: cpp
+tag: cpp
 ++++++++
 
 # 基本类型
