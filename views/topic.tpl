@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>{{.topic.Title}}</h1>
-<code>{{.topic.Time}}</code>
+<code>{{.topic.Time.Format "2006-01-02 15:04"}}</code>
 {{range .topic.Tag}}
 <code>
 {{if .TagID}}
