@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:20px;height:20px;float:right;" /></a>
 <ul>{{range .topics}}
     <li><a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
 </ul>
