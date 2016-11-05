@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1 style="font-weight:600;">{{.topic.Title}}</h1>
-<a href="/"><img src="/static/img/arrow-back.png" style="width:20px;float:right;margin-top:-20px;" /></a>
+<a href="/"><img src="/static/img/arrow-back.png" style="width:20px;height:20px;float:right;margin-top:-20px;" /></a>
 <hr />
 {{.topic.Content}}
 <div style="padding: 0 10px;text-align:right;float:right;margin-left:20px;">
