@@ -92,7 +92,9 @@ func main() {
 		}
 	})
 
-	fmt.Println("The topic server is running at http://" + host)
-	fmt.Println("Quit the server with Control-C")
-	http.ListenAndServe(host, nil)
+	fmt.Printf("The topic server is running at http://%s\n", host)
+	fmt.Printf("Quit the server with Control-C\n\n")
+	if err := http.ListenAndServe(host, nil); err != nil {
+		fmt.Print(err)
+	}
 }
