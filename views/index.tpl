@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
+<h1 style="font-weight:600;">因上努力，果上随缘</h1>
+<hr />
 {{range .topics_m}}
 <ul>{{range .Topics}}
     <li><a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}

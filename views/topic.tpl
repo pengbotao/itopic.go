@@ -11,11 +11,14 @@
 <h1 style="font-weight:600;">{{.topic.Title}}</h1>
 <hr />
 {{.topic.Content}}
-<div style="padding: 0 10px;margin-bottom:20px;text-align:right;">
-    <span>标签：</span>{{range .topic.Tag}}
-    <code>{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
-    <span style="margin-left:30px;">发表于：</span>
+<div style="padding: 0 10px;text-align:right;float:right;margin-left:20px;">
+    发表于：
     <code><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.Time.Format "2006-01-02 15:04"}}</a></code>
 </div>
+<div style="padding: 0 10px;text-align:right;float:right;">
+    标签：{{range .topic.Tag}}
+    <code>{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
+</div>
+<div style="clear:both;margin:20px 0px;color:#aaa;">-- EOF --</div>
 </body>
 </html>
