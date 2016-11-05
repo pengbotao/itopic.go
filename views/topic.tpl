@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<h1 style="font-weight:600;width:90%;">{{.topic.Title}}</h1>
+<h1 style="font-weight:600;width:90%;margin-bottom:0px;">{{.topic.Title}}</h1>
 <a href="/"><img src="/static/img/arrow-back.png" style="width:30px;height:30px;float:right;margin-top:-30px;" /></a>
-<hr />
+<hr style="margin:5px 0px 15px 0px;"/>
 {{.topic.Content}}
+<div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
 <div style="padding: 0 10px;text-align:right;float:right;margin-left:20px;">
     发表于：
     <code><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.Time.Format "2006-01-02 15:04"}}</a></code>
@@ -20,6 +21,5 @@
     标签：{{range .topic.Tag}}
     <code>{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
 </div>
-<div style="clear:both;margin:20px 0px;color:#aaa;">-- EOF --</div>
 </body>
 </html>
