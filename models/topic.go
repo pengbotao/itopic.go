@@ -113,20 +113,25 @@ func SetTopicToTag(t *Topic) {
 	if t.IsPublic == false {
 		return
 	}
-	for k := range TopicsGroupByTag {
-		for i := range t.Tag {
+	for i := range t.Tag {
+		for k := range TopicsGroupByTag {
 			if TopicsGroupByTag[k].TagID != t.Tag[i].TagID {
 				continue
 			}
+			isFind := false
 			for j := range TopicsGroupByTag[k].Topics {
 				if t.Time.After(TopicsGroupByTag[k].Topics[j].Time) {
 					TopicsGroupByTag[k].Topics = append(TopicsGroupByTag[k].Topics, nil)
 					copy(TopicsGroupByTag[k].Topics[j+1:], TopicsGroupByTag[k].Topics[j:])
 					TopicsGroupByTag[k].Topics[j] = t
-					return
+					isFind = true
+					break
 				}
 			}
-			TopicsGroupByTag[k].Topics = append(TopicsGroupByTag[k].Topics, t)
+			if isFind == false {
+				TopicsGroupByTag[k].Topics = append(TopicsGroupByTag[k].Topics, t)
+			}
+			break
 		}
 	}
 }
