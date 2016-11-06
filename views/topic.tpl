@@ -13,6 +13,9 @@
 <hr style="margin:5px 0px 15px 0px;"/>
 {{.topic.Content}}
 <div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
+<div style="float:right;">
+    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+</div>
 <div style="padding: 0 10px;text-align:right;float:right;margin-left:20px;">
     发表于：
     <code><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.Time.Format "2006-01-02 15:04"}}</a></code>
