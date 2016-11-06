@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1 style="font-weight:600;margin-bottom:0px;">因上努力，果上随缘</h1>
-<hr style="margin:5px 0px 15px 0px;"/>
+<hr />
 {{range .topics_m}}
 <ul>{{range .Topics}}
     <li><a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
