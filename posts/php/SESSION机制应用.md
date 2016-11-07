@@ -2,7 +2,7 @@
 {
     "url": "session-application",
     "time": "2013/12/22 21:04",
-    "tag": "PHP,SESSION"
+    "tag": "PHP,SESSION,HTTP"
 }
 ```
 
