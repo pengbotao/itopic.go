@@ -15,6 +15,8 @@ import (
 //InitTopicList load all the topic on init
 func InitTopicList() error {
 	Topics = Topics[:0]
+	TopicsGroupByMonth = TopicsGroupByMonth[:0]
+	TopicsGroupByTag = TopicsGroupByTag[:0]
 	return filepath.Walk(topicMarkdownFolder, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() || filepath.Ext(path) != ".md" {
 			return nil
