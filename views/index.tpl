@@ -12,7 +12,7 @@
 <hr />
 {{range .topics_m}}
 <ul>{{range .Topics}}
-    <li><a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
+    <li>[{{.Time.Format "2006-01-02"}}] <a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
 </ul>
 {{end}}
 </body>

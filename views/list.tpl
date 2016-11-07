@@ -12,7 +12,7 @@
 <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
 <hr />
 <ul>{{range .topics}}
-    <li><a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
+    <li>[{{.Time.Format "2006-01-02"}}] <a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
 </ul>
 </body>
 </html>
