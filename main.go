@@ -18,7 +18,7 @@ var (
 
 func main() {
 	router := loadHTTPRouter()
-	ticker := time.NewTicker(3600 * time.Second)
+	ticker := time.NewTicker(1800 * time.Second)
 	go func() {
 		for range ticker.C {
 			models.InitTopicList()
@@ -108,13 +108,13 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		t := 0
 		isSplit := false
 		for i := range models.TopicsGroupByMonth {
-			t += len(models.TopicsGroupByMonth[i].Topics)
 			if t > topicDivCnt {
 				isSplit = true
 				topicsLeft = models.TopicsGroupByMonth[0:i]
 				topicsRight = models.TopicsGroupByMonth[i:]
 				break
 			}
+			t += len(models.TopicsGroupByMonth[i].Topics)
 		}
 		if isSplit == false {
 			topicsLeft = models.TopicsGroupByMonth
