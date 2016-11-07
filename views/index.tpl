@@ -10,10 +10,20 @@
 <body>
 <h1 style="font-weight:600;margin-bottom:0px;">因上努力，果上随缘</h1>
 <hr />
-{{range .topics_m}}
-<ul>{{range .Topics}}
-    <li>[{{.Time.Format "2006-01-02"}}] <a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
-</ul>
-{{end}}
+<div id="left-sider">
+    {{range .topics_l}}
+    <ul>{{range .Topics}}
+        <li>[{{.Time.Format "2006-01-02"}}] <a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
+    </ul>
+    {{end}}
+</div>
+
+<div id="right-sider">
+    {{range .topics_r}}
+    <ul>{{range .Topics}}
+        <li>[{{.Time.Format "2006-01-02"}}] <a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
+    </ul>
+    {{end}}
+</div>
 </body>
 </html>

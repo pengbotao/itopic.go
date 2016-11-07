@@ -100,8 +100,31 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	}
 	//homepage router
 	var buff bytes.Buffer
+	topicCnt := len(models.Topics)
+	topicDivCnt := topicCnt / 2
+	var topicsLeft []*models.TopicMonth
+	var topicsRight []*models.TopicMonth
+	if topicDivCnt > 0 {
+		t := 0
+		isSplit := false
+		for i := range models.TopicsGroupByMonth {
+			t += len(models.TopicsGroupByMonth[i].Topics)
+			if t > topicDivCnt {
+				isSplit = true
+				topicsLeft = models.TopicsGroupByMonth[0:i]
+				topicsRight = models.TopicsGroupByMonth[i:]
+				break
+			}
+		}
+		if isSplit == false {
+			topicsLeft = models.TopicsGroupByMonth
+		}
+	} else {
+		topicsLeft = models.TopicsGroupByMonth
+	}
 	if err := tpl.ExecuteTemplate(&buff, "index.tpl", map[string]interface{}{
-		"topics_m": models.TopicsGroupByMonth,
+		"topics_l": topicsLeft,
+		"topics_r": topicsRight,
 	}); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
