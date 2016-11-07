@@ -47,8 +47,7 @@ func main() {
 腾讯   | http://www.qq.com
 谷歌   | https://www.google.com.hk
 
-
-<hr />
+---
 
 # Markdown源文件
 <pre>
