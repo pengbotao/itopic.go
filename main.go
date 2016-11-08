@@ -9,11 +9,14 @@ import (
 	"text/template"
 
 	"itopic.go/models"
+	"path"
 	"time"
 )
 
 var (
-	host = "127.0.0.1:8001"
+	host         = "127.0.0.1:8001"
+	isCreateHTML = false
+	htmlPrefix   = "../pengbotao.github.io"
 )
 
 func main() {
@@ -130,5 +133,24 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		os.Exit(1)
 	}
 	router["/"] = buff
+	if isCreateHTML == true {
+		generateHTML(router)
+	}
 	return router
+}
+
+func generateHTML(router map[string]bytes.Buffer) {
+	for k, v := range router {
+		if k == "/" {
+			writeHTMLToFile(htmlPrefix+k+"index.html", v)
+		} else {
+			writeHTMLToFile(htmlPrefix+k+".html", v)
+		}
+	}
+}
+
+func writeHTMLToFile(filename string, content bytes.Buffer) {
+	os.MkdirAll(path.Dir(filename), 0666)
+	file, _ := os.Create(filename)
+	content.WriteTo(file)
 }
