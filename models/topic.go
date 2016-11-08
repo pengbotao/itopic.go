@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"encoding/json"
+	"errors"
 	"github.com/russross/blackfriday"
 )
 
@@ -45,7 +46,7 @@ func InitTopicList() error {
 func GetTopicByPath(path string) (*Topic, error) {
 	fp, err := os.OpenFile(path, os.O_RDONLY, 0)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(path + "：" + err.Error())
 	}
 	defer fp.Close()
 	t := &Topic{
@@ -70,12 +71,15 @@ func GetTopicByPath(path string) (*Topic, error) {
 	}
 	var thj tHeadJSON
 	if err := json.Unmarshal([]byte(tHeadStr), &thj); err != nil {
-		return nil, err
+		return nil, errors.New(t.Title + "：" + err.Error())
 	}
 	t.TopicID = thj.URL
+	if t.TopicID == "" {
+		return nil, errors.New(t.Title + "：" + err.Error())
+	}
 	t.Time, err = time.Parse("2006/01/02 15:04", thj.Time)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(t.Title + "：" + err.Error())
 	}
 	if strings.Compare(thj.IsPublic, "no") == 0 {
 		t.IsPublic = false
