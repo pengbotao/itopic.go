@@ -19,7 +19,7 @@ import (
 var (
 	host         = "127.0.0.1:8001"
 	isCreateHTML = false
-	htmlPrefix   = "../pengbotao.github.io"//without last slash
+	htmlPrefix   = "../itopic.org"//without last slash
 )
 
 func main() {
