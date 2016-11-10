@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>{{.topic.Title}} - 老彭的博客</title>
-    <link rel="stylesheet" href="/static/css/markdown.css">
+    <link rel="stylesheet" href="{{.domain}}/static/css/markdown.css">
     <script>
     var _hmt = _hmt || [];
     (function() {
@@ -18,12 +18,12 @@
 </head>
 <body>
 <h1 style="font-weight:600;width:90%;margin-bottom:0px;">{{.topic.Title}}</h1>
-<a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
 <hr />
 {{.topic.Content}}
 <div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
 <div style="float:right;">
-    <a href="/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
+    <a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
 </div>
 <div style="padding: 0 10px;text-align:right;float:right;">
     发表于：

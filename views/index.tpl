@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>iTopic - 老彭的博客</title>
-    <link rel="stylesheet" href="/static/css/markdown.css">
+    <link rel="stylesheet" href="{{.domain}}/static/css/markdown.css">
     <script>
     var _hmt = _hmt || [];
     (function() {
@@ -22,7 +22,7 @@
 <div id="left-sider">
     {{range .topics_l}}
     <ul>{{range .Topics}}
-        <li>[{{.Time.Format "06-01-02"}}] <a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
+        <li>[{{.Time.Format "06-01-02"}}] <a href="{{$.domain}}/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
     </ul>
     {{end}}
 </div>
@@ -30,7 +30,7 @@
 <div id="right-sider">
     {{range .topics_r}}
     <ul>{{range .Topics}}
-        <li>[{{.Time.Format "06-01-02"}}] <a href="/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
+        <li>[{{.Time.Format "06-01-02"}}] <a href="{{$.domain}}/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
     </ul>
     {{end}}
 </div>
