@@ -18,9 +18,9 @@ import (
 
 var (
 	host         = "127.0.0.1:8001"
-	isCreateHTML = false
+	isCreateHTML = true
 	htmlPrefix   = "../itopic.org"//without last slash
-	domain = ""
+	domain = "http://itopic.org"
 )
 
 func main() {
