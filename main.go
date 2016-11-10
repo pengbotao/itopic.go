@@ -174,13 +174,13 @@ func writeFile(filename string, content bytes.Buffer) {
 func copyFile(src, dst string) (err error) {
 	in, err := os.Open(src)
 	if err != nil {
-		return
+		return err
 	}
 	defer in.Close()
 
 	out, err := os.Create(dst)
 	if err != nil {
-		return
+		return err
 	}
 	defer func() {
 		if e := out.Close(); e != nil {
@@ -190,21 +190,21 @@ func copyFile(src, dst string) (err error) {
 
 	_, err = io.Copy(out, in)
 	if err != nil {
-		return
+		return err
 	}
 
 	err = out.Sync()
 	if err != nil {
-		return
+		return err
 	}
 
 	si, err := os.Stat(src)
 	if err != nil {
-		return
+		return err
 	}
 	err = os.Chmod(dst, si.Mode())
 	if err != nil {
-		return
+		return err
 	}
 
 	return
@@ -226,13 +226,13 @@ func copyDir(src string, dst string) (err error) {
 	if os.IsNotExist(err) {
 		err = os.MkdirAll(dst, si.Mode())
 		if err != nil {
-			return
+			return err
 		}
 	}
 
 	entries, err := ioutil.ReadDir(src)
 	if err != nil {
-		return
+		return err
 	}
 
 	for _, entry := range entries {
@@ -242,7 +242,7 @@ func copyDir(src string, dst string) (err error) {
 		if entry.IsDir() {
 			err = copyDir(srcPath, dstPath)
 			if err != nil {
-				return
+				return err
 			}
 		} else {
 			// Skip symlinks.
@@ -251,7 +251,7 @@ func copyDir(src string, dst string) (err error) {
 			}
 			err = copyFile(srcPath, dstPath)
 			if err != nil {
-				return
+				return err
 			}
 		}
 	}
