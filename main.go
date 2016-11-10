@@ -11,12 +11,15 @@ import (
 	"itopic.go/models"
 	"path"
 	"time"
+	"path/filepath"
+	"io"
+	"io/ioutil"
 )
 
 var (
 	host         = "127.0.0.1:8001"
 	isCreateHTML = false
-	htmlPrefix   = "../pengbotao.github.io"
+	htmlPrefix   = "../pengbotao.github.io"//without last slash
 )
 
 func main() {
@@ -134,7 +137,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	}
 	router["/"] = buff
 	if isCreateHTML == true {
-		generateHTML(router)
+		go generateHTML(router)
 	}
 	return router
 }
@@ -142,15 +145,116 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 func generateHTML(router map[string]bytes.Buffer) {
 	for k, v := range router {
 		if k == "/" {
-			writeHTMLToFile(htmlPrefix+k+"index.html", v)
+			writeFile(htmlPrefix+k+"index.html", v)
 		} else {
-			writeHTMLToFile(htmlPrefix+k+".html", v)
+			writeFile(htmlPrefix+k+".html", v)
 		}
+	}
+	//copy static folder
+	err := copyDir("./static", htmlPrefix+"/static")
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 }
 
-func writeHTMLToFile(filename string, content bytes.Buffer) {
-	os.MkdirAll(path.Dir(filename), 0666)
+func writeFile(filename string, content bytes.Buffer) {
+	_, err := os.Stat(path.Dir(filename))
+	if os.IsNotExist(err) {
+		err := os.MkdirAll(path.Dir(filename), 0666)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}
 	file, _ := os.Create(filename)
 	content.WriteTo(file)
+}
+
+func copyFile(src, dst string) (err error) {
+	in, err := os.Open(src)
+	if err != nil {
+		return
+	}
+	defer in.Close()
+
+	out, err := os.Create(dst)
+	if err != nil {
+		return
+	}
+	defer func() {
+		if e := out.Close(); e != nil {
+			err = e
+		}
+	}()
+
+	_, err = io.Copy(out, in)
+	if err != nil {
+		return
+	}
+
+	err = out.Sync()
+	if err != nil {
+		return
+	}
+
+	si, err := os.Stat(src)
+	if err != nil {
+		return
+	}
+	err = os.Chmod(dst, si.Mode())
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func copyDir(src string, dst string) (err error) {
+	src = filepath.Clean(src)
+	dst = filepath.Clean(dst)
+
+	si, err := os.Stat(src)
+	if err != nil {
+		return err
+	}
+	if !si.IsDir() {
+		return fmt.Errorf("source is not a directory")
+	}
+
+	_, err = os.Stat(dst)
+	if os.IsNotExist(err) {
+		err = os.MkdirAll(dst, si.Mode())
+		if err != nil {
+			return
+		}
+	}
+
+	entries, err := ioutil.ReadDir(src)
+	if err != nil {
+		return
+	}
+
+	for _, entry := range entries {
+		srcPath := filepath.Join(src, entry.Name())
+		dstPath := filepath.Join(dst, entry.Name())
+
+		if entry.IsDir() {
+			err = copyDir(srcPath, dstPath)
+			if err != nil {
+				return
+			}
+		} else {
+			// Skip symlinks.
+			if entry.Mode()&os.ModeSymlink != 0 {
+				continue
+			}
+			err = copyFile(srcPath, dstPath)
+			if err != nil {
+				return
+			}
+		}
+	}
+
+	return
 }
