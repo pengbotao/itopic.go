@@ -14,11 +14,6 @@
         var s = document.getElementsByTagName("script")[0]; 
         s.parentNode.insertBefore(hm, s);
     })();
-    </script>
-    <script language="javascript">
-    if (document.domain =='pengbotao.cn' || document.domain == 'www.pengbotao.cn')
-    this.location = "http://itopic.org" + this.location.pathname + this.location.search;
-    </script>
 </head>
 <body>
 <h1 style="font-weight:600;width:90%;margin-bottom:0px;">{{.topic.Title}}</h1>
