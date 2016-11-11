@@ -14,6 +14,7 @@
         var s = document.getElementsByTagName("script")[0]; 
         s.parentNode.insertBefore(hm, s);
     })();
+    </script>
 </head>
 <body>
 <h1 style="font-weight:600;width:90%;margin-bottom:0px;">{{.topic.Title}}</h1>
