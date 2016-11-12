@@ -18,7 +18,7 @@
 </head>
 <body>
 <h1 style="font-weight:600;width:90%;margin-bottom:0px;border:0px;">{{.title}}存档</h1>
-<a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
+<a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
 <ul>{{range .topics}}
     <li>[{{.Time.Format "06-01-02"}}] <a href="{{$.domain}}/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
