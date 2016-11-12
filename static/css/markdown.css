@@ -196,5 +196,4 @@ pre code {overflow: visible; }
 li::selection, ol::selection { background-color: rgba(133, 201, 232, 0.3); }
 pre::selection, code::selection {background-color: rgba(0, 0, 0, 0.7);color: #eeeeee; }
 code span::selection {background-color: rgba(0, 0, 0, 0.7) !important;color: #eeeeee !important; }
-#left-sider, #right-sider{float: left;width:auto;min-width: 256px;}
-#left-sider{margin-right:50px;}
+#left-sider, #right-sider{float: left;width:50%;min-width: 256px;}
