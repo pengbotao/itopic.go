@@ -17,8 +17,8 @@
     </script>
 </head>
 <body>
-<h1 style="font-weight:600;margin-bottom:0px;">因上努力，果上随缘</h1>
-<hr />
+<h1 style="font-weight:600;margin-bottom:0px;border:0px;">因上努力，果上随缘</h1>
+
 <div id="left-sider">
     {{range .topics_l}}
     <ul>{{range .Topics}}

@@ -17,9 +17,9 @@
     </script>
 </head>
 <body>
-<h1 style="font-weight:600;width:90%;margin-bottom:0px;">{{.topic.Title}}</h1>
-<a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-15px;" /></a>
-<hr />
+<h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">{{.topic.Title}}</h1>
+<a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
+
 {{.topic.Content}}
 <div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
 <div style="float:right;">

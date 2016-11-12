@@ -8,19 +8,19 @@ import (
 	"strings"
 	"text/template"
 
-	"itopic.go/models"
-	"path"
-	"time"
-	"path/filepath"
 	"io"
 	"io/ioutil"
+	"itopic.go/models"
+	"path"
+	"path/filepath"
+	"time"
 )
 
 var (
 	host         = "127.0.0.1:8001"
 	isCreateHTML = true
-	htmlPrefix   = "../itopic.org"//without last slash
-	domain = "http://itopic.org"
+	htmlPrefix   = "../itopic.org" //without last slash
+	domain       = "http://itopic.org"
 )
 
 func main() {
@@ -71,8 +71,8 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		}
 		var buff bytes.Buffer
 		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
-			"topic": models.Topics[i],
-			"domain":domain,
+			"topic":  models.Topics[i],
+			"domain": domain,
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -86,7 +86,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
 			"title":  models.TopicsGroupByTag[i].TagName,
 			"topics": models.TopicsGroupByTag[i].Topics,
-			"domain":domain,
+			"domain": domain,
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -100,7 +100,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
 			"title":  models.TopicsGroupByMonth[i].Month,
 			"topics": models.TopicsGroupByMonth[i].Topics,
-			"domain":domain,
+			"domain": domain,
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -135,7 +135,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	if err := tpl.ExecuteTemplate(&buff, "index.tpl", map[string]interface{}{
 		"topics_l": topicsLeft,
 		"topics_r": topicsRight,
-		"domain":domain,
+		"domain":   domain,
 	}); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
