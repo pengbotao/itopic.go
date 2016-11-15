@@ -1,0 +1,129 @@
+http://dl528888.blog.51cto.com/2382721/1213286
+https://github.com/lubia/gitlab-recipes/tree/master/install/centos
+http://longgeek.com/2013/12/26/ci-system-structures-ii-gitlab-installation/
+
+
+[ruby]
+# wget https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.2.tar.gz
+# tar zxvf ruby-2.2.2.tar.gz
+# cd ruby-2.2.2
+# ./configure --prefix=/usr/local/ruby
+# make
+# make install
+# ln -s /usr/local/ruby/bin/ruby /usr/local/bin/ruby
+# ruby -v
+# ln -s /usr/local/ruby/bin/gem /usr/local/bin/gem
+
+# gem install bundler --no-ri --no-rdoc
+# ln -s /usr/local/ruby/bin/bundle /usr/local/bin/bundle
+
+[gitlab-shell]
+# adduser --system --shell /bin/bash --comment 'GitLab' --create-home --home-dir /home/git/ git
+# su git
+# cd /home/git
+# git clone https://github.com/gitlabhq/gitlab-shell.git
+# cd gitlab-shell
+# git checkout v2.6.3
+# cp config.yml.example config.yml
+# Edit config and replace gitlab_url with something like 'http://domain.com/'
+#
+# Note, 'gitlab_url' is used by gitlab-shell to access GitLab API. Since 
+#     1. the whole communication is locally
+#     2. next steps will explain how to expose GitLab over HTTPS with custom cert
+# it's a good solution is to set gitlab_url as "http://localhost:8080/"
+
+# Do setup
+./bin/install
+
+[mysql]
+# mysql -uroot -p
+# CREATE USER 'gitlab'@'localhost' IDENTIFIED BY 'gitlab@)!%';
+# CREATE DATABASE IF NOT EXISTS `gitlabhq_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
+# GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `gitlabhq_production`.* TO 'gitlab'@'localhost';
+# exit
+
+# mysql -u gitlab -p -D gitlabhq_production
+
+[gitlab]
+# cd /home/git
+# git clone https://github.com/gitlabhq/gitlabhq.git gitlab
+# cd /home/git/gitlab
+# git checkout v7.13.4
+# cp config/gitlab.yml.example config/gitlab.yml
+
+-- 编辑config/gitlab.yml
+
+# Make sure GitLab can write to the log/ and tmp/ directories
+chown -R git log/
+chown -R git tmp/
+chmod -R u+rwX  log/
+chmod -R u+rwX  tmp/
+
+# Create directory for satellites
+mkdir /home/git/gitlab-satellites
+
+# Create directories for sockets/pids and make sure GitLab can write to them
+mkdir tmp/pids/
+mkdir tmp/sockets/
+chmod -R u+rwX  tmp/pids/
+chmod -R u+rwX  tmp/sockets/
+
+# Create public/uploads directory otherwise backup will fail
+mkdir public/uploads
+chmod -R u+rwX  public/uploads
+
+# Copy the example Unicorn config
+cp config/unicorn.rb.example config/unicorn.rb
+
+# Enable cluster mode if you expect to have a high load instance
+# E.g. change amount of workers to 3 for 2GB RAM server
+-- 编辑config/unicorn.rb
+
+Important: Make sure to edit both gitlab.yml and unicorn.rb to match your setup.
+
+# cp config/database.yml.mysql config/database.yml
+
+[gem]
+# cd /home/git/gitlab
+# gem source -r https://rubygems.org/
+# gem source -a http://ruby.taobao.org/
+# yum install libicu-devel cmake nodejs
+# gem install charlock_holmes --version '0.6.9.4'
+# bundle install --deployment --without development test postgres puma aws
+# bundle exec rake gitlab:setup RAILS_ENV=production
+Administrator account created:
+
+login.........root
+password......5iveL!fe
+
+meiliy@)!%
+
+# ln -s /usr/local/ruby/bin/rake /usr/local/bin/rake
+[script]
+wget -O /etc/init.d/gitlab https://raw.github.com/gitlabhq/gitlab-recipes/master/init/sysvinit/centos/gitlab-unicorn
+
+# bundle exec rake gitlab:env:info RAILS_ENV=production
+# bundle exec rake gitlab:check RAILS_ENV=production
+
+
+# service gitlab start
+
+
+bundle exec rake assets:precompile RAILS_ENV=production
+
+[nginx]
+cp lib/support/nginx/gitlab /usr/local/webserver/nginx/conf/vhost/gitlab.conf
+
+
+
+
+
+
+wget -O /usr/local/webserver/nginx/conf/vhost/gitlab.conf https://gitlab.com/gitlab-org/gitlab-ce/raw/master/lib/support/nginx/gitlab-ssl
+mkdir /etc/nginx/ssl
+cd /etc/nginx/ssl/
+openssl genrsa -des3 -out gitlab.key 1024
+openssl req -new -key gitlab.key -out gitlab.csr
+cp gitlab.key gitlab.key.org
+openssl rsa -in gitlab.key.org -out gitlab.key
+openssl x509 -req -days 365 -in gitlab.csr -signkey gitlab.key -out gitlab.crt

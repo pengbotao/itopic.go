@@ -1,0 +1,80 @@
+http://pan.baidu.com/share/link?uk=3238954879&shareid=2443793999&third=0&adapt=pc&fr=ftw
+confluence5.1-crack.zip
+
+http://download.csdn.net/download/barahir/5308105
+ mysql-connector-java-5.1.24-bin.jar   
+
+ http://pan.baidu.com/share/link?uk=3238954879&shareid=2459183626&third=0&adapt=pc&fr=ftw
+ Confluence-Language-STD-CN.jar
+
+
+http://www.tuicool.com/articles/7FvuMn
+
+wiki版本：5.4.4
+
+wget www.fengyachao.com/file/confluence.zip
+chmod +x atlassian-confluence-5.4.4-x64_1.bin
+./atlassian-confluence-5.4.4-x64_1.bin
+
+执行bin文件后，会经历三个确认
+
+第一个，是否确认安装。[o]
+
+第二个，选择安装方式，默认、自定义、升级现有的。[1]
+
+第三个，确认安装。[i]
+
+注：此时，安装已完成，不应该出现任何错误
+
+http://192.168.1.168:8090
+BJGB-JOKT-UMSK-ANVW
+
+/etc/init.d/confluence stop
+
+/usr/local/webserver/confluence/confluence/WEB-INF/lib/atlassian-extras-2.4.jar
+将atlassian-extras-2.4.jar拷贝到本机
+
+解压下载的压缩包后，里面有confluence5.1-crack.zip，将其解压得到confluence5.1-crack文件夹
+
+将从centos下载下来的atlassian-extras-2.4.jar覆盖confluence5.1-crack里的atlassian-extras-2.4.jar
+
+进入confluence5.1-crack/iNVISIBLE
+
+MAC对应keygen_MacOSX.sh(linux对应keygen.sh)
+
+由于我chmod +x keygen_MacOSX.sh后执行./keygen_MacOSX.sh报错，所以我打开keygen_MacOSX.sh看到其核心代码即是执行confluence_keygen.jar。于是，我直接执行下面命令
+
+填写相关信息(name别太短)，最重要的是serverId，填写第二步获取的ServerId。
+
+点击”patch!”，选择第四步从centos下载下来的放在confluence5.1-crack里的atlassian-extras-2.4.jar
+
+点击”.gen!”， key文本框里会生成相应信息
+
+AAABMA0ODAoPeJxtkF1rwjAUhu/zKwK7jrSKHwiBxTYMtUllrcouYz26QJvWJJX571et3oxdno/34
+TnnbQ9HLNQNhzMcTufjyTwIcZTleBiEExSDK6xuvK4NjWpzKlswBSDZVgew6WnrwDpKQhRZUPelW
+Hmg9yQJxiScoS7jVeGlqoA2YM6H2qsaFR1p0LX1Fai3LbzWuFC6pOpYafN+uQyKukL8qsr2gaYnV
+Tros4kuwDjIbw080FEqBP+MlixBHcJ4MKrT5D+NtrdeaTSaknBIhuMe8DogKlvnwcr6CI4GKOOSf
+qVbLNiaY8ExwxmL8YbJmA1Qas/KaNfLaLnTmV4kHOecCZSBvYJdxnSx+liQVbrOyVZka8Lkbo+et
+t00Wcav6n+5TWuLb+Xgzx9/ARNbiD4wLAIULYkdRpguQFCvzacOhqkAHV4MlAECFAaBX7zZfWVKX
+jacANxX6rHc7NilX02f7
+
+此时confluence5.1-crack里会有atlassian-extras-2.4.jar和atlassian-extras-2.4.bak
+
+将atlassian-extras-2.4.jar拷贝到服务器的/opt/atlassian/confluence/confluence/WEB-INF/lib/位置，覆盖此处的文件。
+
+/etc/init.d/confluence start
+将第五步生成的key，拷贝放在第二步页面的License Key位置,点击“production installation”
+
+
+
+
+
+
+
+
+
+
+
+jdbc:mysql://localhost:3306/confluence?useUnicode=true&amp;characterEncoding=UTF8&amp;sessionVariables=storage_engine%3DInnoDB
+
+admin/admin168
