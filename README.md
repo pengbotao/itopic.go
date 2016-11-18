@@ -44,4 +44,4 @@ go run main.go
 说明：
 
 - 不需要生成静态页面时将`main.go`中`isCreateHTML`设置为false
-- `domain`用来模版页链接前缀，可设置为空
+- `domain`用来定义模版页链接前缀，可设置为空
