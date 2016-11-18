@@ -11,6 +11,7 @@ import (
 	"io"
 	"io/ioutil"
 	"itopic.go/models"
+	"net/url"
 	"path"
 	"path/filepath"
 	"time"
@@ -37,12 +38,16 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 		path := r.URL.Path
 		if pos := strings.LastIndex(path, "."); pos > 0 {
 			path = path[0:pos]
 		}
 		if bf, ok := router[path]; ok {
+			if strings.Compare("/sitemap", path) == 0 {
+				w.Header().Set("Content-Type", "text/xml; charset=UTF-8")
+			} else {
+				w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+			}
 			w.Write(bf.Bytes())
 		} else {
 			http.NotFound(w, r)
@@ -64,50 +69,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	//topic router
-	for i := range models.Topics {
-		if models.Topics[i].IsPublic == false {
-			continue
-		}
-		var buff bytes.Buffer
-		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
-			"topic":  models.Topics[i],
-			"domain": domain,
-		})
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		router["/"+models.Topics[i].TopicID] = buff
-	}
-	//tag router
-	for i := range models.TopicsGroupByTag {
-		var buff bytes.Buffer
-		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
-			"title":  models.TopicsGroupByTag[i].TagName,
-			"topics": models.TopicsGroupByTag[i].Topics,
-			"domain": domain,
-		})
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		router["/tag/"+models.TopicsGroupByTag[i].TagID] = buff
-	}
-	//month router
-	for i := range models.TopicsGroupByMonth {
-		var buff bytes.Buffer
-		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
-			"title":  models.TopicsGroupByMonth[i].Month,
-			"topics": models.TopicsGroupByMonth[i].Topics,
-			"domain": domain,
-		})
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		router["/"+models.TopicsGroupByMonth[i].Month] = buff
-	}
+	var pages []map[string]string
 	//homepage router
 	var buff bytes.Buffer
 	topicCnt := len(models.Topics)
@@ -142,6 +104,84 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		os.Exit(1)
 	}
 	router["/"] = buff
+	pages = append(pages, map[string]string{
+		"loc":        domain + "/",
+		"lastmod":    time.Now().Format("2006-01-02"),
+		"changefreq": "weekly",
+		"priority":   "1",
+	})
+	//topic router
+	for i := range models.Topics {
+		if models.Topics[i].IsPublic == false {
+			continue
+		}
+		var buff bytes.Buffer
+		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
+			"topic":  models.Topics[i],
+			"domain": domain,
+		})
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		router["/"+models.Topics[i].TopicID] = buff
+		pages = append(pages, map[string]string{
+			"loc":        domain + "/" + models.Topics[i].TopicID + ".html",
+			"lastmod":    models.Topics[i].Time.Format("2006-01-02"),
+			"changefreq": "monthly",
+			"priority":   "0.9",
+		})
+	}
+	//month router
+	for i := range models.TopicsGroupByMonth {
+		var buff bytes.Buffer
+		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
+			"title":  models.TopicsGroupByMonth[i].Month,
+			"topics": models.TopicsGroupByMonth[i].Topics,
+			"domain": domain,
+		})
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		router["/"+models.TopicsGroupByMonth[i].Month] = buff
+		pages = append(pages, map[string]string{
+			"loc":        domain + "/" + models.TopicsGroupByMonth[i].Month + ".html",
+			"lastmod":    time.Now().Format("2006-01-02"),
+			"changefreq": "monthly",
+			"priority":   "0.2",
+		})
+	}
+	//tag router
+	for i := range models.TopicsGroupByTag {
+		var buff bytes.Buffer
+		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
+			"title":  models.TopicsGroupByTag[i].TagName,
+			"topics": models.TopicsGroupByTag[i].Topics,
+			"domain": domain,
+		})
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		router["/tag/"+models.TopicsGroupByTag[i].TagID] = buff
+		pages = append(pages, map[string]string{
+			"loc":        domain + "/tag/" + url.QueryEscape(models.TopicsGroupByTag[i].TagID) + ".html",
+			"lastmod":    time.Now().Format("2006-01-02"),
+			"changefreq": "monthly",
+			"priority":   "0.2",
+		})
+	}
+	//sitemap
+	var sitemapBuff bytes.Buffer
+	if err := tpl.ExecuteTemplate(&sitemapBuff, "sitemap.tpl", map[string]interface{}{
+		"pages": pages,
+	}); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	router["/sitemap"] = sitemapBuff
+	//create html
 	if isCreateHTML == true {
 		go generateHTML(router)
 	}
@@ -153,7 +193,11 @@ func generateHTML(router map[string]bytes.Buffer) {
 		if k == "/" {
 			writeFile(htmlPrefix+k+"index.html", v)
 		} else {
-			writeFile(htmlPrefix+k+".html", v)
+			if k == "/sitemap" {
+				writeFile(htmlPrefix+k+".xml", v)
+			} else {
+				writeFile(htmlPrefix+k+".html", v)
+			}
 		}
 	}
 	//copy static folder
