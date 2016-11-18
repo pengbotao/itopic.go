@@ -50,5 +50,7 @@ var duoshuoQuery = {short_name:"itopic"};
 	})();
 	</script>
 <!-- 多说公共JS代码 end -->
+
+<div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>
 </html>

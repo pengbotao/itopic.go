@@ -136,6 +136,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		"topics_l": topicsLeft,
 		"topics_r": topicsRight,
 		"domain":   domain,
+		"time":     time.Now(),
 	}); err != nil {
 		fmt.Println(err)
 		os.Exit(1)

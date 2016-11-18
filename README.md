@@ -36,3 +36,12 @@ public | 否  | 为no的时候表示文章不可被浏览器访问到
 ```
 go get github.com/pengbotao/itopic.go
 ```
+
+# 启动
+```
+go run main.go
+```
+说明：
+
+- 不需要生成静态页面时将`main.go`中`isCreateHTML`设置为false
+- `domain`用来模版页链接前缀，可设置为空
