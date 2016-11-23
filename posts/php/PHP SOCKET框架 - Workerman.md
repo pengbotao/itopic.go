@@ -32,7 +32,7 @@ workerman的目标是让PHP开发者更容易的开发出基于socket的高性�
 - 高性能
 
 ## 1.3 Workerman与Swoole
-- swoole使用C编写，更加底层，以PHP扩展的方式调用。workerman使用是对PHP原生的socket的封装，类似一个装好的PHP代码库。
+- swoole使用C编写，更加底层，以PHP扩展的方式调用。workerman是对PHP原生的socket的封装，类似一个装好的PHP代码库。
 - workerman需要PHP安装有pcntl和posix扩展，基于libevent事件轮询。Swoole扩展是基于epoll高性能事件轮询，并且是多线程的。
 - swoole更底层，提供的功能更多更强大，workerman更多的是socket服务。
 - workerman文档上更清晰，相比感觉上更有态度。
