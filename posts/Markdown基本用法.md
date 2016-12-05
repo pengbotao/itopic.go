@@ -9,8 +9,8 @@
 # H1标题
 Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯（`John Gruber`）。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的`XHTML`(或者`HTML`)文档”。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。
 
-## H2粗体和斜体
-`Go` is an open source *programming language* that makes it easy to build **simple**, **reliable**, and **efficient** software.
+## H2粗体、斜体、删除线
+`Go` is an open source *programming language* that ~~makes it easy~~ to build **simple**, **reliable**, and **efficient** software.
 
 ### H3引用
 > `John Gruber` 在 2004 年创造了 `Markdown` 语言，在语法上有很大一部分是跟 `Aaron Swartz `共同合作的。这个语言的目的是希望大家使用“易于阅读、易于撰写的纯文字格式，并选择性的转换成有效的 `XHTML` (或是`HTML`)”。
@@ -55,7 +55,7 @@ func main() {
 Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯（`John Gruber`）。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的`XHTML`(或者`HTML`)文档”。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。
 
 ## H2粗体和斜体
-`Go` is an open source *programming language* that makes it easy to build **simple**, **reliable**, and **efficient** software.
+`Go` is an open source *programming language* that ~~makes it easy~~ to build **simple**, **reliable**, and **efficient** software.
 
 ### H3引用
 > `John Gruber` 在 2004 年创造了 `Markdown` 语言，在语法上有很大一部分是跟 `Aaron Swartz `共同合作的。这个语言的目的是希望大家使用“易于阅读、易于撰写的纯文字格式，并选择性的转换成有效的 `XHTML` (或是`HTML`)”。
