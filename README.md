@@ -7,11 +7,11 @@
 功能比较简单，不需要依赖数据库，不需要管理后台，使用者只需要关注文章内容的书写即可，同时写好的文章可直接在`Github`上查看。
 
 # 安装Golang
-从golang.org下载并设置环境变量。
+从golang.org下载并根据实际路径设置环境变量。
 
 ```
 export GOROOT=/usr/local/server/go1.8
-export GOPATH=/Users/peng/workspace/gopath:/Users/peng/workspace/golang
+export GOPATH=/user/local/server/gopath:/Users/peng/workspace/golang
 export PATH=$PATH:$GOROOT/bin
 ```
 
