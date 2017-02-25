@@ -6,6 +6,15 @@
 
 功能比较简单，不需要依赖数据库，不需要管理后台，使用者只需要关注文章内容的书写即可，同时写好的文章可直接在`Github`上查看。
 
+# 安装Golang
+从golang.org下载并设置环境变量。
+
+```
+export GOROOT=/usr/local/server/go1.8
+export GOPATH=/Users/peng/workspace/gopath:/Users/peng/workspace/golang
+export PATH=$PATH:$GOROOT/bin
+```
+
 # 如何写文章？
 文章采用`Markdown`的写法，需要先了解`Markdown`的写法，基本用法可查看[Markdown基本用法](/posts/Markdown基本用法.md)。除此之外有几点需要注意：
 
