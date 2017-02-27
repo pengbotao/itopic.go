@@ -14,7 +14,9 @@ yum -y install subversion
 # cd /data/svndata
 # svnadmin create itopic
 ```
-采用branches/tags/trunk目录结构
+
+采用branches/tags/trunk目录结构，从某个目录导入到SVN（可选）。
+
 ```
 # mkdir -p code/{branches,tags,trunk}
 # svn import code file:///data/svndata/itopic -m "init"
@@ -25,6 +27,7 @@ yum -y install subversion
 itopic/conf有3个文件（svnserve.conf、passwd、authz）来配置SVN相关访问信息。
 
 **svnserve.conf**参考配置：
+
 ```
 # more svnserve.conf 
 [general]
@@ -39,7 +42,9 @@ realm = iTopic Repository
 # min-encryption = 0
 # max-encryption = 256
 ```
+
 **passwd**参考配置：
+
 ```
 # more passwd 
 [users]
@@ -48,6 +53,7 @@ judy = abc123
 kim = ABC!@#
 ```
 **authz**参考配置：设为开发组和测试组，开发者拥有trunk、branches的读写权限；测试组只拥有branched的读权限，但测试组的kim还有tags的读写权限。
+
 ```
 # more authz 
 [groups]
@@ -74,12 +80,22 @@ kim = rw
 ```
 # svnserve -d -r /data/svndata
 ```
-单个项目启动方式
+
+单个项目启动方式。
+
 ```
 # svnserve -d  -r /data/svndata/itopic
 # svnserve -d --listen-port 3691 -r /data/svndata/laozi
 ```
+
+单项目启动时[itopic:/]需要配置为 [/]，如上面的authz配置启动方式为：
+
+```
+# svnserve -d  -r /data/svndata
+```
+
 开机启动
+
 ```
 # echo 'svnserve -d -r /data/svndata' >>/etc/rc.local
 ```
@@ -91,24 +107,28 @@ svn checkout path（path是服务器上的目录）
 例如：svn checkout svn://192.168.1.1/pro/domain
 简写：svn co 
 ```
+
 2、往版本库中添加新的文件
 ```
 svn add file
 例如：svn add test.php(添加test.php)
 svn add *.php(添加当前目录下所有的php文件) 
 ```
+
 3、将改动的文件提交到版本库
 ```
 svn commit -m “LogMessage“ [-N] [--no-unlock] PATH(如果选择了保持锁，就使用–no-unlock开关)
 例如：svn commit -m “add test file for my test“ test.php
 简写：svn ci 
 ```
+
 4、加锁/解锁
 ```
 svn lock -m “LockMessage“ [--force] PATH
 例如：svn lock -m “lock test file“ test.php
 svn unlock PATH 
 ```
+
 5、更新到某个版本
 ```
 svn update -r m path
@@ -118,6 +138,7 @@ svn update -r 200 test.php(将版本库中的文件test.php还原到版本200)
 svn update test.php(更新，于版本库同步。如果在提交的时候提示过期的话，是因为冲突，需要先update，修改文件，然后清除svn resolved，最后再提交commit)
 简写：svn up 
 ```
+
 6、查看文件或者目录状态
 
 1）svn status path（目录下的文件和子目录的状态，正常状态不显示）
@@ -139,6 +160,7 @@ svn delete path -m “delete test fle“
 或者直接svn delete test.php 然后再svn ci -m ‘delete test file‘，推荐使用这种
 简写：svn (del, remove, rm) 
 ```
+
 8、查看日志
 `svn log path` 例如：svn log test.php 显示这个文件的所有修改记录，及其版本号的变化 
 
@@ -153,16 +175,19 @@ svn diff -r m:n path(对版本m和版本n比较差异)
 例如：svn diff -r 200:201 test.php
 简写：svn di 
 ```
+
 11、将两个版本之间的差异合并到当前文件
 ```
 svn merge -r m:n path
 例如：svn merge -r 200:205 test.php（将版本200与205之间的差异合并到当前文件，但是一般都会产生冲突，需要处理一下） 
 ```
+
 12、SVN 帮助
 ```
 svn help
 svn help ci 
 ```
+
 以上是常用命令，下面写几个不经常用的
 
 13、版本库下的文件和目录列表
@@ -172,8 +197,10 @@ svn help ci
 14、创建纳入版本控制下的新目录
 
 `svn mkdir`: 创建纳入版本控制下的新目录。用法:
+```
 1、mkdir PATH…
 2、mkdir URL…
+```
 
 创建版本控制的目录。
 
@@ -185,10 +212,13 @@ svn help ci
 
 15、恢复本地修改
 
-`svn revert`: 恢复原始未改变的工作副本文件 (恢复大部份的本地修改)。`revert`:用法: 
+`svn revert`: 恢复原始未改变的工作副本文件 (恢复大部份的本地修改)。
+
+`revert`用法: 
 ```
 revert PATH…
 ```
+
 注意: 本子命令不会存取网络，并且会解除冲突的状况。但是它不会恢复被删除的目录 
 
 16、代码库URL变更
@@ -208,6 +238,7 @@ revert PATH…
 ```
 resolved PATH…
 ```
+
 注意: 本子命令不会依语法来解决冲突或是移除冲突标记；它只是移除冲突的相关文件，然后让 PATH 可以再次提交。 
 
 18、输出指定文件或URL的内容。
