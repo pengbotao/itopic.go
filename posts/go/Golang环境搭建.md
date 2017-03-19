@@ -6,7 +6,7 @@
 }
 ```
 
-# Go安装
+# 一、Go安装
 Go的安装方式比较简单，没有什么依赖，直接通过官网下载即可。
 
 - 下载地址：`https://golang.org/dl/`。
@@ -21,7 +21,7 @@ Go的安装方式比较简单，没有什么依赖，直接通过官网下载即
 ![](/static/uploads/golang-start.png)
 
 
-## 添加环境变量
+## 1.1 添加环境变量
 GO的开发过程中还需要配置一些环境变量，GO程序依赖这些配置，所以必须得配。
 
 - GOROOT：go的安装路径
@@ -49,7 +49,7 @@ win下类似，新建GOROOT和GOPATH两个环境变量，将GOROOT/bin目录添�
 
 接下来试试Hello World.
 
-## Go Hello World
+## 1.2 Go Hello World
 
 在`/Users/peng/workspace/golang/src`下创建`hello.go`，内容如下：
 
@@ -75,7 +75,7 @@ func main() {
 go run hello.go
 ``
 
-## 常用命令
+## 1.3 常用命令
 前面执行`go`命令的过程就可以看到go的一些常用命令。介绍几个常用的命令：
 
 - `go version`: 查看go的版本。
@@ -86,7 +86,7 @@ go run hello.go
 
 到这里已经对go有个基本的认识，接下来说下一下IDE的配置，接触过的IDE有LiteIDE和VScode，两个都跨平台，开发go程序也非常方便，还有一些其他的IDE，比如：sublime、GoEclipse等等。这里着重介绍下vscode。
 
-# VsCode IDE介绍
+# 二、VsCode IDE介绍
 安装vscode的`Go`扩展，首选项里配置GO路径(win下为分号)：
 
 ```
@@ -114,7 +114,7 @@ go get -v github.com/cweill/gotests/...
 
 go的包管理非集中式的，当一个地方不通的时候，可以考虑换个仓库去试。
 
-## VsCode常用操作
+## 2.1 VsCode常用操作
 
 - `ctrl+shift+p`(`cmd+shift+p`)或`F1`:打开命令面板。
 - `ctrl+p`(`cmd+p`):转到文件。输入 `>` 可进入命令面板，同样命令面板按`Backspace`也可进入转到文件操作。在Ctrl+P窗口下还可以
