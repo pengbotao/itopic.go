@@ -45,7 +45,7 @@
     target: "cloud-tie-wrapper"
   };
 </script>
-<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+<script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>
