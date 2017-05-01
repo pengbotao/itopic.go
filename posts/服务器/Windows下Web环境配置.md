@@ -132,6 +132,7 @@ extension = php_redis.dll
 ## 3.2 配置
 将安装路径C:/soft/mysql-5.7.11-winx64/bin添加到环境变量；并将mysql-default.ini重命名为my.ini，设置相关路径
 ```
+[mysqld]
 basedir = C:/soft/mysql-5.7.11-winx64
 datadir = C:/soft/mysql-5.7.11-winx64/data
 character_set_server = utf8
@@ -164,9 +165,13 @@ mysql -u root -p
 修改密码：
 ```
 mysql> use mysql;
-mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
+-- mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
+**mysql> set password = '123456';**
 mysql> FLUSH PRIVILEGES;
 ```
+
+报缺少`MSVCR120.dll`需安装`Visual C++ Redistributable Packages for Visual Studio 2013`
+
 # 四、Redis服务端安装
 这里为Redis服务端，本地需要用到Redis的场景可直接连接本机的Redis，Win下直接下载即可使用。64位可直接[点此下载](/static/attachments/Redis-x64-2.8.2400.zip)。
 # 五、PHP、Nginx、启动
