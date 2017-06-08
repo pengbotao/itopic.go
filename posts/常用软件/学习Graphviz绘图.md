@@ -132,12 +132,12 @@ digraph demo {
 属性名|默认值|说明
 ---|---|---
 label| |图片标签，如上面`示例`
-bgcolor	||	背景颜色，颜色文档[点此](http://www.graphviz.org/content/color-names)
+bgcolor||背景颜色，颜色文档[点此](http://www.graphviz.org/content/color-names)
 fontcolor |black| 字体颜色，定义上面`示例`的颜色
 fontname|Times-Roman|字体
 fontsize|14|字体大小
-rank		||子图等级限制， same,min,max,source,sink
-rankdir	|TB	|排序方向，LR(left to right) or TB(top to bottom)
+rank||子图等级限制， same,min,max,source,sink
+rankdir|TB|排序方向，LR(left to right) or TB(top to bottom)
 compound| false|If true, allow edges between clusters. 配合 lhead 和 ltail 使用
 
 ### 2.2.2 常用节点属性
@@ -146,9 +146,10 @@ compound| false|If true, allow edges between clusters. 配合 lhead 和 ltail �
 label|node name| 节点显示内容
 color|black|node边框颜色
 fontcolor |black| 字体颜色
+fillcolor||背景色
 fontname|Times-Roman|字体
 fontsize|14|字体大小
-shape	|ellipse|	形状,box、ellipse、circle、diamond、plaintext、point、triangle、invtriangle
+shape|ellipse|	形状,box、ellipse、circle、diamond、plaintext、point、triangle、invtriangle
 style||	图形样式，eg. bold、dashed、dotted、filled
 image ||背景图片地址
 
@@ -177,11 +178,12 @@ digraph demo {
 label||描述关系
 color|black|箭头颜色
 fontcolor|black|关系文字颜色
-dir	 |forward	|设置方向：forward,back,both,none
-arrowhead	|normal	|箭头头部形状。box、crow、diamond、dot、none、normal、vee。箭头文档[点此](http://www.graphviz.org/content/arrow-shapes)
-arrowsize |	1.0	 | 箭头大小
-style||	图形样式，eg. bold、dashed、dotted、filled
-lhead || 	当 compound 为true时，lhead用于指定边指向的cluster
+dir|forward|设置方向：forward,back,both,none
+arrowhead|normal|箭头头部形状。box、crow、diamond、dot、none、normal、vee。箭头文档[点此](http://www.graphviz.org/content/arrow-shapes)
+arrowtail||箭头尾部形状
+arrowsize |1.0| 箭头大小
+style|| 图形样式，eg. bold、dashed、dotted、filled
+lhead || 当 compound 为true时，lhead用于指定边指向的cluster
 ltail || 与ltail类似
 
 **arrowhead示例**
