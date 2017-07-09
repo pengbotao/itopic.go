@@ -20,6 +20,7 @@
 <h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">{{.topic.Title}}</h1>
 <a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
+<div class="main-topic-content">
 {{.topic.Content}}
 <div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
 <div style="float:right;">
@@ -46,6 +47,7 @@
   };
 </script>
 <script src="http://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+</div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 </body>

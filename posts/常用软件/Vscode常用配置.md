@@ -7,31 +7,6 @@
 }
 ```
 
-<!-- TOC -->
-
-- [一、关于VSCode](#一关于vscode)
-    - [1.1 整体体验](#11-整体体验)
-    - [1.2 软件安装](#12-软件安装)
-    - [1.3 手感调试](#13-手感调试)
-- [二、常用扩展](#二常用扩展)
-    - [2.1 Project Manager](#21-project-manager)
-    - [2.2 PHP IntelliSense](#22-php-intellisense)
-    - [2.3 Git Histroy(git log)](#23-git-histroygit-log)
-    - [2.4 Go](#24-go)
-    - [2.5 Markdown TOC](#25-markdown-toc)
-    - [2.6 Code Outline](#26-code-outline)
-    - [2.7 PlantUML](#27-plantuml)
-    - [2.8 Python](#28-python)
-    - [2.9 Prettify JSON](#29-prettify-json)
-    - [2.10 XML Tools](#210-xml-tools)
-- [三、其他功能](#三其他功能)
-    - [3.1 文件对比](#31-文件对比)
-    - [3.2 命令行](#32-命令行)
-- [四、配置文件](#四配置文件)
-    - [3.1 settings.json](#31-settingsjson)
-    - [3.2 keybindings.json](#32-keybindingsjson)
-
-<!-- /TOC -->
 # 一、关于VSCode
 在 Build 2015 大会上，微软除了发布了 Microsoft Edge 浏览器和新的 Windows 10 系统外，最大的惊喜莫过于宣布推出免费跨平台的 Visual Studio Code 编辑器了！
 

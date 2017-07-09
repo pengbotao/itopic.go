@@ -10,7 +10,29 @@ import (
 
 	"encoding/json"
 	"errors"
+
 	"github.com/russross/blackfriday"
+)
+
+const (
+	markdownHTMLFlags = 0 |
+		blackfriday.HTML_USE_XHTML |
+		blackfriday.HTML_USE_SMARTYPANTS |
+		blackfriday.HTML_SMARTYPANTS_FRACTIONS |
+		blackfriday.HTML_SMARTYPANTS_DASHES |
+		blackfriday.HTML_SMARTYPANTS_LATEX_DASHES |
+		blackfriday.HTML_TOC
+	markdownExtensions = 0 |
+		blackfriday.EXTENSION_NO_INTRA_EMPHASIS |
+		blackfriday.EXTENSION_TABLES |
+		blackfriday.EXTENSION_FENCED_CODE |
+		blackfriday.EXTENSION_AUTOLINK |
+		blackfriday.EXTENSION_STRIKETHROUGH |
+		blackfriday.EXTENSION_SPACE_HEADERS |
+		blackfriday.EXTENSION_HEADER_IDS |
+		blackfriday.EXTENSION_BACKSLASH_LINE_BREAK |
+		blackfriday.EXTENSION_DEFINITION_LISTS |
+		blackfriday.EXTENSION_AUTO_HEADER_IDS
 )
 
 //InitTopicList load all the topic on init
@@ -110,7 +132,10 @@ func GetTopicByPath(path string) (*Topic, error) {
 		content.Write(scanner.Bytes())
 		content.WriteString("\n")
 	}
-	t.Content = string(blackfriday.MarkdownCommon(content.Bytes()))
+
+	var markdownRenderer = blackfriday.HtmlRenderer(markdownHTMLFlags, "", "")
+	t.Content = string(blackfriday.MarkdownOptions(content.Bytes(), markdownRenderer, blackfriday.Options{Extensions: markdownExtensions}))
+
 	return t, nil
 }
 
