@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 html, body{
-  /*margin: 0px auto;*/
+  margin: 0px auto;
   padding:0px 10px;
   max-width: 1580px;
   min-width: 556px;
@@ -16,6 +16,13 @@ html, body{
 body {
   margin-left:300px;
 }
+
+@media (max-width: 1200px) {
+  body {
+    margin-left:0px;
+  }
+}
+
 #wrapper {
   padding: 3px;
   background: #fff;
@@ -221,17 +228,22 @@ code span::selection {background-color: rgba(0, 0, 0, 0.7) !important;color: #ee
 #top{
   display: none;
 }
+
 @media (min-width: 1200px) {
   #top{	position: fixed;
-  display: block;
-  bottom: 0px;
-  right: 30px;
-  z-index: 1000;
+    display: block;
+    bottom: 0px;
+    right: 30px;
+    z-index: 1000;
   }
 }
 
-nav{
-  position: fixed;
-  left: 0px;
-  z-index: -1000;
+nav {display: none;}
+@media (min-width: 1200px) {
+  nav{
+    display: block;
+    position: fixed;
+    left: 0px;
+    z-index: -1000;
+  }
 }
