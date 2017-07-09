@@ -50,5 +50,12 @@
 </div>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
+<script>
+window.onload=function(){
+    if(document.getElementsByTagName("nav")[0].innerText == "") {
+        document.getElementsByTagName("body")[0].style.marginLeft = "0";
+    }
+}
+</script>
 </body>
 </html>
