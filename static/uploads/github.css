@@ -1,0 +1,37 @@
+/* Overwrite vscode dark markdown theme */
+body {
+    background-color: white !important;
+    padding: .5em 5em;
+}
+
+.vscode-dark {
+    color: rgb(30, 30, 30);
+}
+
+.vscode-dark code {
+    color: #333;
+    tab-size: 2em;
+    background-color: #f7f7f7 !important;
+    padding: 0 !important;
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+
+.vscode-dark code > div {
+    color: #333;
+    background-color: #f7f7f7;
+}
+
+.vscode-dark table > thead > tr > th {
+    border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+    border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark blockquote {
+    background: #fefefe;
+}
