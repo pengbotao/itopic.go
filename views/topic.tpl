@@ -34,9 +34,7 @@
     <code style="border:0px;background:none;">{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
 </div>
 
-<BR>
-
-<div id="disqus_thread"></div>
+<div id="disqus_thread" style="margin-bottom:20px;"></div>
 <script>
 var disqus_config = function () {
     this.page.url = "http://itopic.org/{{.topic.TopicID}}.html";
@@ -53,7 +51,23 @@ var disqus_config = function () {
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 <script>
-window.onload=function(){
+ready(fn);
+function ready(fn){  
+    if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',function(){
+            document.removeEventListener('DOMContentLoaded',arguments.callee,false);  
+            fn();
+        },false);
+    } else if(document.attachEvent) {
+        document.attachEvent('onreadystatechange',function(){
+            if(document.readyState=='complete'){
+                document.detachEvent('onreadystatechange',arguments.callee);  
+                fn();
+            }
+        });
+    }  
+}  
+function fn(){
     if(document.getElementsByTagName("nav")[0].innerText == "") {
         document.getElementsByTagName("body")[0].style.marginLeft = "0";
     }
