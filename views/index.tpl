@@ -38,7 +38,8 @@
 
 <div id="footer">
     <ul>
-        <li>@2013-{{.time.Format "2006"}} 老彭的博客，Github地址：http://github.com/pengbotao/itopic.go</li>
+        <li>
+        @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[Hosted by Coding Pages] <b>Github地址</b>：http://github.com/pengbotao/itopic.go</li>
     </ul>
 </div>
 </body>

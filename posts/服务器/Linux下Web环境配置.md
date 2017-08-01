@@ -254,7 +254,7 @@ innodb_file_per_table = 1
 # tar zxvf redis-3.0.7.tar.gz
 # cd redis-3.0.7
 # mkdir -p /usr/local/server/redis3.0.7
-# make prefix=/usr/local/server/redis3.0.7 install
+# make PREFIX=/usr/local/server/redis3.0.7 install
 # cp redis.conf /etc/
  
 -- 启动REDIS

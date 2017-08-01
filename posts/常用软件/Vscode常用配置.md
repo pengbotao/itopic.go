@@ -137,3 +137,5 @@ Python开发扩展。
     { "key": "ctrl+shift+x", "command": "xmlTools.formatAsXml" }
 ]
 ```
+
+关于Vscode的基本用法可查看这篇文章：`https://nshen.net/article/2015-11-20/vscode/`
