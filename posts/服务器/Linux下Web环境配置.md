@@ -151,10 +151,10 @@ server
 # yum -y install gcc gcc-c++ ncurses ncurses-devel cmake
 ```
 
-**下载相应源码包，从MySQL 5.7.5开始Boost库是必需的**
+**下载并解压相应源码包，从MySQL 5.7.5开始Boost库是必需的**
 
 ```
-# wget http://downloads.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
+# wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-boost-5.7.19.tar.gz
 # wget http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.12.tar.gz
 ```
 
