@@ -36,9 +36,12 @@ drwxr-xr-x  14 peng  staff   476B  5 27 12:00 DotJoshJohnson.xml-2.0.0
 drwxr-xr-x   9 peng  staff   306B  5 18 08:45 MS-CEINTL.vscode-language-pack-zh-hans-1.23.5
 drwxr-xr-x   9 peng  staff   306B  5  5  2017 Stephanvs.dot-0.0.1
 drwxr-xr-x  12 peng  staff   408B  4 24 11:53 alefragnani.project-manager-0.25.2
+drwxr-xr-x  16 peng  staff   544B  5 27 12:48 bierner.markdown-preview-github-styles-0.1.2
 drwxr-xr-x  24 peng  staff   816B  5 12 09:08 donjayamanne.githistory-0.4.1
+drwxr-xr-x  23 peng  staff   782B  5 27 12:34 ecodes.vscode-phpmd-1.0.4
 drwxr-xr-x  13 peng  staff   442B  4  8 09:50 felixfbecker.php-intellisense-2.3.1
 drwxr-xr-x  14 peng  staff   476B  3 20 09:41 formulahendry.code-runner-0.9.3
+drwxr-xr-x  11 peng  staff   374B  5 27 12:31 ikappas.phpcs-1.0.5
 drwxr-xr-x  24 peng  staff   816B  5 18 11:26 jebbs.plantuml-2.7.5
 drwxr-xr-x   9 peng  staff   306B  5  5  2017 keyring.lua-0.0.9
 drwxr-xr-x  19 peng  staff   646B  5 21 11:54 liximomo.sftp-1.1.11
@@ -47,6 +50,7 @@ drwxr-xr-x  26 peng  staff   884B  5  3 11:49 ms-python.python-2018.4.0
 drwxr-xr-x  18 peng  staff   612B  5 15 09:17 ms-vscode.go-0.6.80
 drwxr-xr-x  31 peng  staff   1.0K  5  7 09:28 msjsdiag.debugger-for-chrome-4.4.3
 drwxr-xr-x  10 peng  staff   340B  5 17 00:04 patrys.vscode-code-outline-0.2.1
+drwxr-xr-x  17 peng  staff   578B  5 27 12:55 yzane.markdown-pdf-1.2.0
 ```
 
 ## 2.1 Project Manager
