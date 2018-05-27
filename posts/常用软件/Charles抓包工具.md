@@ -133,13 +133,13 @@ Windows IP 配置
 ## 3.2 篡改请求
 篡改请求可以通过断点的开始来设置，可以直接设置在Proxy -> Settings设置，也可以选中要篡改的请求邮件点击Breakpoints。点击之后重新发请求，Charles收到请求后进入到这个页面
 
-![](/static/uploads/chares-breakpoint.png)
+![](/static/uploads/charles-breakpoint.png)
 
 我们可以在Edit Request里编辑请求的参数等信息， 编辑完成之后点击执行（Execute），然后收到返回后会同样进入一个这样子的返回页面，也可以对返回数据进行编辑，编辑完成之后再点击Execute。这样子发起请求者收到的将是经过篡改之后的数据。
 
 此时查看Proxy -> Breakpoints里的设置信息将多处一条记录。
 
-![](/static/uploads/chares-breakpoint-settings.png)
+![](/static/uploads/charles-breakpoint-settings.png)
 
 可以看到断点是针对请求和返回， 如果只想修改请求数据或者只修改返回数据则编辑一下，去掉对应的勾即可。
 
@@ -168,6 +168,18 @@ Iterations代表要执行多少次，Concurrency表示并发数。
 
 ![](/static/uploads/charles-throttling-settings.png)
 
+## 3.6 HTTPS抓包
+
+![](/static/uploads/charles-ssl-install.png)
+
+- 1、电脑安装证书：Charles -> Help -> SSL Proxying -> Install Charles Root Certificate
+- 2、手机HTTPS安装证书。
+![](/static/uploads/charles-ssl-install-tips.png)
+    - 手机按3.1.2.2的方式指定代理
+    - 通过手机浏览器访问提示窗口上的地址 `http://chls.pro/ssl`，下载证书`PEM`文件
+- 3、安卓手机：设置 -> WLAN -> 高级设置 -> 安装证书，选中刚才下载的PEM文件
+- 4、Charles上`SSL Proxying Settings`勾选`Enable SSL Proxying`以及Host指定*，端口指定443。
+
 # 四、常见问题
 ## 4.1 安装后无法启动
 Charles需要安装Java虚拟机，确保是否有安装。
@@ -181,3 +193,23 @@ Charles需要安装Java虚拟机，确保是否有安装。
 
 ## 4.4 Charles异常关闭后无法访问网页。
 Charles异常关闭后浏览器的代理未取消，需要再次启动Charles即可访问网页。
+
+## 4.5 Charles HTTPS抓取机制
+```
+著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。 
+作者：连山归藏 
+来源：知乎 
+第一步， fiddler向服务器发送请求进行握手， 获取到服务器的CA证书， 用根证书公钥进行解密， 验证服务器数据签名，获取到服务器CA证书公钥。 
+第二步， fiddler伪造自己的CA证书， 冒充服务器证书传递给客户端浏览器，客户端浏览器做跟fiddler一样的事。 
+第三步， 客户端浏览器生成https通信用的对称密钥，用fiddler伪造的证书公钥加密后传递给服务器， 被fiddler截获。 
+第四步， fiddler将截获的密文用自己伪造证书的私钥解开，获得https通信用的对称密钥。 
+第五步， fiddler将对称密钥用服务器证书公钥加密传递给服务器， 服务器用私钥解开后建立信任，握手完成， 用对称密钥加密消息， 开始通信。 
+第六步， fiddler接收到服务器发送的密文， 用对称密钥解开，获得服务器发送的明文。再次加密， 发送给客户端浏览器。 
+第七步， 客户端向服务器发送消息， 用对称密钥加密， 被fidller截获后，解密获得明文。 
+由于fiddler一直拥有通信用对称密钥， 所以在整个https通信过程中信息对其透明。也就是说fiddler&charles向服务器冒充是客户端，向客户端又谎称自己是服务器。
+```
+
+## 4.6 部分HTTPS无法抓取
+有一些服务器会对客户端身份进行验证，即会进行双向验证导致验证不过无法抓取。
+
+- https://blog.csdn.net/u010731949/article/details/50538280
