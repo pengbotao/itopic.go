@@ -30,18 +30,23 @@ VSCode为跨平台编辑器，下载安装包安装即可。
 
 \# /Users/peng/.vscode/extensions
 ```
-drwxr-xr-x  10 peng  staff   340B  6 28 07:25 AlanWalk.markdown-toc-1.5.5
-drwxr-xr-x  16 peng  staff   544B  7  8 22:47 DotJoshJohnson.xml-1.9.2
-drwxr-xr-x   9 peng  staff   306B  5  5 23:02 Stephanvs.dot-0.0.1
-drwxr-xr-x  11 peng  staff   374B  7  9 12:41 alefragnani.project-manager-0.18.1
-drwxr-xr-x  11 peng  staff   374B  7  4 10:21 donjayamanne.githistory-0.2.1
-drwxr-xr-x  22 peng  staff   748B  7  8 22:47 donjayamanne.python-0.6.7
-drwxr-xr-x  17 peng  staff   578B  7  8 22:47 felixfbecker.php-intellisense-1.4.3
-drwxr-xr-x  22 peng  staff   748B  7  9 12:23 jebbs.plantuml-2.0.1
-drwxr-xr-x   9 peng  staff   306B  5  5 23:08 keyring.lua-0.0.9
-drwxr-xr-x  18 peng  staff   612B  7  8 22:47 lukehoban.go-0.6.62
-drwxr-xr-x   9 peng  staff   306B  3 23 22:50 mohsen1.prettify-json-0.0.3
-drwxr-xr-x   9 peng  staff   306B  7  9 13:03 patrys.vscode-code-outline-0.0.7
+drwxr-xr-x  10 peng  staff   340B  7 25  2017 AlanWalk.markdown-toc-1.5.6
+drwxr-xr-x  16 peng  staff   544B  7  8  2017 DotJoshJohnson.xml-1.9.2
+drwxr-xr-x  14 peng  staff   476B  5 27 12:00 DotJoshJohnson.xml-2.0.0
+drwxr-xr-x   9 peng  staff   306B  5 18 08:45 MS-CEINTL.vscode-language-pack-zh-hans-1.23.5
+drwxr-xr-x   9 peng  staff   306B  5  5  2017 Stephanvs.dot-0.0.1
+drwxr-xr-x  12 peng  staff   408B  4 24 11:53 alefragnani.project-manager-0.25.2
+drwxr-xr-x  24 peng  staff   816B  5 12 09:08 donjayamanne.githistory-0.4.1
+drwxr-xr-x  13 peng  staff   442B  4  8 09:50 felixfbecker.php-intellisense-2.3.1
+drwxr-xr-x  14 peng  staff   476B  3 20 09:41 formulahendry.code-runner-0.9.3
+drwxr-xr-x  24 peng  staff   816B  5 18 11:26 jebbs.plantuml-2.7.5
+drwxr-xr-x   9 peng  staff   306B  5  5  2017 keyring.lua-0.0.9
+drwxr-xr-x  19 peng  staff   646B  5 21 11:54 liximomo.sftp-1.1.11
+drwxr-xr-x   9 peng  staff   306B  3 23  2017 mohsen1.prettify-json-0.0.3
+drwxr-xr-x  26 peng  staff   884B  5  3 11:49 ms-python.python-2018.4.0
+drwxr-xr-x  18 peng  staff   612B  5 15 09:17 ms-vscode.go-0.6.80
+drwxr-xr-x  31 peng  staff   1.0K  5  7 09:28 msjsdiag.debugger-for-chrome-4.4.3
+drwxr-xr-x  10 peng  staff   340B  5 17 00:04 patrys.vscode-code-outline-0.2.1
 ```
 
 ## 2.1 Project Manager
@@ -97,7 +102,7 @@ Python开发扩展。
 
 ```
 {
-    "editor.fontSize": 14,
+    "editor.fontSize": 16,
     "editor.fontFamily": "'Courier New', monospace",
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
@@ -105,13 +110,12 @@ Python开发扩展。
     "editor.minimap.enabled": true,
     "editor.scrollBeyondLastLine": false,
     "editor.renderIndentGuides":false,
-    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.fontSize": 18,
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.lineHeight": 1.3,
     "terminal.integrated.cursorStyle": "underline",
-    "workbench.welcome.enabled": true,
     "workbench.sideBar.location": "left",
-    "workbench.activityBar.visible": false,
+    "workbench.activityBar.visible": true,
     "workbench.statusBar.visible": true,
     "workbench.editor.enablePreview": false,
     "window.zoomLevel": 0,
@@ -125,7 +129,10 @@ Python开发扩展。
         "/Users/peng/.vscode/github-markdown.css",
         "/Users/peng/.vscode/github.css"
     ],
-    "workbench.colorTheme": "Visual Studio Light"
+    "workbench.colorTheme": "Visual Studio Light",
+    "emmet.showExpandedAbbreviation": "never",
+    "workbench.startupEditor": "welcomePage",
+    "python.pythonPath": "/usr/local/bin/python"
 }
 ```
 
