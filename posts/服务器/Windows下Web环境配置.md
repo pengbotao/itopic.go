@@ -119,7 +119,7 @@ C:/soft/php-7.0.4-nts-Win32-VC14-x64/php-cgi.exe -b 127.0.0.1:9000 -c C:/soft/ph
 执行后无任何输出则表示启动成功，配合前面的Nginx，创建文件输出phpinfo并访问，如果能正确访问则说明PHP和Nginx安装成功。
 
 ## 2.5 PHP扩展
-项目需要用到REDIS，PHP需安装REDIS扩展，下载地址： http://windows.php.net/downloads/pecl/snaps/redis/ 
+项目需要用到REDIS，PHP需安装REDIS扩展，下载地址： `https://pecl.php.net/package/redis`
 选择对应的版本下载后将php_redis.dll放到extension_dir指定的ext目录中。php.ini中新增
 ```
 extension = php_redis.dll
@@ -128,20 +128,32 @@ extension = php_redis.dll
 
 # 三、Mysql安装
 ## 3.1 下载
-下载地址： http://dev.mysql.com/downloads/mysql/ ，选择对应版本下载后直接解压缩即可。
+下载地址： `http://dev.mysql.com/downloads/mysql/` ，选择对应版本下载后直接解压缩即可。
 ## 3.2 配置
-将安装路径C:/soft/mysql-5.7.11-winx64/bin添加到环境变量；并将mysql-default.ini重命名为my.ini，设置相关路径
+将安装路径`G:\soft\mysql-8.0.11-winx64\bin`添加到环境变量；并将创建`G:\soft\mysql-8.0.11-winx64\my.ini`，设置相关路径
 ```
 [mysqld]
-basedir = C:/soft/mysql-5.7.11-winx64
-datadir = C:/soft/mysql-5.7.11-winx64/data
-character_set_server = utf8
-port = 3306
+port=3306
+basedir=G:/soft/mysql-8.0.11-winx64
+datadir=G:/soft/mysql-8.0.11-winx64/data
+max_connections=20
+max_connect_errors=10
+character-set-server=utf8
+default-storage-engine=INNODB
+innodb_file_per_table = 1
+
+[mysql]
+default-character-set=utf8
+
+[client]
+port=3306
+default-character-set=utf8
 ```
 ## 3.3 安装Mysql为系统服务
 命令行执行
 ```
-mysqld install mysql --defaults-file="C:\soft\mysql-5.7.11-winx64\my.ini"
+> mysqld install mysql --defaults-file="G:\soft\mysql-8.0.11-winx64\my.ini"
+Service successfully installed.
 ```
 #移除服务命令为：mysqld -remove
 
@@ -160,20 +172,33 @@ net start/stop mysql
 
 ## 3.6 登录Mysql
 ```
-mysql -u root -p
+> mysql -u root -p
+mysql> show databases;
+ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.
 ```
+
 修改密码：
+
 ```
-mysql> use mysql;
--- mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
-**mysql> set password = '123456';**
-mysql> FLUSH PRIVILEGES;
+mysql> alter user 'root'@'localhost' identified by '123456';
 ```
+
+mysql8 ：客户端连接caching-sha2-password问题
+
+```
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER; #修改加密规则 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'; #更新一下用户的密码 
+```
+
 
 报缺少`MSVCR120.dll`需安装`Visual C++ Redistributable Packages for Visual Studio 2013`
 
 # 四、Redis服务端安装
 这里为Redis服务端，本地需要用到Redis的场景可直接连接本机的Redis，Win下直接下载即可使用。64位可直接[点此下载](/static/attachments/Redis-x64-2.8.2400.zip)。
+
+Window下Redis服务端由微软在维护，可从此页面下载最新客户端。`https://github.com/MicrosoftArchive/redis/releases`
+
+
 # 五、PHP、Nginx、启动
 前面PHP的启动命令输入后命令行窗口不可关掉，关掉后PHP就退出了， 所以需要把PHP放后台执行，系统需要先安装一个[RunHiddenConsole.exe](/static/attachments/2010-5-RunHiddenConsole.zip)（解压后放在system32目录），然后可以直接将启动命令写在一个批处理脚本，如：
 ```
