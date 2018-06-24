@@ -5,4 +5,3 @@
 *.exe
 *.out
 .vscode/
-vendor/
