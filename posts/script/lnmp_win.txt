@@ -1,12 +1,12 @@
 ===================================================================
 PHP
 ===================================================================
-1¡¢ÐÞ¸Äextension_dirÂ·¾¶
-2¡¢ÉèÖÃÊ±Çø¡¢´íÎó¼¶±ð¡¢expose_php 
-3¡¢Ìí¼Ó»·¾³±äÁ¿
+1ã€ä¿®æ”¹extension_dirè·¯å¾„
+2ã€è®¾ç½®æ—¶åŒºã€é”™è¯¯çº§åˆ«ã€expose_php 
+3ã€æ·»åŠ çŽ¯å¢ƒå˜é‡
 
 ===================================================================
-Nginx¡¢OpenResty
+Nginxã€OpenResty
 ===================================================================
 fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
 
@@ -39,35 +39,35 @@ server {
 ===================================================================
 MYSQL
 ===================================================================
-1¡¢ÐÞ¸ÄÅäÖÃÎÄ¼þ my.ini
+1ã€ä¿®æ”¹é…ç½®æ–‡ä»¶ my.ini
 
 basedir = C:/soft/mysql-5.7.11-winx64
 datadir = C:/soft/mysql-5.7.11-winx64/data
 character_set_server = utf8
 port = 3306
 
-2¡¢ÉèÖÃ»·¾³±äÁ¿
+2ã€è®¾ç½®çŽ¯å¢ƒå˜é‡
 C:\soft\mysql-5.7.11-winx64\bin
 
 Install/Remove of the Service Denied
 
-ÒÔ¹ÜÀíÔ±Éí·ÝÔËÐÐÃüÁîÐÐ¡£
+ä»¥ç®¡ç†å‘˜èº«ä»½è¿è¡Œå‘½ä»¤è¡Œã€‚
 
 
-3¡¢°²×°
+3ã€å®‰è£…
 mysqld install mysql --defaults-file="C:\soft\mysql-5.7.11-winx64\my.ini"
 
 mysqld --initialize
 
-4¡¢Æô¶¯ 
+4ã€å¯åŠ¨ 
 net start/stop mysql
 
 
-5¡¢²é¿´rootÃÜÂë
-./data/xx.errÎÄ¼þÉú³ÉÃÜÂë
+5ã€æŸ¥çœ‹rootå¯†ç 
+./data/xx.erræ–‡ä»¶ç”Ÿæˆå¯†ç 
 A temporary password is generated for root@localhost: 2r-Pdtkihlu5
 
-ÉèÖÃ³õÊ¼»¯ÃÜÂë£º
+è®¾ç½®åˆå§‹åŒ–å¯†ç ï¼š
 set password = password("123456")
 
 
@@ -79,7 +79,7 @@ mysql> UPDATE user SET Password = PASSWORD('newpass') WHERE user = 'root';
 mysql> FLUSH PRIVILEGES;
 
 ===================================================================
-½Å±¾
+è„šæœ¬
 ===================================================================
 @echo off
 

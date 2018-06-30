@@ -10,21 +10,21 @@ http://download.csdn.net/download/barahir/5308105
 
 http://www.tuicool.com/articles/7FvuMn
 
-wiki°æ±¾£º5.4.4
+wikiç‰ˆæœ¬ï¼š5.4.4
 
 wget www.fengyachao.com/file/confluence.zip
 chmod +x atlassian-confluence-5.4.4-x64_1.bin
 ./atlassian-confluence-5.4.4-x64_1.bin
 
-Ö´ĞĞbinÎÄ¼şºó£¬»á¾­ÀúÈı¸öÈ·ÈÏ
+æ‰§è¡Œbinæ–‡ä»¶åï¼Œä¼šç»å†ä¸‰ä¸ªç¡®è®¤
 
-µÚÒ»¸ö£¬ÊÇ·ñÈ·ÈÏ°²×°¡£[o]
+ç¬¬ä¸€ä¸ªï¼Œæ˜¯å¦ç¡®è®¤å®‰è£…ã€‚[o]
 
-µÚ¶ş¸ö£¬Ñ¡Ôñ°²×°·½Ê½£¬Ä¬ÈÏ¡¢×Ô¶¨Òå¡¢Éı¼¶ÏÖÓĞµÄ¡£[1]
+ç¬¬äºŒä¸ªï¼Œé€‰æ‹©å®‰è£…æ–¹å¼ï¼Œé»˜è®¤ã€è‡ªå®šä¹‰ã€å‡çº§ç°æœ‰çš„ã€‚[1]
 
-µÚÈı¸ö£¬È·ÈÏ°²×°¡£[i]
+ç¬¬ä¸‰ä¸ªï¼Œç¡®è®¤å®‰è£…ã€‚[i]
 
-×¢£º´ËÊ±£¬°²×°ÒÑÍê³É£¬²»Ó¦¸Ã³öÏÖÈÎºÎ´íÎó
+æ³¨ï¼šæ­¤æ—¶ï¼Œå®‰è£…å·²å®Œæˆï¼Œä¸åº”è¯¥å‡ºç°ä»»ä½•é”™è¯¯
 
 http://192.168.1.168:8090
 BJGB-JOKT-UMSK-ANVW
@@ -32,23 +32,23 @@ BJGB-JOKT-UMSK-ANVW
 /etc/init.d/confluence stop
 
 /usr/local/webserver/confluence/confluence/WEB-INF/lib/atlassian-extras-2.4.jar
-½«atlassian-extras-2.4.jar¿½±´µ½±¾»ú
+å°†atlassian-extras-2.4.jaræ‹·è´åˆ°æœ¬æœº
 
-½âÑ¹ÏÂÔØµÄÑ¹Ëõ°üºó£¬ÀïÃæÓĞconfluence5.1-crack.zip£¬½«Æä½âÑ¹µÃµ½confluence5.1-crackÎÄ¼ş¼Ğ
+è§£å‹ä¸‹è½½çš„å‹ç¼©åŒ…åï¼Œé‡Œé¢æœ‰confluence5.1-crack.zipï¼Œå°†å…¶è§£å‹å¾—åˆ°confluence5.1-crackæ–‡ä»¶å¤¹
 
-½«´ÓcentosÏÂÔØÏÂÀ´µÄatlassian-extras-2.4.jar¸²¸Çconfluence5.1-crackÀïµÄatlassian-extras-2.4.jar
+å°†ä»centosä¸‹è½½ä¸‹æ¥çš„atlassian-extras-2.4.jarè¦†ç›–confluence5.1-cracké‡Œçš„atlassian-extras-2.4.jar
 
-½øÈëconfluence5.1-crack/iNVISIBLE
+è¿›å…¥confluence5.1-crack/iNVISIBLE
 
-MAC¶ÔÓ¦keygen_MacOSX.sh(linux¶ÔÓ¦keygen.sh)
+MACå¯¹åº”keygen_MacOSX.sh(linuxå¯¹åº”keygen.sh)
 
-ÓÉÓÚÎÒchmod +x keygen_MacOSX.shºóÖ´ĞĞ./keygen_MacOSX.sh±¨´í£¬ËùÒÔÎÒ´ò¿ªkeygen_MacOSX.sh¿´µ½ÆäºËĞÄ´úÂë¼´ÊÇÖ´ĞĞconfluence_keygen.jar¡£ÓÚÊÇ£¬ÎÒÖ±½ÓÖ´ĞĞÏÂÃæÃüÁî
+ç”±äºæˆ‘chmod +x keygen_MacOSX.shåæ‰§è¡Œ./keygen_MacOSX.shæŠ¥é”™ï¼Œæ‰€ä»¥æˆ‘æ‰“å¼€keygen_MacOSX.shçœ‹åˆ°å…¶æ ¸å¿ƒä»£ç å³æ˜¯æ‰§è¡Œconfluence_keygen.jarã€‚äºæ˜¯ï¼Œæˆ‘ç›´æ¥æ‰§è¡Œä¸‹é¢å‘½ä»¤
 
-ÌîĞ´Ïà¹ØĞÅÏ¢(name±ğÌ«¶Ì)£¬×îÖØÒªµÄÊÇserverId£¬ÌîĞ´µÚ¶ş²½»ñÈ¡µÄServerId¡£
+å¡«å†™ç›¸å…³ä¿¡æ¯(nameåˆ«å¤ªçŸ­)ï¼Œæœ€é‡è¦çš„æ˜¯serverIdï¼Œå¡«å†™ç¬¬äºŒæ­¥è·å–çš„ServerIdã€‚
 
-µã»÷¡±patch!¡±£¬Ñ¡ÔñµÚËÄ²½´ÓcentosÏÂÔØÏÂÀ´µÄ·ÅÔÚconfluence5.1-crackÀïµÄatlassian-extras-2.4.jar
+ç‚¹å‡»â€patch!â€ï¼Œé€‰æ‹©ç¬¬å››æ­¥ä»centosä¸‹è½½ä¸‹æ¥çš„æ”¾åœ¨confluence5.1-cracké‡Œçš„atlassian-extras-2.4.jar
 
-µã»÷¡±.gen!¡±£¬ keyÎÄ±¾¿òÀï»áÉú³ÉÏàÓ¦ĞÅÏ¢
+ç‚¹å‡»â€.gen!â€ï¼Œ keyæ–‡æœ¬æ¡†é‡Œä¼šç”Ÿæˆç›¸åº”ä¿¡æ¯
 
 AAABMA0ODAoPeJxtkF1rwjAUhu/zKwK7jrSKHwiBxTYMtUllrcouYz26QJvWJJX571et3oxdno/34
 TnnbQ9HLNQNhzMcTufjyTwIcZTleBiEExSDK6xuvK4NjWpzKlswBSDZVgew6WnrwDpKQhRZUPelW
@@ -58,12 +58,12 @@ qVbLNiaY8ExwxmL8YbJmA1Qas/KaNfLaLnTmV4kHOecCZSBvYJdxnSx+liQVbrOyVZka8Lkbo+et
 t00Wcav6n+5TWuLb+Xgzx9/ARNbiD4wLAIULYkdRpguQFCvzacOhqkAHV4MlAECFAaBX7zZfWVKX
 jacANxX6rHc7NilX02f7
 
-´ËÊ±confluence5.1-crackÀï»áÓĞatlassian-extras-2.4.jarºÍatlassian-extras-2.4.bak
+æ­¤æ—¶confluence5.1-cracké‡Œä¼šæœ‰atlassian-extras-2.4.jarå’Œatlassian-extras-2.4.bak
 
-½«atlassian-extras-2.4.jar¿½±´µ½·şÎñÆ÷µÄ/opt/atlassian/confluence/confluence/WEB-INF/lib/Î»ÖÃ£¬¸²¸Ç´Ë´¦µÄÎÄ¼ş¡£
+å°†atlassian-extras-2.4.jaræ‹·è´åˆ°æœåŠ¡å™¨çš„/opt/atlassian/confluence/confluence/WEB-INF/lib/ä½ç½®ï¼Œè¦†ç›–æ­¤å¤„çš„æ–‡ä»¶ã€‚
 
 /etc/init.d/confluence start
-½«µÚÎå²½Éú³ÉµÄkey£¬¿½±´·ÅÔÚµÚ¶ş²½Ò³ÃæµÄLicense KeyÎ»ÖÃ,µã»÷¡°production installation¡±
+å°†ç¬¬äº”æ­¥ç”Ÿæˆçš„keyï¼Œæ‹·è´æ”¾åœ¨ç¬¬äºŒæ­¥é¡µé¢çš„License Keyä½ç½®,ç‚¹å‡»â€œproduction installationâ€
 
 
 

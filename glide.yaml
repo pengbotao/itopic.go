@@ -1,4 +1,0 @@
-package: github.com/pengbotao/itopic.go
-import:
-- package: github.com/russross/blackfriday
-  version: ^2.0.0

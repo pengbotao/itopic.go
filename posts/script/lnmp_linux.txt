@@ -1,6 +1,6 @@
 
-¹Ø»ú£ºshutdown -h now
-ĞŞ¸Ä»¶ÒûĞÅÏ¢: vi /etc/motd
+å…³æœºï¼šshutdown -h now
+ä¿®æ”¹æ¬¢é¥®ä¿¡æ¯: vi /etc/motd
 
 http://blog.jobbole.com/50121/
 
@@ -10,10 +10,10 @@ CentOS
 -- ------------------------------------------------------------
 
 yum -y update
-Éı¼¶ËùÓĞ°ü£¬¸Ä±äÈí¼şÉèÖÃºÍÏµÍ³ÉèÖÃ,ÏµÍ³°æ±¾ÄÚºË¶¼Éı¼¶
+å‡çº§æ‰€æœ‰åŒ…ï¼Œæ”¹å˜è½¯ä»¶è®¾ç½®å’Œç³»ç»Ÿè®¾ç½®,ç³»ç»Ÿç‰ˆæœ¬å†…æ ¸éƒ½å‡çº§
 
 yum -y upgrade
-Éı¼¶ËùÓĞ°ü£¬²»¸Ä±äÈí¼şÉèÖÃºÍÏµÍ³ÉèÖÃ£¬ÏµÍ³°æ±¾Éı¼¶£¬ÄÚºË²»¸Ä±ä
+å‡çº§æ‰€æœ‰åŒ…ï¼Œä¸æ”¹å˜è½¯ä»¶è®¾ç½®å’Œç³»ç»Ÿè®¾ç½®ï¼Œç³»ç»Ÿç‰ˆæœ¬å‡çº§ï¼Œå†…æ ¸ä¸æ”¹å˜
 
 
 -- ------------------------------------------------------------
@@ -31,17 +31,17 @@ OpenResty
 # gmake install
 
 
--- ¼ì²âÅäÖÃÎÄ¼ş
+-- æ£€æµ‹é…ç½®æ–‡ä»¶
 /usr/local/server/openresty1.9.7/nginx/sbin/nginx -t
--- Æô¶¯nginx
+-- å¯åŠ¨nginx
 /usr/local/server/openresty1.9.7/nginx/sbin/nginx
--- ÖØÆô¶¯nginx
+-- é‡å¯åŠ¨nginx
 /usr/local/server/openresty1.9.7/nginx/sbin/nginx reload
 
 killall -9 nginx;
 
 
--- ²Î¿¼ÅäÖÃ
+-- å‚è€ƒé…ç½®
 #user  nobody;
 
 worker_processes 2;
@@ -148,14 +148,14 @@ MYSQL http://www.2cto.com/database/201510/447675.html
 # mkdir -p /data/mysql/3306
 # chown -R mysql:mysql 3306/
 
-°²×°ÒÀÀµ°ü
+å®‰è£…ä¾èµ–åŒ…
 # yum -y install gcc gcc-c++ ncurses ncurses-devel cmake
 
-ÏÂÔØÏàÓ¦Ô´Âë°ü£¬´ÓMySQL 5.7.5¿ªÊ¼Boost¿âÊÇ±ØĞèµÄ
+ä¸‹è½½ç›¸åº”æºç åŒ…ï¼Œä»MySQL 5.7.5å¼€å§‹Booståº“æ˜¯å¿…éœ€çš„
 # wget http://downloads.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
 # wget http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.12.tar.gz
 
-Ô¤±àÒë
+é¢„ç¼–è¯‘
 # tar zxvf mysql-5.7.12.tar.gz
 # cd mysql5.7.2
 # cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/server/mysql5.7.12 \
@@ -171,26 +171,26 @@ MYSQL http://www.2cto.com/database/201510/447675.html
 # make
 # make install
 
-³õÊ¼»¯Êı¾İ¿â
+åˆå§‹åŒ–æ•°æ®åº“
 /usr/local/server/mysql5.7.12/bin/mysqld \
 --initialize-insecure \
 --user=mysql \
 --basedir=/usr/local/server/mysql5.7.12 \
 --datadir=/data/mysql/3306/data
-×¢£º
-Ö®Ç°°æ±¾mysql_install_dbÊÇÔÚmysql_basedir/scriptÏÂ£¬5.7·ÅÔÚÁËmysql_install_db/binÄ¿Â¼ÏÂ,ÇÒÒÑ±»·ÏÆú
+æ³¨ï¼š
+ä¹‹å‰ç‰ˆæœ¬mysql_install_dbæ˜¯åœ¨mysql_basedir/scriptä¸‹ï¼Œ5.7æ”¾åœ¨äº†mysql_install_db/binç›®å½•ä¸‹,ä¸”å·²è¢«åºŸå¼ƒ
 2016-04-15 17:25:52 [WARNING] mysql_install_db is deprecated. Please consider switching to mysqld --initialize
 2016-04-15 17:25:52 [ERROR]   The data directory needs to be specified.
-¡°¨Cinitialize¡±»áÉú³ÉÒ»¸öËæ»úÃÜÂë(~/.mysql_secret)£¬¶ø¡±¨Cinitialize-insecure¡±²»»áÉú³ÉÃÜÂë
-¨CdatadirÄ¿±êÄ¿Â¼ÏÂ²»ÄÜÓĞÊı¾İÎÄ¼ş
+â€œâ€“initializeâ€ä¼šç”Ÿæˆä¸€ä¸ªéšæœºå¯†ç (~/.mysql_secret)ï¼Œè€Œâ€â€“initialize-insecureâ€ä¸ä¼šç”Ÿæˆå¯†ç 
+â€“datadirç›®æ ‡ç›®å½•ä¸‹ä¸èƒ½æœ‰æ•°æ®æ–‡ä»¶
 
 # cp support-files/my-default.cnf /data/mysql/3306/my.cnf
 
 
-Æô¶¯
+å¯åŠ¨
 /usr/local/server/mysql5.7.12/bin/mysqld_safe --defaults-file=/data/mysql/3306/my.cnf > /dev/null &
 
-¹Ø±Õ
+å…³é—­
 /usr/local/server/mysql5.7.12/bin/mysqladmin -uroot -p -h localhost -P3306 shutdown
 
 
@@ -293,7 +293,7 @@ You need tcl 8.5 or newer in order to run the Redis test
 -- ------------------------------------------------------------
 PHP
 -- ------------------------------------------------------------
-°²×°libmcrypt
+å®‰è£…libmcrypt
 configure: error: mcrypt.h not found. Please reinstall libmcrypt.
 # wget https://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.gz/download
 # mv download libmcrypt-2.5.8.tar.gz 
@@ -363,40 +363,40 @@ configure: error: Don't know how to define struct flock on this system, set --en
 
 
 
-<h4>php-fpmÖØÆô¡¢ÖÕÖ¹</h4>
+<h4>php-fpmé‡å¯ã€ç»ˆæ­¢</h4>
 
-php 5.3.3 Ô´ÂëÖĞÒÑ¾­ÄÚÇ¶ÁË php-fpm£¬²»ÓÃÏóÒÔÇ°µÄphp°æ±¾Ò»Ñù×¨ÃÅ´ò²¹¶¡ÁË£¬Ö»ĞèÒªÔÚconfigureµÄÊ±ºòÌí¼Ó±àÒë²ÎÊı¼´¿É¡£²»ÔÙÖ§³Ö php-fpm ÒÔÇ°¾ßÓĞµÄ /usr/local/php/sbin/php-fpm (start|stop|reload)µÈÃüÁî£¬ĞèÒªÊ¹ÓÃĞÅºÅ¿ØÖÆ£º
+php 5.3.3 æºç ä¸­å·²ç»å†…åµŒäº† php-fpmï¼Œä¸ç”¨è±¡ä»¥å‰çš„phpç‰ˆæœ¬ä¸€æ ·ä¸“é—¨æ‰“è¡¥ä¸äº†ï¼Œåªéœ€è¦åœ¨configureçš„æ—¶å€™æ·»åŠ ç¼–è¯‘å‚æ•°å³å¯ã€‚ä¸å†æ”¯æŒ php-fpm ä»¥å‰å…·æœ‰çš„ /usr/local/php/sbin/php-fpm (start|stop|reload)ç­‰å‘½ä»¤ï¼Œéœ€è¦ä½¿ç”¨ä¿¡å·æ§åˆ¶ï¼š
 <blockquote>
-master ½ø³Ì¿ÉÒÔÀí½âÒÔÏÂĞÅºÅ£º
-INT, TERM Á¢¿ÌÖÕÖ¹
-QUIT Æ½»¬ÖÕÖ¹
-USR1 ÖØĞÂ´ò¿ªÈÕÖ¾ÎÄ¼ş
-USR2 Æ½»¬ÖØÔØËùÓĞworker½ø³Ì²¢ÖØĞÂÔØÈëÅäÖÃºÍ¶ş½øÖÆÄ£¿é
+master è¿›ç¨‹å¯ä»¥ç†è§£ä»¥ä¸‹ä¿¡å·ï¼š
+INT, TERM ç«‹åˆ»ç»ˆæ­¢
+QUIT å¹³æ»‘ç»ˆæ­¢
+USR1 é‡æ–°æ‰“å¼€æ—¥å¿—æ–‡ä»¶
+USR2 å¹³æ»‘é‡è½½æ‰€æœ‰workerè¿›ç¨‹å¹¶é‡æ–°è½½å…¥é…ç½®å’ŒäºŒè¿›åˆ¶æ¨¡å—
 </blockquote>
 
-<b>Ê¾Àı£º</b>
+<b>ç¤ºä¾‹ï¼š</b>
 
 [code]
-php-fpm ¹Ø±Õ£º
+php-fpm å…³é—­ï¼š
 # kill -INT `cat /usr/local/server/php7.0.5/var/run/php-fpm.pid`
-php-fpm ÖØÆô£º
+php-fpm é‡å¯ï¼š
 # kill -USR2 `cat /usr/local/server/php/var/run/php-fpm.pid`
 
-<b>Ìí¼Óµ½×ÔÆô¶¯</b>
+<b>æ·»åŠ åˆ°è‡ªå¯åŠ¨</b>
 [code]
 # echo '/usr/local/server/php7.0.5/sbin/php-fpm' >>/etc/rc.local
 [/code]
 
--- ÉèÖÃÊ±Çø
+-- è®¾ç½®æ—¶åŒº
 date.timezone = PRC
--- È¥µôÍ·PHP·µ»Ø
+-- å»æ‰å¤´PHPè¿”å›
 expose_php = Off
 
 
 ln -s /usr/local/webserver/php7.0.5/bin/php /usr/bin/php
 
 -- ------------------------------------------------------------
-°²×°REDISÀ©Õ¹
+å®‰è£…REDISæ‰©å±•
 -- ------------------------------------------------------------
 # wget https://github.com/phpredis/phpredis/archive/php7.zip
 # unzip php7.zip
@@ -506,7 +506,7 @@ do_cb
 wget https://nodejs.org/dist/v4.4.3/node-v4.4.3.tar.gz
 tar zxvf node-v4.4.3.tar.gz
 
-## °²×°nodejs
+## å®‰è£…nodejs
 wget https://nodejs.org/dist/v4.4.3/node-v4.4.3-linux-x64.tar.xz
 xz -d node-v4.4.3-linux-x64.tar.xz
 tar xvf node-v4.4.3-linux-x64.tar
@@ -516,25 +516,25 @@ mv node-v4.4.3-linux-x64/ node4.4.3
 ln -s /usr/local/webserver/node4.4.3/bin/node /usr/local/bin/node
 ln -s /usr/local/webserver/node4.4.3/bin/npm /usr/local/bin/npm
 
--- Ôö¼Ó»·¾³±äÁ¿
+-- å¢åŠ ç¯å¢ƒå˜é‡
 
-°²×°£ºnpm install -g pm2
-Æô¶¯³ÌĞò£ºpm2 start <app_name|id|all>
-¡¡¡¡¿ÉÒÔÖ¸¶¨Ó¦ÓÃÃû³Æ pm2 start app,js --name=test
+å®‰è£…ï¼šnpm install -g pm2
+å¯åŠ¨ç¨‹åºï¼špm2 start <app_name|id|all>
+ã€€ã€€å¯ä»¥æŒ‡å®šåº”ç”¨åç§° pm2 start app,js --name=test
 
-ÁĞ¾Ù½ø³Ì£ºpm2 list
-ÍË³ö³ÌĞò£ºpm2 stop <app_name|id|all>
-ÖØÆğÓ¦ÓÃ£ºpm2 restart
-³ÌĞòĞÅÏ¢£ºpm2 describe id|all
-¼à¿Ø£ºpm2 monit
-ÊµÊ±¼¯ÖĞlog´¦Àí: pm2 logs
-API:pm2 web (¶Ë¿Ú£º9615 )
+åˆ—ä¸¾è¿›ç¨‹ï¼špm2 list
+é€€å‡ºç¨‹åºï¼špm2 stop <app_name|id|all>
+é‡èµ·åº”ç”¨ï¼špm2 restart
+ç¨‹åºä¿¡æ¯ï¼špm2 describe id|all
+ç›‘æ§ï¼špm2 monit
+å®æ—¶é›†ä¸­logå¤„ç†: pm2 logs
+API:pm2 web (ç«¯å£ï¼š9615 )
 
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 https://npm.taobao.org/mirrors/node/v6.9.1/
 
 
-## ·À»ğÇ½
+## é˜²ç«å¢™
 # Generated by iptables-save v1.4.7 on Fri Aug 14 17:51:04 2015
 *filter
 :INPUT ACCEPT [0:0]
@@ -576,7 +576,7 @@ COMMIT
 
 # /usr/local/pureftpd/bin/pure-config.pl /usr/local/pureftpd/etc/pure-ftpd.conf
 # ./pure-pw useradd asm_im -u www -d /data/www/asm_im -m
-//pure-pw useradd ĞéÄâÓÃ»§Ãû ¨Cu ¼ÄÉúµ½ÏµÍ³ÓÃ»§Ãû ¨Cd FTPÄ¿Â¼ ¨Cm£¨°ÑÓÃ»§ÃÜÂë¼ÓÈëPDBÊı¾İ¿âÖĞ£¬²»ĞèÒªÖØÆôFTP£©
+//pure-pw useradd è™šæ‹Ÿç”¨æˆ·å â€“u å¯„ç”Ÿåˆ°ç³»ç»Ÿç”¨æˆ·å â€“d FTPç›®å½• â€“mï¼ˆæŠŠç”¨æˆ·å¯†ç åŠ å…¥PDBæ•°æ®åº“ä¸­ï¼Œä¸éœ€è¦é‡å¯FTPï¼‰
 
 # ln -s /usr/local/server/pureftpd1.0.42/sbin/pure-ftpd /usr/sbin/
 # ln -s /usr/local/server/pureftpd1.0.42/bin/pure-pw /usr/sbin/
@@ -586,7 +586,7 @@ bind 0.0.0.0,21
 
 
 
-## Ôö¼Ó»·¾³±äÁ¿
+## å¢åŠ ç¯å¢ƒå˜é‡
 # vi /etc/profile
 export PATH=$PATH:/usr/local/webserver/node4.4.3/bin
 
