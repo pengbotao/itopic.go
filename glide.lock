@@ -1,0 +1,6 @@
+hash: 5c36c7108e6480c74e3f7b4ad12b8c7e5d3ac76630b0412fa562410813af4d4a
+updated: 2018-06-29T21:22:47.690422711-04:00
+imports:
+- name: github.com/russross/blackfriday
+  version: 4048872b16cc0fc2c5fd9eacf0ed2c2fedaa0c8c
+testImports: []

@@ -5,3 +5,5 @@
 *.exe
 *.out
 .vscode/
+main
+itopic.go
