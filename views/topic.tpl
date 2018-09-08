@@ -34,8 +34,9 @@
     <code style="border:0px;background:none;">{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
 </div>
 
-<div id="disqus_thread" style="margin-bottom:20px;"></div>
+<!--<div id="disqus_thread" style="margin-bottom:20px;"></div>-->
 <script>
+/*
 var disqus_config = function () {
     this.page.url = "http://itopic.org/{{.topic.TopicID}}.html";
     this.page.identifier = "{{.topic.TopicID}}";
@@ -47,6 +48,7 @@ var disqus_config = function () {
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
 })();
+*/
 </script>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
