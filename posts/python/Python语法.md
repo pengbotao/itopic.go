@@ -8,7 +8,9 @@
 
 # 一、概述
 
+- 基本数据类型
 - 单引号与双引号的区别
+- 类型转换 `int()` `float()` `str()` `unicode()` `bool()`
 
 # 二、控制流
 
@@ -162,8 +164,152 @@ print(fruits[:])
 
 # 四、函数
 
+## 4.1 函数定义
+
+### 4.1.1 常规函数
+定义一个空函数，由于没有花括号表示代码块，针对空的代码块可以用pass占位。
+
+```
+def func(x, y):
+    pass
+```
+
+### 4.1.2 匿名函数
+
+函数定义：`lambda 参数: 表达式`
+
+```
+f = lambda x: x*x
+print(f(2))
+print((lambda x: x*x)(3))
+```
+
+### 4.1.3 闭包函数
+
+`pass`
+
+## 4.2 函数参数 - 可变参数与关键字参数
+
+`python`的参数传入确实是相当的方便，参数传入非常灵活。但可也可能会导致根据参数无法清楚的表达函数行为。
+
+```
+def func(x, y = 1, *args, **kwargs):
+    print(type(args))
+    print(type(kwargs))
+    print(locals())
+
+args = [1, 2]
+kwargs = {"param": "web"}
+
+func(1, 2, 3, '4', param="web")
+# <type 'tuple'>
+# <type 'dict'>
+# {'y': 2, 'x': 1, 'args': (3, '4'), 'kwargs': {'param': 'web'}}
+
+func(1, 2, *args, **kwargs)
+# <type 'tuple'>
+# <type 'dict'>
+# {'y': 2, 'x': 1, 'args': (1, 2), 'kwargs': {'param': 'web'}}
+```
+
+- 支持设置默认参数
+- 支持可变参数`*args`。函数接收到的数据类型是元祖。调用时可以以展平的方式传入，或者以列表、元祖的解引用的方式传入。
+- 支持关键字参数`**kwargs`。函数接收到的数据类型是字典。
+
+## 4.3 函数返回
+
+### 4.3.1 多返回值
+```
+def func(x, y = 1):
+    return x,y
+
+x = func(1)
+
+print(type(x))
+print(x)
+
+# <type 'tuple'>
+# (1, 1)
+
+
+x, _ = func(1)
+print(type(x))
+print(x)
+
+# <type 'int'>
+# 1
+```
+
+`python`支持多个返回值，多个返回值实际返回的是一个元祖。多个参数时用一个参数接收时为元祖，用多个参数时可以直接将元祖解开得到具体的数据类型。
+
+### 4.3.2 返回对象
+
+返回一个匿名函数。
+
+```
+def func(x, y = 1):
+    # lambda 参数: 表达式
+    return lambda t: x+y if t == 1 else x*y
+
+x = func(2, 3)
+print(x(1))
+print(type(x))
+
+# 5
+# <type 'function'>
+```
+
+## 4.4 函数调用
+
+`python`中**数字、字符、元组等不可变对象类型都属于值传递，而字典和列表等可变对象类型属于引用传递。**对于可变对象意味着函数内部可以修改实参的值。
+
+```
+import random
+
+def func(x):
+    x.append(random.randint(1, 100))
+    print(x)
+
+p = []
+func(p)
+func(p)
+print(p)
+# 打印[85, 86]，可见函数内部对p的修改直接影响了原有的值.
+```
+
+## 4.5 函数装饰器
+
+`pass`
+
 # 五、Class
+
+## 5.1 类定义
+
+```
+class Test(object):
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def sum(self):
+        return self.x + self.y
+
+
+t = Test(1, 2)
+print(t.sum())
+```
 
 # 六、错误和异常
 
-# 七、模块
+```
+try:
+    t = Test(1, 'b')
+    print(t.sum())
+except (TypeError, NameError) as err:
+    print(err)
+except Exception as e:
+    print(e)
+else:
+    raise Exception("throw exception")
+```
