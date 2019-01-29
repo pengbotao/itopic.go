@@ -6,11 +6,51 @@
 }
 ```
 
-# 一、概述
+# 一、数据类型
 
-- 基本数据类型
-- 单引号与双引号的区别
-- 类型转换 `int()` `float()` `str()` `unicode()` `bool()`
+## 1.1 数值类型 - Number
+
+- int（有符号整型）
+- long（长整型，Python3去掉）
+- float（浮点数）
+- complex（复数）
+
+## 1.2 字符串 - str
+
+可以使用单引号或者双引号来创建字符串，如：
+
+```
+a = "Hello World"
+b = 'iTopic.org'
+```
+
+**字符串格式化**
+
+```
+"Hello %s %d" % ("world", 2019)
+"Hello {0} {1}".format("world", 2019)
+```
+
+## 1.3 类型转换
+
+- 类型转换函数： `int()` `float()` `str()` `unicode()` `bool()`
+
+```
+int(x [,base ])         将x转换为一个整数  
+long(x [,base ])        将x转换为一个长整数  
+float(x )               将x转换到一个浮点数  
+complex(real [,imag ])  创建一个复数  
+str(x )                 将对象 x 转换为字符串  
+repr(x )                将对象 x 转换为表达式字符串  
+eval(str )              用来计算在字符串中的有效Python表达式,并返回一个对象  
+tuple(s )               将序列 s 转换为一个元组  
+list(s )                将序列 s 转换为一个列表  
+chr(x )                 将一个整数转换为一个字符  
+unichr(x )              将一个整数转换为Unicode字符  
+ord(x )                 将一个字符转换为它的整数值  
+hex(x )                 将一个整数转换为一个十六进制字符串  
+oct(x )                 将一个整数转换为一个八进制字符串 
+```
 
 # 二、控制流
 
@@ -141,7 +181,10 @@ for idx, val in fruits.items():
     print(idx, val)
 ```
 
-## 3.4 序列
+## 3.4 集合 - set
+
+
+## 3.5 序列
 
 列表、元组和字符串都是序列。序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
 
@@ -281,7 +324,7 @@ print(p)
 
 `pass`
 
-# 五、Class
+# 五、类 - Class
 
 ## 5.1 类定义
 
@@ -300,6 +343,9 @@ t = Test(1, 2)
 print(t.sum())
 ```
 
+## 5.2 包与导入
+
+
 # 六、错误和异常
 
 ```
@@ -313,3 +359,9 @@ except Exception as e:
 else:
     raise Exception("throw exception")
 ```
+
+# 七、语法糖
+
+## 7.1 三元表达式
+
+`[on true] if [expression] else [on false]`
