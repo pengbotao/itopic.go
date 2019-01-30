@@ -1,7 +1,7 @@
 ```
 {
     "url": "python-language",
-    "time": "2015/12/10 19:51",
+    "time": "2015/12/21 19:51",
     "tag": "Python"
 }
 ```
@@ -183,6 +183,13 @@ for idx, val in fruits.items():
 
 ## 3.4 集合 - set
 
+- 集合里的VALUE可以是不同的类型，相同数据会去重。
+- 集合无序
+
+```
+fruits = set(["apple", "orange", "banana"])
+print(fruits)
+```
 
 ## 3.5 序列
 
