@@ -121,22 +121,47 @@ else:
 - 列表数据类型可不同，即并不要求所有列表元素都是同一数据类型
 - 列表用中括号表示
 
+
+**1. 初始化及遍历**
+
 ```
 # 初始化列表
 fruits = ["apple", "orange", "banana"]
 
-# 遍历列表
+# 默认遍历列表。默认只有一个参数接收遍历的值。用于按`{VAL}`遍历。该参数标识列表的值。
 for val in fruits:
     print(val)
 
-fruits.append("grape")
-
-# 按索引 - 值遍历，也可用于字典
-for idx, val in enumerate(fruits):
-    print(idx, val)
-
+# 根据长度来遍历。用于按`{KEY}`遍历
 for idx in range(len(fruits)):
     print(fruits[idx])
+
+# 按索引 - 值遍历，也可用于字典。用于按`{KEY - VAL}`遍历
+for idx, val in enumerate(fruits):
+    print(idx, val)
+```
+
+**2. 追加数据**
+
+```
+# 直接在原列表后面追加数据。可以是任何类型。
+fruits.append("pear")
+print(fruits) # output: ['apple', 'orange', 'banana', 'grape', 'pear']
+
+# 在list后扩展数据，接收一个list，展平的方式追加到原列表后面
+fruits.extend(["peach", "strawberry"])
+print(fruits) # output: ['apple', 'orange', 'banana', 'grape', 'pear', 'peach', 'strawberry']
+
+```
+
+**3. 包含**
+
+```
+# 判断值是否在列表中(in 与 not in)
+if "strawberry" in fruits:
+    print("strawberry is in frutis") # output: strawberry is in frutis
+else:
+    print("strawberry is not in frutis")
 ```
 
 ## 3.2 元祖 - tuple
@@ -191,9 +216,9 @@ fruits = set(["apple", "orange", "banana"])
 print(fruits)
 ```
 
-## 3.5 序列
+## 3.5 总结
 
-列表、元组和字符串都是序列。序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
+列表、元组和字符串都是序列。字符串是字符的序列，列表和元祖是任意类型的序列。序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
 
 ```
 fruits = "apple"
@@ -207,6 +232,16 @@ print(fruits[1:])
 print(fruits[:-1])
 print(fruits[:])
 ```
+
+**对比**
+
+类型|定义|有序|可变|传引用|获取|
+---|---|---|---|---|---
+`list`|`[]`|是|是|是|索引
+`tuple`|`()`|是|否|是|索引
+`dict`|`{}`|否|是|是|键
+`set`|`set()`|否|是|是|
+
 
 ---
 
