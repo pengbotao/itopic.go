@@ -1,6 +1,6 @@
 ```
 {
-    "url": "python-basic-intro",
+    "url": "python-settings",
     "time": "2015/12/25 00:22",
     "tag": "Python"
 }
@@ -16,7 +16,7 @@ pip install -r requirements.txt
 
 # 二、多版本
 
-## vitrualenv
+## pyenv/vitrualenv
 
 
 # 三、Python服务部署
