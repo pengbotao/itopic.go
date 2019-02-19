@@ -33,24 +33,15 @@ b = 'iTopic.org'
 
 ## 1.3 类型转换
 
-- 类型转换函数： `int()` `float()` `str()` `unicode()` `bool()`
+方法|说明
+---|---
+int(x)|将x转换为一个整数
+float(x)|将x转换到一个浮点数
+str(x)|将对象 x 转换为字符串
+tuple(s)|将序列 s 转换为一个元组
+list(s)|将序列 s 转换为一个列表
+set(s)|将序列 s 转换为一个集合
 
-```
-int(x [,base ])         将x转换为一个整数  
-long(x [,base ])        将x转换为一个长整数  
-float(x )               将x转换到一个浮点数  
-complex(real [,imag ])  创建一个复数  
-str(x )                 将对象 x 转换为字符串  
-repr(x )                将对象 x 转换为表达式字符串  
-eval(str )              用来计算在字符串中的有效Python表达式,并返回一个对象  
-tuple(s )               将序列 s 转换为一个元组  
-list(s )                将序列 s 转换为一个列表  
-chr(x )                 将一个整数转换为一个字符  
-unichr(x )              将一个整数转换为Unicode字符  
-ord(x )                 将一个字符转换为它的整数值  
-hex(x )                 将一个整数转换为一个十六进制字符串  
-oct(x )                 将一个整数转换为一个八进制字符串 
-```
 
 # 二、控制流
 
@@ -121,6 +112,19 @@ else:
 - 列表数据类型可不同，即并不要求所有列表元素都是同一数据类型
 - 列表用中括号表示
 
+**列表提供的方法列表**
+
+方法|说明
+---|---
+`list.append(obj)`|在列表末尾添加新的对象
+`list.count(obj)`|统计某个元素在列表中出现的次数
+`list.extend(seq)`|在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）
+`list.index(obj)`|从列表中找出某个值第一个匹配项的索引位置
+`list.insert(index, obj)`|将对象插入列表
+`list.pop(obj=list[-1])`|移除列表中的一个元素（默认最后一个元素），并且返回该元素的值
+`list.remove(obj)`|移除列表中某个值的第一个匹配项
+`list.reverse()`|反向列表中元素
+`list.sort([func])`|对原列表进行排序
 
 **1. 初始化及遍历**
 
@@ -141,7 +145,7 @@ for idx, val in enumerate(fruits):
     print(idx, val)
 ```
 
-**2. 追加数据**
+**2. 合并数据**
 
 ```
 # 直接在原列表后面追加数据。可以是任何类型。
@@ -152,9 +156,16 @@ print(fruits) # output: ['apple', 'orange', 'banana', 'grape', 'pear']
 fruits.extend(["peach", "strawberry"])
 print(fruits) # output: ['apple', 'orange', 'banana', 'grape', 'pear', 'peach', 'strawberry']
 
+# 也可用加号来合并两个列表
+fruits + ["mango"] # mango追加到fruits数据后面
+
+# 删除数据的3中方法
+fruits.pop(2)
+furits.remove("banana")
+del fruits[2]
 ```
 
-**3. 包含**
+**3. 健壮性判断**
 
 ```
 # 判断值是否在列表中(in 与 not in)
@@ -162,6 +173,22 @@ if "strawberry" in fruits:
     print("strawberry is in frutis") # output: strawberry is in frutis
 else:
     print("strawberry is not in frutis")
+
+# 类型判断
+if isinstance(fruits, list):
+    print("fruits is a list")
+
+# 强制类型转换
+>>> x = "Hello Python"
+>>> list(x)
+['H', 'e', 'l', 'l', 'o', ' ', 'P', 'y', 't', 'h', 'o', 'n']
+
+# 判断是否为空
+if not fruits:
+    print("fruits is empty")
+
+if len(fruits) == 0:
+    print(fruits is empty)
 ```
 
 ## 3.2 元祖 - tuple
@@ -205,6 +232,8 @@ if fruits.has_key("apple"):
 for idx, val in fruits.items():
     print(idx, val)
 ```
+
+- update方法
 
 ## 3.4 集合 - set
 
