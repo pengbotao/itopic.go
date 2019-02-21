@@ -127,7 +127,7 @@ else:
 `list.reverse()`|反向列表中元素
 `list.sort([func])`|对原列表进行排序
 
-**1. 初始化及遍历**
+**1. 列表初始化及遍历**
 
 ```
 # 初始化列表
@@ -223,6 +223,17 @@ for val in fruits:
 
 ## 3.3 字典 - dict
 
+- 按`键-值`对的方式初始化，相同的键会覆盖，用大括号表示
+- 字典无序
+
+
+**字典提供的方法列表**
+
+方法|说明
+---|---
+
+**1. 字典初始化及遍历**
+
 ```
 # 初始化字典
 fruits = {"apple": 1, "orange": 2, "banana": 3}
@@ -244,17 +255,79 @@ for idx, val in fruits.items():
     print(idx, val)
 ```
 
-- update方法
-
 ## 3.4 集合 - set
 
-- 集合里的VALUE可以是不同的类型，相同数据会去重。
-- 集合无序
+- 集合里的VALUE可以是不同的类型，相同数据会`去重`。
+- 集合`无序`
+
+**集合提供的方法列表**
+
+方法|说明
+---|---
+`set.add(obj)`|往集合里添加元素
+`set.update(obj)`|更新合并集合
+`set.discard(obj)`|丢弃一个元素
+`set.remove(obj)`|移除一个元素
+`set.pop()`|从集合中弹出一个元素
+`set.clear()`|清空一个集合
+-|更多交叉并补方法
+
+**1. 集合初始化**
 
 ```
+# 可变集合set初始化 - 初始化之后在进行赋值
+fruits = set()
+fruits = {"apple", "orange"}
+
+# 直接创建
+fruits = {"apple", "orange"}
+
+# 通过列表转换
 fruits = set(["apple", "orange", "banana"])
 print(fruits)
+
+# 通过字典转换
+fruits = set({"apple":1, "orange":2, "banana":3}) # set(['orange', 'apple', 'banana'])
+
+
+# 不可变集合用frozenset表示
+websites = frozenset(["qq.com", "weibo.com"])
 ```
+
+集合分为可变集合(`set`)和不可变集合(`frozenset`)。针对可变集合可以往集合里**添加元素**。
+
+```
+fruits = {"apple", "orange"}
+fruits.add("banana") # set(['orange', 'apple', 'banana'])
+
+fruits.update({"cherry"}) # set(['orange', 'cherry', 'apple', 'banana'])
+
+fruits.update("grape") # set(['a', 'e', 'apple', 'g', 'cherry', 'p', 'r', 'orange', 'banana'])
+
+```
+
+**移除元素**
+
+```
+fruits = {"apple", "orange"}
+
+# 移除不存在的元素不会报错
+fruits.discard("test") 
+
+# 移除不存在的元素会报错
+fruits.remove("apple") 
+
+# 弹出一个元素，集合为空时会报错
+fruits.pop()
+
+# 清空集合
+fruits.clear()
+```
+
+**2. 集合的交叉并补等操作**
+
+pass
+
 
 ## 3.5 总结
 
@@ -273,19 +346,15 @@ print(fruits[:-1])
 print(fruits[:])
 ```
 
-**对比**
+**各数据类型对比**
 
-类型|定义|有序|可变|传引用|获取|
+类型|定义|有序|可变类型|传引用|获取|
 ---|---|---|---|---|---
 `list`|`[]`|是|是|是|索引
-`tuple`|`()`|是|否|是|索引
 `dict`|`{}`|否|是|是|键
 `set`|`set()`|否|是|是|
+`tuple`|`()`|是|否|-|索引
 
-
----
-
-关于数据结构可查看：`http://www.pythondoc.com/pythontutorial3/datastructures.html#`
 
 # 四、函数
 
