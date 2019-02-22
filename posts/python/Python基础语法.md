@@ -231,28 +231,59 @@ for val in fruits:
 
 方法|说明
 ---|---
+`dict.clear()`|清空字典
+`dict.get(k[,d])`|D[k] if k in D, else d.  d defaults to None.
+`dict.has_key(k)`|True if D has a key k, else False
+`dict.items()`|list of D's (key, value) pairs, as 2-tuples
+`dict.keys()`|list of D's keys
+`dict.pop(k, d)`|remove specified key and return the corresponding value.If key is not found, d is returned if given, otherwise KeyError is raised
+`dict.update(obj)`|合并两个字典
 
 **1. 字典初始化及遍历**
 
 ```
-# 初始化字典
+# 初始化字典方式一
 fruits = {"apple": 1, "orange": 2, "banana": 3}
+# 初始化字典方式二
+fruits = dict(apple = 1, orange = 2, banana = 3)
 
 # 按KEY遍历
 for idx in fruits:
     print(fruits[idx])
 
+# 判断键是否在字典中
 if "grape" in fruits:
     print(fruits["grape"])
 else:
     fruits["grape"] = 4
-
+# 判断键是否在字段中
 if fruits.has_key("apple"):
     print(fruits["apple"])
 
 # 按KEY - VALUE遍历
 for idx, val in fruits.items():
     print(idx, val)
+```
+
+**2. 字典操作**
+
+批量更新字典里的内容。
+```
+fruits = dict(apple = 1, orange = 2, banana = 3)
+fruits.update(cherry = 4)
+# {'orange': 2, 'cherry': 4, 'banana': 3, 'apple': 1}
+
+fruits.update({"mango": 5})
+# {'orange': 2, 'cherry': 4, 'mango': 5, 'banana': 3, 'apple': 1}
+
+fruits.keys() # ['orange', 'cherry', 'mango', 'banana', 'apple']
+
+# 删除数据的3中方法
+del fruits["apple"]
+fruits.pop("banana")
+
+# 清空字典
+fruits.clear()
 ```
 
 ## 3.4 集合 - set
