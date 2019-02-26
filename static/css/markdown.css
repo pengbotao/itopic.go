@@ -245,5 +245,7 @@ nav {display: none;}
     position: fixed;
     left: 0px;
     z-index: -1000;
+    font-size: 13px;
+    line-height: 18px;
   }
 }
