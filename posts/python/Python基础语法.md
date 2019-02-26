@@ -24,23 +24,100 @@ a = "Hello World"
 b = 'iTopic.org'
 ```
 
-**字符串格式化**
+**Python中文档查看方法：**
+
+命令行中可以通过`dir(str)`查看字符串支持的方法：
+```
+>>> dir(str)
+['__add__', '__class__', '__contains__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__getslice__', '__gt__', '__hash__', '__init__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '_formatter_field_name_split', '_formatter_parser', 'capitalize', 'center', 'count', 'decode', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'index', 'isalnum', 'isalpha', 'isdigit', 'islower', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
+```
+
+查看对应函数的说明文档：
 
 ```
+>>> print(str.find.__doc__)
+S.find(sub [,start [,end]]) -> int
+
+Return the lowest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.
+
+Return -1 on failure.
+
+>>> help(str.join)
+```
+
+### 1.2.1 字符串常用操作
+
+**1. 字符串格式化**
+
+```
+"Hello world " + "2019"
 "Hello %s %d" % ("world", 2019)
 "Hello {0} {1}".format("world", 2019)
+' '.join(["Hello world", "2019"])# 前面的字符串为分隔符
 ```
 
-## 1.3 类型转换
+**2. 字符串去掉两侧空白字符**
 
-方法|说明
----|---
-int(x)|将x转换为一个整数
-float(x)|将x转换到一个浮点数
-str(x)|将对象 x 转换为字符串
-tuple(s)|将序列 s 转换为一个元组
-list(s)|将序列 s 转换为一个列表
-set(s)|将序列 s 转换为一个集合
+```
+>>> s = "Hello world 2019 "
+# 去掉两侧字符
+>>> s.strip()
+'Hello world 2019'
+# 去掉左侧字符
+>>> s.lstrip("H")
+'ello world 2019 '
+# 去掉右侧字符
+>>> s.rstrip(" 2019 ")
+'Hello world'
+```
+
+**3. 字符串分隔**
+
+```
+# 字符串分隔
+>>> fruits = "apple, orange, banana"
+>>> fruits.split(", ")
+['apple', 'orange', 'banana']
+
+# 字符串拼接
+>>> "-".join(["Hello", "World"])
+'Hello-World'
+```
+
+**4. 字符串替换**
+
+```
+>>> s = "Hello 2019."
+>>> s.replace("2019", "2020")
+'Hello 2020.'
+```
+
+**5. 判断前缀、后缀**
+
+```
+# 判断前缀
+>>> s = "Hello 2019."
+>>> s.startswith("Hello")
+True
+
+# 判断后缀
+>>> s.endswith(".")
+True
+>>> s.endswith("2019")
+False
+```
+
+**6. 字符串比较**
+
+```
+# 内置函数cmp比较
+>>> a = "Hello"
+>>> b = "hello"
+>>> cmp(a, b)
+-1
+```
 
 
 # 二、控制流
@@ -360,33 +437,6 @@ fruits.clear()
 pass
 
 
-## 3.5 总结
-
-列表、元组和字符串都是序列。字符串是字符的序列，列表和元祖是任意类型的序列。序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
-
-```
-fruits = "apple"
-
-# 索引操作
-print(fruits[1])
-
-# 切片操作
-print(fruits[1:-1])
-print(fruits[1:])
-print(fruits[:-1])
-print(fruits[:])
-```
-
-**各数据类型对比**
-
-类型|定义|有序|可变类型|传引用|获取|
----|---|---|---|---|---
-`list`|`[]`|是|是|是|索引
-`dict`|`{}`|否|是|是|键
-`set`|`set()`|否|是|是|
-`tuple`|`()`|是|否|-|索引
-
-
 # 四、函数
 
 ## 4.1 函数定义
@@ -542,8 +592,47 @@ else:
     raise Exception("throw exception")
 ```
 
-# 七、语法糖
+# 七、总结
 
-## 7.1 三元表达式
+## 7.1 数据类型
+
+**各数据类型对比**
+
+类型|定义|序列|可变类型|传引用|获取|
+---|---|---|---|---|---
+`数值类型`|`i=1`|-|否|是
+`字符串`|`str="Hello"`|是|否|是
+`list`|`[]`|是|是|是|索引
+`dict`|`{}`|否|是|是|键
+`set`|`set()`|否|是|是|
+`tuple`|`()`|是|否|-|索引
+
+列表、元组和字符串都是序列。字符串是字符的序列，列表和元祖是任意类型的序列。序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
+
+```
+fruits = "apple"
+
+# 索引操作
+print(fruits[1])
+
+# 切片操作
+print(fruits[1:-1])
+print(fruits[1:])
+print(fruits[:-1])
+print(fruits[:])
+```
+
+## 7.2 类型转换
+
+方法|说明
+---|---
+int(x)|将x转换为一个整数
+float(x)|将x转换到一个浮点数
+str(x)|将对象 x 转换为字符串
+tuple(s)|将序列 s 转换为一个元组
+list(s)|将序列 s 转换为一个列表
+set(s)|将序列 s 转换为一个集合
+
+## 7.3 三元表达式
 
 `[on true] if [expression] else [on false]`
