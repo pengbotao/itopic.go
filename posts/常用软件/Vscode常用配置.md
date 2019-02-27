@@ -30,27 +30,30 @@ VSCode为跨平台编辑器，下载安装包安装即可。
 
 \# /Users/peng/.vscode/extensions
 ```
-drwxr-xr-x  10 peng  staff   340B  7 25  2017 AlanWalk.markdown-toc-1.5.6
-drwxr-xr-x  16 peng  staff   544B  7  8  2017 DotJoshJohnson.xml-1.9.2
-drwxr-xr-x  14 peng  staff   476B  5 27 12:00 DotJoshJohnson.xml-2.0.0
-drwxr-xr-x   9 peng  staff   306B  5 18 08:45 MS-CEINTL.vscode-language-pack-zh-hans-1.23.5
-drwxr-xr-x   9 peng  staff   306B  5  5  2017 Stephanvs.dot-0.0.1
-drwxr-xr-x  12 peng  staff   408B  4 24 11:53 alefragnani.project-manager-0.25.2
-drwxr-xr-x  16 peng  staff   544B  5 27 12:48 bierner.markdown-preview-github-styles-0.1.2
-drwxr-xr-x  24 peng  staff   816B  5 12 09:08 donjayamanne.githistory-0.4.1
-drwxr-xr-x  23 peng  staff   782B  5 27 12:34 ecodes.vscode-phpmd-1.0.4
-drwxr-xr-x  13 peng  staff   442B  4  8 09:50 felixfbecker.php-intellisense-2.3.1
-drwxr-xr-x  14 peng  staff   476B  3 20 09:41 formulahendry.code-runner-0.9.3
-drwxr-xr-x  11 peng  staff   374B  5 27 12:31 ikappas.phpcs-1.0.5
-drwxr-xr-x  24 peng  staff   816B  5 18 11:26 jebbs.plantuml-2.7.5
-drwxr-xr-x   9 peng  staff   306B  5  5  2017 keyring.lua-0.0.9
-drwxr-xr-x  19 peng  staff   646B  5 21 11:54 liximomo.sftp-1.1.11
-drwxr-xr-x   9 peng  staff   306B  3 23  2017 mohsen1.prettify-json-0.0.3
-drwxr-xr-x  26 peng  staff   884B  5  3 11:49 ms-python.python-2018.4.0
-drwxr-xr-x  18 peng  staff   612B  5 15 09:17 ms-vscode.go-0.6.80
-drwxr-xr-x  31 peng  staff   1.0K  5  7 09:28 msjsdiag.debugger-for-chrome-4.4.3
-drwxr-xr-x  10 peng  staff   340B  5 17 00:04 patrys.vscode-code-outline-0.2.1
-drwxr-xr-x  17 peng  staff   578B  5 27 12:55 yzane.markdown-pdf-1.2.0
+drwxr-xr-x  10 peng  staff   320B  7 25  2017 AlanWalk.markdown-toc-1.5.6
+drwxr-xr-x   9 peng  staff   288B  5  5  2017 Stephanvs.dot-0.0.1
+drwxr-xr-x  14 peng  staff   448B  2  5 15:55 alefragnani.project-manager-10.3.2
+drwxr-xr-x  16 peng  staff   512B 11  5 10:47 bierner.markdown-preview-github-styles-0.1.4
+drwxr-xr-x  26 peng  staff   832B  2  5 15:58 donjayamanne.githistory-0.4.6
+drwxr-xr-x  16 peng  staff   512B 12 15 12:50 dotjoshjohnson.xml-2.4.0
+drwxr-xr-x   9 peng  staff   288B  9 24 20:04 felixfbecker.php-debug-1.12.6
+drwxr-xr-x  16 peng  staff   512B 11 14 09:12 felixfbecker.php-intellisense-2.3.10
+drwxr-xr-x   8 peng  staff   256B  8 16  2018 felixfbecker.php-pack-1.0.2
+drwxr-xr-x   9 peng  staff   288B  2 15 09:44 flesler.url-encode-1.1.0
+drwxr-xr-x  16 peng  staff   512B  1 29 15:36 formulahendry.code-runner-0.9.7
+drwxr-xr-x  10 peng  staff   320B  2 14 09:29 grapecity.gc-excelviewer-2.1.29
+drwxr-xr-x  25 peng  staff   800B  2 19 10:33 jebbs.plantuml-2.10.4
+drwxr-xr-x   9 peng  staff   288B  5  5  2017 keyring.lua-0.0.9
+drwxr-xr-x  11 peng  staff   352B  2 26 15:05 liximomo.sftp-1.9.4
+drwxr-xr-x  11 peng  staff   352B  2 27 10:01 liximomo.sftp-1.9.5
+drwxr-xr-x   9 peng  staff   288B  3 23  2017 mohsen1.prettify-json-0.0.3
+drwxr-xr-x   8 peng  staff   256B  2 17 12:21 ms-ceintl.vscode-language-pack-zh-hans-1.31.4
+drwxr-xr-x  30 peng  staff   960B  1 31 00:35 ms-python.python-2019.1.0
+drwxr-xr-x  32 peng  staff   1.0K  2 27 15:35 ms-python.python-2019.2.5416
+drwxr-xr-x  19 peng  staff   608B  2 13 09:22 ms-vscode.go-0.9.2
+drwxr-xr-x  20 peng  staff   640B  2 17 12:21 shan.code-settings-sync-3.2.5
+drwxr-xr-x  13 peng  staff   416B  2 13 16:50 visualstudioexptteam.vscodeintellicode-1.1.3
+drwxr-xr-x  17 peng  staff   544B  5 27  2018 yzane.markdown-pdf-1.2.0
 ```
 
 ## 2.1 Project Manager

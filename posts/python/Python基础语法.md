@@ -20,8 +20,8 @@
 可以使用单引号或者双引号来创建字符串，如：
 
 ```
-a = "Hello World"
-b = 'iTopic.org'
+>>> a = "Hello World"
+>>> b = 'iTopic.org'
 ```
 
 **Python中文档查看方法：**
@@ -52,10 +52,18 @@ Return -1 on failure.
 **1. 字符串格式化**
 
 ```
-"Hello world " + "2019"
-"Hello %s %d" % ("world", 2019)
-"Hello {0} {1}".format("world", 2019)
-' '.join(["Hello world", "2019"])# 前面的字符串为分隔符
+# 字符串拼接
+>>> "Hello world " + "2019"
+'Hello world 2019'
+# 字符串包含变量
+>>> "Hello %s %d" % ("world", 2019)
+'Hello world 2019'
+# 字符串占位符
+>>> "Hello {0} {1}".format("world", 2019)
+'Hello world 2019'
+# 字符串拼接
+>>> ' '.join(["Hello world", "2019"])
+'Hello world 2019'
 ```
 
 **2. 字符串去掉两侧空白字符**
