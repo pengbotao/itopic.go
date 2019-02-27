@@ -25,5 +25,3 @@ pip install -r requirements.txt
 # 服务部署
 
 uWsgi
-
-# supervisor
