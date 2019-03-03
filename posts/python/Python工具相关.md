@@ -8,6 +8,16 @@
 
 # 包管理工具 - pip
 
+**pip安装：**
+
+```
+# https://pip.pypa.io/en/stable/installing/
+$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+$ python get-pip.py
+```
+
+**方法列表**
+
 ```
 $ pip
 
@@ -30,7 +40,11 @@ Commands:
   help                        Show help for commands.
 ```
 
+**使用示例**
+
 ```
+# 安装指定包及版本
+$ pip install numpy==x.xx.x
 # 导出包列表到文件
 $ pip freeze > requirements.txt
 # 从文件安装
