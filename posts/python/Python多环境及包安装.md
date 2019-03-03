@@ -1,6 +1,6 @@
 ```
 {
-    "url": "python-tools",
+    "url": "python-environment",
     "time": "2015/12/25 00:22",
     "tag": "Python"
 }
@@ -178,15 +178,5 @@ $ pyenv virtualenv-delete my372
 pyenv-virtualenv: remove /Users/peng/.pyenv/versions/3.7.2/envs/my372? y
 ```
 
-
 pyenv可参考：`https://blog.csdn.net/u010104435/article/details/79633067`
 
-
-# WEB服务器 - uWSGI
-
-```
-# uwsgi服务器
-$ pip install uwsgi
-# uwsgi服务器性能查看工具
-$ pip install uwsgitop
-```
