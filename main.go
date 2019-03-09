@@ -105,6 +105,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		os.Exit(1)
 	}
 	router["/"] = buff
+	router["/index"] = buff
 	pages = append(pages, map[string]string{
 		"loc":        domain + "/",
 		"lastmod":    time.Now().Format("2006-01-02"),
