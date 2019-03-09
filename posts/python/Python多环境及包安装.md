@@ -97,7 +97,15 @@ $ brew install zlib
 # MAC下升级openssl才得以解决
 $ brew upgrade openssl
 $ CFLAGS="-I$(brew --prefix openssl)/include -I$(xcrun --show-sdk-path)/usr/include" CPPFLAGS="-I$(brew --prefix openssl)/include" LDFLAGS="-L$(brew --prefix openssl)/lib" pyenv install -v 3.7.2
+
+# CentOS
+$ yum install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel findutils
+$ CFLAGS=-I/usr/include/openssl \
+LDFLAGS=-L/usr/lib64 \
+pyenv install -v 3.7.2
 ```
+
+安装问题可查询：`https://github.com/pyenv/pyenv/wiki/Common-build-problems`
 
 
 下载较慢可直接下载pip提示的文件地址：`https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tar.xz`，存储到 `~/.pyenv/cache`目录后再执行上面安装命令。
