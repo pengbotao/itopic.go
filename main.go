@@ -15,7 +15,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"itopic.go/models"
+	"github.com/pengbotao/itopic.go/models"
 )
 
 var (
