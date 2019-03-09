@@ -14,7 +14,7 @@ Let's Encrypt是一个于2015年三季度推出的数字证书认证机构，旨
 
 # 二、Let's Encrypt安装
 
-官网上推荐使用`certbot`，安装起来也是相关方便。官网地址：`https://certbot.eff.org`
+官网上推荐使用`certbot`，安装起来也是相当方便。官网地址：`https://certbot.eff.org`
 
 ## 2.1 下载certbot-auto
 
