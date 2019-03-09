@@ -22,7 +22,7 @@
 
 {{.topic.Content}}
 <div style="padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;">-- EOF --</div>
-<div style="float:right;">
+<div style="float:right;margin-right:50px;">
     <a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
 </div>
 <div style="padding: 0 10px;text-align:right;float:right;">
@@ -34,21 +34,21 @@
     <code style="border:0px;background:none;">{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
 </div>
 
-<!--<div id="disqus_thread" style="margin-bottom:20px;"></div>-->
+<div id="disqus_thread" style="margin-bottom:35px;"></div>
 <script>
-/*
+
 var disqus_config = function () {
     this.page.url = "http://itopic.org/{{.topic.TopicID}}.html";
     this.page.identifier = "{{.topic.TopicID}}";
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
+setTimeout(function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     s.src = 'https://itopic.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
-})();
-*/
+}, 3000);
+
 </script>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
