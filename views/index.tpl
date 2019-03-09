@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>iTopic - 老彭的博客</title>
-    <meta name="description" content="作为一个IT人一定要有自己的博客，这里用来记录和分享程序开发过程中的经验和体会。写更优美的程序，做最好的程序猿！" />
+    <meta name="description" content="记录和分享程序开发过程中的经验和体会。写更优美的程序，做最好的IT人！" />
     <link rel="stylesheet" href="/static/css/markdown.css">
     <script>
     var _hmt = _hmt || [];
