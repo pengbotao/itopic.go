@@ -19,7 +19,7 @@ import (
 )
 
 var (
-	host         = ":8001"
+	host         = "127.0.0.1:8001"
 	isCreateHTML = false
 	htmlPrefix   = "../itopic.org" //without last slash
 	domain       = ""
