@@ -17,7 +17,7 @@
     </script>
 </head>
 <body>
-<h1 style="font-weight:400;width:90%;margin-bottom:0px;border:0px;">{{.topic.Title}}</h1>
+<h1 class="title">{{.topic.Title}}</h1>
 <a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
 {{.topic.Content}}

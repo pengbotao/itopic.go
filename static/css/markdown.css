@@ -6,11 +6,12 @@ html, body{
   padding:0px 10px;
   /*max-width: 1580px;*/
   min-width: 556px;
-  font-size: 16px;
+  font-size: 20px;
   background: #fcfcfc none repeat scroll 0 0;
   color:#333;
   line-height: 1.6em;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font:400 20px/1.6 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
 }
 
 body {
@@ -56,7 +57,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 10px 0 10px;
   padding: 0; }
 
-h1 {font-size: 2em;padding-bottom: 0.3em; font-weight: 600;line-height: 1.25;}
+h1 {font-size: 2.2em;padding-bottom: 0.3em; font-weight: 600;line-height: 1.25;}
 h2 {font-size: 1.5em;padding-bottom: 0.3em;margin-top: 24px;
     margin-bottom: 16px;
     font-weight: 600;
@@ -247,5 +248,9 @@ nav {display: none;}
     z-index: -1000;
     font-size: 14px;
     line-height: 18px;
+    font:400 15px/1.6 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
   }
+}
+.title{
+  font-weight:400;font-size:3em;width:90%;margin-bottom:0px;border:0px;
 }
