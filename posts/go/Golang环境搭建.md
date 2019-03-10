@@ -130,3 +130,13 @@ go的包管理非集中式的，当一个地方不通的时候，可以考虑换
 
 - - - - - - 
 到这里golang的基本环境就搭建好了。
+
+# 三、Go编译
+
+```
+GOOS=linux GOARCH=amd64 go build -x -o bin/main main.go
+GOOS=windows GOARCH=amd64 go build -x -o bin/main main.go
+```
+
+- GOOS: darwin、freebsd、linux、windows
+- GOARCH: 386、amd64、arm
