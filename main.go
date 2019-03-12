@@ -55,6 +55,12 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
+		models.InitTopicList()
+		hr := loadHTTPRouter()
+		router = hr
+	})
+
 	fmt.Printf("The topic server is running at http://%s\n", host)
 	fmt.Printf("Quit the server with Control-C\n\n")
 	if err := http.ListenAndServe(host, nil); err != nil {
