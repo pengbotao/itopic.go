@@ -71,11 +71,11 @@ User-Agent: HTTPie/1.0.2
 
 序号|符号|说明
 ---|---|---
-1|:|HTTP头部信息
-2|==|URL参数
-3|=|键值对，用来传输`json`数据或者表单数据。默认会当json处理，指定`-f`时会当表单数据提交。
-4|:=|非JSON字符串类型的数据。如：`awesome:=true  amount:=42  colors:='["red", "green", "blue"]'`。只在`json`传输起作用。
-5|@|上传文件
+2.4.1|:|HTTP头部信息
+2.4.2|==|URL参数
+2.4.3|=|键值对，用来传输`json`数据或者表单数据。默认会当json处理，指定`-f`时会当表单数据提交。
+2.4.4|:=|非JSON字符串类型的数据。如：`awesome:=true  amount:=42  colors:='["red", "green", "blue"]'`。只在`json`传输起作用。
+2.4.5|@|上传文件
 
 
 ### 2.4.1 指定头部示例
@@ -105,7 +105,7 @@ User-Agent: HTTPie/1.0.2
 
 ### 2.4.3 设置请求数据
 
-不指定类型时默认为json数据类型。因为有提交数据，默认请求会用`POST`方式请求，也可以显示指定。
+不指定类型时默认为`json`数据类型。因为有提交数据，默认请求会用`POST`方式请求，也可以显示指定。
 
 ```
 $ http -v itopic.org from=tools name=httpie
@@ -124,7 +124,7 @@ User-Agent: HTTPie/1.0.2
 }
 ```
 
-**指定`-f`时以表单类型提交。**
+**指定`-f`(`--form`)时以表单类型提交。**
 
 ```
 $ http -f -v itopic.org from=tools name=httpie
@@ -142,7 +142,7 @@ from=tools&name=httpie
 
 ### 2.4.4 设置JSON数组
 
-因为`http`默认以JSON格式传递，所以省去了显示`-j`指定。通过下面的方式可以指定一些简单的json格式。
+因为`http`默认以JSON格式传递，所以省去了显示`-j`(`--json`)指定。通过下面的方式可以指定一些简单的json格式。
 
 ```
 $ http -v itopic.org from:='["app", "web"]' name=itopic show:=true
