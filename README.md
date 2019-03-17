@@ -7,7 +7,7 @@
 功能比较简单，不需要依赖数据库，不需要管理后台，使用者只需要关注文章内容的书写即可，同时写好的文章可直接在`Github`上查看。
 
 # 安装Golang
-从golang.org下载并根据实际路径设置环境变量。
+已安装环境可忽略。从golang.org下载并根据实际路径设置环境变量。
 
 ```
 export GOROOT=/usr/local/server/go1.8
@@ -54,3 +54,13 @@ go run main.go
 
 - 不需要生成静态页面时将`main.go`中`isCreateHTML`设置为false
 - `domain`用来定义模版页链接前缀，可设置为空
+
+# 发布
+
+参考`https://github.com/pengbotao/pengbotao.github.io`
+
+1. 创建`username.github.io`，将生成的静态页面提交到master分支。
+2. 访问`username.github.io/index.html`是否正常。
+3. 访问`username.github.io`，若出现404，
+    - 需要添加README文件
+    - 在仓库的`Settings` -> `Change Theme` 选择一个主题然后保存，此时会在项目中生成一个`_config.yml`文件，重新访问即可。
