@@ -461,7 +461,9 @@ pass
 `set`|`set()`|否|是|是|
 `tuple`|`()`|是|否|-|索引
 
-列表、元组和字符串都是序列。字符串是字符的序列，列表和元祖是任意类型的序列。序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
+列表、元组和字符串都是序列。字符串是字符的序列，列表和元祖是任意类型的序列。
+
+序列的两个主要特点是索引操作符和切片操作符。索引操作符让我们可以从序列中抓取一个特定项目。切片操作符让我们能够获取序列的一个切片，即一部分序列。
 
 ```
 fruits = "apple"
@@ -606,9 +608,6 @@ print(p)
 # 打印[85, 86]，可见函数内部对p的修改直接影响了原有的值.
 ```
 
-## 5.5 函数装饰器
-
-`pass`
 
 # 六、类 - Class
 
@@ -629,7 +628,81 @@ t = Test(1, 2)
 print(t.sum())
 ```
 
-## 6.2 包与导入
+## 6.2 访问限制
+
+Python只有公有和私有，默认公有，当属性或方法前面有两个下划线（`__`）时，就只有内部可以访问，外部无法直接访问了。
+
+## 6.3 成员属性
+
+Python中并不需要在类中预定义属性，这样子会存在一个问题，并不太方便知道一个类有多少个成员属性。比如，在上面函数中增加一行：
+
+```
+    def sum(self):
+        self.z = self.x + self.y
+        return self.x + self.y
+```
+
+这样子在调用`sum`方法之后打印类对象：`print(vars(t))`，可以看到结果：`{'y': 2, 'x': 1, 'z': 3}`。这种不确定性在程序维护过程中会比较麻烦。所以对通用的属性可以考虑在构造函数`__init__`中做一个初始化。也方便知道类中有哪些可使用的属性。
+
+针对属性也可以通过`@property`装饰器做一些限制。比如设置只读，对设置的值做一些检测。
+
+```
+
+class Test(object):
+
+    def __init__(self):
+        self._age = 18
+
+    @property
+    def age(self):
+        return self._age
+
+    @age.setter
+    def age(self, value):
+        if not isinstance(value, int):
+            raise ValueError("age must be int.")
+        self._age = value
+
+
+t = Test()
+print(t.age)
+t.age = 20
+print(t.age)
+#设置非int会抛异常
+#t.age = "123"
+```
+
+- 可以直接通过`示例.属性名`来获取，不需要带函数的括号。
+- 不设置对应的`setter`方法时，该属性对外只读，修改会抛异常。
+
+
+## 6.4 成员方法
+
+成员方法有3中形式：实例方法、类方法、静态方法。
+
+- 实例方法：需要显示的传入self对象参数，需要实例化类之后调用方法
+- 类方法(`@classmethod`)：不需要实例化类，方法属于类
+- 静态方法(`@staticmethod`): 相当于放在类里面的函数，从功能上看属于类，但不需要调用类里其他的成员属性和成员方法。
+
+定义方式如下：
+
+```
+class Test(object):
+
+    __n = 0
+
+    @classmethod
+    def show(cls):
+        print("Hello World {0}".format(cls.__n))
+
+    @staticmethod
+    def sum(x, y):
+        return x + y
+
+
+Test.sum(1, 2)
+Test.show()
+```
 
 
 # 七、错误和异常
@@ -768,7 +841,7 @@ filter(function or None, sequence) -> list, tuple, or string
 关键点：
 
 - `sort`改变原列表，`sorted`不会改变原列表
-- `sort`只用于列表，`sortted`用于所有可迭代对象
+- `sort`只用于列表，`sorted`用于所有可迭代对象
 
 **sort**
 
