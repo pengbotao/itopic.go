@@ -480,6 +480,7 @@ print(fruits[:])
 
 方法|说明
 ---|---
+bool(x)|将x转bool类型
 int(x)|将x转换为一个整数
 float(x)|将x转换到一个浮点数
 str(x)|将对象 x 转换为字符串
@@ -707,3 +708,142 @@ $ L = {x * y for x in range(1, 5) for y in range(6, 10) if y > 8}
 # set([9, 18, 27, 36])
 ```
 
+## 8.3 map && fliter函数
+
+**map函数**
+
+`map`为内置函数，用于遍历序列，然后将函数用于遍历过程中的每一个元素。函数定义：
+
+```
+map(function, sequence[, sequence, ...]) -> list
+```
+
+- function: 处理函数
+- sequence：一个或多个序列
+- 返回值： list
+
+示例一(字符串也是一种序列)：
+
+```
+>>> map(ord, "Hello World")
+[72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
+```
+
+利用上面的列表推导式也可以实现：
+
+```
+>>> [ ord(x) for x in "Hello World"]
+[72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
+```
+
+如果是多个序列，会同时将每个序列的元素拿出一起传给函数。如果长度不一致会用None补齐。
+
+```
+>>> map(lambda x, y :  (x, y) , "Hello", "Python")
+[('H', 'P'), ('e', 'y'), ('l', 't'), ('l', 'h'), ('o', 'o'), (None, 'n')]
+```
+
+**filter函数**
+
+`filter`也为内置函数，将序列的每个元素传给`function`，然后将函数执行返回`True`的元素组成新的列表。
+
+```
+filter(function or None, sequence) -> list, tuple, or string
+```
+
+如过滤掉字母`o`
+
+```
+>>> filter(lambda x: x != "o", "Hello World")
+'Hell Wrld'
+```
+
+## 8.4 sort && sorted
+
+
+`sort` 与 `sorted` 区别：`sort` 是应用在 `list` 上的方法，`sorted` 可以对所有可迭代的对象进行排序操作。
+
+`list` 的 `sort` 方法返回的是**对已经存在的列表进行操作，无返回值**，而内建函数 `sorted` 方法**返回的是一个新的 list**，而不是在原来的基础上进行的操作。
+
+关键点：
+
+- `sort`改变原列表，`sorted`不会改变原列表
+- `sort`只用于列表，`sortted`用于所有可迭代对象
+
+**sort**
+
+```
+>>> print(list.sort.__doc__)
+L.sort(cmp=None, key=None, reverse=False) -- stable sort *IN PLACE*;
+cmp(x, y) -> -1, 0,
+```
+
+示例(具体参数使用参考`sorted`)：
+
+```
+>>> a = [1, 3, 2, 4]
+>>> a.sort()
+>>> a
+[1, 2, 3, 4]
+```
+
+**sorted**
+
+```
+>>> print(sorted.__doc__)
+sorted(iterable, cmp=None, key=None, reverse=False) --> new sorted list
+```
+
+参数说明：
+
+- iterable -- 可迭代对象。
+- cmp -- 比较的函数，这个具有两个参数，参数的值都是从可迭代对象中取出，此函数必须遵守的规则为，大于则返回1，小于则返回-1，等于则返回0。
+- key -- 也是指定一个函数，cmp用来指定比较方法， key用来指定该用哪个key做比较
+- reverse -- 排序规则，reverse = True 降序 ， reverse = False 升序（默认）。
+
+示例一，指定cmp函数：
+
+```
+def mycmp(x, y):
+    print(x,y)
+    if ord(x) > ord(y):
+        return 1
+    elif ord(x) == ord(y):
+        return 0
+    else:
+        return -1
+
+a = "b2a1c3"
+
+b = sorted(a, cmp=mycmp)
+
+print(a, b)
+
+# Output
+# ('2', 'b')
+# ('a', '2')
+# ('a', 'b')
+# ('a', '2')
+# ('1', 'a')
+# ('1', '2')
+# ('c', 'a')
+# ('c', 'b')
+# ('3', 'a')
+# ('3', '2')
+# ('b2a1c3', ['1', '2', '3', 'a', 'b', 'c'])
+```
+
+示例二，指定key函数
+
+```
+a = [{"name": "Jack", "age": 30}, {"name": "Peter", "age": 18}, {"name": "Amy", "age": 24}]
+
+b = sorted(a, key=lambda x: x["age"])
+
+print(a)
+print(b)
+
+
+# [{'age': 30, 'name': 'Jack'}, {'age': 18, 'name': 'Peter'}, {'age': 24, 'name': 'Amy'}]
+# [{'age': 18, 'name': 'Peter'}, {'age': 24, 'name': 'Amy'}, {'age': 30, 'name': 'Jack'}]
+```
