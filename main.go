@@ -128,6 +128,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
 			"topic":  models.Topics[i],
 			"domain": domain,
+			"time":   time.Now(),
 		})
 		if err != nil {
 			fmt.Println(err)

@@ -35,6 +35,14 @@
 </div>
 
 <div id="disqus_thread" style="margin-bottom:35px;"></div>
+
+<div id="footer">
+    <ul>
+        <li>
+        @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[Hosted by <a href="javascript:;" style="font-weight: bold" target="_blank">Github Pages</a>] <b>Github地址</b>：http://github.com/pengbotao/itopic.go</li>
+    </ul>
+</div>
+
 <script>
 
 var disqus_config = function () {
