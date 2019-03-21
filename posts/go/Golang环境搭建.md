@@ -112,6 +112,12 @@ go get -v github.com/cweill/gotests/...
 
 有一点需要注意的是，有些包因为防火墙等原因无法下载，比如`golang.org/x/crypto`直接`go get`可能无法安装，则我们可以在gopath创建对应的目录，然后下载github上的包放到同样的目录即可，比如：`git clone git@github.com:golang/crypto.git`。上面有一些依赖包不翻墙可能无法下载， 则可以通过这种方式来下载。
 
+有代理的可以手动指定代理
+
+```
+$ export http_proxy=127.0.0.1:9090 https_proxy=127.0.0.1:9090
+```
+
 go的包管理非集中式的，当一个地方不通的时候，可以考虑换个仓库去试。
 
 ## 2.1 VsCode常用操作
