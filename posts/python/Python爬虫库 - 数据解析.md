@@ -21,4 +21,4 @@ for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id="left-side
     print("%s %s %s%s" % (topic.text, topic.xpath('./a/text()')[0], URL, topic.xpath('./a/@href')[0]))
 ```
 
-http://x-wei.github.io/python_crawler_requests_lxml.html
+requests+lxml可参考：`http://x-wei.github.io/python_crawler_requests_lxml.html`
