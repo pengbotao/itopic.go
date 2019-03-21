@@ -55,10 +55,11 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/refresh", func(w http.ResponseWriter, r *http.Request) {
 		models.InitTopicList()
 		hr := loadHTTPRouter()
 		router = hr
+		http.NotFound(w, r)
 	})
 
 	fmt.Printf("The topic server is running at http://%s\n", host)
