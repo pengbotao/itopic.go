@@ -16,7 +16,7 @@ export PATH=$PATH:$GOROOT/bin
 ```
 
 # 如何写文章？
-文章采用`Markdown`的写法，需要先了解`Markdown`的写法，基本用法可查看[Markdown基本用法](/posts/Markdown基本用法.md)。除此之外有几点需要注意：
+文章采用`Markdown`的写法，需要先了解`Markdown`的写法，基本用法与文档示例写法可查看[Markdown基本用法](/posts/Markdown基本用法.md)。除此之外有几点需要注意：
 
 1、文章放在`posts`目录中，文件夹可多层嵌套（无影响），文件需以md为后缀，文件名即文章标题。
 
@@ -52,12 +52,12 @@ go run main.go
 ```
 说明：
 
-- 不需要生成静态页面时将`main.go`中`isCreateHTML`设置为false
+- 不需要生成静态页面时将`main.go`中`isCreateHTML`设置为false，默认为false。
 - `domain`用来定义模版页链接前缀，可设置为空
 
 # 发布
 
-参考`https://github.com/pengbotao/pengbotao.github.io`
+这里以为发布到`github pages`上为例。由于只支持静态页面，所以可以通过`go`的程序指定下生成静态页面的目录，然后将静态页面提交到`github`上来。参考`https://github.com/pengbotao/pengbotao.github.io`
 
 1. 创建`username.github.io`，将生成的静态页面提交到master分支。
 2. 访问`username.github.io/index.html`是否正常。
