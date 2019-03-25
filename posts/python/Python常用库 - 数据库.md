@@ -11,10 +11,10 @@
 
 Python常用连接Mysql的库有三种：
 
-- MySQLdb
-    - mysqlclient
-- PyMySQL
-- MySQL-Connector/Python
+- MySQLdb: MySQLdb is an thread-compatible interface to the popular MySQL database server that provides the Python database API.
+    - mysqlclient: This is a fork of MySQLdb1.
+- PyMySQL: This package contains a pure-Python MySQL client library, based on PEP 249.
+- MySQL-Connector/Python: MySQL Connector/Python is a standardized database driver for Python platforms and development. 
 
 ## MySQLdb, mysqlclient and MySQL connector/Python的区别?
 
@@ -74,6 +74,16 @@ cur.close
 {u'created_ts': datetime.datetime(2019, 3, 24, 22, 12, 52), u'tag_name': 'test', u'tag_val': 'test1', u'id': 6}
 ```
 
+代码方式也可以通过with语句来实现，结束后自动关闭游标：
+
+```
+with db.cursor(cursor=pymysql.cursors.DictCursor) as cursor:
+    cursor.execute(sql, ("test", "test1"))
+    results = cursor.fetchall()
+    for row in results:
+        print(row)
+```
+
 ## 2.2 执行插入
 ```
 sql = "insert into test (tag_name, tag_val) values (%s, %s)"
@@ -115,6 +125,8 @@ db.close()
 ```
 
 # 三、MySQLdb
+
+- [MySQLdb User's Guide](https://mysqlclient.readthedocs.io/user_guide.html)
 
 用法与`PyMySQL`一致，官网上最后一次发布还是在2014年1月，目前还不支持`Python3`，网上查询`Python3`中可用`PyMySQL`代理。兼容方法（未验证）：
 
