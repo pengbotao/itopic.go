@@ -7,13 +7,39 @@
 ```
 
 
-# 一、pymysql
+# 一、概述
+
+Python常用连接Mysql的库有三种：
+
+- MySQLdb
+    - mysqlclient
+- PyMySQL
+- MySQL-Connector/Python
+
+## MySQLdb, mysqlclient and MySQL connector/Python的区别?
+
+There are three MySQL adapters for Python that are currently maintained:
+
+- mysqlclient - By far the fastest MySQL connector for CPython. Requires the mysql-connector-c C library to work.
+- PyMySQL - Pure Python MySQL client. According to the maintainer of both mysqlclient and MyPySQL, you should use PyMySQL if:
+    - You can't use libmysqlclient for some reason.
+    - You want to use monkeypatched socket of gevent or eventlet.
+    - You wan't to hack mysql protocol.
+- mysql-connector-python - MySQL connector developed by the MySQL group at Oracle, also written entirely in Python. It's performance appears to be the worst out of the three. Also, due to some licensing issues, you can't download it from PyPI (but it's now available through conda).
+
+**Benchmarks**
+
+According to the following benchmarks, mysqlclient is faster (sometimes > 10x faster) than the pure Python clients.
+
+From [`stackoverflow`](https://stackoverflow.com/questions/43102442/whats-the-difference-between-mysqldb-mysqlclient-and-mysql-connector-python).
+
+# 二、pymysql
 
 文档地址：https://pymysql.readthedocs.io/en/latest/
 
 安装方法: `pip install PyMySQL`
 
-## 1.1 执行查询
+## 2.1 执行查询
 ```
 import pymysql
 
@@ -24,24 +50,38 @@ sql = "select * from test where tag_name = %s and tag_val = %s"
 
 try:
     cur.execute(sql, ("test", "test"))
-    #results = cur.fetchone()
     results = cur.fetchall()
     for row in results:
         print(row)
-
 except Exception as e:
     raise e
 finally:
+    cur.close()
     db.close()
 ```
 
-## 1.2 执行插入
+上面为按照索引返回，也可以按字段来返回
+
+```
+cur = db.cursor(cursor=pymysql.cursors.DictCursor)
+sql = "select * from test where tag_name = %s"
+
+cur.execute(sql, ("test",))
+results = cur.fetchone()
+print(results)
+cur.close
+# Output:
+{u'created_ts': datetime.datetime(2019, 3, 24, 22, 12, 52), u'tag_name': 'test', u'tag_val': 'test1', u'id': 6}
+```
+
+## 2.2 执行插入
 ```
 sql = "insert into test (tag_name, tag_val) values (%s, %s)"
 
 cur.execute(sql, ("test", "test"))
 db.commit()
 print(cur.lastrowid)
+cur.close
 db.close()
 ```
 
@@ -58,10 +98,11 @@ data = [
 # 返回影响函数
 affected_rows = cur.executemany(sql, data)
 db.commit()
+cur.close
 db.close()
 ```
 
-## 1.3 更新/删除操作
+## 2.3 更新/删除操作
 
 ```
 sql = "update test set tag_val = %s where tag_name = %s"
@@ -69,5 +110,20 @@ sql = "update test set tag_val = %s where tag_name = %s"
 # 返回影响函数
 affected_rows = cur.execute(sql, ("test", 'test'))
 db.commit()
+cur.close
 db.close()
 ```
+
+# 三、MySQLdb
+
+用法与`PyMySQL`一致，官网上最后一次发布还是在2014年1月，目前还不支持`Python3`，网上查询`Python3`中可用`PyMySQL`代理。兼容方法（未验证）：
+
+```
+import pymysql
+
+pymysql.install_as_MySQLdb()
+```
+
+同时`MySQLdb`还Fork出来的一个分支：`mysqlclient`，增加了对`Python3`的支持。
+
+# 四、MySQL-Connector/Python
