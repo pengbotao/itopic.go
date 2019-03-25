@@ -55,7 +55,8 @@ data = [
     ("test2", "test2"),
 ]
 
-cur.executemany(sql, data)
+# 返回影响函数
+affected_rows = cur.executemany(sql, data)
 db.commit()
 db.close()
 ```
@@ -63,9 +64,10 @@ db.close()
 ## 1.3 更新/删除操作
 
 ```
-sql = "update test set tag_val = %s where channel = %s"
+sql = "update test set tag_val = %s where tag_name = %s"
 
-cur.execute(sql, ("test", 'test'))
+# 返回影响函数
+affected_rows = cur.execute(sql, ("test", 'test'))
 db.commit()
 db.close()
 ```
