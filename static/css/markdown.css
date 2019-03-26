@@ -249,6 +249,9 @@ nav {display: none;}
     font-size: 14px;
     line-height: 18px;
     font:400 15px/1.5 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
+    top:80px;
+    bottom: 50px;
+    overflow: auto;
   }
 }
 .title{
