@@ -2,8 +2,7 @@
 {
     "url": "python-cli-parse",
     "time": "2016/03/02 07:53",
-    "tag": "Python,Python常用库",
-    "public": "yes"
+    "tag": "Python"
 }
 ```
 

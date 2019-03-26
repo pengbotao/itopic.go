@@ -2,7 +2,7 @@
 {
     "url": "cpp-primer-plus-memory-model",
     "time": "2015/04/20 08:15",
-    "tag": "C++,学习笔记"
+    "tag": "C++"
 }
 ```
 

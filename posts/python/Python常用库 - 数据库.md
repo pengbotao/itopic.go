@@ -2,7 +2,7 @@
 {
     "url": "python-database",
     "time": "2016/03/21 00:12",
-    "tag": "Python,Python常用库"
+    "tag": "Python"
 }
 ```
 

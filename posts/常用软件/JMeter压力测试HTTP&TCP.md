@@ -2,7 +2,7 @@
 {
     "url": "jmeter-http-tcp",
     "time": "2016/07/07 16:21",
-    "tag": "常用软件,JMeter,压力测试"
+    "tag": "常用软件"
 }
 ```
 

@@ -2,7 +2,7 @@
 {
     "url": "python-requests",
     "time": "2016/04/07 20:00",
-    "tag": "Python,Python常用库,爬虫",
+    "tag": "Python,爬虫",
     "public": "yes"
 }
 ```

@@ -2,7 +2,7 @@
 {
     "url": "rbac-design",
     "time": "2014/04/12 11:25",
-    "tag": "PHP,RBAC"
+    "tag": "PHP"
 }
 ```
 

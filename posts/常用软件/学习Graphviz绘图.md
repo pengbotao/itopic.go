@@ -2,7 +2,7 @@
 {
     "url": "graphviz",
     "time": "2017/03/19 07:38",
-    "tag": "常用软件,Graphviz,dot"
+    "tag": "常用软件"
 }
 ```
 

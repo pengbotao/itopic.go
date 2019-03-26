@@ -2,7 +2,7 @@
 {
     "url": "python-flask",
     "time": "2016/05/10 17:12",
-    "tag": "Python,Flask"
+    "tag": "Python"
 }
 ```
 

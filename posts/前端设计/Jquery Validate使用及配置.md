@@ -2,7 +2,7 @@
 {
     "url": "jquery-validate",
     "time": "2013/06/01 20:52",
-    "tag": "前端设计,jquery,validate"
+    "tag": "jquery"
 }
 ```
 

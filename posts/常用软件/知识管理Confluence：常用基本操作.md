@@ -2,7 +2,7 @@
 {
     "url": "confluence-usage",
     "time": "2016/07/24 10:56",
-    "tag": "常用软件,Confluence"
+    "tag": "常用软件"
 }
 ```
 

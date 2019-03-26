@@ -2,7 +2,7 @@
 {
     "url": "supervisor",
     "time": "2016/02/15 07:14",
-    "tag": "Python,Supervisor"
+    "tag": "Python"
 }
 ```
 

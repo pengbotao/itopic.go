@@ -2,7 +2,7 @@
 {
     "url": "swoole",
     "time": "2016/08/12 14:24",
-    "tag": "PHP,Swoole"
+    "tag": "PHP"
 }
 ```
 

@@ -2,7 +2,7 @@
 {
     "url": "cpp-primer-plus-function-2",
     "time": "2015/03/30 22:45",
-    "tag": "C++,学习笔记"
+    "tag": "C++"
 }
 ```
 

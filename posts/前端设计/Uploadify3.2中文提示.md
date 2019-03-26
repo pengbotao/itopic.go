@@ -2,7 +2,7 @@
 {
     "url": "uploadify-tips",
     "time": "2013/04/21 17:34",
-    "tag": "前端设计,uploadify"
+    "tag": "jquery"
 }
 ```
 

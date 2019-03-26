@@ -2,7 +2,7 @@
 {
     "url": "workerman",
     "time": "2016/08/13 16:04",
-    "tag": "PHP,Workerman"
+    "tag": "PHP"
 }
 ```
 

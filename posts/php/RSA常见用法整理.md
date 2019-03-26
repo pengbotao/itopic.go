@@ -2,7 +2,7 @@
 {
     "url": "rsa-usage",
     "time": "2014/08/08 11:34",
-    "tag": "PHP,RSA"
+    "tag": "PHP"
 }
 ```
 

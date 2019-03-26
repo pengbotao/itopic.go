@@ -2,8 +2,7 @@
 {
     "url": "httpie",
     "time": "2019/03/12 21:28",
-    "tag": "常用软件,HTTPie",
-    "public": "yes"
+    "tag": "常用软件"
 }
 ```
 

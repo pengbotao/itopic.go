@@ -2,7 +2,7 @@
 {
     "url": "go-start",
     "time": "2016/11/10 19:00",
-    "tag": "Golang,vscode,环境部署"
+    "tag": "Golang"
 }
 ```
 

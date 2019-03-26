@@ -2,7 +2,7 @@
 {
     "url": "lets-encrypt",
     "time": "2018/03/09 18:52",
-    "tag": "SSL"
+    "tag": "SSL,HTTP"
 }
 ```
 
