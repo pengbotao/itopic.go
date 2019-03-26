@@ -2,7 +2,7 @@
 {
     "url": "linux-web-server",
     "time": "2016/06/23 19:00",
-    "tag": "PHP,Linux,环境部署"
+    "tag": "PHP,Linux"
 }
 ```
 

@@ -2,7 +2,7 @@
 {
     "url": "linux-tar",
     "time": "2013/03/30 11:26",
-    "tag": "Linux,tar"
+    "tag": "Linux"
 }
 ```
 

@@ -2,7 +2,7 @@
 {
     "url": "linux-svn-install",
     "time": "2014/09/11 16:38",
-    "tag": "Linux,SVN"
+    "tag": "Linux"
 }
 ```
 

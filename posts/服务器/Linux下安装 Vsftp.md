@@ -2,7 +2,7 @@
 {
     "url": "linux-vsftp-install",
     "time": "2014/09/01 22:52",
-    "tag": "Linux,Vsftp"
+    "tag": "Linux"
 }
 ```
 
