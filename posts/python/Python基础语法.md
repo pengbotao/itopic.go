@@ -24,34 +24,7 @@
 >>> b = 'iTopic.org'
 ```
 
-**Python中文档查看方法：**
-
-命令行中可以通过`dir(str)`查看字符串支持的方法：
-```
->>> dir(str)
-['...', 'capitalize', 'center', 'count', 'decode', 'encode', 'endswith', 'expandtabs', 'find',
- 'format', 'index', 'isalnum', 'isalpha', 'isdigit', 'islower', 'isspace', 'istitle', 'isupper',
- 'join', 'ljust', 'lower', 'lstrip', 'partition', 'replace', 'rfind', 'rindex', 'rjust',
- 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase',
- 'title', 'translate', 'upper', 'zfill']
-```
-
-查看对应函数的说明文档：
-
-```
->>> print(str.find.__doc__)
-S.find(sub [,start [,end]]) -> int
-
-Return the lowest index in S where substring sub is found,
-such that sub is contained within S[start:end].  Optional
-arguments start and end are interpreted as in slice notation.
-
-Return -1 on failure.
-
->>> help(str.join)
-```
-
-**字符串常用操作:**
+## 1.3 字符串常用操作
 
 **1. 字符串格式化**
 
@@ -131,6 +104,32 @@ False
 -1
 ```
 
+上面已列出一些字符串函数的使用，关于更多模块的文档可按如下方式进行查看。**Python中文档查看方法：**
+
+1. 命令行中可以通过`dir(str)`查看字符串支持的方法：
+```
+>>> dir(str)
+['...', 'capitalize', 'center', 'count', 'decode', 'encode', 'endswith', 'expandtabs', 'find',
+ 'format', 'index', 'isalnum', 'isalpha', 'isdigit', 'islower', 'isspace', 'istitle', 'isupper',
+ 'join', 'ljust', 'lower', 'lstrip', 'partition', 'replace', 'rfind', 'rindex', 'rjust',
+ 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase',
+ 'title', 'translate', 'upper', 'zfill']
+```
+
+2. 查看对应函数的说明文档：
+
+```
+>>> print(str.find.__doc__)
+S.find(sub [,start [,end]]) -> int
+
+Return the lowest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.
+
+Return -1 on failure.
+
+>>> help(str.join)
+```
 
 # 二、控制流
 
@@ -322,11 +321,12 @@ for val in fruits:
 ---|---
 `dict.clear()`|清空字典
 `dict.get(k[,d])`|D[k] if k in D, else d.  d defaults to None.
-`dict.has_key(k)`|True if D has a key k, else False
 `dict.items()`|list of D's (key, value) pairs, as 2-tuples
 `dict.keys()`|list of D's keys
+`dict.values()`|list of D's values
 `dict.pop(k, d)`|remove specified key and return the corresponding value.If key is not found, d is returned if given, otherwise KeyError is raised
 `dict.update(obj)`|合并两个字典
+`dict.setdefault(k[,d])`|D.get(k,d), also set D[k]=d if k not in D
 
 **1. 字典初始化及遍历**
 
@@ -509,8 +509,8 @@ def func(x, y):
 函数定义：`lambda 参数: 表达式`
 
 ```
-f = lambda x: x*x
-print(f(2))
+f = lambda x, y: x*y
+print(f(2, 3))
 print((lambda x: x*x)(3))
 ```
 
@@ -518,9 +518,9 @@ print((lambda x: x*x)(3))
 
 `pass`
 
-## 5.2 函数参数 - 可变参数与关键字参数
+## 5.2 函数参数
 
-`python`的参数传入确实是相当的方便，参数传入非常灵活。但可也可能会导致根据参数无法清楚的表达函数行为。
+`python`的参数传入确实是相当的方便，参数传入非常灵活。其中可变参数和关键字参数更是无法直接明确到函数的定义，在没有文档的情况下，碰到这样的定义无法清晰知道函数的表达能力。需要借助对方的文档或者阅读代码才好了解。 这也是灵活背后带来的不好的地方。
 
 ```
 def func(x, y = 1, *args, **kwargs):
@@ -542,7 +542,7 @@ func(1, 2, *args, **kwargs)
 # {'y': 2, 'x': 1, 'args': (1, 2), 'kwargs': {'param': 'web'}}
 ```
 
-- 支持设置默认参数
+- Python函数支持设置默认参数
 - 支持可变参数`*args`。函数接收到的数据类型是元祖。调用时可以以展平的方式传入，或者以列表、元祖的解引用的方式传入。
 - 支持关键字参数`**kwargs`。函数接收到的数据类型是字典。
 
