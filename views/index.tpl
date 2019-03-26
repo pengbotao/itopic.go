@@ -7,15 +7,6 @@
     <title>iTopic - 老彭的博客</title>
     <meta name="description" content="记录和分享程序开发过程中的经验和体会。写更优美的程序，做更好的IT人！" />
     <link rel="stylesheet" href="/static/css/markdown.css">
-    <script>
-    var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?0f0111c99240380ee020030f3be990f5";
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
-    })();
-    </script>
 </head>
 <body>
 <h1 class="title">因上努力，果上随缘</h1>
