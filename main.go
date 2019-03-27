@@ -23,6 +23,7 @@ var (
 	isCreateHTML = false
 	htmlPrefix   = "../itopic.org" //without last slash
 	domain       = ""
+	githubURL    = "https://github.com/pengbotao/itopic.go"
 )
 
 func main() {
@@ -103,10 +104,11 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		topicsLeft = models.TopicsGroupByMonth
 	}
 	if err := tpl.ExecuteTemplate(&buff, "index.tpl", map[string]interface{}{
-		"topics_l": topicsLeft,
-		"topics_r": topicsRight,
-		"domain":   domain,
-		"time":     time.Now(),
+		"topics_l":  topicsLeft,
+		"topics_r":  topicsRight,
+		"domain":    domain,
+		"time":      time.Now(),
+		"githubURL": githubURL,
 	}); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -126,9 +128,10 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		}
 		var buff bytes.Buffer
 		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
-			"topic":  models.Topics[i],
-			"domain": domain,
-			"time":   time.Now(),
+			"topic":     models.Topics[i],
+			"domain":    domain,
+			"time":      time.Now(),
+			"githubURL": githubURL,
 		})
 		if err != nil {
 			fmt.Println(err)

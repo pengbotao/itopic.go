@@ -3,6 +3,7 @@ package models
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -47,6 +48,9 @@ func InitTopicList() error {
 		t, err := GetTopicByPath(path)
 		if err != nil {
 			return err
+		}
+		if t.TopicPath == "" {
+			return nil
 		}
 		SetTopicToTag(t)
 		SetTopicToMonth(t)
@@ -93,7 +97,8 @@ func GetTopicByPath(path string) (*Topic, error) {
 	}
 	var thj tHeadJSON
 	if err := json.Unmarshal([]byte(tHeadStr), &thj); err != nil {
-		return nil, errors.New(t.Title + "：" + err.Error())
+		fmt.Println("Notice: " + path + "/" + t.Title + "：" + err.Error())
+		return t, nil
 	}
 	t.TopicID = thj.URL
 	if t.TopicID == "" {
@@ -135,7 +140,7 @@ func GetTopicByPath(path string) (*Topic, error) {
 
 	var markdownRenderer = blackfriday.HtmlRenderer(markdownHTMLFlags, "", "")
 	t.Content = string(blackfriday.MarkdownOptions(content.Bytes(), markdownRenderer, blackfriday.Options{Extensions: markdownExtensions}))
-
+	t.TopicPath = path
 	return t, nil
 }
 

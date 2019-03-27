@@ -8,12 +8,13 @@ import (
 
 //Topic struct
 type Topic struct {
-	TopicID  string
-	Title    string
-	Time     time.Time
-	Tag      []*TopicTag
-	Content  string
-	IsPublic bool //true for public，false for protected
+	TopicID   string
+	Title     string
+	Time      time.Time
+	Tag       []*TopicTag
+	Content   string
+	TopicPath string
+	IsPublic  bool //true for public，false for protected
 }
 
 //TopicTag struct
@@ -30,7 +31,6 @@ type TopicMonth struct {
 }
 
 var (
-	topicTagJSONFile    = "posts/tag.json"
 	topicMarkdownFolder = "posts"
 
 	//Topics store all the topic
