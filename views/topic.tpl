@@ -26,8 +26,6 @@
     <code style="border:0px;background:none;">{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
 </div>
 
-<div id="disqus_thread" style="margin-bottom:35px;"></div>
-
 <div id="footer">
     <ul>
         <li>
@@ -35,22 +33,6 @@
         <li><b>Github地址</b>：<a href="{{.githubURL}}/blob/master/{{.topic.TopicPath}}">{{.githubURL}}/blob/master/{{.topic.TopicPath}}</a><li>
     </ul>
 </div>
-
-<script>
-
-var disqus_config = function () {
-    this.page.url = "http://itopic.org/{{.topic.TopicID}}.html";
-    this.page.identifier = "{{.topic.TopicID}}";
-};
-
-setTimeout(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://itopic.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-}, 3500);
-
-</script>
 
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 <script>
