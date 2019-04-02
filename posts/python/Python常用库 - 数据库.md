@@ -2,14 +2,13 @@
 {
     "url": "python-database",
     "time": "2016/03/21 00:12",
-    "tag": "Python"
+    "tag": "Python,Mysql,Sqlite3"
 }
 ```
 
-
 # 一、概述
 
-Python常用连接Mysql的库有三种：
+Python中连接数据库的包比较多，常用连接Mysql的库有三种，先对着3种有一个基本的认识：
 
 - MySQLdb: MySQLdb is an thread-compatible interface to the popular MySQL database server that provides the Python database API.
     - mysqlclient: This is a fork of MySQLdb1.
@@ -33,13 +32,19 @@ According to the following benchmarks, mysqlclient is faster (sometimes > 10x fa
 
 From [`stackoverflow`](https://stackoverflow.com/questions/43102442/whats-the-difference-between-mysqldb-mysqlclient-and-mysql-connector-python).
 
-# 二、pymysql
+# 二、 Python Database API
+
+这个DB-API就是一套规范，要求数据库相关的包需要按此执行。所以可以看到各种数据库操作流程上大同小异。
+
+查看[官网V2.0说明](https://www.python.org/dev/peps/pep-0249/)
+
+# 三、pymysql
 
 文档地址：https://pymysql.readthedocs.io/en/latest/
 
 安装方法: `pip install PyMySQL`
 
-## 2.1 执行查询
+## 3.1 执行查询
 ```
 import pymysql
 
@@ -84,7 +89,7 @@ with db.cursor(cursor=pymysql.cursors.DictCursor) as cursor:
         print(row)
 ```
 
-## 2.2 执行插入
+## 3.2 执行插入
 ```
 sql = "insert into test (tag_name, tag_val) values (%s, %s)"
 
@@ -112,7 +117,7 @@ cur.close
 db.close()
 ```
 
-## 2.3 更新/删除操作
+## 3.3 更新/删除操作
 
 ```
 sql = "update test set tag_val = %s where tag_name = %s"
@@ -124,11 +129,11 @@ cur.close
 db.close()
 ```
 
-# 三、MySQLdb
+# 四、MySQLdb
 
 - [MySQLdb User's Guide](https://mysqlclient.readthedocs.io/user_guide.html)
 
-用法与`PyMySQL`一致，官网上最后一次发布还是在2014年1月，目前还不支持`Python3`，网上查询`Python3`中可用`PyMySQL`代理。兼容方法（未验证）：
+MySQL-python又叫MySQLdb。用法与`PyMySQL`一致，官网上最后一次发布还是在2014年1月，目前还不支持`Python3`，网上查询`Python3`中可用`PyMySQL`代理。兼容方法（未验证）：
 
 ```
 import pymysql
@@ -138,4 +143,7 @@ pymysql.install_as_MySQLdb()
 
 同时`MySQLdb`还Fork出来的一个分支：`mysqlclient`，增加了对`Python3`的支持。
 
-# 四、MySQL-Connector/Python
+# 五、MySQL-Connector/Python
+
+
+# 六、Sqlite3
