@@ -19,7 +19,7 @@ Use ".open FILENAME" to reopen on a persistent database.
 sqlite>
 ```
 
-虽然`SQLite`支持的功能大部分`Mysql`都有，但对比`SQLite`就会发现，`SQLite`小巧、零配置、移植方便、不需要额外启动服务端进程、功能也相当完善，较擅长在一些独立项目上提供本地存储，本纯文本方式方便，比`Mysql`清爽。
+虽然`SQLite`支持的功能大部分`Mysql`都有，但对比`SQLite`就会发现，`SQLite`小巧、零配置、移植方便、不需要额外启动服务端进程、功能也相当完善，较擅长在一些独立项目上提供本地存储，比纯文本方式方便，比`Mysql`清爽。
 
 安装上可直接从[官网](https://www.sqlite.org/download.html)上下载，相关文档可从[SQLite TuTorial](http://www.sqlitetutorial.net/)上查看。操作工具可以直接使用`命令行`或者[SQLite Studio](https://sqlitestudio.pl/index.rvt?act=download)或者`Navicat`。
 
@@ -43,7 +43,7 @@ CREATE TABLE [IF NOT EXISTS] [schema_name].table_name (
 - `table_name`: 表前缀不可以为`sqlite_`，该前缀仅限内部使用。报错示例：`Error: object name reserved for internal use: sqlite_test`
 - `column_1 data_type`指定字段名和字段类型。
 - 约束：可以指定`PRIMARY KEY`，`UNIQUE`，`NOT NULL`和`CHECK`约束，可以指定字段上指定，也有一些可以在表上指定。
-- `WITHOUT ROWID`：默认情况下，SQLite中的每一行都有一个特殊的列，通常称为“rowid”，它唯一地标识表中的那一行。 但是，如果在CREATE TABLE语句的末尾添加了短语“WITHOUT ROWID”，则省略特殊的“rowid”列。 省略rowid有时候有空间和性能优势。 WITHOUT ROWID表是使用聚簇索引作为主键的表。
+- `WITHOUT ROWID`：默认情况下，`SQLite`中的每一行都有一个特殊的列，通常称为`rowid`，它唯一地标识表中的那一行。 但是，如果在CREATE TABLE语句的末尾添加了短语`WITHOUT ROWID`，则省略特殊的`rowid`列。 省略rowid有时候有空间和性能优势。 WITHOUT ROWID表是使用聚簇索引作为主键的表。
 - `SQLite`不支持`COMMENT`语句，建表时可以使用 `--` 来表示注释。
 
 如：
@@ -65,7 +65,7 @@ SQLite version 3.24.0 2018-06-04 14:10:15
 Enter ".help" for usage hints.
 sqlite>
 ```
-这样子会在当前目录创建`demo.db`文件，后续在命令行里建表、插入等操作会记录到该文件，也可以直接输入`sqlite3`操作会记录到内存中，然后调用`.save`方法保存到磁盘。
+这样子会在当前目录创建`demo.db`文件，后续在命令行里建表、插入等操作会记录到该文件，也可以先直接输入`sqlite3`操作会记录到内存中，然后调用`.save`方法保存到磁盘。
 
 ```
 $ sqlite3
@@ -393,3 +393,116 @@ SQLite也支持触发器、`CHECK Constraint`，不常用就不一一介绍了�
 
 ![](/static/uploads/sqlite-select-stmt.gif)
 
+# 四、命令行
+
+SQLite项目提供了一个名为sqlite3（或Windows上的sqlite3.exe）的简单命令行工具，允许使用SQL语句和命令与SQLite数据库进行交互。默认情况下，SQLite会话使用内存数据库，因此会话结束时所有更改都将消失。
+
+要打开或者创建一个数据库文件，可以使用`.open FILENAME` 或者使用`sqlite3 FILENAME`(不存在时会自动创建FILENAME)。要显示所有可用命令及其用途，请使用.help命令，如下所示：
+
+命令|描述
+---|---
+.backup ?DB? FILE|备份 DB 数据库（默认是 "main"）到 FILE 文件。
+.bail ON\|OFF|发生错误后停止。默认为 OFF。
+.databases|列出数据库的名称及其所依附的文件。
+.dump ?TABLE?|以 SQL 文本格式转储数据库。如果指定了 TABLE 表，则只转储匹配 LIKE 模式的 TABLE 表。
+.echo ON\|OFF|开启或关闭 echo 命令。
+.exit|退出 SQLite 提示符。
+.explain ON\|OFF|开启或关闭适合于 EXPLAIN 的输出模式。如果没有带参数，则为 EXPLAIN on，及开启 EXPLAIN。
+.header(s) ON\|OFF|开启或关闭头部显示。
+.help|显示消息。
+.import FILE TABLE|导入来自 FILE 文件的数据到 TABLE 表中。
+.indices ?TABLE?|显示所有索引的名称。如果指定了 TABLE 表，则只显示匹配 LIKE 模式的 TABLE 表的索引。
+.load FILE ?ENTRY?|加载一个扩展库。
+.log FILE\|off|开启或关闭日志。FILE 文件可以是 stderr（标准错误）/stdout（标准输出）。
+.mode MODE|设置输出模式，MODE 可以是下列之一<BR>- csv 逗号分隔的值<BR>- column 左对齐的列<BR>- html HTML 的 `<table>` 代码<BR>- insert TABLE 表的 SQL 插入（insert）语句<BR>- line 每行一个值<BR>- list 由 .separator 字符串分隔的值<BR>- tabs 由 Tab 分隔的值<BR>- tcl TCL 列表元素
+.nullvalue STRING|在 NULL 值的地方输出 STRING 字符串。
+.output FILENAME|发送输出到 FILENAME 文件。
+.output stdout|发送输出到屏幕。
+.print STRING...|逐字地输出 STRING 字符串。
+.prompt MAIN CONTINUE|替换标准提示符。
+.quit|退出 SQLite 提示符。
+.read FILENAME|执行 FILENAME 文件中的 SQL。
+.schema ?TABLE?|显示 CREATE 语句。如果指定了 TABLE 表，则只显示匹配 LIKE 模式的 TABLE 表。
+.separator STRING|改变输出模式和 .import 所使用的分隔符。
+.show|显示各种设置的当前值。
+.stats ON\|OFF|开启或关闭统计。
+.tables ?PATTERN?|列出匹配 LIKE 模式的表的名称。
+.timeout MS|尝试打开锁定的表 MS 毫秒。
+.width NUM NUM|为 "column" 模式设置列宽度。
+.timer ON\|OFF|开启或关闭 CPU 定时器。
+
+## 4.1 调整显示
+
+按照不同的模式进行SQL查询后的结果展示。
+
+```
+sqlite> .header on
+sqlite> .mode column
+sqlite> select * from test;
+id
+----------
+1
+2
+sqlite> .mode insert
+sqlite> select * from test;
+INSERT INTO "table"(id) VALUES(1);
+INSERT INTO "table"(id) VALUES(2);
+```
+
+## 4.2 查看数据库及表
+
+```
+-- 显示数据库
+sqlite> .database
+main: /Users/peng/workspace/demo/test.db
+
+-- 显示表名
+sqlite> .table
+comment
+
+-- 显示DDL
+sqlite> .schema
+CREATE TABLE comment(article_id integer, content text);
+
+-- 显示索引
+sqlite> create index idx_article_id on comment(article_id);
+sqlite> .index
+idx_article_id
+```
+
+## 4.3 数据导出
+
+**通过.output将输出信息写到文件中。**
+
+```
+-- 查询结果写到test.txt中
+sqlite> .output "./test.txt"
+sqlite> select * from comment;
+
+-- 回复在标准输出打印
+sqlite> .output stdout
+sqlite> select * from comment;
+1|Test
+```
+
+要将数据库转储到文件中，可以使用`.dump`命令。 `.dump`命令将`SQLite`数据库的整个结构和数据转换为单个文本文件。默认情况下直接在标准输出显示，需要配合上面的`.output`指定输出到文件。
+
+## 4.4 导入CSV格式
+
+先将模式`.mode`设置为`csv`以指示命令行shell程序将输入文件解释为CSV文件，然后通过`.import`导入。
+
+```
+sqlite> .mode csv
+-- 将csv文件导入到test表
+sqlite> .import "./test.csv" test
+```
+
+## 4.5 导出CSV格式
+
+```
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output data.csv
+sqlite> select * from test;
+sqlite> .exit
+```
