@@ -436,6 +436,8 @@ SQLite项目提供了一个名为sqlite3（或Windows上的sqlite3.exe）的简�
 按照不同的模式进行SQL查询后的结果展示。
 
 ```
+sqlite> .mode
+current output mode: list
 sqlite> .header on
 sqlite> .mode column
 sqlite> select * from test;
