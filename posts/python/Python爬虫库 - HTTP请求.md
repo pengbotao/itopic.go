@@ -150,3 +150,23 @@ post实际用法和上面post一致。
 ```
 
 # HTTP请求 - urllib/urllib2
+
+## URL编码/解码
+
+```
+import urllib
+
+data = {
+    "from": "web",
+    "remark": "中文",
+}
+
+# 字典编码
+print(urllib.urlencode(data))
+# 解码
+print(urllib.unquote(urllib.urlencode(data)))
+
+# 字符串编码
+print(urllib.quote(":"))
+print(urllib.unquote("%3A"))
+```
