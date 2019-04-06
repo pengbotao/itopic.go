@@ -8,13 +8,14 @@ import (
 
 //Topic struct
 type Topic struct {
-	TopicID   string
-	Title     string
-	Time      time.Time
-	Tag       []*TopicTag
-	Content   string
-	TopicPath string
-	IsPublic  bool //true for public，false for protected
+	TopicID        string
+	Title          string
+	Time           time.Time
+	LastModifyTime time.Time
+	Tag            []*TopicTag
+	Content        string
+	TopicPath      string
+	IsPublic       bool //true for public，false for protected
 }
 
 //TopicTag struct

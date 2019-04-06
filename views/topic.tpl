@@ -17,6 +17,12 @@
 <div class="eof_arrow">
     <a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;" /></a>
 </div>
+{{ if not .topic.LastModifyTime.IsZero }}
+<div class="eof_tag">
+    最后更新：
+    <code style="border:0px;background:none;"><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.LastModifyTime.Format "2006-01-02 15:04"}}</a></code>
+</div>
+{{ end }}
 <div class="eof_tag">
     发表于：
     <code style="border:0px;background:none;"><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.Time.Format "2006-01-02 15:04"}}</a></code>

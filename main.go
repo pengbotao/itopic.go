@@ -56,7 +56,7 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/refresh", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
 		models.InitTopicList()
 		hr := loadHTTPRouter()
 		router = hr

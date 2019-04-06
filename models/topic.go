@@ -141,6 +141,12 @@ func GetTopicByPath(path string) (*Topic, error) {
 	var markdownRenderer = blackfriday.HtmlRenderer(markdownHTMLFlags, "", "")
 	t.Content = string(blackfriday.MarkdownOptions(content.Bytes(), markdownRenderer, blackfriday.Options{Extensions: markdownExtensions}))
 	t.TopicPath = path
+
+	finfo, _ := os.Stat(path)
+	lastModTime := finfo.ModTime()
+	if lastModTime.Unix()-t.Time.Unix() > 7*86400 && time.Now().Unix()-lastModTime.Unix() < 365*86400 {
+		t.LastModifyTime = lastModTime
+	}
 	return t, nil
 }
 
