@@ -1,0 +1,77 @@
+```
+{
+    "url": "python-html-xml-parse",
+    "time": "2016/04/12 13:14",
+    "tag": "Python,爬虫",
+    "public": "yes"
+}
+```
+
+# HTML解析 - lxml
+
+通过`requests`获取内容，然后在用`lxml`库通过`xpath`来解析节点。下面为抓取本博客所有文章。
+
+```
+import requests
+from lxml import html
+
+URL = "http://itopic.org"
+
+for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id="left-sider" or @id="right-sider"]/ul/li'):
+    print("%s %s %s%s" % (topic.text, topic.xpath('./a/text()')[0], URL, topic.xpath('./a/@href')[0]))
+```
+
+requests+lxml可参考：`http://x-wei.github.io/python_crawler_requests_lxml.html`
+
+# HTML解析 - BeautifulSoup
+
+
+# XML解析
+
+# CSV数据
+
+# JSON解析
+
+主要包含4个方法，没有`s`的需要传入文件对象。
+
+- json.load()
+- json.dump()
+- json.loads()
+- json.dumps()
+
+**对象编码 - 字符串解码**
+
+```
+import json
+
+data = {
+    "from": "itopic",
+    "name": "JSON数据",
+}
+
+json_str = json.dumps(data)
+json_data = json.loads(json_str)
+
+print(json_str, json_data)
+```
+
+**文件与JSON**
+
+```
+with open('data.json', 'w') as f:
+    json.dump(data, f)
+
+with open('data.json', 'r') as f:
+    data_obj = json.load(f)
+    print(data_obj)
+```
+
+# BASE64解析
+
+```
+import base64
+
+s = base64.b64encode("Base64数据")
+print(s)
+print(base64.b64decode(s))
+```
