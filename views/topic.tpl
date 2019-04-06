@@ -19,7 +19,7 @@
 </div>
 {{ if not .topic.LastModifyTime.IsZero }}
 <div class="eof_tag">
-    最后更新：
+    最后更新于：
     <code style="border:0px;background:none;"><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.LastModifyTime.Format "2006-01-02 15:04"}}</a></code>
 </div>
 {{ end }}
