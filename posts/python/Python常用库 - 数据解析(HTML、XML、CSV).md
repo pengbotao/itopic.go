@@ -2,8 +2,7 @@
 {
     "url": "python-html-xml-parse",
     "time": "2016/04/12 13:14",
-    "tag": "Python,爬虫",
-    "public": "yes"
+    "tag": "Python,爬虫"
 }
 ```
 
