@@ -6,33 +6,54 @@
 }
 ```
 
-# HTML解析 - lxml
+# 一、XML解析
 
-通过`requests`获取内容，然后在用`lxml`库通过`xpath`来解析节点。下面为抓取本博客所有文章。
+pass
+
+# 二、JSON编解码
+
+主要包含4个方法，没有`s`结尾的需要传入文件对象。
+
+- json.load()
+- json.dump()
+- json.loads()
+- json.dumps()
+
+## 2.1 对象编码 - 字符串解码
 
 ```
-import requests
-from lxml import html
+import json
 
-URL = "http://itopic.org"
+data = {
+    "from": "itopic",
+    "name": "JSON数据",
+}
 
-for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id="left-sider" or @id="right-sider"]/ul/li'):
-    print("%s %s %s%s" % (topic.text, topic.xpath('./a/text()')[0], URL, topic.xpath('./a/@href')[0]))
+json_str = json.dumps(data)
+json_data = json.loads(json_str)
+
+print(json_str, json_data)
 ```
 
-requests+lxml可参考：`http://x-wei.github.io/python_crawler_requests_lxml.html`
+## 2.2 JSON与文件
 
+```
+with open('data.json', 'w') as f:
+    json.dump(data, f)
 
-# XML解析
+with open('data.json', 'r') as f:
+    data_obj = json.load(f)
+    print(data_obj)
+```
 
-# CSV数据
+# 三、CSV读取与解析
 
 - csv.reader()
 - csv.DictReader
 - csv.writer()
 - csv.DictWriter()
 
-## CSV写入
+## 3.1 CSV写入
 
 ```
 import csv
@@ -59,7 +80,7 @@ with open("test.csv", "w") as f:
     f_csv.writerows(rows)
 ```
 
-## CSV读取
+## 3.2 CSV读取
 ```
 import csv
 from collections import namedtuple
@@ -87,43 +108,23 @@ with open("test.csv", "r") as f:
         print(row.Time, row)
 ```
 
-# JSON解析
+# 四、HTML解析
 
-主要包含4个方法，没有`s`的需要传入文件对象。
-
-- json.load()
-- json.dump()
-- json.loads()
-- json.dumps()
-
-**对象编码 - 字符串解码**
+通过`requests`获取内容，然后在用`lxml`库通过`xpath`来解析节点。下面为抓取本博客所有文章。
 
 ```
-import json
+import requests
+from lxml import html
 
-data = {
-    "from": "itopic",
-    "name": "JSON数据",
-}
+URL = "http://itopic.org"
 
-json_str = json.dumps(data)
-json_data = json.loads(json_str)
-
-print(json_str, json_data)
+for topic in html.fromstring(requests.get(URL).text).xpath('//div[@id="left-sider" or @id="right-sider"]/ul/li'):
+    print("%s %s %s%s" % (topic.text, topic.xpath('./a/text()')[0], URL, topic.xpath('./a/@href')[0]))
 ```
 
-**文件与JSON**
+requests+lxml可参考：`http://x-wei.github.io/python_crawler_requests_lxml.html`
 
-```
-with open('data.json', 'w') as f:
-    json.dump(data, f)
-
-with open('data.json', 'r') as f:
-    data_obj = json.load(f)
-    print(data_obj)
-```
-
-# BASE64解析
+# 五、BASE64编解码
 
 - base64.b64encode()
 - base64.b64decode()
@@ -136,7 +137,7 @@ print(s)
 print(base64.b64decode(s))
 ```
 
-# MD5编码
+# 六、MD5编码
 
 ```
 import hashlib
