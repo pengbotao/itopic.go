@@ -8,7 +8,64 @@
 
 # 一、XML解析
 
-pass
+这里使用`ElementTree`方式解析XML
+
+```
+#! /usr/bin/env python
+# coding=utf-8
+
+import xml.etree.ElementTree as ET
+xml_str = '''<SearchRequest from="tools">
+    <SearchDetails Nationality = "CN">
+        <ArrivalDate>2019-05-02</ArrivalDate>
+        <PropertyReferenceID>135155</PropertyReferenceID>
+        <Duration>1</Duration>
+        <RoomRequests>
+            <RoomRequest>
+                <Adults>2</Adults>
+                <Children>0</Children>
+                <Infants>0</Infants>
+            </RoomRequest>
+            <RoomRequest>
+                <Adults>2</Adults>
+                <Children>1</Children>
+                <Infants>1</Infants>
+            </RoomRequest>
+        </RoomRequests>
+    </SearchDetails>tail
+</SearchRequest>'''
+```
+
+加载数据的方式有两种，从XML文件获取:
+
+```
+#tree = ET.parse("filename.xml")
+#root = tree.getroot()
+```
+
+从XML字符串获取
+
+```
+root = ET.fromstring(xml_str)
+```
+
+第一种方式中tree为`ElementTree`对象，第二种方式中root为`Element`对象。每个Element有以下属性：
+
+- root.tag 标签名称
+- root.attrib 获取属性字典，也可以通过root.get('x')来获取指定的属性。
+- root.text 获取xml文本内容
+- root.tail 如上面xml中的`</SearchDetails>tail`，相对用的比较少。
+
+示例如下：
+
+```
+print("Tag: {}, Attributes: {}, Text: {}, Tail: {}".format(root.tag, root.attrib, root.text.strip(), root.tail))
+
+for child in root:
+    print("Tag: {}, Attributes: {}, Text: {}, Tail: {}".format(child.tag, child.get("Nationality"), child.text.strip(), child.tail))
+    print(child.find("ArrivalDate").text)
+    print(child.find("PropertyReferenceID").text)
+```
 
 # 二、JSON编解码
 

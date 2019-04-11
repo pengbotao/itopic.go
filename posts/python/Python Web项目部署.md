@@ -2,7 +2,8 @@
 {
     "url": "python-project-deploy",
     "time": "2016/06/01 00:05",
-    "tag": "Python"
+    "tag": "Python",
+    "public": "no"
 }
 ```
 

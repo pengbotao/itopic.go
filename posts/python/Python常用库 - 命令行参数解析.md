@@ -8,7 +8,6 @@
 
 # optparser
 
-
 ```
 from optparse import OptionParser
 
