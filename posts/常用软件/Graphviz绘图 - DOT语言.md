@@ -10,7 +10,7 @@
 
 ## 1.1 简介
 
-> Graphviz （英文：Graph Visualization Software的缩写）是一个由`AT&T实验室`启动的开源工具包，用于绘制`DOT语言`脚本描述的图形。它也提供了供其它软件使用的库。Graphviz是一个`自由软件`，其授权为`Eclipse Public License`。其Mac版本曾经获得2004年的`苹果设计奖`[2]。
+> Graphviz （英文：Graph Visualization Software的缩写）是一个由`AT&T实验室`启动的开源工具包，可以用于绘制`DOT语言`脚本描述的图形。它也提供了供其它软件使用的库。Graphviz是一个`自由软件`，其授权为`Eclipse Public License`。其Mac版本曾经获得2004年的`苹果设计奖`[2]。
 
 > Graphviz由一种被称为DOT语言的图形描述语言[3] 与一组可以生成和/或处理DOT文件的工具组成：
 
