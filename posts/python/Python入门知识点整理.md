@@ -446,7 +446,18 @@ fruits.clear()
 
 **2. 集合的交叉并补等操作**
 
-pass
+```
+>>> x = set([1, 2, 3])
+>>> y = set([3, 4, 5])
+>>> x & y   # 交集
+set([3])
+>>>
+>>> x | y   # 并集
+set([1, 2, 3, 4, 5])
+>>>
+>>> x - y   # 差集
+set([1, 2])
+```
 
 # 四、类型总结
 
@@ -781,7 +792,7 @@ $ L = {x * y for x in range(1, 5) for y in range(6, 10) if y > 8}
 # set([9, 18, 27, 36])
 ```
 
-## 8.3 map && fliter函数
+## 8.3 map && fliter && reduce函数
 
 **map函数**
 
@@ -818,7 +829,7 @@ map(function, sequence[, sequence, ...]) -> list
 
 **filter函数**
 
-`filter`也为内置函数，将序列的每个元素传给`function`，然后将函数执行返回`True`的元素组成新的列表。
+`filter`也为内置函数，将序列的每个元素传给`function`，然后将函数执行返回`True`的元素组成新的列表，`False`的元素则过滤掉。
 
 ```
 filter(function or None, sequence) -> list, tuple, or string
@@ -829,6 +840,21 @@ filter(function or None, sequence) -> list, tuple, or string
 ```
 >>> filter(lambda x: x != "o", "Hello World")
 'Hell Wrld'
+```
+
+**reduce函数**
+
+reduce函数功能是将 sequence 中数据，按照 function 函数操作，如将列表第一个数与第二个数进行 function 操作，得到的结果和列表中下一个数据进行 function 操作，一直循环下去... py3以后使用，必须导入`from functools import reduce`.
+
+```
+reduce(function, sequence[, initial]) -> value
+```
+
+求4!
+
+```
+>>> reduce(lambda x,y : x*y, range(1,5))
+24
 ```
 
 ## 8.4 sort && sorted
@@ -919,4 +945,26 @@ print(b)
 
 # [{'age': 30, 'name': 'Jack'}, {'age': 18, 'name': 'Peter'}, {'age': 24, 'name': 'Amy'}]
 # [{'age': 18, 'name': 'Peter'}, {'age': 24, 'name': 'Amy'}, {'age': 30, 'name': 'Jack'}]
+```
+
+## 8.5 zip函数
+
+```
+zip(seq1 [, seq2 [...]]) -> [(seq1[0], seq2[0] ...), (...)]
+```
+
+zip()是 Python 的一个内建函数，它接受一系列可迭代的对象作为参数，将对象中对应的元素打包成一个个tuple（元组），然后返回由这些tuples组成的list（列表）。若传入参数的长度不等，则返回 list 的长度和参数中长度最短的对象相同。利用*号操作符，可以将list unzip（解压）。
+
+```
+>>> x = ["a", "b"]
+>>> y = [1, 2]
+>>> t = zip(x, y)
+>>> t
+[('a', 1), ('b', 2)]
+>>> zip(*t)
+[('a', 'b'), (1, 2)]
+
+-- 构建字典
+>>> dict(zip(x, y))
+{'a': 1, 'b': 2}
 ```
