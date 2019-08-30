@@ -142,29 +142,34 @@ $ pip3 install uwsgitop
 # uwsgi.ini
 
 [uwsgi]
-# 配置socket则需要在上层挂在Nginx，否则会报：invalid request block size: 21573 (max 4096)...skip
-# socket = 127.0.0.1:5000
-
+#socket = 127.0.0.1:5000
 http = 127.0.0.1:5000
-
-chdir = /Users/peng/workspace/python/demo
 wsgi-file = test.py
 callable = app
 master = true
-# 当服务器退出时自动删除unix socket文件和pid文件
-vacuum = true
 processes = 4
 threads = 2
+
+chdir = /Users/peng/workspace/python/demo
+#daemonize = %(chdir)/log/uwsgi.log
 pidfile = %(chdir)/log/uwsgi.pid
-# daemonize = %(chdir)/log/uwsgi.log
+stats = %(chdir)/log/uwsgi.status
 max-requests = 100000
+# 当服务器退出时自动删除unix socket文件和pid文件
+vacuum = false
 ```
 
 **启动：**
 
-`uwsgi --ini uwsgi.ini`
+启动：`uwsgi --ini uwsgi.ini`
 
-和`gunicorn`一样，也可以通过`Nginx`将请求转到后端5000端口。
+重启：`uwsgi --reload log/uwsgi.pid`
+
+停止：`uwsgi --stop log/uwsgi.pid`
+
+查看状态：`uwsgi --connect-and-read log/uwsgi.status`
+
+和`gunicorn`一样，也可以通过`Nginx`将请求转到后端5000端口(若配置Nginx，配置文件中请使用socket)。
 
 ```
 server {
