@@ -49,6 +49,9 @@ $ pip install numpy==x.xx.x
 $ pip freeze > requirements.txt
 # 从文件安装
 $ pip install -r requirements.txt
+
+# 批量卸载
+$ pip uninstall -r requirements.txt
 ```
 
 # 多版本管理 - pyenv
@@ -76,6 +79,10 @@ python-build: use openssl from homebrew
 python-build: use readline from homebrew
 Downloading Python-3.7.2.tar.xz...
 -> https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tar.xz
+
+
+# 安装2.7.15版本
+$ CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" pyenv install -v 2.7.15
 
 
 # 卸载版本
