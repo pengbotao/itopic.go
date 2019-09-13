@@ -87,6 +87,48 @@ tree.write('search.xml', pretty_print=True, xml_declaration=True, encoding='utf-
 
 # 四、解析xml
 
+```
+#! /usr/local/env python
+# coding: utf-8
+
+from lxml import etree
+
+# 从文件加载xml文件
+xml = etree.parse('search.xml')
+
+# 从字符串加载xml
+# x = etree.fromstring(etree.tostring(xml))
+
+root = xml.getroot()
+print(type(root), root.tag, root.getchildren()[0].get('Language'))
+print("\n")
+
+# 按列表方式访问root下第一个节点（SearchHotel_Request）
+for x in root[0]:
+    print(x.tag, x.text, x.keys(), x.items())
+
+print("\n")
+
+# 通过xpath遍历Room节点
+for x in root.xpath('//SearchHotel_Request/RoomInfo/Room'):
+    print(x.tag, x.text, x.keys(), x.items())
+```
+
+```
+(<type 'lxml.etree._Element'>, 'Service_SearchHotel', 'en')
+
+
+('HotelId', '10086', [], [])
+('Currency', 'CNY', [], [])
+('Avail', '1', [], [])
+('Period', None, ['Checkin', 'Checkout'], [('Checkin', '2018-08-08'), ('Checkout', '2018-08-09')])
+('RoomInfo', '\n      ', [], [])
+
+
+('Room', None, ['RoomNum', 'RoomType', 'Adult', 'Child'], [('RoomNum', '1'), ('RoomType', 'Twin'), ('Adult', '2'), ('Child', '1')])
+('Room', None, ['RoomNum', 'RoomType', 'Adult', 'Child'], [('RoomNum', '2'), ('RoomType', 'Double'), ('Adult', '2'), ('Child', '1')])
+```
+
 # 五、解析html
 
 
