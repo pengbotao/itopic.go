@@ -18,10 +18,41 @@ lxml 是一个HTML/XML的解析器，主要的功能是如何解析和提取 HTM
 
 
 # 二、lxml结构
+
+
+- Element
+    - Property
+      - .attrib
+      - .base
+      - .sourceline
+      - .tag
+      - .text
+      - .prefix
+      - .nsmap
+    - Method
+      - xpath()
+      - getparent()
+      - getprevious()
+      - getnext()
+      - getchildren()
+      - getroottree()
+      - find()
+      - findall()
+      - findtext()
+      - clear()
+      - get()
+      - items()
+      - keys()
+      - values()
+      - set()
 - etree
-    - etree.fromstring
-    - etree.tostring
-    - etree.parse
+    - etree.fromstring()
+    - etree.tostring()
+    - etree.parse()
+- html
+    - html.fromstring()
+    - html.tostring()
+
 
 # 三、生成xml
 
@@ -131,6 +162,46 @@ for x in root.xpath('//SearchHotel_Request/RoomInfo/Room'):
 
 # 五、解析html
 
+```
+#! /usr/local/env python
+# coding: utf-8
+
+from lxml import html
+
+s = '''
+<div id="article">
+    <ul id="article-list">
+        <li class="selected">item-1</li>
+        <li><a href="#url2">item-2</a></li>
+        <li><a href="#url3"><img src="#img3"/>item-3</a></li>
+    </ul>
+</div>
+'''
+
+x = html.fromstring(s)
+print(html.tostring(x))
+
+# 打印text，过滤掉A标签内的其他非文本标签
+for x in html.fromstring(s).xpath('//ul[@id="article-list"]/li'):
+    print(x.text_content())
+
+
+# 获取a标签的标题和超链接地址，text可调为text_content()
+for x in html.fromstring(s).xpath('//a'):
+    print(x.text, x.attrib.get('href'))
+
+# 获取class为selected的li的文本内容，结果为数组
+print(html.fromstring(s).xpath('//li[@class="selected"]/text()'))
+
+
+# 移除元素后重新组成html
+c = ''
+for x in html.fromstring(s).xpath('//ul'):
+    for sv in x.xpath('./li[@class="selected"]'):
+        x.remove(sv)
+    c += html.tostring(x, pretty_print=True, encoding='unicode')
+print(c)
+```
 
 # 参考文档
 
