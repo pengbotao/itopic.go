@@ -390,7 +390,7 @@ soup.find("head").find("title")
 # <title>Page not found · GitHub Pages</title>
 ```
 
-## 3.3 其他find
+## 3.3 find_{}()
 
 - find_parents() 和 find_parent()
 - find_next_siblings() 和 find_next_sibling()
