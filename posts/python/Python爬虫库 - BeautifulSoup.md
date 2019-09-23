@@ -326,4 +326,86 @@ print(soup.b.prettify())
 
 # 三、查找
 
+`Beautiful Soup`定义了很多搜索方法,这里着重介绍2个: `find()` 和 `find_all()` .其它方法的参数和用法类似,请读者举一反三. 
+
+## 3.1 find_all()
+
+```
+find_all(name , attrs , recursive , string , **kwargs )
+```
+
+- `name`: 参数可以查找所有名字为`name`的`tag`
+- `attrs`:
+  - `id`: 查找包含指定`id`的`tag`
+  - `href`:  `href`参数, `Beautiful Soup`会搜索每个`tag`的`href`属性:
+  - `class_`: 按照`CSS`类名搜索tag的功能非常实用,但标识`CSS`类名的关键字`class`在Python中是保留字,使用`class`做参数会导致语法错误.从`Beautiful Soup`的`4.1.1`版本开始,可以通过`class_`参数搜索有指定`CSS`类名的`tag`:
+  - `limit`:  limit 参数限制返回结果的数量.效果与SQL中的limit关键字类似,当搜索到的结果数量达到`limit`的限制时,就停止搜索返回结果.如：`soup.find_all("a", limit=2)`
+- `recursive`: 调用`tag`的`find_all()`方法时,`Beautiful Soup`会检索当前`tag`的所有子孙节点,如果只想搜索`tag`的直接子节点,可以使用参数`recursive=False`.
+- `string`: 通过`string`参数可以搜搜文档中的字符串内容`.`与`name`参数的可选值一样, `string` 参数接受 `字符串` , `正则表达式` , `列表`, `True` . 下面代码用来搜索内容里面包含`Elsie`的`<a>`标签:`soup.find_all("a", string="Elsie")`
+
+**示例**
+
+```
+soup = BeautifulSoup(html_doc, 'html.parser')
+
+# 查找所有的图片标签
+print(soup.find_all('img'))
+
+# 查找A标签class=logo
+print(soup.find_all('a', "logo"))
+print(soup.find_all('a', class_="logo"))
+
+# 查找DIV下A标签标题为@githubstatus的a标签
+print(soup.find_all("div", id="suggestions", limit=1)[0].find_all('a', string="@githubstatus"))
+
+# 查找p标签和img标签
+print(soup.find_all(["p", "img"]))
+```
+
+## 3.2 find()
+
+```
+find(name , attrs , recursive , string , **kwargs )
+```
+
+`find_all()`方法将返回文档中符合条件的所有`tag`,尽管有时候我们只想得到一个结果.比如文档中只有一个<body>标签,那么使用 `find_all()`方法来查找<body>标签就不太合适, 使用`find_all`方法并设置`limit=1`参数不如直接使用`find()`方法.下面两行代码是等价的:
+
+```
+soup.find_all('title', limit=1)
+# [<title>Page not found · GitHub Pages</title>]
+
+soup.find('title')
+# <title>Page not found · GitHub Pages</title>
+```
+
+唯一的区别是`find_all()`方法的返回结果是值包含一个元素的列表,而`find()`方法直接返回结果.`find_all()`方法没有找到目标是返回空列表, `find()`方法找不到目标时,返回`None`.
+
+`soup.head.title`是`tag`的名字方法的简写.这个简写的原理就是多次调用当前`tag`的`find()`方法:
+
+```
+soup.head.title
+# <title>Page not found · GitHub Pages</title>
+
+soup.find("head").find("title")
+# <title>Page not found · GitHub Pages</title>
+```
+
+## 3.3 其他find
+
+- find_parents() 和 find_parent()
+- find_next_siblings() 和 find_next_sibling()
+- find_previous_siblings() 和 find_previous_sibling()
+- find_all_next() 和 find_next()
+- find_all_previous() 和 find_previous()
+
+## 3.4 CSS选择器
+
+`Beautiful Soup`支持大部分的`CSS`选择器 `http://www.w3.org/TR/CSS2/selector.html`, 在`Tag`或`BeautifulSoup`对象的`.select()`方法中传入字符串参数, 即可使用`CSS`选择器的语法找到`tag`:
+
+```
+print(soup.select(".container"))
+print(soup.select("#suggestions"))
+print(soup.select("div#suggestions"))
+```
+
 文档地址：https://beautifulsoup.readthedocs.io/zh_CN/latest/
