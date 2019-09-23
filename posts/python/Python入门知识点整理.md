@@ -131,6 +131,12 @@ Return -1 on failure.
 >>> help(str.join)
 ```
 
+3. Web服务
+
+```
+python -m pydoc -p 8899
+```
+
 # 二、控制流
 
 ## 2.1 if语句
