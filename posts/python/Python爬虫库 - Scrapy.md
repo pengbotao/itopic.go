@@ -70,6 +70,7 @@ class ItopicSpider(scrapy.Spider):
 
 ## 2.4 解析详情
 
+拿到首页的超链接之后通过`yield scrapy.Request(url=url, callback=self.parse_itopic_detail)`即可将详情页的请求发到调度器，同时使用`self.parse_itopic_detail`进行解析。所以对于新的页面只需要通过`yield scrapy.Request`添加地址，并定义对应的解析器就可。
 
 ```
 # -*- coding: utf-8 -*-
