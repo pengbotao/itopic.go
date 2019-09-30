@@ -198,7 +198,7 @@ Item Pipeline|`Item Pipeline`负责处理被spider提取出来的item。典型�
 下载器中间件(Downloader middlewares)|下载器中间件是在引擎及下载器之间的特定钩子(`specific hook`)，处理`Downloader`传递给引擎的response。 其提供了一个简便的机制，通过插入自定义代码来扩展`Scrapy`功能。
 Spider中间件(Spider middlewares)|`Spider`中间件是在引擎及`Spider`之间的特定钩子(`specific hook`)，处理`spider`的输入(response)和输出(items及requests)。 其提供了一个简便的机制，通过插入自定义代码来扩展`Scrapy`功能。
 
-可以看到分工更细更清晰，将要抓取的`URL`发给调度器，将`Request`的动作交给下载器，增加数据的清洗流程，同时以扩展中间件的方式实现灵活的流程控制。
+可以看到分工更细更清晰，将要抓取的`URL`发给调度器，将`Request`的动作交给下载器，增加数据的清洗流程，同时以扩展中间件的方式实现灵活的流程控制。`Scrapy`将这些组件串起来，我们只需要关注核心的几个步骤即可。
 
 
 ## 3.2 数据流(Data flow)
