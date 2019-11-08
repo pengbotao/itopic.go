@@ -96,13 +96,19 @@ wb = load_workbook("sample.xlsx")
 
 sheets = wb.get_sheet_names()
 print(sheets) # ['工作表-3', '工作表-1', '工作表-2']
-
 sheet1 = wb['工作表-1']
 print(sheet1.title) # 工作表-1
 
 # 获取工作表-1的A1单元格的数据
 print(sheet1["A2"].value)
-
 # 通过cell(row, column)方式获取A1的数据
 print(sheet1.cell(2, 1).value)
+
+
+
+# 获取第一个Sheet并遍历
+# sheet1 = wb[wb.sheetnames[0]]
+for row in sheet:
+    for idx in range(0, 10):
+        print(row[idx].value)
 ```
