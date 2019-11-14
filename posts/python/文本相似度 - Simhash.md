@@ -1,6 +1,6 @@
 ```
 {
-    "url": "python-simhash",
+    "url": "simhash",
     "time": "2018/03/05 22:36",
     "tag": "Python"
 }
