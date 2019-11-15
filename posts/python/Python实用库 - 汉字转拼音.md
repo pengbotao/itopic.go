@@ -8,7 +8,9 @@
 
 日常中偶然会碰到将中文转拼音的需求，`mozillazg/python-pinyin`库应该可以满足日常的需求。
 
-# 安装方式
+# 一、汉字转拼音
+
+## 1.1 安装方式
 
 ```
 $ pip install pypinyin
@@ -18,7 +20,7 @@ nǐ hǎo
 ```
 
 
-# 基本使用
+## 1.2 基本使用
 
 ```
 from pypinyin import pinyin, lazy_pinyin, Style
@@ -48,7 +50,7 @@ print(lazy_pinyin(sentence))
 - **Style.FIRST_LETTER**: 首字母风格，只返回拼音的首字母部分。如：`p y`
 
 
-# 翻译示例
+## 1.3 翻译示例
 
 > 《围城》一九四七年在上海初版，一九四八年再版，一九四九年三版，以后国内没有重印过。偶然碰见它的新版，那都是香港的“盗印”本。没有看到台湾的“盗印”，据说在那里它是禁书。美国哥伦比亚大学夏志清教授的英文著作里对它作了过高的评价，导致了一些西方语言的译本。日本京都大学荒井健教授很久以前就通知我他要翻译，近年来也陆续在刊物上发表了译文。现在，人民文学出版社建议重新排印，以便原著在国内较易找着，我感到意外和忻辛。
 
@@ -56,3 +58,20 @@ print(lazy_pinyin(sentence))
 
 
 看起来效果还不错，更多用法参考：`https://github.com/mozillazg/python-pinyin`
+
+# 二、拼写检查
+
+## 2.1 简介
+
+- https://github.com/rfk/pyenchant
+
+## 2.2 安装
+
+```
+pip install pyenchant -i  https://pypi.douban.com/simple
+```
+
+## 2.3 示例
+
+
+参考文档： https://www.jianshu.com/p/96c01666aeeb
