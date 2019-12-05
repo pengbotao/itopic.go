@@ -21,7 +21,7 @@ sqlite>
 
 虽然`SQLite`支持的功能大部分`Mysql`都有，但对比`SQLite`就会发现，`SQLite`小巧、零配置、移植方便、不需要额外启动服务端进程、功能也相当完善，较擅长在一些独立项目上提供本地存储，比纯文本方式方便，比`Mysql`清爽。
 
-安装上可直接从[官网](https://www.sqlite.org/download.html)上下载，相关文档可从[SQLite TuTorial](http://www.sqlitetutorial.net/)上查看。操作工具可以直接使用`命令行`或者[SQLite Studio](https://sqlitestudio.pl/index.rvt?act=download)或者`Navicat`。
+安装上可直接从[官网](https://www.sqlite.org/download.html)上下载，相关文档可从[SQLite TuTorial](http://www.sqlitetutorial.net/)上查看。操作工具可以直接使用`命令行`或者[SQLite Studio](https://sqlitestudio.pl/index.rvt?act=download)或者[ExtendsClass](https://extendsclass.com/sqlite-browser.html)或者`Navicat`。
 
 # 二、建表操作
 
