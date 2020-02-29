@@ -31,28 +31,37 @@ VSCode为跨平台编辑器，下载安装包安装即可。
 ```
 drwxr-xr-x  10 peng  staff   320B  7 25  2017 AlanWalk.markdown-toc-1.5.6
 drwxr-xr-x   9 peng  staff   288B  5  5  2017 Stephanvs.dot-0.0.1
-drwxr-xr-x  14 peng  staff   448B  2  5 15:55 alefragnani.project-manager-10.3.2
-drwxr-xr-x  16 peng  staff   512B 11  5 10:47 bierner.markdown-preview-github-styles-0.1.4
-drwxr-xr-x  26 peng  staff   832B  2  5 15:58 donjayamanne.githistory-0.4.6
-drwxr-xr-x  16 peng  staff   512B 12 15 12:50 dotjoshjohnson.xml-2.4.0
-drwxr-xr-x   9 peng  staff   288B  9 24 20:04 felixfbecker.php-debug-1.12.6
-drwxr-xr-x  16 peng  staff   512B 11 14 09:12 felixfbecker.php-intellisense-2.3.10
+drwxr-xr-x  11 peng  staff   352B  1 16 22:51 akamud.vscode-theme-onedark-2.1.0
+drwxr-xr-x  17 peng  staff   544B  1 28 12:56 alefragnani.project-manager-10.10.0
+drwxr-xr-x  14 peng  staff   448B 12 12 11:05 alexcvzz.vscode-sqlite-0.8.1
+drwxr-xr-x  14 peng  staff   448B  4 24  2019 bierner.markdown-preview-github-styles-0.1.6
+drwxr-xr-x  18 peng  staff   576B  2 25 13:30 donjayamanne.githistory-0.5.4
+drwxr-xr-x  18 peng  staff   576B  2 28 05:57 donjayamanne.githistory-0.5.5
+drwxr-xr-x  16 peng  staff   512B  6  1  2019 dotjoshjohnson.xml-2.5.0
+drwxr-xr-x  15 peng  staff   480B 12 27 16:18 felixfbecker.php-intellisense-2.3.14
 drwxr-xr-x   8 peng  staff   256B  8 16  2018 felixfbecker.php-pack-1.0.2
-drwxr-xr-x   9 peng  staff   288B  2 15 09:44 flesler.url-encode-1.1.0
-drwxr-xr-x  16 peng  staff   512B  1 29 15:36 formulahendry.code-runner-0.9.7
-drwxr-xr-x  10 peng  staff   320B  2 14 09:29 grapecity.gc-excelviewer-2.1.29
-drwxr-xr-x  25 peng  staff   800B  2 19 10:33 jebbs.plantuml-2.10.4
-drwxr-xr-x   9 peng  staff   288B  5  5  2017 keyring.lua-0.0.9
-drwxr-xr-x  11 peng  staff   352B  2 26 15:05 liximomo.sftp-1.9.4
-drwxr-xr-x  11 peng  staff   352B  2 27 10:01 liximomo.sftp-1.9.5
+drwxr-xr-x   9 peng  staff   288B  2 15  2019 flesler.url-encode-1.1.0
+drwxr-xr-x  16 peng  staff   512B  2 21 06:44 formulahendry.code-runner-0.9.16
+drwxr-xr-x  13 peng  staff   416B  2 17 10:47 grapecity.gc-excelviewer-2.1.33
+drwxr-xr-x  23 peng  staff   736B  2  1 18:06 gruntfuggly.todo-tree-0.0.167
+drwxr-xr-x  23 peng  staff   736B  2 26 07:53 gruntfuggly.todo-tree-0.0.169
+drwxr-xr-x   8 peng  staff   256B 11 21 12:20 hoovercj.vscode-power-mode-2.2.0
+drwxr-xr-x  10 peng  staff   320B  2 21 05:43 jcbuisson.vue-0.1.5
+drwxr-xr-x  26 peng  staff   832B  1  6 09:53 jebbs.plantuml-2.13.6
+drwxr-xr-x  11 peng  staff   352B  9 18 11:08 liximomo.sftp-1.12.9
+drwxr-xr-x  11 peng  staff   352B  8 28  2019 mkxml.vscode-filesize-2.1.3
 drwxr-xr-x   9 peng  staff   288B  3 23  2017 mohsen1.prettify-json-0.0.3
-drwxr-xr-x   8 peng  staff   256B  2 17 12:21 ms-ceintl.vscode-language-pack-zh-hans-1.31.4
-drwxr-xr-x  30 peng  staff   960B  1 31 00:35 ms-python.python-2019.1.0
-drwxr-xr-x  32 peng  staff   1.0K  2 27 15:35 ms-python.python-2019.2.5416
-drwxr-xr-x  19 peng  staff   608B  2 13 09:22 ms-vscode.go-0.9.2
-drwxr-xr-x  20 peng  staff   640B  2 17 12:21 shan.code-settings-sync-3.2.5
-drwxr-xr-x  13 peng  staff   416B  2 13 16:50 visualstudioexptteam.vscodeintellicode-1.1.3
-drwxr-xr-x  17 peng  staff   544B  5 27  2018 yzane.markdown-pdf-1.2.0
+drwxr-xr-x   8 peng  staff   256B  2 10 10:29 ms-ceintl.vscode-language-pack-zh-hans-1.42.2
+drwxr-xr-x  35 peng  staff   1.1K  2 26 07:57 ms-python.python-2020.2.64397
+drwxr-xr-x  17 peng  staff   544B  2  4 12:43 ms-vscode.go-0.13.0
+drwxr-xr-x  17 peng  staff   544B  2 28 09:39 ms-vscode.go-0.13.1
+drwxr-xr-x  30 peng  staff   960B  2 21 06:47 msjsdiag.debugger-for-chrome-4.12.6
+drwxr-xr-x  15 peng  staff   480B  2 11 11:40 redhat.vscode-yaml-0.7.2
+drwxr-xr-x  26 peng  staff   832B  9 24 03:28 shan.code-settings-sync-3.4.3
+drwxr-xr-x  12 peng  staff   384B  2 25 15:44 sumneko.lua-0.15.5
+drwxr-xr-x  27 peng  staff   864B  2 10 10:30 visualstudioexptteam.vscodeintellicode-1.2.5
+drwxr-xr-x  15 peng  staff   480B  2 17 10:47 yzane.markdown-pdf-1.4.2
+drwxr-xr-x  23 peng  staff   736B  2 20 17:11 zhuangtongfa.material-theme-3.2.3
 ```
 
 ## 2.1 Project Manager
