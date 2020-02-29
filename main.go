@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -19,14 +20,23 @@ import (
 )
 
 var (
-	host         = "127.0.0.1:8001"
+	host         = ""
 	isCreateHTML = false
-	htmlPrefix   = "../itopic.org" //without last slash
+	htmlPrefix   = "" //without last slash
 	domain       = ""
 	githubURL    = "https://github.com/pengbotao/itopic.go"
 )
 
+func init() {
+	flag.StringVar(&host, "host", "127.0.0.1:8001", "host")
+	flag.StringVar(&htmlPrefix, "prefix", "../itopic.org", "html folder")
+	flag.BoolVar(&isCreateHTML, "html", false, "is create html")
+}
+
 func main() {
+	flag.Parse()
+	htmlPrefix = strings.TrimRight(htmlPrefix, "/")
+
 	router := loadHTTPRouter()
 	ticker := time.NewTicker(1800 * time.Second)
 	go func() {
