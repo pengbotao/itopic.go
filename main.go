@@ -214,11 +214,14 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 func generateHTML(router map[string]bytes.Buffer) {
 	for k, v := range router {
 		if k == "/" {
+			fmt.Println("Create Html: " + htmlPrefix + k + "index.html")
 			writeFile(htmlPrefix+k+"index.html", v)
 		} else {
 			if k == "/sitemap" {
+				fmt.Println("Create Html: " + htmlPrefix + k + ".xml")
 				writeFile(htmlPrefix+k+".xml", v)
 			} else {
+				fmt.Println("Create Html: " + htmlPrefix + k + ".html")
 				writeFile(htmlPrefix+k+".html", v)
 			}
 		}
@@ -229,6 +232,7 @@ func generateHTML(router map[string]bytes.Buffer) {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
+	fmt.Println("Create Html Finished.")
 }
 
 func writeFile(filename string, content bytes.Buffer) {
