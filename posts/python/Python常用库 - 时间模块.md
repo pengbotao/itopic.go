@@ -2,8 +2,7 @@
 {
     "url": "python-time-module",
     "time": "2016/03/06 19:16",
-    "tag": "Python",
-    "public": "yes"
+    "tag": "Python"
 }
 ```
 
