@@ -240,17 +240,20 @@ go mod why|explain why packages or modules are needed
 
 国内下载GO的包可能会碰到被墙的问题，可以通过设置代理解决。
 
-**goproxy**
+
+名称|地址
+---|---
+Goproxy China|`https://goproxy.cn`
+官方|`https://goproxy.io`
+阿里|`https://mirrors.aliyun.com/goproxy/`
+
+**设置方式**
 
 ```
-export GOPROXY=https://goproxy.cn
+$ go env -w GO111MODULE=on
+$ go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-**阿里云：**
-
-```
-export GOPROXY=https://mirrors.aliyun.com/goproxy/
-```
 
 # Reference
 
