@@ -108,7 +108,7 @@ func main() {
 如果`select`里啥都没有 `select{}`，则会等待，达到阻塞的目的。
 
 
-# 三、协程同步与通信示例
+# 三、协程同步
 
 ## 3.1 通过Channel同步
 
@@ -208,8 +208,68 @@ func main() {
 }
 ```
 
+本章节主要通过`channel`来控制流程在该同步等待地方可以同步等待，对数据的交互主要在下一章节讨论。
+
+# 四、协程通信
+
+协程之间数据交互上主要有两种方式，一种为全局变量然后通过锁来控制原子性，另一种则是通过channel来进行通信。
+
+## 4.1 全局变量
+
+启动10个协程来执行1加到10的操作，s变量为协程共享，所以需要加锁才会正确输出55，若去掉锁的三行代码，则会出现非55的情况。
+
+```
+func sum() int {
+	s := 0
+	var wg sync.WaitGroup
+	var mutex sync.Mutex
+	wg.Add(10)
+	for i := 1; i <= 10; i++ {
+		go func(i int) {
+			mutex.Lock()
+			s += i
+			mutex.Unlock()
+			wg.Done()
+		}(i)
+	}
+	wg.Wait()
+	return s
+}
+func main() {
+	for i := 0; i < 100; i++ {
+		fmt.Print(sum(), " ")
+	}
+}
+```
+
+## 4.2 通过Channel来通信
+
+将结果写到通道中，从通道中读取结果进行累加。
+
+```
+func sum() int {
+	ch := make(chan int)
+	for i := 1; i <= 10; i++ {
+		go func(i int) {
+			ch <- i
+		}(i)
+	}
+	s := 0
+	for i := 0; i < 10; i++ {
+		s += <-ch
+	}
+	return s
+}
+func main() {
+	for i := 0; i < 100; i++ {
+		fmt.Print(sum(), " ")
+	}
+}
+```
+
 
 - [1] [go 语言之行--golang 核武器 goroutine 调度原理、channel 详解](https://learnku.com/articles/41668)
 - [2] [一文读懂什么是进程、线程、协程](https://www.jianshu.com/p/80bde972196d)
 - [3] [七周七并发模型](http://yuedu.163.com/source/a4b77ff9abaf4109acd11c38e5c8babc_4)
 - [4] [Go语言通道（chan）——goroutine之间通信的管道](http://c.biancheng.net/view/97.html)
+- [5] [golang sync包互斥锁和读写锁的使用](http://www.361way.com/rwmutex/5984.html)
