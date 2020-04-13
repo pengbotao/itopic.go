@@ -45,6 +45,69 @@ v := <-ch  // 从Channel ch中接收数据，并将数据赋值给v
 ch := make(chan int)
 ```
 
+## 2.2 select语句
+
+select 是`Go`中的一个控制结构，类似于用于通信的`switch`语句。每个`case`必须是一个通信操作，要么是发送要么是接收。`select`随机执行一个可运行的`case`。如果没有`case`可运行，它将阻塞，直到有 `case`可运行。一个默认的子句应该总是可运行的。
+
+**基本用法**
+
+```
+select {
+case <- chan1:
+// 如果chan1成功读到数据，则进行该case处理语句
+case chan2 <- 1:
+// 如果成功向chan2写入数据，则进行该case处理语句
+default:
+// 如果上面都没有成功，则进入default处理流程
+}
+```
+以下描述了 select 语句的语法：
+
+- 每个`case`都必须是一个通信
+- 所有`channel`表达式都会被求值
+- 所有被发送的表达式都会被求值
+- 如果任意某个通信可以进行，它就执行，其他被忽略。
+- 如果有多个`case`都可以运行，`Select`会随机公平地选出一个执行。其他不会执行。
+- 否则：
+	- 如果有`default`子句，则执行该语句。
+	- 如果没有`default`子句，`select`将阻塞，直到某个通信可以运行；`Go`不会重新对`channel`或值进行求值。
+
+**示例**
+
+```
+func main() {
+	ch1 := make(chan int)
+	ch2 := make(chan string)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		ch1 <- 1
+	}()
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		ch2 <- "Hello"
+	}()
+
+	fmt.Println("Start")
+	select {
+	case <-ch1:
+		fmt.Println("Read From ch1")
+	case <-ch2:
+		fmt.Println("Read From ch2")
+	default:
+		fmt.Println("Read From Default")
+	}
+	fmt.Println("END")
+}
+```
+
+- 因为两个通道都要等1秒，存在default则直接执行了default语句，打印`Read From Default`，退出`swith`
+- 如果去掉default，则阻塞等待打印出`Read From ch1`
+
+如果`select`里啥都没有 `select{}`，则会等待，达到阻塞的目的。
+
+
 # 三、协程同步与通信示例
 
 ## 3.1 通过Channel同步
@@ -123,10 +186,7 @@ func main() {
 
 	go func() {
 		for {
-			t, ok := <-ch
-			if ok {
-				fmt.Println(t)
-			}
+			fmt.Println(<-ch)
 		}
 	}()
 
