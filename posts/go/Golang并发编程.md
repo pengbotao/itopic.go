@@ -208,7 +208,7 @@ func main() {
 }
 ```
 
-## 3.4 读取channel超时
+## 3.4 读取Channel超时
 
 通过`select + time.After`实现超时控制。
 
