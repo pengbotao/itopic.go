@@ -112,3 +112,58 @@ for row in sheet:
     for idx in range(0, 10):
         print(row[idx].value)
 ```
+
+# 二、xlrd/xlwt
+
+## 2.1 xlrd
+
+```
+import xlrd
+x1 = xlrd.open_workbook("data.xlsx")
+```
+
+**获取Sheet**
+
+说明|操作
+---|---
+获取所有sheet名字|x1.sheet_names()
+获取sheet数量|x1.nsheets
+获取所有sheet对象|x1.sheets()
+通过sheet名查找|x1.sheet_by_name("test")
+通过索引查找|x1.sheet_by_index(3)
+
+**获取sheet的汇总数据**
+
+说明|操作
+---|---
+获取sheet名|`sheet1.name`
+获取总行数|sheet1.nrows
+获取总列数|sheet1.ncols
+
+**行操作**
+
+操作|说明
+---|---
+sheet1.row_values(0)|获取第一行所有内容，合并单元格，首行显示值，其它为空。
+sheet1.row(0)|获取单元格值类型和内容
+sheet1.row_types(0)|获取单元格数据类型
+
+**表操作**
+
+操作|说明
+---|---
+sheet1.row_values(0, 6, 10)|取第1行，第6~10列（不含第10表）
+sheet1.col_values(0, 0, 5)|取第1列，第0~5行（不含第5行）
+sheet1.row_slice(2, 0, 2)|获取单元格值类型和内容
+sheet1.row_types(1, 0, 2)|获取单元格数据类型
+
+**遍历**
+
+```
+rs = []
+for idx in range(0, sheet1.nrows):
+    rs.append(table.row_values(idx))
+```
+
+
+- [python读取excel(xlrd)](https://www.cnblogs.com/zhang-jun-jie/p/9273721.html)
