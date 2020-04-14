@@ -208,6 +208,27 @@ func main() {
 }
 ```
 
+## 3.4 读取channel超时
+
+通过`select + time.After`实现超时控制。
+
+```
+func main() {
+	ch := make(chan bool)
+	go func() {
+		time.Sleep(3 * time.Second)
+		ch <- true
+	}()
+
+	select {
+	case <-ch:
+		fmt.Println("Read From CH")
+	case <-time.After(time.Second):
+		fmt.Println("timeout")
+	}
+}
+```
+
 本章节主要通过`channel`来控制流程在该同步等待地方可以同步等待，对数据的交互主要在下一章节讨论。
 
 # 四、协程通信
