@@ -245,6 +245,7 @@ code span::selection {background-color: rgba(0, 0, 0, 0.7) !important;color: #ee
 nav {display: none;}
 @media (min-width: 1200px) {
   nav{
+    width:250px;
     display: block;
     position: fixed;
     left: 0px;
