@@ -399,6 +399,9 @@ func main() {
 }
 ```
 
+## 4.4 类型转换
+
+
 # 五、函数
 
 函数，简单来讲就是一段将`输入数据`转换为`输出数据`的公用代码块。
@@ -447,7 +450,7 @@ func func4(x int, y int) (sum int, m, n int) {
 }
 ```
 
-**方法5：闭包函数**
+## 5.2 闭包函数
 
 所谓闭包函数就是将整个函数的定义一气呵成写好并赋值给一个变量。然后用这个变量名作为函数名去调用函数体。
 
@@ -461,6 +464,103 @@ func main() {
 		return s
 	}
 	fmt.Println(sum(1, 2, 3))
+}
+```
+
+## 5.3 递归函数
+
+所谓递归，就是在函数的内部重复调用一个函数的过程。需要注意的是这个函数必须能够一层一层分解，并且有出口。
+
+```
+func fibonacci(n int) int {
+	if n == 0 {
+		return 0
+	}
+	if n == 1 {
+		return 1
+	}
+	return fibonacci(n-1) + fibonacci(n-2)
+}
+
+func main() {
+	for i := 1; i < 10; i++ {
+		fmt.Println(fibonacci(i))
+	}
+}
+```
+
+## 5.4 传值与传引用
+
+# 六、错误和异常处理
+
+## 6.1 defer关键字
+
+Go语言提供了关键字`defer`来在函数运行结束的时候运行一段代码或调用一个清理函数。
+
+```
+func main() {
+	defer func() {
+		fmt.Println("Print From Defer.")
+	}()
+	fmt.Println("Hello World.")
+}
+```
+
+上面示例虽然defer操作写在打印的前面，但实际会在main函数结束前调用，运行示例就可以看到Defer的打印在Hello之后。所以常用`defer`来处理一些清理和释放资源的操作，比如常见的：
+
+```
+mu.Lock()
+defer mu.Unlock()
+```
+
+
+`defer`有一些特性：
+
+- 如果有多个`defer`操作，按照`FILO`（先进后出）的方式执行。
+- `defer`还可以修改函数中的命名返回值。
+
+## 6.2 panic & recover
+
+- `panic`: 抛出一条异常信息。程序执行中调用了panic则正常执行流程终止，但是该函数中panic之前定义的defer语句将被依次执行。
+- `recover`: 用于将panic的信息捕捉。recover必须定义在panic之前的defer语句中。
+
+```
+func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("%s", r)
+		}
+	}()
+	panic("panic info.")
+}
+```
+
+## 6.3 错误判断
+
+```
+func division(x, y int) (int, error) {
+	if y == 0 {
+		return 0, errors.New("integer divide by zero")
+	}
+	return x / y, nil
+}
+
+func main() {
+	x, err := division(1, 0)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(x)
+	}
+}
+```
+
+也可以通过下划线`_`忽略掉error信息，但潜在的错误就被忽略掉了，所以经常看到一堆的`if err != nil`的判断。
+
+```
+func main() {
+	x, _ := division(1, 0)
+	fmt.Println(x)
 }
 ```
 
