@@ -399,24 +399,70 @@ func main() {
 }
 ```
 
-# 五、类型总结
+# 五、函数
 
-## 5.1 类型转换
+函数，简单来讲就是一段将`输入数据`转换为`输出数据`的公用代码块。
 
-Go 对于值之间的比较有非常严格的限制，只有两个类型相同的值才可以进行比较，如果值的类型是接口（interface），它们也必须都实现了相同的接口。如果其中一个值是常量，那么另外一个值的类型必须和该常量类型相兼容的。
+## 5.1 函数定义
 
+**方法一：基本定义**
 
-## 5.2 传值与传引用
+```
+func func1(x int, y int) int {
+	return x + y
+}
+```
 
+**方法2：可变长参数**
 
-# 六、函数
+```
+func func2(nums ...int) int {
+	sum := 0
+	for _, v := range nums {
+		sum += v
+	}
+	return sum
+}
+```
 
-# 七、结构体
+**方法3：多返回值**
 
-# 八、并行计算
+```
+func func3(x, y int, z string) (int, string) {
+	return x + y, z + " World"
+}
+```
 
-# 九、错误处理
+**方法4：命名返回值**
 
+- 可以为返回值预先定义一个名称，在函数结束的时候，直接return就可以返回所有的预定义返回值
+- 如果定义了命名返回值，那么在函数内部将不能再重复定义一个同样名称的变量。
+
+```
+func func4(x int, y int) (sum int, m, n int) {
+	m = x
+	n = y
+	sum = x + y
+	return
+}
+```
+
+**方法5：闭包函数**
+
+所谓闭包函数就是将整个函数的定义一气呵成写好并赋值给一个变量。然后用这个变量名作为函数名去调用函数体。
+
+```
+func main() {
+	sum := func(nums ...int) int {
+		s := 0
+		for _, v := range nums {
+			s += v
+		}
+		return s
+	}
+	fmt.Println(sum(1, 2, 3))
+}
+```
 
 
 - [1] [Go轻松学](https://www.kancloud.cn/itfanr/go-quick-learn)
