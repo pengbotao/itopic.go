@@ -1,48 +1,60 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
+	"os"
 	"os/exec"
-	"runtime"
 	"strings"
 	"time"
 )
 
+// go run main.go --host :8088 --path /data/wwwroot --key 123456
+
 var (
-	host     = "127.0.0.1:8002"
-	hookPath = "/data/www/gopath/src/"
+	host     string
+	hookPath string
+	hookKey  string
+	hookCmd  string
 )
 
-func hook(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	project, ok := r.Form["project"]
-	if !ok {
+func main() {
+	flag.StringVar(&host, "host", "127.0.0.1:8088", "host")
+	flag.StringVar(&hookPath, "path", "", "hook path")
+	flag.StringVar(&hookKey, "key", "", "hook key")
+	flag.StringVar(&hookCmd, "cmd", "/bin/sh", "sh command")
+	flag.Parse()
+	if hookPath == "" {
+		fmt.Println("please specified hook path.")
+		os.Exit(0)
+	}
+	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World"))
 		return
-	}
-	path := hookPath + strings.Join(project, "")
-	str := fmt.Sprintf("cd %s && git checkout master && git reset --hard HEAD && git pull", path)
-	println("[" + time.Now().Format("2006-01-02 15:04:05") + "] " + str)
-	name := "/bin/sh"
-	if strings.Compare(runtime.GOOS, "windows") == 0 {
-		name = "C:/Program Files/Git/git-bash.exe"
-	}
-	go func() {
-		out, err := exec.Command(name, "-c", str).Output()
-		if err != nil {
-			println(err.Error())
-			return
+	})
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+		k, ok := r.Form["k"]
+		if hookKey != "" {
+			if !ok || strings.Compare(strings.Join(k, ""), hookKey) != 0 {
+				return
+			}
 		}
-		println(string(out))
-		return
-	}()
-	fmt.Fprintln(w, "Hello World.")
-}
-
-func main() {
-	http.HandleFunc("/", hook)
-	fmt.Println("The topic server is running (" + runtime.GOOS + ") at http://" + host)
+		str := fmt.Sprintf("cd %s && git checkout master && git reset --hard HEAD && git pull", hookPath)
+		println("[" + time.Now().Format("2006-01-02 15:04:05") + "] " + str)
+		go func() {
+			out, err := exec.Command(hookCmd, "-c", str).Output()
+			if err != nil {
+				println(err.Error())
+				return
+			}
+			println(string(out))
+			return
+		}()
+		fmt.Fprintln(w, "Finish.")
+	})
+	fmt.Println("The hook server is running at http://" + host)
 	fmt.Println("Quit the server with Control-C")
 	http.ListenAndServe(host, nil)
 }
