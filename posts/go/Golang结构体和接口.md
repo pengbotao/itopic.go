@@ -37,9 +37,9 @@ func (p Person) Info() string {
 ```
 
 - 首先可以看到`Info`方法并非定义在结构体对应的花括号内部，而是独立于结构体之外，这和一些语言不同，倒和Lua的table有点相似。
-- 结构的方法和普通定义唯一的区别是在`func`关键字和函数名`Info`中间增加了一个结构体类型限定：`(p Person)`，表示这是一个`Person`结构体的方法。
+- 结构体方法和普通函数定义唯一的区别是在`func`关键字和函数名`Info`中间增加了一个结构体类型限定：`(p Person)`，表示这是一个`Person`结构体的方法。
 - 结构体类型限定`(p Person)`，`p`表示形参名可以用任意变量名;`Person`是`p`的数据类型。
-- 可通过`.`形式来获取到结构体的成员属性，如`p.Name`
+- 可通过`.`形式来获取到结构体的成员属性和方法，如`p.Name`
 
 
 ## 1.2 初始化及调用
@@ -257,9 +257,9 @@ func main() {
 
 接口是一组方法的集合。接口的定义，首先是关键字`type`，然后是接口名称，最后是关键字`interface`表示这个类型是接口类型。示例，
 
-- 定义了一个接口`ExportHandler`，包含一个方法：`Export()`
-- `CsvExporter` 和 `ExcelExporter` 都实现了该方法，但仅仅是实现了改方法，代码层面并无显示关联
-- 任何类型，只要实现了该接口中方法集，那么就属于这个类型。
+- 定义了一个接口`ExportHandler`，包含一个方法：`Export()`。
+- `CsvExporter` 和 `ExcelExporter` 都实现了该方法，但仅仅是实现了改方法，代码层面并无显示关联。
+- 任何类型，只要实现了该接口中方法集，那么就属于这个类型，所以`CsvExporter`和`ExcelExporter`都可以定义在`ExportHandler`数组中。
 
 ```
 type ExportHandler interface {
@@ -289,8 +289,56 @@ func main() {
 }
 ```
 
+## 4.2 空接口
 
-- [1] [Golang 入门 : 结构体(struct)](https://www.cnblogs.com/sparkdev/p/10761825.html)
-- [2] [Go结构体和接口](https://www.kancloud.cn/itfanr/go-quick-learn/81641)
+空接口就是不含有方法的接口：`interface{}`，相当于所有的类型都实现了空接口，从示例可以看到类型都可以传给函数`show`而不会报类型错误。
+
+```
+func show(v interface{}) {
+	fmt.Println(v)
+}
+
+func main() {
+	show(123)
+	show("123456")
+	show([]int{1, 2, 3})
+}
+```
+
+但上面的类型只是表示可以传给函数`show`， 而实际上无法做运算：
+
+```
+func show(v interface{}) {
+	fmt.Println(v + 1)
+}
+
+func main() {
+	show(123)
+}
+//invalid operation: v + 1 (mismatched types interface {} and int)
+```
+
+所以要做运算需要做数据类型判断：
+
+```
+func show(v interface{}) {
+	switch val := v.(type) {
+	case int:
+		fmt.Println(val + 1)
+	case string:
+		fmt.Println(val + "123456")
+	default:
+		fmt.Println("unknown data type")
+	}
+}
+
+func main() {
+	show(1)
+}
+```
+
+
+- [1] [Go结构体和接口](https://www.kancloud.cn/itfanr/go-quick-learn/81641)
+- [2] [Golang 入门 : 结构体(struct)](https://www.cnblogs.com/sparkdev/p/10761825.html)
 - [3] [Golang关键字--type 类型定义](https://www.jianshu.com/p/a02cf41c0520)
 - [4] [Golang 之 interface接口全面理解](https://www.cnblogs.com/echojson/p/10746807.html)
