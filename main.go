@@ -22,6 +22,7 @@ import (
 var (
 	host         = ""
 	isCreateHTML = false
+	isDebug      = false
 	htmlPrefix   = "" //without last slash
 	domain       = ""
 	githubURL    = "https://github.com/pengbotao/itopic.go"
@@ -31,6 +32,7 @@ func init() {
 	flag.StringVar(&host, "host", "127.0.0.1:8001", "host")
 	flag.StringVar(&htmlPrefix, "prefix", "../itopic.org", "html folder")
 	flag.BoolVar(&isCreateHTML, "html", false, "is create html")
+	flag.BoolVar(&isDebug, "debug", false, "debug mode")
 }
 
 func main() {
@@ -50,6 +52,11 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if isDebug == true {
+			models.InitTopicList()
+			hr := loadHTTPRouter()
+			router = hr
+		}
 		path := r.URL.Path
 		if pos := strings.LastIndex(path, "."); pos > 0 {
 			path = path[0:pos]
