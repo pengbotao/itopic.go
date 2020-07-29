@@ -52,8 +52,19 @@ go run main.go
 ```
 说明：
 
-- 不需要生成静态页面时将`main.go`中`isCreateHTML`设置为false，默认为false。
-- `domain`用来定义模版页链接前缀，可设置为空
+```
+  -debug
+        debug mode
+  -host string
+        host (default "127.0.0.1:8001")
+  -html
+        is create html
+  -prefix string
+        html folder (default "../itopic.org")
+```
+
+- `-debug`: 文档调整后访问浏览器实时看到效果
+- `-html`: 往`prefix`目录写静态数据
 
 # 发布
 
