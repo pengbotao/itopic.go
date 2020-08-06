@@ -2,7 +2,7 @@
 {
     "url": "nginx-module",
     "time": "2018/05/06 17:54",
-    "tag": "PHP,Linux"
+    "tag": "Nginx,Linux"
 }
 ```
 
