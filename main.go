@@ -23,7 +23,8 @@ var (
 	host         = ""
 	isCreateHTML = false
 	isDebug      = false
-	htmlPrefix   = "" //without last slash
+	htmlPrefix   = ""  //without last slash
+	htmlDuration = 300 //5 minutes
 	domain       = ""
 	githubURL    = "https://github.com/pengbotao/itopic.go"
 )
@@ -32,6 +33,7 @@ func init() {
 	flag.StringVar(&host, "host", "127.0.0.1:8001", "host")
 	flag.StringVar(&htmlPrefix, "prefix", "../itopic.org", "html folder")
 	flag.BoolVar(&isCreateHTML, "html", false, "is create html")
+	flag.IntVar(&htmlDuration, "duration", 300, "create html duration")
 	flag.BoolVar(&isDebug, "debug", false, "debug mode")
 }
 
@@ -214,27 +216,40 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	//create html
 	if isCreateHTML == true {
 		go generateHTML(router)
+		go func() {
+			ticker := time.NewTicker(time.Duration(htmlDuration) * time.Second)
+			for {
+				<-ticker.C
+				generateHTML(router)
+			}
+		}()
 	}
 	return router
 }
 
 func generateHTML(router map[string]bytes.Buffer) {
+	fmt.Println(time.Now(), "Create Html Start.")
+	var err error
+	err = clearHTML()
+	if err != nil {
+		fmt.Println(err)
+	}
 	for k, v := range router {
 		if k == "/" {
-			fmt.Println("Create Html: " + htmlPrefix + k + "index.html")
+			//fmt.Println("Create Html: " + htmlPrefix + k + "index.html")
 			writeFile(htmlPrefix+k+"index.html", v)
 		} else {
 			if k == "/sitemap" {
-				fmt.Println("Create Html: " + htmlPrefix + k + ".xml")
+				//fmt.Println("Create Html: " + htmlPrefix + k + ".xml")
 				writeFile(htmlPrefix+k+".xml", v)
 			} else {
-				fmt.Println("Create Html: " + htmlPrefix + k + ".html")
+				//fmt.Println("Create Html: " + htmlPrefix + k + ".html")
 				writeFile(htmlPrefix+k+".html", v)
 			}
 		}
 	}
 	//copy static folder
-	err := copyDir("./static", htmlPrefix+"/static")
+	err = copyDir("./static", htmlPrefix+"/static")
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
@@ -242,10 +257,23 @@ func generateHTML(router map[string]bytes.Buffer) {
 	fmt.Println("Create Html Finished.")
 }
 
+func clearHTML() error {
+	files, err := ioutil.ReadDir(htmlPrefix)
+	if err != nil {
+		return err
+	}
+	for _, file := range files {
+		if (file.IsDir() && !strings.HasPrefix(file.Name(), ".")) || strings.HasSuffix(file.Name(), ".html") {
+			os.RemoveAll(htmlPrefix + "/" + file.Name())
+		}
+	}
+	return nil
+}
+
 func writeFile(filename string, content bytes.Buffer) {
 	_, err := os.Stat(path.Dir(filename))
 	if os.IsNotExist(err) {
-		err := os.MkdirAll(path.Dir(filename), 0666)
+		err := os.MkdirAll(path.Dir(filename), 0775)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

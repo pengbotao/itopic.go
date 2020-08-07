@@ -54,17 +54,19 @@ go run main.go
 
 ```
   -debug
-        debug mode
+    	debug mode
+  -duration int
+    	create html duration (default 300)
   -host string
-        host (default "127.0.0.1:8001")
+    	host (default "127.0.0.1:8001")
   -html
-        is create html
+    	is create html
   -prefix string
-        html folder (default "../itopic.org")
+    	html folder (default "../itopic.org")
 ```
 
-- `-debug`: 文档调整后访问浏览器实时看到效果
-- `-html`: 往`prefix`目录写静态数据
+- `-debug`: 文档修改后访问浏览器实时看到效果
+- `-html`: 往`prefix`目录写生成的html数据，默认每5分钟写一次
 
 # 发布
 
