@@ -163,3 +163,20 @@ User-Agent: HTTPie/1.0.2
     "show": true
 }
 ```
+
+# 三、Curl请求
+
+```
+$ curl -w "@curl-format.txt" -o /dev/null -s http://www.baidu.com
+              http: 200
+     time_namelookup: 0.001757s
+       time_redirect: 0.000000s
+        time_connect: 0.024540s
+     time_appconnect: 0.000000s
+    time_pretransfer: 0.024580s
+  time_starttransfer: 0.044848s
+          time_total: 0.045182s
+
+     size_download: 2381bytes
+      speed_download: 52911.000B/s
+```
