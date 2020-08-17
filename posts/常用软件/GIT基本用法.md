@@ -437,4 +437,6 @@ git checkout -- .
 git reset --hard 77e02cd8dc43940f0c817379c94935a79d476510
 ```
 
-### 4.4.4 还原已经提交到远程的文件
+---
+
+- [1] [Git 工作流程](http://www.ruanyifeng.com/blog/2015/12/git-workflow.html)
