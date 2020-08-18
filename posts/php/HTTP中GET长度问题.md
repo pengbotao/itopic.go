@@ -8,11 +8,11 @@
 
 曾做过一个plist的接口，需要将参数编码后放在URL上传递，编码后的URL很长，长到让人担心这么传有没有问题？要弄清这个问题得先弄明白HTTP报文请求格式，借用网上一张图片：
 
-![](/static/uploads/http-proxy.png)
+![](../../static/uploads/http-proxy.png)
 
 一个HTTP请求由四部分组成：Request Line、Headers、空行和Request Body。见下面GET示例：
 
-![](/static/uploads/http_get.png)
+![](../../static/uploads/http_get.png)
 
 可以看到GET请求时，数据放在Request Line中Request-URI传递；若发送POST请求时，数据则放在Request Body中传递，不同的地方决定了其享受不同的待遇。
 

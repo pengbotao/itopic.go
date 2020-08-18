@@ -32,7 +32,7 @@
 - 创建一个变量a,如果它还没有创建的话。
 - 将变量与新对象3连接。
 
-![](/static/uploads/python-dynamically-1.png)
+![](../../static/uploads/python-dynamically-1.png)
 
 如上图所示，变量和对象保存在内存的不同部分，它们通过连接相关联（图中箭头）。
 
@@ -60,7 +60,7 @@
 >>> b=a
 ```
 
-![](/static/uploads/python-dynamically-2.png)
+![](../../static/uploads/python-dynamically-2.png)
 
 可以看到变量`a,b`引用了同一个对象。这时,让变量`a`引用另一个对象。
 ```
@@ -69,7 +69,7 @@
 >>> a='viper'
 ```
 
-![](/static/uploads/python-dynamically-3.png)
+![](../../static/uploads/python-dynamically-3.png)
 
 `a='viper'`创建了一个新的对象`'viper'`,并让变量`a`对这个新对象引用，而变量`b`仍然引用原来的对象`3`.所以这时变量`b`的值是`3`.
 

@@ -11,7 +11,7 @@
 背景说明：
 发现线上Redis存储占用异常，某些机器内存资源异常，查看内存信息`mem_fragmentation_ratio`为1.03
 
-![](/static/uploads/codis-memory.jpg)
+![](../../static/uploads/codis-memory.jpg)
 
 根据经验怀疑是某些较大的KEY占用了内存而没有释放。需要找出REDIS中占用内存资源较大的KEY。
 

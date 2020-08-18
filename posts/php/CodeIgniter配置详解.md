@@ -155,7 +155,7 @@ XSS：跨站脚本攻击，通常情况下为将一段脚本入库，显示时�
 
 XSS和CSRF涉及到用户会话状态和用户操作权限，若收到攻击是比较危险的。接下来看看CI中对XSS和XSRF处理。
 
-![](/static/uploads/CodeIgniter-crsf-error.png)
+![](../../static/uploads/CodeIgniter-crsf-error.png)
 
 先看一下上面的错误提示，你能很快找到问题所在吗？ 
 
@@ -214,11 +214,11 @@ User-Agent:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) C
 ```
 从而达到保存会话状态的目的。但也需要注意，如果获取到用户A登录的SESSION ID会怎么样？根据上面的逻辑，如果在请求过程中把获取到的SESSION ID一并发送给服务端，服务端根据SESSION ID读取文件，发现文件内容存在，从而判定用户为A用户，也就是获取到了A用户的用户状态，从而可能可以进行一些敏感操作。所以在会话有效期内，获取到了SESSION ID即获取到了用户的授权，这是比较危险的，以本地的一个管理系统为例，通过chrome登录后查看到客户端COOKIE如下图：
 
-![](/static/uploads/CodeIgniter-Cookie.png)
+![](../../static/uploads/CodeIgniter-Cookie.png)
 
 假如如果通过某种手段获取到了SESSION ID， 可以模拟发送一个相同的COOKIE过去即可实现登录。FireFox中可添加COOKIE，打开Firebug后Cookies中新建cookie，确定之后刷新页面即可登录到管理系统，如下图：
 
-![](/static/uploads/CoIgniter-Add-Cookie.png)
+![](../../static/uploads/CoIgniter-Add-Cookie.png)
 
 通常情况下可通过js获取到cookie，所以需要注意转义，防止数据展示时被执行了。接下来看看CI中的SESSION。在配置文件中有几个跟Session配置相关的参数，影响到Session的使用，它们是：
 ```

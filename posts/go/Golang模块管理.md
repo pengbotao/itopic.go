@@ -21,7 +21,7 @@ bin|编译后生成的可执行文件
 
 按这种思路，多个项目会是这种组织形：
 
-![](/static/uploads/go-project.png)
+![](../../static/uploads/go-project.png)
 
 
 ## 1.2 GOPATH配置

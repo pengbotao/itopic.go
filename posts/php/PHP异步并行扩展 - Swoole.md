@@ -69,11 +69,11 @@ $http->start();
 ### 2.2.2 压力测试
 这里以Hello World作为参考，100个线程不断执行，下图是Swoole的压测结果：
 
-![](/static/uploads/swoole-http.png)
+![](../../static/uploads/swoole-http.png)
 
 可以看到，Hello World的吞吐量为4363，其中一直飙到5000，但这个时候开始出现错误了，稳定性上面打折扣，平均值18ms，90%在25ms以内，速度上还可以。接下来看看Nginx+PHP组合的Hello World
 
-![](/static/uploads/nginx-http.png)
+![](../../static/uploads/nginx-http.png)
 
 可以看到Nginx未出现Error的情况，效率也不比Swoole差。Swoole有一点优势就是支持异步去处理一下业务逻辑。比如：
 
@@ -261,7 +261,7 @@ fclose($fp);
 这样子封包过程和解包过程就实现了。下面也看看压测的结果。
 
 ### 2.3.2 压力测试
-![](/static/uploads/swoole-tcp.png)
+![](../../static/uploads/swoole-tcp.png)
 
 效率上也没有太大问题，但跟Http Server一样，同样存在不稳定，当压测到一定成都之后Task就挂掉了，无法接收新的任务，需要重启服务。官方对task的使用说明：
 

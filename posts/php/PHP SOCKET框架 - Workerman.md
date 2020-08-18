@@ -158,7 +158,7 @@ Worker::runAll();
 ```
 监听2345端口，并且启动4个进程来提供服务。执行性能轻松可上2w，并且比较稳定。但这个是完全没有业务逻辑，加上业务逻辑之后，C语言也可以写到只有300的QPS，后面可以测一下增加业务逻辑后的效果。
 
-![](/static/uploads/workerman-http.png)
+![](../../static/uploads/workerman-http.png)
 
 查看程序状态，内存上控制的也不错。event-loop为select，如果是libevent可能会更高。
 
@@ -212,7 +212,7 @@ Worker::runAll();
 
 协议中的实现类似上面，在协议的decode方法中已经将数据转换为数组，onMessage回调时收到为PHP数组，这里encode后发给客户端。同样，也进行了一些压测：
 
-![](/static/uploads/workerman-tcp.png)
+![](../../static/uploads/workerman-tcp.png)
 
 测试机上效率上也还可以，而且比较稳定。
 

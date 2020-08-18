@@ -18,7 +18,7 @@ Go的安装方式比较简单，没有什么依赖，直接通过官网下载即
 # /usr/local/server/go1.8/bin/go
 ```
 
-![](/static/uploads/golang-start.png)
+![](../../static/uploads/golang-start.png)
 
 
 ## 1.1 添加环境变量

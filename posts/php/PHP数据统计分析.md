@@ -18,7 +18,7 @@
 
 # 整体思路
 
-![](/static/uploads/php-report-overflow.png)
+![](../../static/uploads/php-report-overflow.png)
 
 **接下来对每个步骤进行梳理：**
 

@@ -14,7 +14,7 @@
 
 通过`docker.com`即可下载Docker Desktop，这里本机为Mac，安装好之后如下图：
 
-![](/static/uploads/docker-desktop.png)
+![](../../static/uploads/docker-desktop.png)
 
 ## 1.2 概念说明
 
@@ -407,7 +407,7 @@ docker tag nginx:alpine pengbotao/nginx
 
 提交之后docker hub上就可以看到了。
 
-![](/static/uploads/docker-hub-php.png)
+![](../../static/uploads/docker-hub-php.png)
 
 
 ---

@@ -52,14 +52,14 @@ dot demo.dot -T png -o demo.png
 
 `-T`表示输出类型，可以指定jpg、gif、svg等等，`-o`指定输出文件名，不指定则输出到标准输出上。执行上面命令后不出意外则可以看到如下效果。
 
-![](/static/uploads/graphviz-1.png)
+![](../../static/uploads/graphviz-1.png)
 
 上面是用`dot`命令来生产，也可以用Graphviz中包含的其他命令来处理dot文本，比如用下面命令渲染出来的图片排列方式则不一样。
 
 ```
 neato demo.dot -T png -o demo.png
 ```
-![](/static/uploads/graphviz-2.png)
+![](../../static/uploads/graphviz-2.png)
 
 本文后面的示例都以dot命令来渲染。
 
@@ -118,7 +118,7 @@ digraph demo {
 
 最后看一下生成的效果图：
 
-![](/static/uploads/graphviz-3.png)
+![](../../static/uploads/graphviz-3.png)
 
 该图最基本的关系用一句话就可以表达出来了
 
@@ -170,7 +170,7 @@ digraph demo {
 }
 ```
 
-![](/static/uploads/graphviz-4.png)
+![](../../static/uploads/graphviz-4.png)
 
 ### 2.2.3 常用边属性
 属性名|默认值|说明
@@ -209,7 +209,7 @@ digraph demo {
 }
 ```
 
-![](/static/uploads/graphviz-5.png)
+![](../../static/uploads/graphviz-5.png)
 
 ## 2.3 一些示例
 
@@ -237,7 +237,7 @@ digraph demo {
 
 渲染效果如下：
 
-![](/static/uploads/graphviz-6.png)
+![](../../static/uploads/graphviz-6.png)
 
 ### 2.3.2 二叉树形式
 
@@ -255,7 +255,7 @@ digraph demo {
 
 其中，用 | 隔开的串会在绘制出来的节点中展现为一条分隔符，用 <> 括起来的串称为锚点。效果如下： 
 
-![](/static/uploads/graphviz-7.png)
+![](../../static/uploads/graphviz-7.png)
 
 记录形式的节点也可以是竖形排列的。与横向排列的记录的不同只是label的形式不同，label中内容使用 {} 包围则是竖形排列的。代码如下：
 
@@ -267,7 +267,7 @@ digraph demo {
 }
 ```
 
-![](/static/uploads/graphviz-8.png)
+![](../../static/uploads/graphviz-8.png)
 
 ### 2.3.3 直接指向子图
 边直接指向cluster，需要设置 compound 为true，并配合 lhead 或 ltail 来实现。代码如下：
@@ -286,7 +286,7 @@ digraph demo {
 }
 ```
 
-![](/static/uploads/graphviz-9.png)
+![](../../static/uploads/graphviz-9.png)
 
 ---
 

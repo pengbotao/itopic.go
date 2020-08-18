@@ -15,7 +15,7 @@ Visual Studio Code (简称 VS Code / VSC) 是一款免费开源的现代化轻�
 
 体验过`UltraEdit`、`Notepadd++`、`Atom`、`Sublime`等编辑器，但入手VSCode后感觉挺适合自己，整体比较清爽简洁，风格还比较喜欢，自带命令行终端、Git、文件对比、Markdown等功能。目前已成为主力编辑器。效果图如下：
 
-![](/static/uploads/vscode-example.png)
+![](../../static/uploads/vscode-example.png)
 
 ## 1.2 软件安装
 VSCode为跨平台编辑器，下载安装包安装即可。
@@ -79,8 +79,8 @@ Vscode自带了Git功能，这个插件可以方便查看Git日志。
 ## 2.5 Markdown TOC
 Vscode已经自带关于Markdown的预览，但格式不是Github上的样式，调整为Github样式方法可参考：`https://github.com/Yukaii/vscode-markdown-github-css`，样式文件：
 
-- [github-markdown.css](/static/uploads/github-markdown.css)
-- [github.css](/static/uploads/github.css)
+- [github-markdown.css](../../static/uploads/github-markdown.css)
+- [github.css](../../static/uploads/github.css)
 
 
 `Markdown TOC`主要用来生成TOC，有一些地方无法解析TOC语法，可以用这个扩展直接生成目录。

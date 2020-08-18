@@ -391,7 +391,7 @@ SQLite也支持触发器、`CHECK Constraint`，不常用就不一一介绍了�
 
 # 三、数据读取
 
-![](/static/uploads/sqlite-select-stmt.gif)
+![](../../static/uploads/sqlite-select-stmt.gif)
 
 # 四、命令行
 

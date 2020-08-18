@@ -41,6 +41,6 @@ driver.close()
 
 如果是去掉`--headless`配置，则会看到启动`Chrome`浏览器，并打开`toutiao.com`
 
-![](/static/uploads/selenium-chrome-screenshot.png)
+![](../../static/uploads/selenium-chrome-screenshot.png)
 
 文档：https://selenium-python-zh.readthedocs.io/en/latest/

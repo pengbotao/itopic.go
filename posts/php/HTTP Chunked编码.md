@@ -28,7 +28,7 @@ http://zh.wikipedia.org/wiki/%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E7%BC%96%E7%A0
 
 模拟请求后请求数据和返回数据如下图：
 
-![](/static/uploads/http-chunked-encode.png)
+![](../../static/uploads/http-chunked-encode.png)
 
 Transfer-Encoding指定chunked编码，并且分成两段，分别对应长度和内容，以0结束。可以对照上面的格式查看。
 

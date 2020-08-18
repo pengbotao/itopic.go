@@ -36,7 +36,7 @@
 
 最后E-R图：
 
-![](/static/uploads/rbac-design.png)
+![](../../static/uploads/rbac-design.png)
 
 **开发过程中的思考**
 

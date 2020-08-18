@@ -9,7 +9,7 @@
 # 一、目录结构
 CodeIgniter框架已帮我们配置好了项目目录结构，来看看`Codeigniter`的目录结构：
 
-![](/static/uploads/CodeIgniter-Folder-1.png)
+![](../../static/uploads/CodeIgniter-Folder-1.png)
 
 - **index.php**： CodeIgniter单一入口文件。
 - **system**： 框架目录，Codeigniter核心文件和自带的类库、函数等。
@@ -21,7 +21,7 @@ CI提供的默认结构可能是最方便、快速的，但不一定是最好的
 
 其实很简单，可以把静态资源和入口文件放在一起，`application`和`system`放置在`web`目录之外，参考下图：
 
-![](/static/uploads/CodeIgniter-Folder-2.png)
+![](../../static/uploads/CodeIgniter-Folder-2.png)
 
 调整之后所有需要外部可访问的图片、样式、脚本等就都放在`public`目录下即可。那`Codeigniter`为什么还这么放呢？目录的调整需要有相关的权限才行，如果服务器没调整的权限，就不行了。CI本身也提倡把应用和框架放在根目录之外。
 
@@ -88,7 +88,7 @@ $KEY_INFO = array(
 
 所以针对开发环境我们可以创建development目录，并将开发的配置文件放置于此目录下，创建production目录，用于发布时生产环境的配置，如下图所示：
 
-![](/static/uploads/CodeIgniter-Config.png)
+![](../../static/uploads/CodeIgniter-Config.png)
 
 **注意:**
 

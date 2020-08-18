@@ -61,7 +61,7 @@ id_rsa		id_rsa.pub
 
 `id_rsa`为私钥留在本地，`id_rsa.pub`为公钥，提供给github、gitlab等平台进行验证。这里以gitlab为例，登录之后点击账户头像 -> settings -> SSH Keys. 将公钥内容贴在里面保存即可。
 
-![](./static/uploads/gitlab-ssh-keys.png)
+![](.../../static/uploads/gitlab-ssh-keys.png)
 
 ## 2.2 仓库初始化
 
@@ -118,7 +118,7 @@ git config --global core.autocrlf false
 
 ## 2.4 Git 基本流程
 
-![](./static/uploads/git-basic-command.png)
+![](.../../static/uploads/git-basic-command.png)
 
 上图展示了最常用到的几个基本Git命令。这里按照上图走一下基本流程。
 
@@ -335,7 +335,7 @@ write from bugfix branch
 
 ### 3.3.3 Gitflow工作流
 
-![](./static/uploads/git-model@2x.png)
+![](.../../static/uploads/git-model@2x.png)
 
 ### 3.3.4 Fork工作流
 

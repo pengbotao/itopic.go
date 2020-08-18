@@ -43,7 +43,7 @@ peng:$apr1$ySsxdCSf$W5YxzVzSQ2rbNiipwYpT5/
 
 3、 重启Nginx即可看到效果。
 
-![](/static/uploads/nginx-basic-auth.png)
+![](../../static/uploads/nginx-basic-auth.png)
 
 # 二、限流
 

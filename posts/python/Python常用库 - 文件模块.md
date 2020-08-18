@@ -251,7 +251,7 @@ r
 
 **常用模式说明**
 
-![](/static/uploads/pythom-mode.png)
+![](../../static/uploads/pythom-mode.png)
 
 mode|说明
 ---|---

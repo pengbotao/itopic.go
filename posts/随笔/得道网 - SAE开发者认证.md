@@ -14,7 +14,7 @@
 
 **得道网** - http://www.dedao.info
 
-![](/static/uploads/dedaoinfo.jpg)
+![](../../static/uploads/dedaoinfo.jpg)
 
 得道网只是兴趣使然，希望后面可以弄的更好，更多的还是希望可以领悟一些人生道理。
 

@@ -12,7 +12,7 @@ CI手册介绍一栏有关于应用程序流程图的介绍，从更宏观的层
 
 1、只有在实例化控制器之后的操作才可以调用 get_instance 获取实例，因为未实例化之前没有CI_Controller对象。所有发现有写程序中用的global的方式获取，有些是通过CI实例来获取的。
 
-![](/static/uploads/Codeigniter-overflow.png)
+![](../../static/uploads/Codeigniter-overflow.png)
 
 # 二、钩子
 CodeIgniter执行流程图中有7个椭圆的框，这表示在执行的过程中埋了7个钩子。那先来看看什么是钩子？
@@ -54,7 +54,7 @@ $hook['post_controller_constructor'] = array(
 
 很多时候碰到问题我们都可以放到日常生活中来看。以注册处理逻辑为例，可以看看其中有个流程是不变的。接受参数->注册资料之前处理->注册->注册资料之后处理。变化的是什么？每一步都可能变化，但流程不变化。所以可以对前、后、处理等相关地方设置钩子，把处理的逻辑分发到特定的情况下去，下面有个参考图，具体的如何设置钩子还需要根据项目来：
 
-![](/static/uploads/CodeIgniter-hook.png)
+![](../../static/uploads/CodeIgniter-hook.png)
 
 事实也证明这种方式是可行的，合作方虽然很多，但是也可以分组，上百个注册页面很容易就实现了。所以利用钩子处理这种流程不变，而中间的某个步骤变化多端的需求是很方便的。
 

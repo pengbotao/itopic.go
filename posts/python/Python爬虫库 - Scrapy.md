@@ -40,7 +40,7 @@ Created spider 'itopic' using template 'basic' in module:
   demo.spiders.itopic
 ```
 
-![](/static/uploads/scrapy-project-init.png)
+![](../../static/uploads/scrapy-project-init.png)
 
 ## 2.2 启动抓取
 ```
@@ -186,7 +186,7 @@ $ scrapy crawl itopic -o itopic.json
 
 这个过程中可能会碰到需要分页抓取所有的`URL`列表，相当于重复走一遍上面的流程，只不过抓取的目的是为了获取`URL`列表，拿到之后在重复此步骤。配合上面的示例来看看`Scrapy`的流程图：
 
-![](/static/uploads/scrapy-engine.png)
+![](../../static/uploads/scrapy-engine.png)
 
 组件|说明
 ---|---

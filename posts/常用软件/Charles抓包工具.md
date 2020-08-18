@@ -43,13 +43,13 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.74-b02, mixed mode)
 
 复制补丁文件charles.jar到软件安装根目录的lib目录下，覆盖原文件。启动Charles.exe，看到如下启动界面即表示成功。
 
-![](/static/uploads/charles-start.png)
+![](../../static/uploads/charles-start.png)
 
 # 二、Charles简介
 ## 2.1 界面说明
 先来看一下启动之后的界面，Window下启动之后浏览器访问的页面默认就会记录下来了，先打开一个HTTP站点（baidu采用https，建议开个http的站点。），下图是打开OSCHINA后效果图。
 
-![](/static/uploads/charles-preview.jpg)
+![](../../static/uploads/charles-preview.jpg)
 
 **先来对各按钮来个初步的认识：**
 
@@ -94,7 +94,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.74-b02, mixed mode)
 ### 3.1.1 Charles设置
 Proxy -> Proxy Settings或者点击14号按钮里的Proxy Settings，设置端口信息，如下图：
 
-![](/static/uploads/charles-proxy-settings.png)
+![](../../static/uploads/charles-proxy-settings.png)
 
 这里设置端口为8888，端口没有被系统其他工具占用即可。
 
@@ -121,25 +121,25 @@ Windows IP 配置
 
 **说明：** 不同的手机设置代码的方式不同，但基本都是找到对应的网络在里面去设置。
 
-![](/static/uploads/charles-android.png)
+![](../../static/uploads/charles-android.png)
 
 #### 3.1.2.3 开始抓包
 此时通过手机网络浏览器或者相应的APP，如果是第一次链接，此时Charles会有如下对话框弹出，请点击Allow
 
-![](/static/uploads/charles-allow.png)
+![](../../static/uploads/charles-allow.png)
 
 后面的流程就和PC端一样，手机端发请求，Charles记录到请求，查看请求参数即响应结果等等。
 
 ## 3.2 篡改请求
 篡改请求可以通过断点的开始来设置，可以直接设置在Proxy -> Settings设置，也可以选中要篡改的请求邮件点击Breakpoints。点击之后重新发请求，Charles收到请求后进入到这个页面
 
-![](/static/uploads/charles-breakpoint.png)
+![](../../static/uploads/charles-breakpoint.png)
 
 我们可以在Edit Request里编辑请求的参数等信息， 编辑完成之后点击执行（Execute），然后收到返回后会同样进入一个这样子的返回页面，也可以对返回数据进行编辑，编辑完成之后再点击Execute。这样子发起请求者收到的将是经过篡改之后的数据。
 
 此时查看Proxy -> Breakpoints里的设置信息将多处一条记录。
 
-![](/static/uploads/charles-breakpoint-settings.png)
+![](../../static/uploads/charles-breakpoint-settings.png)
 
 可以看到断点是针对请求和返回， 如果只想修改请求数据或者只修改返回数据则编辑一下，去掉对应的勾即可。
 
@@ -148,7 +148,7 @@ Windows IP 配置
 ## 3.3 重发请求
 前面有提到过重发请求，这里可以直接在选中的请求上右键，Repeat是重复一次，Repeat Advanced可以进行高级设置。
 
-![](/static/uploads/charles-repeat-advanced.png)
+![](../../static/uploads/charles-repeat-advanced.png)
 
 Iterations代表要执行多少次，Concurrency表示并发数。
 
@@ -157,7 +157,7 @@ Iterations代表要执行多少次，Concurrency表示并发数。
 ## 3.4 映射请求到本地或者远程
 有些时候我们可以将一组请求直接映射到本地或者映射到某个其他服务器上，可以通过Tools -> Map Remote 或者 Map Local来设置。比如我们将微信的请求映射到测试环境上，这样子访问生产环境将会映射到测试环境。
 
-![](/static/uploads/charles-map-remote.png)
+![](../../static/uploads/charles-map-remote.png)
 
 同样， 我们也可以将请求映射到本地。
 
@@ -166,15 +166,15 @@ Iterations代表要执行多少次，Concurrency表示并发数。
 ## 3.5 模拟弱网络
 弱网络可以帮助我们模拟网络不好的情况，通过8号按钮可以用来模拟弱网络，打开设置页面可以进行相应设置。
 
-![](/static/uploads/charles-throttling-settings.png)
+![](../../static/uploads/charles-throttling-settings.png)
 
 ## 3.6 HTTPS抓包
 
-![](/static/uploads/charles-ssl-install.png)
+![](../../static/uploads/charles-ssl-install.png)
 
 - 1、电脑安装证书：Charles -> Help -> SSL Proxying -> Install Charles Root Certificate
 - 2、手机HTTPS安装证书。
-![](/static/uploads/charles-ssl-install-tips.png)
+![](../../static/uploads/charles-ssl-install-tips.png)
     - 手机按3.1.2.2的方式指定代理
     - 通过手机浏览器访问提示窗口上的地址 `http://chls.pro/ssl`，下载证书`PEM`文件
 - 3、安卓手机：设置 -> WLAN -> 高级设置 -> 安装证书，选中刚才下载的PEM文件
