@@ -356,7 +356,66 @@ Deleted: sha256:7d6334b5e82cbe2eed96dae6429c989053c445be20068f64ba58948fdb8b2e21
 
 ### 4.1.2 基于Dockfile创建
 
-最常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，后续通过独立篇章来介绍。
+最常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建`Dockerfile`文件并写入下面内容：
+
+```
+FROM golang:1.14
+
+EXPOSE 8001
+
+RUN go env -w GOPROXY=https://goproxy.io,direct \
+&& go get -v github.com/pengbotao/itopic.go \
+&& mv /go/bin/itopic.go /go/src/github.com/pengbotao/itopic.go/ 
+
+VOLUME [ "/go/src/github.com/pengbotao/itopic.go/" ]
+
+WORKDIR /go/src/github.com/pengbotao/itopic.go/
+
+CMD [ "/go/src/github.com/pengbotao/itopic.go/itopic.go", "-host", "0.0.0.0:8001"]
+```
+
+切换到该目录执行创建镜像
+
+```
+$ docker build -t pengbotao/itopic.go .
+Sending build context to Docker daemon  2.048kB
+Step 1/6 : FROM golang:1.14
+ ---> baaca3151cdb
+Step 2/6 : EXPOSE 8001
+ ---> Running in 801cf0f4023e
+Removing intermediate container 801cf0f4023e
+ ---> 283da70700dc
+Step 3/6 : RUN go env -w GOPROXY=https://goproxy.io,direct && go get -v github.com/pengbotao/itopic.go && mv /go/bin/itopic.go /go/src/github.com/pengbotao/itopic.go/
+ ---> Running in bb86d3308fde
+github.com/pengbotao/itopic.go (download)
+github.com/pengbotao/itopic.go/vendor/github.com/russross/blackfriday
+github.com/pengbotao/itopic.go/models
+github.com/pengbotao/itopic.go
+Removing intermediate container bb86d3308fde
+ ---> af70d34ad3f4
+Step 4/6 : VOLUME [ "/go/src/github.com/pengbotao/itopic.go/" ]
+ ---> Running in a9329d31d558
+Removing intermediate container a9329d31d558
+ ---> f9cbffdff0f1
+Step 5/6 : WORKDIR /go/src/github.com/pengbotao/itopic.go/
+ ---> Running in ab89245f47d2
+Removing intermediate container ab89245f47d2
+ ---> d6a675b4cf39
+Step 6/6 : CMD [ "/go/src/github.com/pengbotao/itopic.go/itopic.go", "-host", "0.0.0.0:8001"]
+ ---> Running in 6b601add4806
+Removing intermediate container 6b601add4806
+ ---> 36e405364fd8
+Successfully built 36e405364fd8
+Successfully tagged pengbotao/itopic.go:latest
+```
+
+通过镜像创建容器：
+
+```
+docker run -d -p 8001:8001 --name itopic pengbotao/itopic.go
+```
+
+(后续在单独起篇章介绍Dockerfile)
 
 ## 4.2 镜像导入导出
 
