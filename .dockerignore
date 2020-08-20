@@ -1,0 +1,16 @@
+*.o
+*.a
+*.so
+
+*.exe
+*.out
+.vscode/
+main
+itopic
+itopic.go
+.idea
+.git
+.gitignore
+glide.lock
+glide.yaml
+.svn
