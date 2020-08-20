@@ -6,5 +6,6 @@
 *.out
 .vscode/
 main
+itopic
 itopic.go
 .idea/
