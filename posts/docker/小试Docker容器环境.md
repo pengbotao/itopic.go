@@ -415,7 +415,7 @@ Successfully tagged pengbotao/itopic.go:latest
 docker run -d -p 8001:8001 --name itopic pengbotao/itopic.go
 ```
 
-(后续在单独起篇章介绍Dockerfile)
+(下一篇单独介绍Dockerfile)
 
 ## 4.2 镜像导入导出
 
@@ -468,6 +468,12 @@ docker tag nginx:alpine pengbotao/nginx
 
 ![](../../static/uploads/docker-hub-php.png)
 
+
+我们也可以创建自己的仓库，道理就和`gitlab`类似了，将镜像推送到自己的私有仓库，或者文件的方式传递等。基本就可以解决镜像管理和分享问题了。
+
+# 五、小结
+
+本篇主要介绍了Docker的基本用法、容器的启停、镜像的基本制作与分享，接下来我们着重看看通过Dockerfile构建镜像。
 
 ---
 <div id="refer"></div>
