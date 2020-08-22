@@ -10,7 +10,10 @@
 
 ## 1.1 概述
 
-`Docker`通过读取`Dockerfile`中的指令来自动构建镜像，`Dockerfile`是一个文本文件，它包含了构建镜像的所有命令。可以通过`docker build`读取`Dockerfile`文件来构建镜像。`docker build`提交构建镜像请求给`Docker daemon`，同时会将当前目录递归传过去。所以最好是将`Dockerfile`和需要文件放到一个空目录，再在这个目录构建。
+`Docker`通过读取`Dockerfile`中的指令来自动构建镜像，`Dockerfile`是一个文本文件，它包含了构建镜像的所有命令。可以通过`docker build`读取`Dockerfile`文件来构建镜像。`docker build`提交构建镜像请求给`Docker`守护进程，同时会将当前目录递归传过去。所以最好是将`Dockerfile`和需要文件放到一个空目录，再在这个目录构建。
+
+
+## 1.2 构建方法
 
 - 常规构建: 
 ```
@@ -26,7 +29,7 @@ $ docker build -f /path/to/a/Dockerfile .
 $ docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .
 ```
 
-## 1.2 文件格式
+## 1.3 文件格式
 
 可以通过`Dockerfile`文件来定义构建过程，通过`.dockerignore`用来忽略文件，构建时不会讲ignore的文件传给`Docker`服务端。
 
@@ -56,7 +59,7 @@ temp?
 `*/*/temp*`|不包含子目录下的子目录中`temp`打头的文件和目录。 如：`/somedir/subdir/temporary.txt`
 `temp?`|不包含根目录中`temp`打头的文件和目录。 如：`/tempa` 和 `/tempb`
 
-## 1.3 指令集合
+## 1.4 指令集合
 
 编号|指令|参数|必须|示例
 ---|---|---|---|---
@@ -112,7 +115,16 @@ CMD [ "-host", "0.0.0.0:8001" ]
 ENTRYPOINT [ "/www/itopic.go/itopic" ]
 ```
 
-# 四、示例
+## 3.2 通过.dockerignore忽略无关文件
+
+构建时会将该指定目录传到`Docker`守护进程，所以一般建议在空目录或者只包含需要的文件，对于项目中不需要的文件可以通过`.dockerignore`文件忽略。
+
+## 3.3 减少镜像层数
+
+
+
+
+# 四、构建示例
 
 ## 4.1 php5.6
 

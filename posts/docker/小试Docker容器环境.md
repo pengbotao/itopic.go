@@ -440,7 +440,12 @@ docker run -d -p 8001:8001 --name itopic pengbotao/itopic.go
 ## 4.3 提交镜像
 
 ```
+Usage:	docker push [OPTIONS] NAME[:TAG]
+```
+
+```
 $ docker push pengbotao/php
+
 The push refers to repository [docker.io/pengbotao/php]
 cd012f031239: Pushed
 6e0f79ac7957: Mounted from library/php
