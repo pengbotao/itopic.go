@@ -10,8 +10,7 @@
 
 ## 1.1 概述
 
-`Docker`通过读取`Dockerfile`中的指令来自动构建镜像，`Dockerfile`是一个文本文件，它包含了构建镜像的所有命令。可以通过`docker build`读取`Dockerfile`文件来构建镜像。`docker build`提交构建镜像请求给`Docker`守护进程，同时会将当前目录递归传过去。所以最好是将`Dockerfile`和需要文件放到一个空目录，再在这个目录构建。
-
+`Docker`通过读取`Dockerfile`中的指令来自动构建镜像，`Dockerfile`是一个文本文件（也可以方便做版本管理），它包含了构建镜像的所有命令。可以通过`docker build`读取`Dockerfile`文件来构建镜像。`docker build`提交构建镜像请求给`Docker`守护进程，同时会将当前目录递归传过去。所以最好是将`Dockerfile`和需要文件放到一个空目录，再在这个目录构建。
 
 ## 1.2 构建方法
 
@@ -121,7 +120,31 @@ ENTRYPOINT [ "/www/itopic.go/itopic" ]
 
 ## 3.3 减少镜像层数
 
+**a. 镜像与层**
 
+Docker镜像由一系列层组成。每层代表Dockerfile中的一条指令。除最后一层外的每一层都是只读的。看以下Dockerfile：
+
+```
+FROM ubuntu:18.04
+COPY . /app
+RUN make /app
+CMD python /app/app.py
+```
+
+包含了4条指令，每个命令会创建一层，`FROM`语句首先从`ubuntu:18.04`镜像创建一层。然后`COPY`命令从当前目录拷贝一些文件。`RUN`命令执行`make`操作，最后一层指定在容器中运行的命令。每个层仅包含了前一层的差异部分。 当我们启动一个容器的时候，`Docker`会加载镜像层并在其上添加一个可写层。容器上所做的任何更改，譬如新建文件、更改文件、删除文件，都将记录与可写层上。容器层与镜像层的结构如下图所示。
+
+![](../../static/uploads/container-layers.jpg)
+
+**b. 容器与层**
+
+容器和镜像之间的主要区别是最顶层的可写层。在容器中所有写操作都存储在可写层中。删除容器后，可写层也会被删除，基础镜像保持不变。因为每个容器都有自己的可写容器层，并且所有更改都存储在该容器层中，所以多个容器可以共享对同一基础镜像。下图显示了共享相同Ubuntu 18.04镜像的多个容器。
+
+![](../../static/uploads/sharing-layers.jpg)
+
+
+## 3.4 清理无用数据
+
+通常为命令执行过程中的一些缓存或者中间数据，可以随镜像创建完成时执行删除操作。
 
 
 # 四、构建示例
@@ -191,7 +214,49 @@ CMD [ "php-fpm" ]
 docker push pengbotao/php:7.4.8-fpm-alpine
 ```
 
-# 五、小结
+# 五、构建调试
+
+通过`RUN`可以在容器内的系统执行一些命令，但因为并非在容器内直接执行，调试上可能会打一些折扣，所以可以先在容器中跑一跑命令看看，跑通在整理到`Dockerfile`中，如果`Dockerfile`构建时失败了，我们可以用`docker run`命令来基于这次构建到目前为止已经成功的最后创建的一个容器，比如下面示例：
+
+**Dockerfile**
+
+```
+FROM php:7.4.8-fpm-alpine
+RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories 
+RUN docker-php-ext-install redis
+```
+
+无法通过`docker-php-ext-install redis`来安装`redis`扩展，所以可以看到到第三步时报错了。
+
+```
+$ docker build -t test1 .
+Sending build context to Docker daemon  9.216kB
+Step 1/3 : FROM php:7.4.8-fpm-alpine
+ ---> c8aada1d51a4
+Step 2/3 : RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+ ---> Using cache
+ ---> e101c0717b4f
+Step 3/3 : RUN docker-php-ext-install redis
+ ---> Running in 3455205e4c52
+error: /usr/src/php/ext/redis does not exist
+
+...
+
+Some of the above modules are already compiled into PHP; please check
+the output of "php -i" to see which modules are already loaded.
+The command '/bin/sh -c docker-php-ext-install redis' returned a non-zero code: 1
+```
+
+这是我们可以进入第二步创建成功的容器，然后运行并进入该容器(我这里是alpine所以进入后终端用的是`/bin/sh`)，然后直接在容器内做进一步调试，一旦解决了就可以退出容器，调整`Dockerfile`后重新尝试构建
+
+```
+$ docker run -it e101c0717b4f /bin/sh
+/var/www/html # more /etc/apk/repositories
+http://mirrors.aliyun.com/alpine/v3.12/main
+http://mirrors.aliyun.com/alpine/v3.12/community
+```
+
+# 六、小结
 
 借助`Dockerfile`和官方的基础镜像，基本可以编译出需要的环境，`Dockerfile`里的RUN命令和往常没有太大区别，但对比虚拟机或者`ECS`，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。
 
@@ -203,3 +268,4 @@ docker push pengbotao/php:7.4.8-fpm-alpine
 - [1] [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
 - [2] [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 - [3] [Dockerfile 最佳实践及示例](http://www.dockerone.com/article/9551)
+- [4] [About storage drivers](https://docs.docker.com/storage/storagedriver/)

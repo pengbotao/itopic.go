@@ -312,7 +312,7 @@ $ docker run -p 3406:3306 --name mysql \
 
 ### 4.1.1 基于容器创建
 
-我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了pdo_mysql扩展。
+我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了pdo_mysql扩展，接下来可以根据容器创建一个新镜像。
 
 ```
 $ docker run -it php:7.4.8-fpm bash
@@ -356,7 +356,7 @@ Deleted: sha256:7d6334b5e82cbe2eed96dae6429c989053c445be20068f64ba58948fdb8b2e21
 
 ### 4.1.2 基于Dockfile创建
 
-最常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建`Dockerfile`文件并写入下面内容：
+一般不推荐使用`docker commit`来创建镜像，常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建`Dockerfile`文件并写入下面内容：
 
 ```
 FROM golang:1.14
@@ -415,7 +415,7 @@ Successfully tagged pengbotao/itopic.go:latest
 docker run -d -p 8001:8001 --name itopic pengbotao/itopic.go
 ```
 
-(下一篇单独介绍Dockerfile)
+第一种方式在容器中的更改来对更隐蔽，使用者可能并不知道容器里做了什么操作，后者则更清晰，通常情况下更推荐用`Dockerfile`来构建镜像。下一篇将单独介绍`Dockerfile`。
 
 ## 4.2 镜像导入导出
 

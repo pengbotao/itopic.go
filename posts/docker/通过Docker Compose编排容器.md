@@ -10,7 +10,9 @@
 
 ## 1.1 概述
 
-`compose`是`docker`提供的一个工具，用来定义和运行多个`Docker`容器。类似通过`dockerfile`来表示镜像的构建过程，`docker-compose`通过解析一个`YAML`配置文件实现对容器的构建以及启动。使用`compose`基本上有3个步骤：
+`compose`是`docker`提供的一个工具，用来定义和运行多个`Docker`容器，`Compose`的前身是`Fig`。
+
+类似通过`dockerfile`来表示镜像的构建过程，`docker-compose`通过解析一个`YAML`配置文件实现对容器的构建以及启动。使用`compose`基本上有3个步骤：
 
 - 1、通过`Dockerfile`定义镜像创建过程
 - 2、在`docker-compose.yml`中定义服务，定义的服务可以在一个独立的环境中运行
