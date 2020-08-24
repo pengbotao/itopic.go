@@ -258,7 +258,71 @@ http://mirrors.aliyun.com/alpine/v3.12/community
 
 # 六、私有镜像仓库
 
-@todo
+通过Docker的镜像很容易创建自己的镜像仓库。
+
+1、安装。这里直接用官方的`registry`镜像来构建仓库，安装和启动方式和前面类似：
+
+```
+$ docker pull registry
+$ docker run -d -v ~/docker/registry:/var/lib/registry -p 5000:5000 --restart=always --name registry registry:latest
+d18931b1bd1b4b3ce7fe151c6f241c4dd1eebbfab8287dfed422ab5427a7f6a6
+```
+
+会启动5000端口，这里本机测试就不绑host了，也可以绑个host。
+
+2、打TAG
+
+```
+$ docker tag pengbotao/php:7.4.8-fpm-alpine 127.0.0.1:5000/php:7.4.8-fpm-alpine
+```
+
+3、推送镜像
+
+```
+$ docker push 127.0.0.1:5000/php:7.4.8-fpm-alpine
+The push refers to repository [127.0.0.1:5000/php]
+9c8d79537668: Pushed
+106be351bd42: Pushed
+7d85ada8d1c7: Pushed
+767b1a2e8377: Pushed
+9c55f034ee50: Pushed
+6d3a6e58ccca: Pushed
+fc5c686c158f: Pushed
+d274b3a9c362: Pushed
+81c338ff74a3: Pushed
+308ef7bef157: Pushed
+d94df04fea90: Pushed
+50644c29ef5a: Pushed
+7.4.8-fpm-alpine: digest: sha256:364931dd4bf7c5b159f93b458ab64bc3914218452c82d06d9359f82e3476c9bc size: 2830
+```
+
+4、查看镜像
+
+```
+# 查看镜像
+$ curl http://127.0.0.1:5000/v2/_catalog
+{"repositories":["php"]}
+
+# 查看镜像tags列表
+$ curl http://127.0.0.1:5000/v2/php/tags/list
+{"name":"php","tags":["7.4.8-fpm-alpine"]}
+```
+
+也可以在`~/docker/registry/docker/registry/v2/repositories/`中查看仓库里的镜像信息。
+
+5、镜像拉取(尝试删除后再从镜像仓库拉取)
+
+```
+$ docker rmi 127.0.0.1:5000/php:7.4.8-fpm-alpine
+Untagged: 127.0.0.1:5000/php:7.4.8-fpm-alpine
+Untagged: 127.0.0.1:5000/php@sha256:364931dd4bf7c5b159f93b458ab64bc3914218452c82d06d9359f82e3476c9bc
+
+$ docker pull 127.0.0.1:5000/php:7.4.8-fpm-alpine
+7.4.8-fpm-alpine: Pulling from php
+Digest: sha256:364931dd4bf7c5b159f93b458ab64bc3914218452c82d06d9359f82e3476c9bc
+Status: Downloaded newer image for 127.0.0.1:5000/php:7.4.8-fpm-alpine
+127.0.0.1:5000/php:7.4.8-fpm-alpine
+```
 
 # 七、小结
 
