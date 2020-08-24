@@ -258,6 +258,7 @@ http://mirrors.aliyun.com/alpine/v3.12/community
 
 # 六、私有镜像仓库
 
+## 6.1 通过registry镜像搭建
 通过Docker的镜像很容易创建自己的镜像仓库。
 
 1、安装。这里直接用官方的`registry`镜像来构建仓库，安装和启动方式和前面类似：
@@ -323,6 +324,11 @@ Digest: sha256:364931dd4bf7c5b159f93b458ab64bc3914218452c82d06d9359f82e3476c9bc
 Status: Downloaded newer image for 127.0.0.1:5000/php:7.4.8-fpm-alpine
 127.0.0.1:5000/php:7.4.8-fpm-alpine
 ```
+
+## 6.2 通过harbor搭建
+
+下载地址：`https://github.com/goharbor/harbor/releases`
+
 
 # 七、小结
 
