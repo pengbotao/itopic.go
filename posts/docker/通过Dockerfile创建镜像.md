@@ -256,7 +256,11 @@ http://mirrors.aliyun.com/alpine/v3.12/main
 http://mirrors.aliyun.com/alpine/v3.12/community
 ```
 
-# 六、小结
+# 六、私有镜像仓库
+
+@todo
+
+# 七、小结
 
 借助`Dockerfile`和官方的基础镜像，基本可以编译出需要的环境，`Dockerfile`里的RUN命令和往常没有太大区别，但对比虚拟机或者`ECS`，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。
 
