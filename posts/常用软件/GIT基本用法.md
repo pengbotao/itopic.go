@@ -437,6 +437,14 @@ git checkout -- .
 git reset --hard 77e02cd8dc43940f0c817379c94935a79d476510
 ```
 
+用master分支内容替换当前分支
+
+```
+git reset --hard master
+```
+
+
+
 ---
 
 - [1] [Git 工作流程](http://www.ruanyifeng.com/blog/2015/12/git-workflow.html)
