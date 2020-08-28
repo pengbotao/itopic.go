@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"strings"
@@ -110,7 +111,8 @@ func GetTopicByPath(path string) (*Topic, error) {
 	}
 	if strings.Compare(thj.IsPublic, "no") == 0 {
 		t.IsPublic = false
-		t.Title = "<font color=\"#FE9A2E\">" + t.Title + "</font>"
+
+		t.Title = "<font color=\"" + randomWrittingColor[rand.Intn(len(randomWrittingColor))] + "\">" + t.Title + "</font>"
 	}
 	tagArray := strings.Split(thj.Tag, ",")
 	var isFind bool
