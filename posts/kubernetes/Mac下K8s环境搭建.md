@@ -189,7 +189,7 @@ $ kubectl exec -it itopic-6f9dd4f4cd-2q2xp /bin/sh
 到这里容器已经建好了，但是还无法从外部访问。
 
 ```
-kubectl expose deployment itopic --type=LoadBalancer --port=38001 --target-port=8001 
+$ kubectl expose deployment itopic --type=LoadBalancer --port=38001 --target-port=8001 
 ```
 
 **查看service**
