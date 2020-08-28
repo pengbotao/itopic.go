@@ -8,9 +8,8 @@ html, body{
   min-width: 556px;
   font-size: 20px;
   background: #fcfcfc none repeat scroll 0 0;
-  color:#333;
+  color:#444;
   line-height: 1.6em;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font:400 20px/1.6 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
 }
 
@@ -51,34 +50,19 @@ strong{font-weight: 600;}
   box-shadow: 0 0 0 1px #cacaca, 0 0 0 4px #eee; } }
 h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.25;
   cursor: text;
   position: relative;
   margin: 10px 0 10px;
   padding: 0; }
 
-h1 {font-size: 2.2em;padding-bottom: 0.3em; font-weight: 600;line-height: 1.25;}
-h2 {font-size: 1.5em;padding-bottom: 0.3em;margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;}
-h3 {font-size: 1.25em;margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;}
-h4 {font-size: 1em;font-weight:600;    margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;}
-h5 {font-size: 0.875em;margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;}
-h6 {font-size: 0.85em;
-    color: #777;margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;}
+h1 {font-size: 2em;padding-bottom: 0.2em; font-weight: 600;}
+h2 {font-size: 1.5em;padding-bottom: 0.2em;margin: 16px 0px;}
+h3 {font-size: 1.25em;font-weight:600; margin: 16px 0px;}
+h4 {font-size: 1em;font-weight:600;margin: 16px 0px;}
+h5 {font-size: 0.875em;margin: 16px 0px;}
+h6 {font-size: 0.85em;color: #777;margin: 16px 0px;}
+
 p, blockquote, table, pre {margin: 15px 0; }
 ul {padding-left: 30px; }
 ol {padding-left: 30px; }ol li ul:first-of-type {margin-top: 0px; }
@@ -160,15 +144,13 @@ table tr {
 img {
   max-width: 100%;border:0px; }
 code, tt {
-  padding: 0;
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
+  padding: 0.2em;
+  margin: 0px 3px;
   white-space: nowrap;
   border: 1px solid #eaeaea;
   background-color: rgba(0,0,0,0.04);
   font-size: 85%;
   border-radius: 3px;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   color: #333333; }
 pre > code {
   margin: 0;
@@ -198,7 +180,6 @@ pre code, pre tt {
     word-break: normal;
     white-space: pre;
     border: 0;
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 sup, sub, a.footnote {font-size: 1.4ex;height: 0;line-height: 1;vertical-align: super;position: relative;}
 sub {vertical-align: sub;top: -1px; }
@@ -250,17 +231,15 @@ nav {display: none;}
     position: fixed;
     left: 0px;
     z-index: -1000;
-    font-size: 14px;
-    line-height: 18px;
-    font:400 15px/1.5 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
     top:80px;
     bottom: 50px;
     overflow: auto;
   }
 }
-.title{
-  font-weight:400;font-size:3em;width:90%;margin-bottom:0px;border:0px;
-}
+.title{font-weight:500;font-size:3em;width:90%;margin-bottom:0px;border:0px;}
 .eof{padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;}
 .eof_arrow{float:right;margin-right:50px;}
 .eof_tag{padding: 0 10px;text-align:right;float:right;}
