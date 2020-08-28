@@ -120,7 +120,7 @@ $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashbo
 
 # 三、尝试部署镜像
 
-一般可以通过`YAML`进行创建，这里先尝试走通流程，类似`docker run`的用法让容器先跑起来。整个过程只需要执行2条命令即可。
+一般可以通过`YAML`进行部署，这里先尝试走通流程，类似`docker run`的用法让容器先跑起来。整个过程只需要执行2条命令即可。
 
 ## 3.1 创建deployment
 
@@ -132,7 +132,7 @@ $ kubectl run itopic --image=pengbotao/itopic.go:alpine --replicas=3 --port=8001
 
 说明：使用的是我们前面用`docker`构建的镜像，容器使用的是8001端口，启动3个副本。操作`run`之后就创建好了`deployment`、`pod`，可以查看相关信息：
 
-**查看Node**：只有一个主节点
+**查看Node**：
 
 ```
 $ kubectl get node
@@ -299,45 +299,143 @@ kubectl delete deployment,service itopic
 
 **Node**的组件：
 
-- `kubelet`：Pod的管家，与Master通信
-- `kube-proxy`：实现kubernetes Service的通信与负载均衡机制的重要组件
-- `Docker`：容器的创建和管理
+- `kubelet`：`Pod`的管家，与`Master`通信
+- `kube-proxy`：实现`kubernetes Service`的通信与负载均衡机制的重要组件
+- `Docker`：容器
 
 ## 4.3 Pod
 
-`Pod`是`Kubernetes`中操作的基本单元。每个`Pod`中有个根容器(`Pause容器`)，`Pause`容器的状态代表整个容器组的状态，其他业务容器共享`Pause`的IP，即Pod IP，共享Pause挂载的Volume，这样简化了同个Pod中不同容器之间的网络问题和文件共享问题。
+`Pod`是`Kubernetes`中操作的基本单元。每个`Pod`中有个根容器(`Pause容器`)，`Pause`容器的状态代表整个容器组的状态，其他业务容器共享`Pause`的`IP`，即`Pod IP`，共享`Pause`挂载的`Volume`，这样简化了同个Pod中不同容器之间的网络问题和文件共享问题。
 
 
 
-1. `Kubernetes`集群中，同宿主机的或不同宿主机的Pod之间要求能够TCP/IP直接通信，因此采用虚拟二层网络技术来实现，例如`Flannel`，`Openvswitch(OVS)`等，这样在同个集群中，不同的宿主机的Pod IP为不同IP段的IP，集群中的所有Pod IP都是唯一的，**不同Pod之间可以直接通信**。
-2. Pod有两种类型：普通Pod和静态Pod。静态Pod即不通过K8S调度和创建，直接在某个具体的Node机器上通过具体的文件来启动。普通Pod则是由K8S创建、调度，同时数据存放在ETCD中。
-3. Pod IP和具体的容器端口（ContainnerPort）组成一个具体的通信地址，即Endpoint。一个Pod中可以存在多个容器，可以有多个端口，Pod IP一样，即有多个Endpoint。
-4. Pod Volume是定义在Pod之上，被各个容器挂载到自己的文件系统中，可以用分布式文件系统实现后端存储功能。
+1. `Kubernetes`集群中，同宿主机的或不同宿主机的`Pod`之间要求能够TCP/IP直接通信，因此采用虚拟二层网络技术来实现，例如`Flannel`，`Openvswitch(OVS)`等，这样在同个集群中，不同的宿主机的Pod IP为不同IP段的IP，集群中的所有Pod IP都是唯一的，**不同Pod之间可以直接通信**。
+2. Pod有两种类型：`普通Pod`和`静态Pod`。`静态Pod`即不通过`K8S`调度和创建，直接在某个具体的Node机器上通过具体的文件来启动。`普通Pod`则是由`K8S`创建、调度，同时数据存放在`ETCD`中。
+3. Pod IP和具体的容器端口（`ContainnerPort`）组成一个具体的通信地址，即`Endpoint`。一个`Pod`中可以存在多个容器，可以有多个端口，`Pod IP`一样，即有多个`Endpoint`。
+4. `Pod Volume`是定义在`Pod`之上，被各个容器挂载到自己的文件系统中，可以用分布式文件系统实现后端存储功能。
 5. Pod中的Event事件可以用来排查问题，可以通过`kubectl describe pod xxx`来查看对应的事件。
-6. 每个Pod可以对其能使用的服务器上的计算资源设置限额，一般为CPU和Memory。K8S中一般将千分之一个的CPU配置作为最小单位，用m表示，是一个绝对值，即100m对于一个Core的机器还是48个Core的机器都是一样的大小。Memory配额也是个绝对值，单位为内存字节数。
+6. 每个`Pod`可以对其能使用的服务器上的计算资源设置限额，一般为`CPU`和`Memory`。`K8S`中一般将千分之一个的`CPU`配置作为最小单位，用`m`表示，是一个绝对值，即`100m`对于一个Core的机器还是48个`Core`的机器都是一样的大小。`Memory`配额也是个绝对值，单位为内存字节数。
 7. 资源配额的两个参数
    - `Requests`：该资源的最小申请量，系统必须满足要求。
    - `Limits`：该资源最大允许使用量，当超过该量，K8S会kill并重启Pod。
 
+这几个概念应该还比较好理解。
+
+- 通过Master控制各Node节点
+- 操作Node节点实现节点上Pod的创建于管理
+- 客户访问Node节点上对外的服务
+
 # 五、概念说明 - Master
 
-@todo
+## 5.1 apiserver
 
+k8s API Server提供了k8s各类资源对象（pod,RC,Service等）的增删改查及watch等HTTP Rest接口，是整个系统的数据总线和数据中心。kubernetes API Server的功能： [<sup>[4]</sup>](#refer)
 
+1. 提供了集群管理的REST API接口(包括认证授权、数据校验以及集群状态变更)；
+2. 提供其他模块之间的数据交互和通信的枢纽（其他模块通过API Server查询或修改数据，只有API Server才直接操作etcd）;
+3. 是资源配额控制的入口；
+4. 拥有完备的集群安全机制.
+
+## 5.2 kube-controller-manager
+
+| 编号 | 控制器                                | 说明                                                         | 应用场景   |
+| ---- | ------------------------------------- | ------------------------------------------------------------ | ---------- |
+| 1    | Deployment                            | 部署无状态应用                                               | Web应用    |
+| 2    | StatefulSet                           | 部署有状态应用                                               | 数据库     |
+| 3    | DaemonSet                             | 在每一个Node上面运行一个Pod；新加入的Node也同样会自动运行一个Pod | Agent      |
+| 4    | Job/CronJob                           | 一次性任务/周期任务                                          | 脚本、备份 |
+| 5    | ReplicaSet<br />ReplicationController | 控制容器应用的副本数量                                       |            |
+
+**1. 关于无状态与有状态的说明：**
+
+- 无状态服务
+  - 是指该服务运行的实例不会在本地存储需要持久化的数据，并且多个实例对于同一个请求响应的结果是完全一致的。
+  - 多个实例可以共享相同的持久化数据。例如：nginx实例，tomcat实例等
+  - 相关的k8s资源有：ReplicaSet、ReplicationController、Deployment等，由于是无状态服务，所以这些控制器创建的pod序号都是随机值。并且在缩容的时候并不会明确缩容某一个pod，而是随机的，因为所有实例得到的返回值都是一样，所以缩容任何一个pod都可以。
+- 有状态服务
+  - 需要数据存储功能的服务、或者指多线程类型的服务，队列等。（mysql数据库、kafka、zookeeper等）
+  - 每个实例都需要有自己独立的持久化存储，并且在k8s中是通过申明模板来进行定义。
+  - 相关的k8s资源为：StatefulSet，由于是有状态的服务，所以每个pod都有特定的名称和网络标识。比如pod名是由statefulSet名+有序的数字组成（0、1、2..）
+  - 在进行缩容操作的时候，可以明确知道会缩容哪一个pod，从数字最大的开始。并且Statefulset 在有实例不健康的情况下是不允许做缩容操作的。
+
+**2. ReplicationController 和 ReplicaSet**
+
+在新版的`Kubernetes`中建议使用`ReplicaSet (RS)`来取代`ReplicationController(RC)`。`ReplicaSet`跟`ReplicationController`没有本质的不同，只是名字不一样，但`ReplicaSet`支持集合式`selector`。
+
+虽然`ReplicaSet`可以独立使用，但如今它主要被`Deployment`用作协调`Pod`的创建、删除和更新的机制。当使用`Deployment`时，你不必担心还要管理它们创建的`ReplicaSet`，`Deployment`会拥有并管理它们的`ReplicaSet`。
+
+## 5.3 kube-schedule
+
+kube-scheduler是Kubernetes中的关键模块，扮演管家的角色遵从一套机制为Pod提供调度服务，例如基于资源的公平调度、调度Pod到指定节点、或者通信频繁的Pod调度到同一节点等。容器调度本身是一件比较复杂的事，因为要确保以下几个目标：
+
+1. 公平性：在调度Pod时需要公平的进行决策，每个节点都有被分配资源的机会，调度器需要对不同节点的使用作出平衡决策。
+2. 资源高效利用：最大化群集所有资源的利用率，使有限的CPU、内存等资源服务尽可能更多的Pod。
+3. 效率问题：能快速的完成对大批量Pod的调度工作，在集群规模扩增的情况下，依然保证调度过程的性能。
+4. 灵活性：在实际运作中，用户往往希望Pod的调度策略是可控的，从而处理大量复杂的实际问题。因此平台要允许多个调度器并行工作，同时支持自定义调度器。
+
+为达到上述目标，kube-scheduler通过结合Node资源、负载情况、数据位置等各种因素进行调度判断，确保在满足场景需求的同时将Pod分配到最优节点。显然，kube-scheduler影响着Kubernetes集群的可用性与性能，Pod数量越多集群的调度能力越重要，尤其达到了数千级节点数时，优秀的调度能力将显著提升容器平台性能。
+
+**到这里我们可以对Pod的整个启动流程进行总结：** [<sup>[6]</sup>](#refer)
+
+1. 资源管控中心Controller Manager创建新的Pod，将该Pod加入待调度的Pod列表。
+2. kube-scheduler通过API Server提供的接口监听Pods，获取待调度pod，经过预选和优选两个阶段对各个Node节点打分排序，为待调度Pod列表中每个对象选择一个最优的Node。
+3. kube-scheduler将Pod与Node的绑定写入etcd（元数据管理服务）。
+4. 节点代理服务kubelet通过API Server监听到kube-scheduler产生的绑定信息，获得Pod列表，下载Image并启动容器，然后由kubelet负责拉起Pod。
+
+## 5.4 etcd server
+
+Etcd是Kubernetes集群中的一个十分重要的组件，用于保存集群所有的网络配置和对象的状态信息。 [<sup>[7]</sup>](#refer)
 
 # 六、概念说明 - Node
 
-@todo
+## 6.1 kubelet
+
+在kubernetes集群中，每个Node节点都会启动kubelet进程，用来处理Master节点下发到本节点的任务，管理Pod和其中的容器。kubelet会在API Server上注册节点信息，定期向Master汇报节点资源使用情况，并通过cAdvisor监控容器和节点资源。可以把kubelet理解成【Server-Agent】架构中的agent，是Node上的pod管家。 [<sup>[8]</sup>](#refer)
+
+## 6.2 kube-proxy
+
+kube-proxy是Kubernetes的核心组件，部署在每个Node节点上，它是实现Kubernetes Service的通信与负载均衡机制的重要组件; kube-proxy负责为Pod创建代理服务，从apiserver获取所有server信息，并根据server信息创建代理服务，实现server到Pod的请求路由和转发，从而实现K8s层级的虚拟转发网络。
+
+在k8s中，提供相同服务的一组pod可以抽象成一个service，通过service提供的统一入口对外提供服务，每个service都有一个虚拟IP地址（VIP）和端口号供客户端访问。
+
+**简单来说:** [<sup>[9]</sup>](#refer)
+
+- kube-proxy其实就是管理service的访问入口，包括集群内Pod到Service的访问和集群外访问service。
+- kube-proxy管理sevice的Endpoints，该service对外暴露一个Virtual IP，也成为Cluster IP, 集群内通过访问这个Cluster IP:Port就能访问到集群内对应的serivce下的Pod。
+- service是通过Selector选择的一组Pods的服务抽象，其实就是一个微服务，提供了服务的LB和反向代理的能力，而kube-proxy的主要作用就是负责service的实现。
+- service另外一个重要作用是，一个服务后端的Pods可能会随着生存灭亡而发生IP的改变，service的出现，给服务提供了一个固定的IP，而无视后端Endpoint的变化。
+
+这两章中的概念就比较多了，其中的概念与交互流程需要再慢慢吸收下。
+
+# 七、小结
+
+回过头来看一下我们之前的操作 [<sup>[10]</sup>](#refer)
+
+```
+$ kubectl run itopic --image=pengbotao/itopic.go:alpine --replicas=3 --port=8001
+```
+
+- 通过`kubectl run`时，客户端会将请求发送给`kube-apiserver`。
+
+- `kube-apiserver`经过一些列验证之后将`Deployment`记录存储到`Etcd`并初始化。
+
+- `Deployment Controller`检测到`Deployment`记录的更改。
+  - 当所有的`Controller`正常运行后，`Etcd`中就会保存一个`Deployment`、一个`ReplicaSet`和三个`Pod`资源记录，并且可以通过 `Kube-Apiserver`查看。然而，这些`Pod`资源现在还处于`Pending`状态，因为它们还没有被调度到集群中合适的`Node`上运行。这个问题最终要靠调度器`Scheduler`来解决。
+
+- `Scheduler`将待调度的`Pod`按照特定的算法和调度策略绑定到集群中某个合适的`Node`上，并将绑定信息写入`Etcd`中。
+
+- 一旦`Scheduler`将`Pod`调度到某个节点上，该节点的`Kubelet`就会接管该`Pod`并开始部署。
+  - 在`Kubernetes`集群中，每个`Node`节点上都会启动一个`Kubelet`服务进程，该进程用于处理`Scheduler`下发到本节点的任务，管理`Pod`的生命周期，包括挂载卷、容器日志记录、垃圾回收以及其他与`Pod`相关的事件。
+
+```
+$ kubectl expose deployment itopic --type=LoadBalancer --port=38001 --target-port=8001 
+```
+
+- 为`Pod`创建代理服务，从`apiserver`获取所有`server`信息，并根据`server`信息创建代理服务，实现`server`到`Pod`的请求路由和转发，从而实现`K8s`层级的虚拟转发网络，实现外部访问的访问。
 
 
 
-# 七、概念说明 - Pod
-
-@todo
-
-
-
-
+最后，本文档是一个边学习边整理的过程，这其中实际操作并不多，概念、模块比较多，所以仅当一个入门知识介绍。
 
 
 ---
@@ -346,4 +444,10 @@ kubectl delete deployment,service itopic
 - [1] [Kubernetes设计架构](https://www.kubernetes.org.cn/kubernetes%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84)
 - [2] [Docker Desktop for Mac 开启并使用 Kubernetes](https://github.com/gotok8s/k8s-docker-desktop-for-mac)
 - [3] [Kubernetes基本概念（二）之k8s常用对象说明](https://blog.csdn.net/huwh_/article/details/77017281)
-- [4] [在k8s中的controller简介](https://tinychen.com/190722-k8s-controller/)
+- [4] [k8s 组件介绍-API Server](https://www.cnblogs.com/Su-per-man/p/10942783.html)
+- [5] [在k8s中的controller简介](https://tinychen.com/190722-k8s-controller/)
+- [6] [k8s调度器kube-scheduler](https://www.cnblogs.com/kcxg/p/11119679.html)
+- [7] [Etcd在kubernetes集群中的作用](https://blog.csdn.net/bbwangj/article/details/82866927)
+- [8] [K8s核心原理（四）kubelet](https://www.jianshu.com/p/77d1b06ce798)
+- [9] [kubernetes核心组件kube-proxy](https://www.cnblogs.com/fuyuteng/p/11598768.html)
+- [10] [深度解读：输入 kubectl run 后，到底发生了什么？](https://zhuanlan.zhihu.com/p/79774851)
