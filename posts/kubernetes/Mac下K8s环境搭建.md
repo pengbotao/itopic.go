@@ -322,7 +322,7 @@ kubectl delete deployment,service itopic
 这几个概念应该还比较好理解。
 
 - 通过Master控制各Node节点
-- 操作Node节点实现节点上Pod的创建于管理
+- 操作Node节点实现节点上Pod的创建与管理
 - 客户访问Node节点上对外的服务
 
 # 五、概念说明 - Master
