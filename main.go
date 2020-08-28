@@ -40,7 +40,7 @@ func init() {
 func main() {
 	flag.Parse()
 	htmlPrefix = strings.TrimRight(htmlPrefix, "/")
-
+	models.IsDebug = isDebug
 	router := loadHTTPRouter()
 	ticker := time.NewTicker(1800 * time.Second)
 	go func() {
@@ -142,7 +142,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	})
 	//topic router
 	for i := range models.Topics {
-		if models.Topics[i].IsPublic == false {
+		if isDebug == false && models.Topics[i].IsPublic == false {
 			continue
 		}
 		var buff bytes.Buffer

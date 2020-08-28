@@ -110,6 +110,7 @@ func GetTopicByPath(path string) (*Topic, error) {
 	}
 	if strings.Compare(thj.IsPublic, "no") == 0 {
 		t.IsPublic = false
+		t.Title = "<font color=\"#FE9A2E\">" + t.Title + "</font>"
 	}
 	tagArray := strings.Split(thj.Tag, ",")
 	var isFind bool
@@ -152,7 +153,7 @@ func GetTopicByPath(path string) (*Topic, error) {
 
 //SetTopicToTag set topic to tag struct
 func SetTopicToTag(t *Topic) {
-	if t.IsPublic == false {
+	if IsDebug == false && t.IsPublic == false {
 		return
 	}
 	for i := range t.Tag {
@@ -180,7 +181,7 @@ func SetTopicToTag(t *Topic) {
 
 //SetTopicToMonth set topic to month struct
 func SetTopicToMonth(t *Topic) {
-	if t.IsPublic == false {
+	if IsDebug == false && t.IsPublic == false {
 		return
 	}
 	month := t.Time.Format("2006-01")

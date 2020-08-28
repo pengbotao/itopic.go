@@ -32,6 +32,8 @@ type TopicMonth struct {
 }
 
 var (
+	//IsDebug assign from main.go
+	IsDebug             = false
 	topicMarkdownFolder = "posts"
 
 	//Topics store all the topic
