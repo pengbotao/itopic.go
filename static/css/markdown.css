@@ -151,6 +151,7 @@ code, tt {
   background-color: rgba(0,0,0,0.04);
   font-size: 85%;
   border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
   color: #333333; }
 pre > code {
   margin: 0;
