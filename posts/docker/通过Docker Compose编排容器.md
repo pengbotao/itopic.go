@@ -156,5 +156,6 @@ networks:
 通过Dockerfile可以创建镜像，通过Docker可以管理各个容器，而Compose相当于对容器进行打包，将一组服务集中进行基本管理。
 
 ---
+
 - [1] [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
 - [2] [docker-compose编排参数详解](https://www.cnblogs.com/wutao666/p/11332186.html)

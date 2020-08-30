@@ -10,7 +10,7 @@ html, body{
   background: #fcfcfc none repeat scroll 0 0;
   color:#444;
   line-height: 1.6em;
-  font:400 20px/1.6 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
+  font:400 20px/1.5 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
 }
 
 body {
@@ -48,6 +48,7 @@ strong{font-weight: 600;}
 @media screen {
   #wrapper {
   box-shadow: 0 0 0 1px #cacaca, 0 0 0 4px #eee; } }
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   line-height: 1.25;

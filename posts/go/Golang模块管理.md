@@ -255,6 +255,7 @@ $ go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
 ---
+
 - [1] [Go 模块解惑：到处都是 GO111MODULE ，这到底什么？](https://learnku.com/go/t/39086)
 - [2] [Go 包管理的前世今生](https://www.infoq.cn/article/history-go-package-management)
 - [3] [Go 模块存在的意义与解决的问题](https://zhuanlan.zhihu.com/p/86631181)

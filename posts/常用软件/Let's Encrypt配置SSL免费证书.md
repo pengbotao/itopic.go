@@ -115,4 +115,6 @@ server
 5 0 * */2 * /root/letsencrypt/certbot-auto renew --renew-hook "/usr/local/server/nginx1.15.3/sbin/nginx -s reload"
 ```
 
-参考站点：`https://segmentfault.com/a/1190000012343679`
+---
+
+- [1] [启用 https 简单免费的 Let's Encrypt SSL证书配置](https://segmentfault.com/a/1190000012343679)

@@ -212,4 +212,6 @@ Charles异常关闭后浏览器的代理未取消，需要再次启动Charles即
 ## 4.6 部分HTTPS无法抓取
 有一些服务器会对客户端身份进行验证，即会进行双向验证导致验证不过无法抓取。
 
-- https://blog.csdn.net/u010731949/article/details/50538280
+---
+
+- [1] [关于Https安全性问题、双向验证防止中间人攻击问题](https://blog.csdn.net/u010731949/article/details/50538280)

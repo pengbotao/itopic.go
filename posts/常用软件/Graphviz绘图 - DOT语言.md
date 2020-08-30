@@ -292,8 +292,7 @@ digraph demo {
 
 Markdown可以让使用者关注内容的书写，不太需要关注文档格式；Graphviz也是一样，让使用者更多的关注内容本身之间的关系而不用太在意展现形式，以文本的方式来绘图也方便进行版本管理。当关系数据量比较大时（比如从数据库读取数据）Graphviz的优势将更明显。
 
-**参考文档：**
+---
 
-- http://www.graphviz.org
-- http://www.cnblogs.com/billnote/p/4043267.html
-- http://www.tuicool.com/articles/qeqeuyb
+- [1] [graphviz官网](http://www.graphviz.org)
+- [2] [dot language 学习笔记](http://www.cnblogs.com/billnote/p/4043267.html)

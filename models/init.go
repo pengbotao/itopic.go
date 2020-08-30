@@ -35,7 +35,7 @@ var (
 	//IsDebug assign from main.go
 	IsDebug             = false
 	topicMarkdownFolder = "posts"
-	randomWrittingColor = []string{"#FE9A2E", "#BFFF00", "#81F7BE", "#2ECCFA", "#F781F3", "#A9A9F5", "#D8D8D8"}
+	randomWrittingColor = []string{"#FE9A2E", "#BFFF00", "#81F7BE", "#2ECCFA", "#F781F3", "#A9A9F5", "#D8D8D8", "#FF4000", "#F4FA58", "#5858FA"}
 	//Topics store all the topic
 	Topics []*Topic
 	//TopicsGroupByMonth store the topic by month

@@ -184,7 +184,8 @@ OK
 174947.52 requests per second
 ```
 
-# 4.2 redis
+## 4.2 redis
+
 ```
 [root@asm bin]# ./redis-benchmark -h 127.0.0.1 -p 6380 -c 100 -n 1000000 -r 1000000 -d 1024 -t get,set
 ====== SET ======

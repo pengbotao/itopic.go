@@ -65,7 +65,7 @@ go run main.go
     	html folder (default "../itopic.org")
 ```
 
-- `-debug`: 文档修改后访问浏览器实时看到效果
+- `-debug`: 文档修改后访问浏览器实时看到效果，同时public为no的文章也会显示
 - `-html`: 往`prefix`目录写生成的html数据，默认每5分钟写一次
 
 # 发布
