@@ -165,6 +165,18 @@ data:
   percent: 1.4
 ```
 
+`-`下的第一个键可以提到`-`后面，如：
+
+```
+code: 0
+msg: success
+data:
+- name: Chrome
+  percent: 62.5
+- name: Internet Explore
+  percent: 1.4
+```
+
 等同于
 
 ```
