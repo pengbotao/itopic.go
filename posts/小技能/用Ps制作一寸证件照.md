@@ -2,7 +2,7 @@
 {
     "url": "ps-one-inch",
     "time": "2020/02/01 06:12",
-    "tag": "Photoshop"
+    "tag": "Photoshop,小技能"
 }
 ```
 

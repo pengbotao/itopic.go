@@ -345,6 +345,7 @@ k8s API Server提供了k8s各类资源对象（pod,RC,Service等）的增删改�
 | 3    | DaemonSet                             | 在每一个Node上面运行一个Pod；新加入的Node也同样会自动运行一个Pod | Agent      |
 | 4    | Job/CronJob                           | 一次性任务/周期任务                                          | 脚本、备份 |
 | 5    | ReplicaSet<br />ReplicationController | 控制容器应用的副本数量                                       |            |
+| 6    | HPA                                   | Pod水平自动缩放                                              |            |
 
 **1. 关于无状态与有状态的说明：**
 

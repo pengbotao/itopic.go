@@ -6,19 +6,30 @@
 }
 ```
 
--- 安装supervisor
-$ pip install supervisor
+- 安装supervisor
 
--- 生成配置文件
+```
+$ pip install supervisor
+```
+
+- 生成配置文件
+
+```
 $ echo_supervisord_conf > /etc/supervisord.conf
 $ vim /etc/supervisord.conf
+```
 
--- 启动supervisor
+- 启动supervisor
+
+```
 $ supervisord -c /etc/supervisord.conf
+```
 
--- 查看supervisor是否运行
+- 查看supervisor是否运行
+
+```
 $ ps aux | grep supervisord
-
+```
 
 **program 配置**
 
