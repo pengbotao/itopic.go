@@ -129,21 +129,14 @@ FIELDS:
      https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
 ```
 
-也可以看看其他的资源，比如`deployment`，大同小异。通过上面看到，基础的`Yaml`格式如下，可以对照前面的示例进行查看，接下来主要介绍`Yaml`里的语法规则：
+也可以看看其他的资源，比如`deployment`，大同小异。通过上面看到，基础的`Yaml`格式如下，可以对照前面的示例进行查看，接下来主要介绍`Yaml`里的语法规则，主结构：
 
-```
-apiVersion: group/apiversion  #API版本
-kind:         # 资源类型
-metadata：    # 元数据对象
-  name        # 如Pod名称
-  namespace   # 命名空间默认default
-  lables      # 标签
-spec：        # 详细对象
-  containers：# 容器列表
-  - name      # 容器名称
-    image     # 镜像
-status:       # 当前状态，本字段由 Kubernetes 自身维护，用户不能定义
-```
+| 参数名     | 字段类型 | 说明                                                  |
+| ---------- | -------- | ----------------------------------------------------- |
+| apiVersion | String   | k8s API的版本，可配合前面的`kubectl api-versions`查看 |
+| kind       | String   | 定义的资源类型，比如`Deployment`、`Pod`               |
+| metadata   | Object   | 元数据对象                                            |
+| spec       | Object   | 详细定义对象                                          |
 
 ## 3.1 apiVersion
 
@@ -168,20 +161,69 @@ error: unable to recognize "itopic.yaml": no matches for kind "deploy" in versio
 
 ## 3.3 metadata
 
-
+| 参数名               | 字段类型 | 说明                                |
+| -------------------- | -------- | ----------------------------------- |
+| metadata             | Object   | 元数据对象                          |
+| metadata.name        | String   | 元数据对象的名称                    |
+| medadata.namespace   | String   | 元数据对象的名称空间，默认为default |
+| metadata.labels      | Object   | 自定义键值对，配合Selector使用      |
+| metadata.annotations | Object   | 自定义注解                          |
 
 ## 3.4 spec
 
+资源信息，基础信息有：
 
+| 参数名                | 字段类型 | 说明                                                         |
+| --------------------- | -------- | ------------------------------------------------------------ |
+| spec                  | Object   | 详细定义对象                                                 |
+| spec.containers[]     | List     | 定义容器列表                                                 |
+| spec.restartPolicy    | String   | 定义Pod重启策略，可选值：Always、Onfailure、Never，默认为Always<br />- Always：Pod一旦终止则理解重启<br />- Onfailure：非正常退出才重启（Code非0）<br />- Never：不重启 |
+| spec.nodeSelector     | Object   | 指定对象的调度节点,节点必须存在。                            |
+| spec.imagePullSecrets | Object   |                                                              |
+| spec.hostNetwork      | Boolean  |                                                              |
+
+# 四、Yaml详细解读
+
+## 4.1 名称空间
+
+**4.1.1 说明**
+
+一个`Kubernetes`集群可以有多个名称空间，逻辑上隔离，绝大部分资源对象都是名称空间级别下的。前面的操作都没有带名称空间，默认是使用的`default`名称空间，一个名称空间下只能有一个同名的`deploy`，跨名称空间就没有这个限制了。
+
+**4.1.2 获取名称空间**
+
+```
+$ kubectl get ns
+NAME                   STATUS   AGE
+default                Active   4d23h
+docker                 Active   4d23h
+kube-node-lease        Active   4d23h
+kube-public            Active   4d23h
+kube-system            Active   4d23h
+kubernetes-dashboard   Active   4d23h
+```
+
+**4.1.3 创建/删除名称空间**
+
+```
+$ kubectl create ns test
+
+$ kubectl -n test apply -f nginx.yaml
+deployment.apps/nginx-deploy created
+
+$ kubectl -n test get pod
+NAME                            READY   STATUS    RESTARTS   AGE
+nginx-deploy-6c44fdc7bb-jnj75   1/1     Running   0          32s
+nginx-deploy-6c44fdc7bb-m7bvh   1/1     Running   0          32s
+nginx-deploy-6c44fdc7bb-mp28r   1/1     Running   0          32s
+
+$ kubectl delete ns test
+```
+
+## 4.2 容器定义
 
 | 参数名                                             | 字段类型 | 说明                                                         |
 | -------------------------------------------------- | -------- | ------------------------------------------------------------ |
-| apiVersion                                         | String   | k8s API的版本，可配合前面的`kubectl api-versions`查看        |
-| kind                                               | String   | 定义的资源类型，比如`Deployment`、`Pod`                      |
-| metadata                                           | Object   | 元数据对象                                                   |
-| metadata.name                                      | String   | 元数据对象的名称                                             |
-| medadata.namespace                                 | String   | 元数据对象的名称空间                                         |
-| spec                                               | Object   | 详细定义对象                                                 |
 | spec.containers[]                                  | List     | 定义容器列表                                                 |
 | spec.containers[].name                             | String   | 定义容器名称                                                 |
 | spec.containers[].image                            | String   | 定义镜像来源                                                 |
@@ -207,56 +249,147 @@ error: unable to recognize "itopic.yaml": no matches for kind "deploy" in versio
 | spec.containers[].resources.limits.requests        | Object   | 指定容器启动和调度时的限制设置                               |
 | spec.containers[].resources.limits.requests.cpu    |          |                                                              |
 | spec.containers[].resources.limits.requests.memory |          |                                                              |
-| spec.restartPolicy                                 | String   | 定义Pod重启策略，可选值：Always、Onfailure、Never，默认为Always<br />- Always：Pod一旦终止则理解重启<br />- Onfailure：非正常退出才重启（Code非0）<br />- Never：不重启 |
-| spec.nodeSelector                                  | Object   |                                                              |
-| spec.imagePullSecrets                              | Object   |                                                              |
-| spec.hostNetwork                                   | Boolean  |                                                              |
 
-# 四、Yaml详细解读
+## 4.3 Label / Selector
 
-## 4.1 名称空间
+`Label`（标签）是`Kubernetes`系统中一个核心概念。一个`Label`是一个`key=value`的键值对，其中key与value由用户自己指定。Label可以被附加到各种资源对象上，例如`Node`、`Pod`、`Service`、`RS`等，一个资源对象可以定义任意数量的`Label`，同一个`Label`也可以被添加到任意数量的资源对象上。`Label`通常在资源对象定义时确定，也可以在对象创建后动态添加或者删除。[<sup>[2]</sup>](#refer)
+
+打好标签之后就可以通过`Label Selector`（标签选择器）查询和筛选某些`Label`的资源对象。
+
+**4.3.1 基于等式(Equality-based)的Selector**
+
+定义一个`Deployment`
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-tpl-label
+  template:
+    metadata:
+      labels:
+        app: nginx-tpl-label
+    spec:
+      containers:
+      - name: nginx-pod
+        image: nginx:1.19.2-alpine
+```
+
+我们定义`service`的时候需要做筛选：
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  selector:
+    app: nginx-tpl-label
+  type: LoadBalancer
+  ports:
+  - port: 38003
+    targetPort: 80
+    protocol: TCP
+```
+
+这里没有给`deploy`打标签，创建的`RS`和`pod`会打上`nginx-tpl-label`标签，service的`selector`相当于筛选 `app = nginx-tpl-label`的`pod`，如：
+
+```
+$ kubectl get pod --show-labels
+NAME                            READY   STATUS    RESTARTS   AGE    LABELS
+itopic-6f9dd4f4cd-6n6lp         1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+itopic-6f9dd4f4cd-8tvgq         1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+itopic-6f9dd4f4cd-l65f4         1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+nginx-deploy-6c44fdc7bb-5d8bn   1/1     Running   0          21m    app=nginx-tpl-label,pod-template-hash=6c44fdc7bb
+nginx-deploy-6c44fdc7bb-mjzn5   1/1     Running   0          21m    app=nginx-tpl-label,pod-template-hash=6c44fdc7bb
+nginx-deploy-6c44fdc7bb-vd5gg   1/1     Running   0          21m    app=nginx-tpl-label,pod-template-hash=6c44fdc7bb
 
 
-
-## 4.2 Label/Selector
-
-
-
-## 4.3 容器定义
-
+$ kubectl get pod --show-labels -l app!=nginx-tpl-label
+NAME                      READY   STATUS    RESTARTS   AGE    LABELS
+itopic-6f9dd4f4cd-6n6lp   1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+itopic-6f9dd4f4cd-8tvgq   1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+itopic-6f9dd4f4cd-l65f4   1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
 
 
+$ kubectl get pod --show-labels -l app!=nginx-tpl-label,run=test
+No resources found in default namespace.
 
 
+$ kubectl get pod --show-labels -l app!=nginx-tpl-label,run=itopic
+NAME                      READY   STATUS    RESTARTS   AGE    LABELS
+itopic-6f9dd4f4cd-6n6lp   1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+itopic-6f9dd4f4cd-8tvgq   1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+itopic-6f9dd4f4cd-l65f4   1/1     Running   0          5d1h   pod-template-hash=6f9dd4f4cd,run=itopic
+```
 
+**4.3.2 基于集合（Set-based）的Selector**
 
-# 五、Yaml常用操作
+```
+......
+spec:
+  selector:
+    matchLabels:
+      app: myweb
+    matchExpressions；
+      - {key: tier, operator: In, values: [frontend]}
+      - {key: environment, operator: NotIn, values: [dev]}
+```
+
+- `matchLabels`用于定义一组`Label`，与直接写在`Selector`中的作用相同；
+- `matchExpressions`用于定义一组基于集合的筛选条件，可用的条件运算符包括`In` 、 `NotIn` 、 `Exists`和`DoesNotExist`。
+- 如果同时设置了`matchLabels`和`matchExpressions`，则两组条件为`AND`关系，即需要同时满足所有条件才能完成`Selector`的筛选。
+
+前一篇中说的`RS`支持集合式`selector`，`RC`不支持，就是说的这里。
+
+# 五、日常操作
 
 ## 5.1 创建资源
+
+`kubectl apply -f x.yaml` 或 `kubectl create -f x.yaml`
+
+区别：都可以创建资源，如果存在则`create`报错，`apply`会根据新的文件进行更新。
+
+## 5.2 打标签
+
+修改Yaml中的labels字段，各种资源对象都可以操作标签，以deploy为例。
+
+```
+$ kubectl get deploy --show-labels
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE     LABELS
+itopic-deploy   3/3     3            3           7h5m    app=itopic
+
+# 增加标签
+$ kubectl label deploy itopic-deploy env=test
+deployment.apps/itopic-deploy labeled
+
+$ kubectl get deploy --show-labels
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE     LABELS
+itopic-deploy   3/3     3            3           7h7m    app=itopic,env=test
+
+# 修改env标签
+$ kubectl label deploy itopic-deploy env=qa --overwrite
+
+# 删除env标签
+$ kubectl label deploy itopic-deploy env-
+```
+
+## 5.3 修改资源
 
 ```
 kubectl apply -f x.yaml
 ```
 
-或
+日常操作都可以通过修改资源文件并重新应用生效。
 
-```
-kubectl create -f x.yaml
-```
+## 5.4 删除资源
 
-区别：都可以创建资源，如果存在则`create`报错，`apply`会根据新的文件进行更新。
-
-## 5.2 修改/删除资源
-
-**修改资源**：
-
-
-
-
-
-**删除资源：**
-
-可以通过`kubectl delete deploy itopic-deploy`的方式删除`deploy`，通修改类似，也可以直接指定`yaml`文件的方式来删除。
+可以通过`kubectl delete deploy itopic-deploy`的方式删除`deploy`，同修改类似，也可以直接指定`yaml`文件的方式来删除。
 
 ```
 $ kubectl delete -f itopic.yaml
@@ -266,17 +399,29 @@ $ kubectl delete -f itopic-svc.yaml
 service "itopic-svc" deleted
 ```
 
+也可以根据标签删除
 
+```
+$ kubectl delete pod -l app=itopic
+```
 
-## 5.3 容器调试
+## 5.5 扩展资源
+
+**修改副本数量**，调整Yaml中的replicas或者：
+
+```
+kubectl scale -n default deployment itopic-deploy --replicas=5
+```
+
+## 5.6 容器调试
 
 创建过程中可能会出现一些问题，提供一些调试方法：
 
-### 5.3.1 describe
+**5.6.1 describe**
 
 通过`describe`命令查看资源信息，各个资源都可以通过`describe`查看。可以看到状态以及`Events`。
 
-### 5.3.2 查看容器日志
+**5.6.2 查看容器日志**
 
 ```
 $ kubectl logs itopic-6f9dd4f4cd-6n6lp -c itopic
@@ -284,9 +429,9 @@ The topic server is running at http://0.0.0.0:8001
 Quit the server with Control-C
 ```
 
-如果Pod里只有一个容器可以省略`-c`参数，创建资源的时候可以通过日志看容器是否成功。
+如果Pod里只有一个容器可以省略`-c`参数，创建资源的时候可以通过日志看容器是否成功。也可以指定`-f`，类似`tail -f`
 
-### 5.3.3 service
+**5.6.3 service**
 
 如果创建的service对外无法提供访问，可以通过`describe`查看`svc`信息
 
@@ -313,7 +458,7 @@ Events:                   <none>
 - `Selector: app=itopic` 确保`Selector`是正确的
 - `Endpoints：10.1.0.93:8001,10.1.0.94:8001,10.1.0.95:8001` 确保是正确的，如果Selector有错，则可能找不到后端Pod，就无法访问了
 
-## 5.4 查看完整Yaml
+## 5.7 查看完整Yaml
 
 不同资源的完整的yaml信息可以这么看：
 
@@ -350,8 +495,10 @@ status:
 
 
 
+
 ---
 
 <div id="refer"></div>
 
 - [1] [1.k8s.资源清单](https://www.cnblogs.com/elvi/p/11755617.html)
+- [2] [Kubernetes 核心概念](https://www.cnblogs.com/liu-shuai/articles/12176934.html)
