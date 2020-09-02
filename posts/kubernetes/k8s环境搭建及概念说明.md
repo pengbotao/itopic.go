@@ -274,7 +274,7 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 $ kubectl delete deployment,service itopic
 ```
 
-到这里一个简单的镜像通过2条``k8s`命令就部署好了，来看看`Dashboard`的展示情况：
+到这里一个简单的镜像通过2条`k8s`命令就部署好了，来看看`Dashboard`的展示情况：
 
 ![](../../static/uploads/Kubernetes-Dashboard.png)
 

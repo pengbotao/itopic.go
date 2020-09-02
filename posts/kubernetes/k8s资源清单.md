@@ -430,6 +430,16 @@ $ kubectl delete pod -l app=itopic
 kubectl scale -n default deployment itopic-deploy --replicas=5
 ```
 
+也可以设置自动扩容：
+
+```
+$ kubectl autoscale deployment  nginx-deploy --min=2 --max=5 --cpu-percent=80
+
+$ kubectl get hpa
+NAME           REFERENCE                 TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+nginx-deploy   Deployment/nginx-deploy   <unknown>/80%   2         5         4          2m
+```
+
 ## 5.6 容器调试
 
 创建过程中可能会出现一些问题，提供一些调试方法：
