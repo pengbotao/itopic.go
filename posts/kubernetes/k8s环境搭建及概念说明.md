@@ -345,7 +345,7 @@ k8s API Server提供了k8s各类资源对象（pod,RC,Service等）的增删改�
 | 5    | ReplicaSet<br />ReplicationController | 控制容器应用的副本数量                                       |            |
 | 6    | HPA                                   | Pod水平自动缩放                                              |            |
 
-**1. 关于无状态与有状态的说明：**
+**5.2.1. 关于无状态与有状态的说明：**
 
 - 无状态服务
   - 是指该服务运行的实例不会在本地存储需要持久化的数据，并且多个实例对于同一个请求响应的结果是完全一致的。
@@ -357,11 +357,42 @@ k8s API Server提供了k8s各类资源对象（pod,RC,Service等）的增删改�
   - 相关的k8s资源为：StatefulSet，由于是有状态的服务，所以每个pod都有特定的名称和网络标识。比如pod名是由statefulSet名+有序的数字组成（0、1、2..）
   - 在进行缩容操作的时候，可以明确知道会缩容哪一个pod，从数字最大的开始。并且Statefulset 在有实例不健康的情况下是不允许做缩容操作的。
 
-**2. ReplicationController 和 ReplicaSet**
+**5.2.2 Deployment**
+
+`Deployment`为`Pod`和`ReplicaSet`提供了一个声明式定义方法发，用来替代以前的`ReplicationController`来方便的管理应用。典型的应用场景包含：
+
+- 定义`Deployment`来创建`Pod`和`ReplicaSet`
+- 滚动升级和回滚应用
+- 扩容和缩容
+- 暂停和继续`Deployment`
+
+**5.2.3 ReplicationController 和 ReplicaSet**
 
 在新版的`Kubernetes`中建议使用`ReplicaSet (RS)`来取代`ReplicationController(RC)`。`ReplicaSet`跟`ReplicationController`没有本质的不同，只是名字不一样，但`ReplicaSet`支持集合式`selector`。
 
 虽然`ReplicaSet`可以独立使用，但如今它主要被`Deployment`用作协调`Pod`的创建、删除和更新的机制。当使用`Deployment`时，你不必担心还要管理它们创建的`ReplicaSet`，`Deployment`会拥有并管理它们的`ReplicaSet`。
+
+**5.2.4 DaemonSet**
+
+`DaemonSet`确保全局（或者一些）Node上运行一个Pod的副本。当有Node加入集群时，也会为他们新增一个Pod。当有Node从集群移除时，这些Pod也会被回收。删除DaemonSet将会删除他创建的所有Pod。
+
+DaemonSet的一些典型用法：
+
+- 运行集群存储daemon，例如在每个Node上运行glusterd、ceph
+- 在每个Node上运行日志手机daemon，例如fluentd、logstash
+- 在每个Node上运行监控daemon，例如Prometheus、collected、Datadog代理、New Relic代理 或Ganglia
+
+**5.2.5 Job/CronJob**
+
+- Job负责批处理任务，即仅执行一次的任务，它保证批处理任务的一个或多个Pod成功结束。
+
+- CronJob管理基于时间的Job，即：
+  - 在给定时间只运行一次
+  - 周期性的给定时间运行
+
+**5.2.6 HPA - Horizontal Pod Autoscaling**
+
+应用的资源使用率通常都有高峰和骶骨的时候，如何削峰填谷提供集群的整体资源利用率，让service的pod个数自动调整呢？这就依赖于HPA了，顾名思义，使Pod水平自动缩放。
 
 ## 5.3 kube-schedule
 
