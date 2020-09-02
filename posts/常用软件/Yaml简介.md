@@ -18,7 +18,7 @@ What It Is: YAML is a human friendly data serialization standard for all program
 
 # 一、概述
 
-`YAML`是"`YAML Ain't a Markup Language`"（`YAML`不是一种标记语言）的递归缩写。在开发的这种语言时，`YAML` 的意思其实是："`Yet Another Markup Language`"（仍是一种标记语言），但为了强调这种语言以数据做为中心，而不是以标记语言为重点，而用反向缩略语重命名。
+`YAML`是`YAML Ain't a Markup Language`（`YAML`不是一种标记语言）的递归缩写。在开发的这种语言时，`YAML` 的意思其实是："`Yet Another Markup Language`"（仍是一种标记语言），但为了强调这种语言以数据做为中心，而不是以标记语言为重点，而用反向缩略语重命名。
 
 它的基本语法规则如下：
 

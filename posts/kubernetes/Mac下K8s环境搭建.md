@@ -10,7 +10,7 @@
 
 ## 1.1 Kubernetes是什么？
 
-`Kubernetes`的名字来自希腊语，意思是“舵手” 或 “领航员”。`K8s`是将8个字母`ubernete`替换为`8`的缩写，也就是仅保留了头尾2个字母（k和s），中间的8个字母都去掉了，用`8`代替。
+`Kubernetes`的名字来自希腊语，意思是“舵手” 或 “领航员”。`K8s`是将8个字母`ubernete`替换为`8`的缩写，也就是仅保留了头尾2个字母（`k`和`s`），中间的8个字母都去掉了，用`8`代替。
 
 `Kubernetes`是容器集群管理系统，是一个开源的平台，可以实现容器集群的自动化部署、自动扩缩容、维护等功能。
 
@@ -31,7 +31,7 @@
 
 ## 1.2 Kubernetes设计架构
 
-`Kubernetes`集群包含有节点代理`kubelet`和`Master`组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。下面这张图是`Kubernetes`的架构图 [<sup>[1]</sup>](#refer)。
+`Kubernetes`集群包含有节点代理`kubelet`和`Master`组件(`APIs`, `scheduler`, `etc`)，一切都基于分布式的存储系统。下面这张图是`Kubernetes`的架构图 [<sup>[1]</sup>](#refer)。
 
 ![](../../static/uploads/k8s-cluster.png)
 
@@ -95,7 +95,7 @@ k8s.gcr.io/kubernetes-dashboard-amd64=gotok8s/kubernetes-dashboard-amd64:v1.10.1
 
 ## 2.3 安装Dashboard
 
-`Dashboard`是可选组件，部署 Kubernetes Dashboard：
+`Dashboard`是可选组件，部署` Kubernetes Dashboard`：
 
 ```
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
@@ -104,7 +104,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master
 $ kubectl proxy
 ```
 
-创建Dashboard管理员用户并用token登陆
+创建`Dashboard`管理员用户并用`token`登陆
 
 ```
 # 创建 ServiceAccount kubernetes-dashboard-admin 并绑定集群管理员权限
@@ -130,7 +130,7 @@ $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashbo
 $ kubectl run itopic --image=pengbotao/itopic.go:alpine --replicas=3 --port=8001
 ```
 
-说明：使用的是我们前面用`docker`构建的镜像，容器使用的是8001端口，启动3个副本。操作`run`之后就创建好了`deployment`、`pod`，可以查看相关信息：
+说明：使用的是我们前面用`docker`构建的镜像，容器使用的是8001端口，启动3个副本。操作`run`之后就创建好了`deployment`、`rs`和`pod`，可以查看相关信息：
 
 **查看Node**：
 
@@ -271,10 +271,10 @@ itopic-6f9dd4f4cd-vfdx9   1/1     Running   0          38m
 如果要删除`deployment`和`service`:
 
 ```
-kubectl delete deployment,service itopic
+$ kubectl delete deployment,service itopic
 ```
 
-到这里一个简单的镜像通过2条K8s命令就部署好了，来看看`Dashboard`的展示情况：
+到这里一个简单的镜像通过2条``k8s`命令就部署好了，来看看`Dashboard`的展示情况：
 
 ![](../../static/uploads/Kubernetes-Dashboard.png)
 
@@ -307,8 +307,6 @@ kubectl delete deployment,service itopic
 
 `Pod`是`Kubernetes`中操作的基本单元。每个`Pod`中有个根容器(`Pause容器`)，`Pause`容器的状态代表整个容器组的状态，其他业务容器共享`Pause`的`IP`，即`Pod IP`，共享`Pause`挂载的`Volume`，这样简化了同个Pod中不同容器之间的网络问题和文件共享问题。
 
-
-
 1. `Kubernetes`集群中，同宿主机的或不同宿主机的`Pod`之间要求能够TCP/IP直接通信，因此采用虚拟二层网络技术来实现，例如`Flannel`，`Openvswitch(OVS)`等，这样在同个集群中，不同的宿主机的Pod IP为不同IP段的IP，集群中的所有Pod IP都是唯一的，**不同Pod之间可以直接通信**。
 2. Pod有两种类型：`普通Pod`和`静态Pod`。`静态Pod`即不通过`K8S`调度和创建，直接在某个具体的Node机器上通过具体的文件来启动。`普通Pod`则是由`K8S`创建、调度，同时数据存放在`ETCD`中。
 3. Pod IP和具体的容器端口（`ContainnerPort`）组成一个具体的通信地址，即`Endpoint`。一个`Pod`中可以存在多个容器，可以有多个端口，`Pod IP`一样，即有多个`Endpoint`。
@@ -323,7 +321,7 @@ kubectl delete deployment,service itopic
 
 - 通过Master控制各Node节点
 - 操作Node节点实现节点上Pod的创建与管理
-- 客户访问Node节点上对外的服务
+- 客户访问Node节点上Pod提供的服务
 
 # 五、概念说明 - Master
 
@@ -436,7 +434,7 @@ $ kubectl expose deployment itopic --type=LoadBalancer --port=38001 --target-por
 
 
 
-最后，本文档是一个边学习边整理的过程，这其中实际操作并不多，概念、模块比较多，所以仅当一个入门知识介绍。
+最后，本文档是一个边学习边整理的过程，也并未直接就上多台机器，先通过比较简单的一个环境熟悉起来，了解其中的概念、模块及交互，所以仅当一个入门知识介绍。
 
 
 ---

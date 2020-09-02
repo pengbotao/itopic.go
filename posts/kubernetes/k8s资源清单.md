@@ -252,7 +252,7 @@ $ kubectl delete ns test
 
 ## 4.3 Label / Selector
 
-`Label`（标签）是`Kubernetes`系统中一个核心概念。一个`Label`是一个`key=value`的键值对，其中key与value由用户自己指定。Label可以被附加到各种资源对象上，例如`Node`、`Pod`、`Service`、`RS`等，一个资源对象可以定义任意数量的`Label`，同一个`Label`也可以被添加到任意数量的资源对象上。`Label`通常在资源对象定义时确定，也可以在对象创建后动态添加或者删除。[<sup>[2]</sup>](#refer)
+`Label`（标签）是`Kubernetes`系统中一个核心概念。一个`Label`是一个`key=value`的键值对，其中`key`与`value`由用户自己指定。`Label`可以被附加到各种资源对象上，例如`Node`、`Pod`、`Service`、`RS`等，一个资源对象可以定义任意数量的`Label`，同一个`Label`也可以被添加到任意数量的资源对象上。`Label`通常在资源对象定义时确定，也可以在对象创建后动态添加或者删除。[<sup>[2]</sup>](#refer)
 
 打好标签之后就可以通过`Label Selector`（标签选择器）查询和筛选某些`Label`的资源对象。
 
@@ -355,9 +355,34 @@ spec:
 
 区别：都可以创建资源，如果存在则`create`报错，`apply`会根据新的文件进行更新。
 
-## 5.2 打标签
+## 5.2 修改资源
 
-修改Yaml中的labels字段，各种资源对象都可以操作标签，以deploy为例。
+日常修改操作有以下三种：
+
+**5.2.1 修改资源清单文件**
+
+操作都可以通过修改资源文件并重新应用生效，前提是资源清单文件还存在。
+
+```
+kubectl apply -f x.yaml
+```
+
+**5.2.2 通过kubectl edit命令修改**
+
+```
+$ kubectl edit deploy nginx-deploy
+deployment.apps/nginx-deploy edited
+```
+
+找不到文件时这么修改，但需要注意这里面存储的比较完整的信息，同一个字段可能有多处，修改起来别改漏了字段。
+
+**5.3.3 通过kubect命令修改**
+
+ 后续的章节都是直接通过命令的方式进行修改。使用上保持一致性，以免出现通过命令改了，资源清单文件没有更新，后续又使用资源清单文件做更新。建议统一通过资源清单文件进行修改。
+
+## 5.3 打标签
+
+修改资源清单中的`labels`字段，也可以通过`kubectl`操作。各种资源对象都可以操作标签，以`deploy`为例。
 
 ```
 $ kubectl get deploy --show-labels
@@ -378,14 +403,6 @@ $ kubectl label deploy itopic-deploy env=qa --overwrite
 # 删除env标签
 $ kubectl label deploy itopic-deploy env-
 ```
-
-## 5.3 修改资源
-
-```
-kubectl apply -f x.yaml
-```
-
-日常操作都可以通过修改资源文件并重新应用生效。
 
 ## 5.4 删除资源
 
@@ -460,7 +477,7 @@ Events:                   <none>
 
 ## 5.7 查看完整Yaml
 
-不同资源的完整的yaml信息可以这么看：
+不同资源的完整的yaml信息可以这么看（也可以指定格式为json）：
 
 ```
 $ kubectl get svc itopic-svc -o yaml
