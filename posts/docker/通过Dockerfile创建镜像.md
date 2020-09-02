@@ -2,7 +2,7 @@
 {
     "url": "dockerfile",
     "time": "2020/07/09 14:08",
-    "tag": "Docker"
+    "tag": "Docker,容器化"
 }
 ```
 
@@ -156,7 +156,7 @@ docker build -t pengbotao/php:5.6-fpm-alpine .
 ```
 
 安装了常用PHP扩展：redis gd bcmath bz2 pdo_mysql mysqli opcache sockets pcntl xsl soap dom shmop zip mcrypt
- 
+
 ```
 FROM php:5.6-fpm-alpine
 

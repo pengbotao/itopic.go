@@ -1,0 +1,9 @@
+```
+{
+    "url": "k8s-storage",
+    "time": "2020/09/24 21:21",
+    "tag": "Kubernetes,容器化",
+    "public": "no"
+}
+```
+

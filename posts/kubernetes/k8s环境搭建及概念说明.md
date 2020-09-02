@@ -1,8 +1,8 @@
 ```
 {
-    "url": "k8s-mac-install",
+    "url": "k8s-start",
     "time": "2020/08/28 19:06",
-    "tag": "Kubernetes"
+    "tag": "Kubernetes,容器化"
 }
 ```
 
