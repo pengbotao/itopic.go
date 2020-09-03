@@ -220,7 +220,7 @@ code span::selection {background-color: rgba(0, 0, 0, 0.7) !important;color: #ee
   #top{	position: fixed;
     display: block;
     bottom: 0px;
-    right: 30px;
+    right: 10px;
     z-index: 1000;
   }
 }
@@ -243,6 +243,6 @@ nav {display: none;}
 }
 .title{font-weight:500;font-size:3em;width:90%;margin-bottom:0px;border:0px;}
 .eof{padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;}
-.eof_arrow{float:right;margin-right:50px;}
+.eof_arrow{float:right;}
 .eof_tag{padding: 0 10px;text-align:right;float:right;}
 .title_arrow_back{width:25px;height:25px;float:right;margin-top:-30px;}
