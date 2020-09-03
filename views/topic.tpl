@@ -20,20 +20,27 @@
 {{ if not .topic.LastModifyTime.IsZero }}
 <div class="eof_tag">
     最后更新于：
-    <code style="border:0px;background:none;"><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.LastModifyTime.Format "2006-01-02 15:04"}}</a></code>
+    <code style="border:0px;background:none;"><a href="{{$.domain}}/{{.topic.Time.Format "2006-01"}}.html">{{.topic.LastModifyTime.Format "2006-01-02 15:04"}}</a></code>
 </div>
 {{ end }}
 <div class="eof_tag">
     发表于：
-    <code style="border:0px;background:none;"><a href="/{{.topic.Time.Format "2006-01"}}.html">{{.topic.Time.Format "2006-01-02 15:04"}}</a></code>
+    <code style="border:0px;background:none;"><a href="{{$.domain}}/{{.topic.Time.Format "2006-01"}}.html">{{.topic.Time.Format "2006-01-02 15:04"}}</a></code>
 </div>
 <div class="eof_tag">
     标签：{{range .topic.Tag}}
-    <code style="border:0px;background:none;">{{if .TagID}}<a href="/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
+    <code style="border:0px;background:none;">{{if .TagID}}<a href="{{$.domain}}/tag/{{.TagID}}.html">{{.TagName}}</a>{{else}}{{.TagName}}{{end}}</code>{{end}}
 </div>
 
 <div id="footer">
     <ul>
+        {{if .topic_left.Title}}<li>
+        <b>上一篇</b>：<a href="{{$.domain}}/{{.topic_left.TopicID}}.html">{{.topic_left.Title}}</a>
+        </li>
+        {{end}}{{if .topic_right.Title}}
+        <li>
+        <b>下一篇</b>：<a href="{{$.domain}}/{{.topic_right.TopicID}}.html">{{.topic_right.Title}}</a>
+        </li>{{end}}
         <li>
             <b>Github地址</b>：<a href="{{.githubURL}}/blob/master/{{.topic.TopicPath}}">{{.githubURL}}/blob/master/{{.topic.TopicPath}}</a>
         <li>

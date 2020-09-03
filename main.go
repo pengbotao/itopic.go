@@ -142,15 +142,22 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	})
 	//topic router
 	for i := range models.Topics {
-		if isDebug == false && models.Topics[i].IsPublic == false {
-			continue
+		var topicLeft = new(models.Topic)
+		var topicRight = new(models.Topic)
+		if i > 0 {
+			topicRight = models.Topics[i-1]
+		}
+		if i+1 < topicCnt {
+			topicLeft = models.Topics[i+1]
 		}
 		var buff bytes.Buffer
 		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
-			"topic":     models.Topics[i],
-			"domain":    domain,
-			"time":      time.Now(),
-			"githubURL": githubURL,
+			"topic":       models.Topics[i],
+			"topic_left":  topicLeft,
+			"topic_right": topicRight,
+			"domain":      domain,
+			"time":        time.Now(),
+			"githubURL":   githubURL,
 		})
 		if err != nil {
 			fmt.Println(err)

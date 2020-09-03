@@ -53,6 +53,9 @@ func InitTopicList() error {
 		if t.TopicPath == "" {
 			return nil
 		}
+		if IsDebug == false && t.IsPublic == false {
+			return nil
+		}
 		SetTopicToTag(t)
 		SetTopicToMonth(t)
 		//append topics desc
