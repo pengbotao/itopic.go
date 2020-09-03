@@ -10,7 +10,7 @@
 
 ## 1.1 概述
 
-`Docker`通过读取`Dockerfile`中的指令来自动构建镜像，`Dockerfile`是一个文本文件（也可以方便做版本管理），它包含了构建镜像的所有命令。可以通过`docker build`读取`Dockerfile`文件来构建镜像。`docker build`提交构建镜像请求给`Docker`守护进程，同时会将当前目录递归传过去。所以最好是将`Dockerfile`和需要文件放到一个空目录，再在这个目录构建。
+`Docker`通过读取`Dockerfile`中的指令来自动构建镜像，`Dockerfile`是一个文本文件（可以方便做版本管理），它包含了构建镜像的所有命令。可以通过`docker build`读取`Dockerfile`文件来构建镜像。`docker build`提交构建镜像请求给`Docker`守护进程，同时会将当前目录递归传过去。所以最好是将`Dockerfile`和需要文件放到一个空目录，再在这个目录构建。
 
 ## 1.2 构建方法
 
@@ -30,7 +30,7 @@ $ docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .
 
 ## 1.3 文件格式
 
-可以通过`Dockerfile`文件来定义构建过程，通过`.dockerignore`用来忽略文件，构建时不会讲ignore的文件传给`Docker`服务端。
+可以通过`Dockerfile`文件来定义构建过程，通过`.dockerignore`用来忽略文件，构建时不会将`ignore`的文件传给`Docker`服务端。
 
 1、 **`Dockerfile`**：
 

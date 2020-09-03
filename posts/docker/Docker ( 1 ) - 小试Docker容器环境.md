@@ -193,7 +193,7 @@ Debian GNU/Linux 10 \n \l
 
 `Linux`也有不同的版本，比如`Alpine Linux`就只有5MB，对比起来就更轻量级了。`nginx`也有对应的镜像：`docker pull nginx:alpine`。
 
-所以系统层级像`Ubuntu`，`Centos`也都有相应的镜像，通过`https://hub.docker.com/search?q=&type=image`可以看看常见的一些镜像。
+所以像`Ubuntu`，`Centos`也都有相应的镜像，通过`https://hub.docker.com/search?q=&type=image`可以看看常见的一些镜像。
 
 ## 2.2 nginx-docker-test
 
@@ -312,7 +312,7 @@ $ docker run -p 3406:3306 --name mysql \
 
 ### 4.1.1 基于容器创建
 
-我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了pdo_mysql扩展，接下来可以根据容器创建一个新镜像。
+我们以PHP为例，需要先运行一个容器，然后进入容器后可以做一些修改，这里增加了`pdo_mysql`扩展，接下来可以根据容器创建一个新镜像。
 
 ```
 $ docker run -it php:7.4.8-fpm bash
@@ -356,7 +356,7 @@ Deleted: sha256:7d6334b5e82cbe2eed96dae6429c989053c445be20068f64ba58948fdb8b2e21
 
 ### 4.1.2 基于Dockfile创建
 
-一般不推荐使用`docker commit`来创建镜像，常见的镜像创建方式是通过Dockfile来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建`Dockerfile`文件并写入下面内容：
+一般不推荐使用`docker commit`来创建镜像，常见的镜像创建方式是通过`Dockfile`来创建，通过文本的方式来描述镜像的创建过程，以本博客为例，找系统内任意空目录，创建`Dockerfile`文件并写入下面内容：
 
 ```
 FROM golang:1.14
