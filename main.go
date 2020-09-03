@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 	"text/template"
 
@@ -151,8 +152,14 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 			topicLeft = models.Topics[i+1]
 		}
 		var buff bytes.Buffer
+		topicTitle := models.Topics[i].Title
+		if isDebug == true {
+			re, _ := regexp.Compile("\\<[\\S\\s]+?\\>")
+			topicTitle = re.ReplaceAllString(topicTitle, "")
+		}
 		err := tpl.ExecuteTemplate(&buff, "topic.tpl", map[string]interface{}{
 			"topic":       models.Topics[i],
+			"title":       topicTitle,
 			"topic_left":  topicLeft,
 			"topic_right": topicRight,
 			"domain":      domain,
