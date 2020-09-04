@@ -96,7 +96,7 @@ Fri Sep  4 03:46:18 UTC 2020
 Fri Sep  4 03:46:19 UTC 2020
 ```
 
-因为前两个容器都会一直执行，第三个容器执行完就退出了。通过`describe`可以看到。
+容器要求程序在前台执行，执行完了容器就退出了。因为前两个容器都会一直执行，第三个容器执行完就退出了。通过`describe`也可以看到。
 
 ```
 $ kubectl describe pod mypod
@@ -126,7 +126,7 @@ mypod   2/3     CrashLoopBackOff   7          14m   10.1.2.46   docker-desktop  
 ```
 
 - 由于是`latest`版本，默认每次创建容器都会有`Pulling image "busybox"`操作，线上应避免直接拉`latest`镜像，如果要用重新打个`tag`也行。
-- c3容器执行后就退出出了，所以`Pod`会尝试重启容器，但会一直退出，并不是执行失败了，而是执行完退出了。
+- `c3`容器执行后就退出了，所以`Pod`会尝试重启容器，但会一直退出，并不是执行失败了，而是执行完退出了。
 - 重新查看容器状态为`CrashLoopBackOff`，`READY`状态为`2/3`，`RESTARTS`重启次数为7，重启的粒度是容器层级，从日志上看`c1`、 `c2`容器的重启次数没有增多。因为重启策略默认为`Always`，所以会一直重启下去。
 
 **重启策略：**
@@ -156,7 +156,7 @@ DESCRIPTION:
 
 ![](../../static/uploads/k8s-pod-lifecycle.png)
 
-**2.2.1 Pause容器**
+### 2.2.1 Pause容器
 
 `Pause容器`：每个`Pod`里运行着一个特殊的被称之为`Pause`的容器，其他容器则为业务容器，这些业务容器共享`Pause`容器的网络栈和`Volume`挂载卷，因此他们之间通信和数据交换更为高效。在设计时可以充分利用这一特性，将一组密切相关的服务进程放入同一个`Pod`中；同一个`Pod`里的容器之间仅需通过`localhost`就能互相通信。
 
@@ -171,11 +171,11 @@ DESCRIPTION:
 - UTS命名空间：Pod中的多个容器共享一个主机名；Volumes（共享存储卷）。
 - Pod中的各个容器可以访问在Pod级别定义的Volumes。
 
-**2.2.2 InitContainer**
+### 2.2.2 InitContainer
 
 在主容器（`Main Container`）启动之前执行的容器，串行执行，只有前一个`InitContainer`正常退出，下一个才会继续。如果`InitContainer`失败，则会根据策略重启`Pod`。相当于在主容器启动之前，可以通过`Init Conntainer`容器做一些准备工作。
 
-**2.2.3 声明周期钩子函数**
+### 2.2.3 声明周期钩子函数
 
 `Kubernetes `为容器提供了两种生命周期钩子：
 
@@ -184,11 +184,11 @@ DESCRIPTION:
 
 备注：钩子程序的执行方式有`Exec`和`HTTP`两种。
 
-**2.2.4 探针 - readiness**
+### 2.2.4 探针 - readiness
 
 就绪性探测:用于判定容器中的主进程是否准备就绪以及能否对外提供服务。
 
-**2.2.5 存活 - liveness**
+### 2.2.5 存活 - liveness
 
 存活性探测:用于判定主容器是否处于存活状态。
 
