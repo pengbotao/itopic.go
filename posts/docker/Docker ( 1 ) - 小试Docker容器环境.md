@@ -12,11 +12,13 @@
 
 ## 1.1 安装
 
-通过`docker.com`即可下载Docker Desktop，这里本机为Mac，安装好之后如下图：
+通过`docker.com`即可下载`Docker Desktop`，这里本机为Mac，安装好之后如下图（Win也类似），`Docker`环境就配置好了。
 
 ![](../../static/uploads/docker-desktop.png)
 
 ## 1.2 概念说明
+
+Docker中有几个基本概念，仓库、镜像、容器，看看下面的理解。
 
 ### 1.2.1 仓库
 
@@ -28,15 +30,20 @@
 
 ### 1.2.2 镜像
 
-镜像就跟以前的ISO系统镜像文件类似，打包好的一套程序。
+镜像就跟以前的ISO系统镜像文件类似，打包好的一套程序。有一些基础镜像，比如
+
+- 系统层级：`CentOS`、`Ubuntu`、`debian`
+- 应用层级：`Nginx`、`Python`、`Mysql`
+
+简单理解，如果要安装个Nginx，把镜像下载到本地，执行下启动命令就可以了。
 
 ### 1.2.3 容器
 
-镜像实例化之后运行起来就是容器了，容器才有生命力。
+镜像实例化之后运行起来就是容器了，容器才有生命力。按以往理解类似运行起来的虚拟机，容器里有一套系统，应用程序能在这里面执行。但容器里的这套系统对比虚拟机要轻量很多。我们可以运行`CentOS`容器，也可以在`CentOS`里安装好`Nginx`后打包为镜像，下次就可以直接复用了。
 
 ## 1.3 配置示例
 
-这里以Nginx为例来看看Docker的操作流程。
+这里以`Nginx`为例来看看`Docker`的操作流程。
 
 ### 1.3.1 搜索仓库镜像
 
@@ -64,7 +71,7 @@ Status: Downloaded newer image for nginx:latest
 docker.io/library/nginx:latest
 ```
 
-就像从`Github`上拉代码仓库一样，将`nginx`镜像拉取到本地。
+就像从`Github`上拉代码仓库一样，将`nginx`镜像拉取到本地。可以看到`Using default tag: latest`，获取的默认标签为`latest`标签的镜像，标签的含义就类似`v1`、`v2`版本，不指定就拉的最新版。如果要指定标签可以这么拉：`docker pull nginx:1.19.2`，冒号后面跟标签，一般指定标签比较好。
 
 
 ### 1.3.3 查看镜像
@@ -108,7 +115,7 @@ server {
 
 ### 1.3.6 日常管理
 
-已经创建的容器，通过Docker-Desktop可以方便的进行管理，本章节的功能上面都可以看到。
+已经创建的容器，通过`Docker-Desktop`可以方便的进行管理，本章节的功能上面都可以看到。
 
 **1. 查看容器**
 
@@ -230,7 +237,7 @@ docker run -d -p 6001:80 \
 
 ## 2.3 修改容器配置
 
-容器创建之后是否可以修改启动配置？比如Nginx新增一个站点，想增加一个端口映射。
+容器创建之后是否可以修改启动配置？比如`Nginx`新增一个站点，想增加一个端口映射。
 
 - Linux: /var/lib/docker/containers/容器/{config.v2.json, hostconfig.json}
 - Mac:
@@ -478,7 +485,7 @@ docker tag nginx:alpine pengbotao/nginx
 
 # 五、小结
 
-本篇主要介绍了Docker的基本用法、容器的启停、镜像的基本制作与分享，接下来我们着重看看通过Dockerfile构建镜像。
+本篇主要介绍了`Docker`的基本用法、容器的启停、镜像的基本制作与分享，接下来我们着重看看通过`Dockerfile`构建自己的镜像。
 
 ---
 <div id="refer"></div>

@@ -89,7 +89,7 @@ temp?
 
 ## 3.1 多阶段构建
 
-前一篇文章中构建的镜像大小有901M，Go的基础镜像就比较大。可以尝试将编译后的二进制放在新的容器中执行，解除对golang环境的依赖。
+前一篇文章中构建的镜像大小有901M，`Go`的基础镜像就比较大。可以尝试将编译后的二进制放在新的容器中执行，解除对`golang`环境的依赖。
 
 ```
 REPOSITORY            TAG        IMAGE ID       CREATED             SIZE
@@ -155,7 +155,7 @@ CMD python /app/app.py
 docker build -t pengbotao/php:5.6-fpm-alpine .
 ```
 
-安装了常用PHP扩展：redis gd bcmath bz2 pdo_mysql mysqli opcache sockets pcntl xsl soap dom shmop zip mcrypt
+安装了常用PHP扩展：`redis` `gd` `bcmath` `bz2` `pdo_mysql` `mysqli` `opcache` `sockets` `pcntl` `xsl` `soap` `dom` `shmop` `zip` `mcrypt`
 
 ```
 FROM php:5.6-fpm-alpine
@@ -208,7 +208,7 @@ RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositorie
 CMD [ "php-fpm" ]
 ```
 
-推送到Docker Hub
+推送到`Docker Hub`
 
 ```
 docker push pengbotao/php:7.4.8-fpm-alpine
@@ -247,7 +247,7 @@ the output of "php -i" to see which modules are already loaded.
 The command '/bin/sh -c docker-php-ext-install redis' returned a non-zero code: 1
 ```
 
-这是我们可以进入第二步创建成功的容器，然后运行并进入该容器(我这里是alpine所以进入后终端用的是`/bin/sh`)，然后直接在容器内做进一步调试，一旦解决了就可以退出容器，调整`Dockerfile`后重新尝试构建
+这是我们可以进入第二步创建成功的容器，然后运行并进入该容器(我这里是alpine所以进入后终端用的是`/bin/sh`)，然后直接在容器内做进一步调试，运行成功后就可以调整`Dockerfile`重新尝试构建
 
 ```
 $ docker run -it e101c0717b4f /bin/sh
@@ -269,13 +269,15 @@ $ docker run -d -v ~/docker/registry:/var/lib/registry -p 5000:5000 --restart=al
 d18931b1bd1b4b3ce7fe151c6f241c4dd1eebbfab8287dfed422ab5427a7f6a6
 ```
 
-会启动5000端口，这里本机测试就不绑host了，也可以绑个host。
+会启动`5000`端口，这里本机测试就不绑`host`了，也可以绑个`host`。
 
 2、打TAG
 
 ```
 $ docker tag pengbotao/php:7.4.8-fpm-alpine 127.0.0.1:5000/php:7.4.8-fpm-alpine
 ```
+
+`docker tag`类似别名的操作，推送到远程仓库需要类似这样子的格式，`仓库/镜像名称:版本号`，当然仓库默认是官方仓库，版本号是`latest`。
 
 3、推送镜像
 
@@ -332,9 +334,9 @@ Status: Downloaded newer image for 127.0.0.1:5000/php:7.4.8-fpm-alpine
 
 # 七、小结
 
-借助`Dockerfile`和官方的基础镜像，基本可以编译出需要的环境，`Dockerfile`里的RUN命令和往常没有太大区别，但对比虚拟机或者`ECS`，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。
+借助`Dockerfile`和官方的基础镜像，基本可以编译出需要的环境，`Dockerfile`里的`RUN`命令和往常没有太大区别，但对比虚拟机或者`ECS`，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。
 
-这一篇主要介绍了Dockerfile创建镜像，到这里我们就基本掌握了`Docker`的基本使用以及镜像的构建、推送。但像`PHP`的运行环境需要服务同时协作，按目前的理解就需要一个服务一个服务进行启动，启停上比较麻烦。而`docker-compose`基本可以解决开发环境下的这个问题，将各个容器打包启动。
+这一篇主要介绍了`Dockerfile`创建镜像，到这里我们就基本掌握了`Docker`的基本使用以及镜像的构建、推送。但像`PHP`的运行环境需要服务同时协作，按目前的理解就需要一个服务一个服务进行启动，启停上比较麻烦。而`docker-compose`基本可以解决开发环境下的这个问题，将各个容器打包启动。
 
 下篇来看看`docker-compose`的用法。
 
