@@ -214,6 +214,67 @@ CMD [ "php-fpm" ]
 docker push pengbotao/php:7.4.8-fpm-alpine
 ```
 
+## 4.3 k8s-go-demo
+
+测试过程中可能会碰到多版本的需要，这里通过`go`打一个多版本的镜像，方便做功能演示。可以打印当前版本号、时间、请求IP这几个信息。仓库地址：`https://github.com/pengbotao/k8s-go-demo`。
+
+**`Dockerfile`:**
+
+```
+FROM golang:1.14 AS build
+
+WORKDIR /go
+
+COPY . /go/k8s-go-demo/
+RUN cd /go/k8s-go-demo/ \
+&& CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o k8s-go-demo .
+
+
+FROM alpine
+COPY --from=build /go/k8s-go-demo/k8s-go-demo /bin/
+EXPOSE 38001
+
+CMD [ "-host", "0.0.0.0:38001" ]
+ENTRYPOINT [ "k8s-go-demo" ]
+```
+
+**创建镜像：**
+
+```
+$ docker build -t pengbotao/k8s-go-demo:latest .
+$ docker build -t pengbotao/k8s-go-demo:v1 .
+$ docker build -t pengbotao/k8s-go-demo:v2 .
+$ docker build -t pengbotao/k8s-go-demo:v3 .
+```
+
+**推送：**
+
+```
+$ docker push pengbotao/k8s-go-demo
+$ docker push pengbotao/k8s-go-demo:v1
+$ docker push pengbotao/k8s-go-demo:v2
+$ docker push pengbotao/k8s-go-demo:v3
+```
+
+**启动：**
+
+```
+docker run -p 38001:38001 --name k8s-go-demo pengbotao/k8s-go-demo
+docker run -p 38002:38002 --name k8s-go-demo-v1 pengbotao/k8s-go-demo:v1 -host 0.0.0.0:38002
+```
+
+**访问示例：**
+
+```
+{
+    "ClientIP": "172.17.0.1",
+    "Host": "3acd87ae93db",
+    "ServerIP": "172.17.0.3",
+    "Time": "2020-09-08 05:32:25",
+    "Version": "latest"
+}
+```
+
 # 五、构建调试
 
 通过`RUN`可以在容器内的系统执行一些命令，但因为并非在容器内直接执行，调试上可能会打一些折扣，所以可以先在容器中跑一跑命令看看，跑通在整理到`Dockerfile`中，如果`Dockerfile`构建时失败了，我们可以用`docker run`命令来基于这次构建到目前为止已经成功的最后创建的一个容器，比如下面示例：
@@ -334,7 +395,9 @@ Status: Downloaded newer image for 127.0.0.1:5000/php:7.4.8-fpm-alpine
 
 # 七、小结
 
-借助`Dockerfile`和官方的基础镜像，基本可以编译出需要的环境，`Dockerfile`里的`RUN`命令和往常没有太大区别，但对比虚拟机或者`ECS`，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。
+借助`Dockerfile`和官方的基础镜像，基本可以编译出需要的环境，`Dockerfile`里的`RUN`命令和往常没有太大区别，但对比虚拟机或者`ECS`，好处是配置一次之后便可以以文本的方式存储起来或者将镜像推送到镜像仓库，轻量很多，后续配起来比较方便。到这里我们创建了3个镜像，有需要可以直接使用：
+
+![](../../static/uploads/docker-my-images.png)
 
 这一篇主要介绍了`Dockerfile`创建镜像，到这里我们就基本掌握了`Docker`的基本使用以及镜像的构建、推送。但像`PHP`的运行环境需要服务同时协作，按目前的理解就需要一个服务一个服务进行启动，启停上比较麻烦。而`docker-compose`基本可以解决开发环境下的这个问题，将各个容器打包启动。
 
