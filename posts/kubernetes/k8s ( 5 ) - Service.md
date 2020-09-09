@@ -174,7 +174,7 @@ spec:
 - `Nginx Deployment`：启动Nginx
 - `Nginx Service`: 配置Nginx对外暴露的端口
 
-**创建PHPDeployment与SVC**
+**创建PHP Deployment与SVC**
 
 ```
 apiVersion: v1

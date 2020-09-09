@@ -10,3 +10,10 @@
 
 
 ![](../../static/uploads/k8s-ingress.png)
+
+
+
+
+
+![](../../static/uploads/k8s-scaling-out.png)
+
