@@ -2,8 +2,7 @@
 {
     "url": "k8s-service",
     "time": "2020/10/01 06:24",
-    "tag": "Kubernetes,容器化",
-    "public": "no"
+    "tag": "Kubernetes,容器化"
 }
 ```
 
@@ -88,32 +87,223 @@ Kubernetes自1.9-alpha版本引入了ipvs代理模式，自1.11版本开始成�
 
 类型决定`Service`以什么方式暴露应用程序，默认是`ClusterIP`，`type`可以分成4种模式：[<sup>[2]</sup>](#refer)
 
-- `ClusterIP`： 默认方式。根据是否生成`ClusterIP`又可分为`普通Service`和`Headless Service`两类：
-  - `普通Service`：通过为`Kubernetes`的Service分配一个集群内部可访问的`固定虚拟IP`（`Cluster IP`），实现集群内的访问。为最常见的方式。
-  - `Headless Service`：该服务不会分配`Cluster IP`，也不通过`kube-proxy`做反向代理和负载均衡。而是通过`DNS`提供稳定的络ID来访问，DNS会将headless service的后端直接解析为podIP列表。主要供`StatefulSet`使用。
-- `NodePort`：除了使用`Cluster IP`之外，还通过将service的port映射到集群内每个节点的相同一个端口，实现通过`nodeIP:nodePort`从集群外访问服务。
-- `LoadBalancer`：和nodePort类似，不过除了使用一个`Cluster IP`和`nodePort`之外，还会向所使用的公有云申请一个负载均衡器(负载均衡器后端映射到各节点的`nodePort`)，实现从集群外通过LB访问服务。
-- `ExternalName`：是` Service`的特例。此模式主要面向运行在集群外部的服务，通过它可以将外部服务映射进k8s集群，且具备k8s内服务的一些特征（如具备namespace等属性），来为集群内部提供服务。此模式要求kube-dns的版本为1.7或以上。这种模式和前三种模式（除headless service）最大的不同是重定向依赖的是dns层次，而不是通过`kube-proxy`。
-  比如，在service定义中指定`externalName`的值`my.database.example.com`：此时k8s集群内的DNS服务会给集群内的服务名 `..svc.cluster.local`创建一个`CNAME`记录，其值为指定的`my.database.example.com`。
-  当查询k8s集群内的服务`my-service.prod.svc.cluster.local`时，集群的`DNS`服务将返回映射的`CNAME`记录`foo.bar.example.com`。
-
-> 备注：前3种模式，定义服务的时候通过selector指定服务对应的pods，根据pods的地址创建出endpoints作为服务后端；Endpoints Controller会watch Service以及pod的变化，维护对应的Endpoint信息。kube-proxy根据Service和Endpoint来维护本地的路由规则。当Endpoint发生变化，即Service以及关联的pod发生变化，kube-proxy都会在每个节点上更新iptables，实现一层负载均衡。而ExternalName模式则不指定selector，相应的也就没有port和endpoints。ExternalName和ClusterIP中的Headles Service同属于Headless Service的两种情况。Headless Service主要是指不分配Service IP，且不通过kube-proxy做反向代理和负载均衡的服务。
-
 ## 3.1 ClusterIP
 
+默认方式。根据是否生成`ClusterIP`又可分为`普通Service`和`Headless Service`两类：
 
+- `普通Service`：通过为`Kubernetes`的Service分配一个集群内部可访问的`固定虚拟IP`（`Cluster IP`），实现集群内的访问。为最常见的方式。
+- `Headless Service`：该服务不会分配`Cluster IP`，也不通过`kube-proxy`做反向代理和负载均衡。而是通过`DNS`提供稳定的络ID来访问，DNS会将`headless service`的后端直接解析为podIP列表。主要供`StatefulSet`使用。
 
 ## 3.2 NodePort
 
-
+除了使用`Cluster IP`之外，还通过将service的port映射到集群内每个节点的相同一个端口，实现通过`nodeIP:nodePort`从集群外访问服务。
 
 ## 3.3 LoadBalancer
 
-
+和`nodePort`类似，不过除了使用一个`Cluster IP`和`nodePort`之外，还会向所使用的公有云申请一个负载均衡器(负载均衡器后端映射到各节点的`nodePort`)，实现从集群外通过LB访问服务。
 
 ## 3.4 ExternalName
 
+是` Service`的特例。此模式主要面向运行在集群外部的服务，通过它可以将外部服务映射进k8s集群，且具备k8s内服务的一些特征（如具备namespace等属性），来为集群内部提供服务。此模式要求kube-dns的版本为1.7或以上。这种模式和前三种模式（除headless service）最大的不同是重定向依赖的是dns层次，而不是通过`kube-proxy`。
+比如，在service定义中指定`externalName`的值`my.database.example.com`：此时k8s集群内的DNS服务会给集群内的服务名 `..svc.cluster.local`创建一个`CNAME`记录，其值为指定的`my.database.example.com`。
+当查询k8s集群内的服务`my-service.prod.svc.cluster.local`时，集群的`DNS`服务将返回映射的`CNAME`记录`foo.bar.example.com`。
 
+> 备注：前3种模式，定义服务的时候通过selector指定服务对应的pods，根据pods的地址创建出endpoints作为服务后端；Endpoints Controller会watch Service以及pod的变化，维护对应的Endpoint信息。kube-proxy根据Service和Endpoint来维护本地的路由规则。当Endpoint发生变化，即Service以及关联的pod发生变化，kube-proxy都会在每个节点上更新iptables，实现一层负载均衡。而ExternalName模式则不指定selector，相应的也就没有port和endpoints。ExternalName和ClusterIP中的Headles Service同属于Headless Service的两种情况。Headless Service主要是指不分配Service IP，且不通过kube-proxy做反向代理和负载均衡的服务。
+
+# 四、配置示例
+
+## 4.1 Go项目
+
+`Go`的`HTTP`服务只需要把端口暴露出去即可。当然前面也可以在挂个`Nginx`，这个用法和后面`PHP`的配置就是一样的了。
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-svc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 30001
+    targetPort: 38001
+  selector:
+    name: k8s-go-demo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-go-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: k8s-go-demo
+  template:
+    metadata:
+      labels:
+        name: k8s-go-demo
+    spec:
+      containers:
+      - name: k8s-go-demo
+        image: pengbotao/k8s-go-demo:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 38001
+```
+
+访问本地服务的30001端口就可以看到：
+
+```
+{
+    "ClientIP": "192.168.65.3",
+    "Host": "k8s-go-demo-56f6cb8ff6-xns9g",
+    "ServerIP": "10.1.2.73",
+    "Time": "2020-09-09 08:39:21",
+    "Version": "v1"
+}
+```
+
+## 4.2 PHP环境
+
+需要创建
+
+- `PHP Deployment`：启动 php-fpm
+- `PHP Service`：配置多个PHP容器对外暴露的端口
+- `Nginx Deployment`：启动Nginx
+- `Nginx Service`: 配置Nginx对外暴露的端口
+
+**创建PHPDeployment与SVC**
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-svc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 39000
+    targetPort: 9000
+  selector:
+    name: php-fpm748
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: php-fpm748
+  template:
+    metadata:
+      labels:
+        name: php-fpm748
+    spec:
+      containers:
+      - name: php
+        image: pengbotao/php:7.4.8-fpm-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: wwwroot
+      volumes:
+      - name: wwwroot
+        hostPath:
+          path: /Users/peng/k8s
+```
+
+**创建Nginx Deployment与SVC**
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 38000
+    targetPort: 80
+  selector:
+    name: nginx
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: nginx
+  template:
+    metadata:
+      labels:
+        name: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19.2-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: wwwroot
+        - mountPath: /etc/nginx/conf.d/
+          name: nginx-conf
+      volumes:
+      - name: wwwroot
+        hostPath:
+          path: /Users/peng/k8s
+      - name: nginx-conf
+        hostPath:
+          path: /Users/peng/k8s/nginx
+```
+
+`/Users/peng/k8s/nginx/default.conf`配置文件，`Nginx`配置文件中通过`php-svc:39000`解析到`PHP`的`Service`上。相当于给`php-fpm`也挂了个集群。
+
+```
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+    root   /usr/share/nginx/html;
+    index index.html index.php;
+    charset utf-8;
+
+    location / {
+        if (!-e $request_filename) {
+            rewrite ^(.*)$ /index.php?s=/$1 last;
+        }
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   php-svc:39000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  /var/www/html$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
+```
+
+`/Users/peng/k8s`下创建页面即可通过`http://localhost:38000/`访问。
+
+这种方式和我们在`Pod`中的使用方式有点区别，`Pod`篇章中是一个`Pod`启动了2个容器，它们共享`Pod`的网络。这里是将`Nginx`和`PHP`部署在不同的`Pod`里，然后它们之间通过`Volume`共享存储，通过`Service`通信。
+
+# 五、小结
+
+到这里就可以进行日常项目的简单配置，通过`volumes`挂载主机目录或者直接将执行程序放在容器里，配合`Service`就可以通过`IP`加端口的方式进行服务的访问。
 
 ---
 
@@ -122,4 +312,3 @@ Kubernetes自1.9-alpha版本引入了ipvs代理模式，自1.11版本开始成�
 - [1] [Kubernetes学习之路（十四）之服务发现Service](https://www.cnblogs.com/linuxk/p/9605901.html)
 - [2] [k8s~k8s里的服务Service](https://www.cnblogs.com/lori/p/12052552.html)
 - [3] [k8s ingress原理及ingress-nginx部署测试](https://segmentfault.com/a/1190000019908991)
-

@@ -587,3 +587,4 @@ liveness-pod   1/1     Running   1          2m54s
 - [1] [k8s 使用 Init Container 确保依赖的服务已经启动](https://www.cnblogs.com/weihanli/p/12018469.html)
 - [2] [Kubernetes Pod 生命周期和重启策略](https://www.dazhuanlan.com/2019/11/04/5dbf2f7da84c5/)
 - [3] [Kubernetes K8S之Pod 生命周期与init container初始化容器详解](https://www.cnblogs.com/zhanglianghhh/p/13493337.html)
+- [4] [k8s的存储Volume](https://www.cnblogs.com/benjamin77/p/9940266.html)
