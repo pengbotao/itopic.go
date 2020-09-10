@@ -1,7 +1,7 @@
 ```
 {
     "url": "k8s-ingress",
-    "time": "2020/10/10 05:24",
+    "time": "2020/10/24 21:21",
     "tag": "Kubernetes,容器化",
     "public": "no"
 }

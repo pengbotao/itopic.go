@@ -143,12 +143,12 @@ VERSION:  v1
 
 ## 2.1 metadata
 
-| 参数名               | 字段类型          | 说明                               |
-| -------------------- | ----------------- | ---------------------------------- |
-| metadata.name        | string            | 资源名称，名称在名称空间内需唯一。 |
-| metadata.namespace   | string            | 名称空间，默认`default`名称空间    |
-| metadata.labels      | map[string]string | 标签                               |
-| metadata.annotations | map[string]string |                                    |
+| 参数名               | 字段类型          | 说明                                                         |
+| -------------------- | ----------------- | ------------------------------------------------------------ |
+| metadata.name        | string            | 资源名称，名称在名称空间内需唯一，名称不能包含`_`，可使用`-`和`.` |
+| metadata.namespace   | string            | 名称空间，默认`default`名称空间                              |
+| metadata.labels      | map[string]string | 标签                                                         |
+| metadata.annotations | map[string]string |                                                              |
 
 ## 2.2 spec
 
@@ -580,7 +580,7 @@ liveness-pod   1/1     Running   1          2m54s
 
 # 四、小结
 
-`Pod`是`k8s`的基础资源，着重介绍了`Pod`的资源清单配置方式以及对`Pod`的生命周期，并通过一些简单的示例来进行说明。下一篇看看如果通过控制器来控制`Pod`。
+`Pod`是`k8s`的基础资源，着重介绍了`Pod`的资源清单配置方式以及对`Pod`的生命周期，并通过一些简单的示例来进行说明。下一篇接着看看跟Pod相关的一些存储用法。
 
 ---
 
