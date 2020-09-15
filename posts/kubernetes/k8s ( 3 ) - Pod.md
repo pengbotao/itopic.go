@@ -266,20 +266,23 @@ DESCRIPTION:
 
 ## 2.5 spec.volumes
 
-| 参数名                            | 字段类型         | 说明                                                        |
-| --------------------------------- | ---------------- | ----------------------------------------------------------- |
-| spec.volumes[]                    | []Object         | 存储卷                                                      |
-| spec.volumes[].name               | string           | 存储卷的名称，Pod内需要唯一。                               |
-| spec.volumes[].emptyDir           | Object           | 生命周期同Pod，Pod创建时创建，Pod移除时删除，无需指定目录。 |
-| spec.volumes[].emptyDir.medium    | string           |                                                             |
-| spec.volumes[].emptyDir.sizeLimit | string           |                                                             |
-| spec.volumes[].hostPath           | Object           | 宿主机方式                                                  |
-| spec.volumes[].hostPath.path      | string[required] |                                                             |
-| spec.volumes[].hostPath.type      | string           |                                                             |
-| spec.volumes[].nfs                | Object           | nfs方式                                                     |
-| spec.volumes[].nfs.path           | string           |                                                             |
-| spec.volumes[].nfs.readOnly       | Boolean          |                                                             |
-| spec.volumes[].nfs.server         | string[required] |                                                             |
+| 参数名                               | 字段类型             | 说明                                                         |
+| ------------------------------------ | -------------------- | ------------------------------------------------------------ |
+| spec.volumes[]                       | []Object             | 存储卷                                                       |
+| spec.volumes[].name                  | string               | 存储卷的名称，Pod内需要唯一。                                |
+| **spec.volumes[].emptyDir**          | **Object**           | **生命周期同Pod，Pod创建时创建，Pod移除时删除，无需指定目录。** |
+| spec.volumes[].emptyDir.medium       | string               |                                                              |
+| spec.volumes[].emptyDir.sizeLimit    | string               |                                                              |
+| **spec.volumes[].hostPath**          | **Object**           | **宿主机方式**                                               |
+| spec.volumes[].hostPath.path         | string[required]     |                                                              |
+| spec.volumes[].hostPath.type         | string               |                                                              |
+| **spec.volumes[].nfs**               | **Object**           | **nfs方式**                                                  |
+| spec.volumes[].nfs.path              | string               |                                                              |
+| spec.volumes[].nfs.readOnly          | Boolean              |                                                              |
+| spec.volumes[].nfs.server            | string[required]     |                                                              |
+| spec.volumes[].persistentVolumeClaim | Object               |                                                              |
+| **claimName**                        | **string[required]** | **PVC名称**                                                  |
+| readOnly                             | boolean              | 是否只读，默认false                                          |
 
 存储卷相当于`Pod`中多个容器的共享目录，共享的方式有很多种，通过示例来看看常见的几种。
 
