@@ -30,10 +30,8 @@ body {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px; }
 
-a {
-  color: #4183c4;
-  text-decoration: none; }
-a:hover{text-decoration: underline;}
+a {color: #4183c4; text-decoration: none; }
+a:hover{text-decoration: underline; color: #444;}
 strong{font-weight: 600;}
 #wrapper {
   background-color: #fff;
