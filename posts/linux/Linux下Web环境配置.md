@@ -333,6 +333,64 @@ innodb_file_per_table = 1
 # cp php-fpm.d/www.conf.default php-fpm.d/www.conf
 ```
 
+
+**参考线上编译：**
+
+- 指定了执行账号
+- 指定了配置文件加载目录
+- 对应关联的目录可以适当调整
+
+```
+./configure --prefix=/usr/local/php7 \
+--enable-fpm \
+--with-fpm-user=www \
+--with-fpm-group=www \
+--with-config-file-path=/usr/local/php7/etc \
+--with-config-file-scan-dir=/usr/local/php7/etc/php.d \
+--enable-bcmath \
+--with-zlib \
+--with-gd \
+--with-freetype-dir=/usr/local/freetype \
+--with-jpeg-dir=/usr/local/jpeg \
+--with-png-dir \
+--enable-gd-native-ttf \
+--with-openssl=/usr/local/ssl \
+--with-mcrypt \
+--with-mhash \
+--enable-pcntl \
+--enable-mbstring \
+--with-mysql-sock=/var/run/mysql/mysql.sock \
+--with-mysqli \
+--with-pdo-mysql \
+--enable-mysqlnd \
+--enable-opcache \
+--with-curl \
+--enable-soap \
+--with-libxml-dir=/usr/ \
+--enable-xml \
+--with-gettext \
+--enable-zip \
+--enable-ftp \
+--enable-sockets \
+--without-pear \
+--enable-shmop \
+--enable-sysvsem
+```
+
+> 7.4 GD配置参数有适当调整
+
+```
+GD: https://www.php.net/manual/zh/migration74.other-changes.php#migration74.other-changes.pkg-config
+
+--with-gd 改变为 --enable-gd (whether to enable the extension at all) 和 --with-external-gd (to opt into using an external libgd, rather than the bundled one).
+--with-png-dir 参数被移除。需要 libpng 支持。
+--with-zlib-dir 参数被移除。需要 zlib 支持。
+--with-freetype-dir 改变为 --with-freetype
+--with-jpeg-dir 改变为 --with-jpeg
+--with-webp-dir 改变为 --with-webp
+--with-xpm-dir 改变为 --with-xpm
+```
+
 ### 内置扩展安装
 
 ```
