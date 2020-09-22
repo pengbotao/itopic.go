@@ -45,11 +45,18 @@ Docker生态中一共有三种API：
 
 三种都是RESTful风格的接口，主要了解的是`Docker Remote API`。
 
-
 @todo
+
+
+
+# 三、Docker原理
+
+通过namespace 来做资源隔离，cgroup 来做资源限制。
 
 ---
 
 - [1] [Docker overview](https://docs.docker.com/get-started/overview/)
 - [2] [Develop with Docker Engine API](https://docs.docker.com/engine/api/)
 - [3] [Docker Engine API reference.](https://docs.docker.com/engine/api/latest/)
+- [4] [理解Docker（3）：Docker 使用 Linux namespace 隔离容器的运行环境](https://www.cnblogs.com/sammyliu/p/5878973.html)
+- [5] [理解Docker（4）：Docker 容器使用 cgroups 限制资源使用](https://www.cnblogs.com/sammyliu/p/5886833.html)
