@@ -134,7 +134,50 @@ $ kubectl scale rs rsname --replicas=2
 
 `Deployment`不直接管理`Pod`，而是通过`ReplicaSet`来进行管理，他们的功能差不多，都支持自动扩容、缩容，但`Deployment`支持滚动更新和回滚，这个是`ReplicaSet`不支持的，所以一般建议是通过`Deployment`来管理`Pod`。
 
-## 3.2 Deployment示例
+##  3.2 资源清单
+
+看看资源清单中比较重要的节点：
+
+```
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-pod
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+```
+
+文档说明：
+
+```
+$ kubectl explain deploy.spec.strategy
+KIND:     Deployment
+VERSION:  apps/v1
+
+RESOURCE: strategy <Object>
+
+DESCRIPTION:
+     The deployment strategy to use to replace existing pods with new ones.
+
+     DeploymentStrategy describes how to replace existing pods with new ones.
+
+FIELDS:
+   rollingUpdate	<Object>
+     Rolling update config params. Present only if DeploymentStrategyType =
+     RollingUpdate.
+
+   type	<string>
+     Type of deployment. Can be "Recreate" or "RollingUpdate". Default is
+     RollingUpdate.
+```
+
+## 3.3 Deployment示例
 
 我们先来创建`Nginx`的`Deployment`，可能是本地的网络原因，需要创建`service`且指定`type`为`LoadBalancer`本机端口才能访问到，先忽略，后续在探究这个问题。多个资源清单可以写在一个文件，通过`---`进行分割即可。
 
@@ -213,7 +256,7 @@ nginx-deploy-9bdb559b9-hlrjq   1/1     Running   0          28s
 nginx-deploy-9bdb559b9-rw2gh   1/1     Running   0          28s
 ```
 
-## 3.3 滚动更新
+## 3.4 滚动更新
 
 既然`Deployment`和`RS`的主要差别在于滚动更新，我们来看看滚动更新操作。
 
@@ -369,50 +412,9 @@ $ kubectl scale deployment nginx-deploy --replicas 3
 $ kubectl delete service,deploy -l project=nginx
 ```
 
-##  3.4 资源清单
-
-看看资源清单中比较重要的节点：
-
-```
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx-pod
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5
-  template:
-```
-
-文档说明：
-
-```
-$ kubectl explain deploy.spec.strategy
-KIND:     Deployment
-VERSION:  apps/v1
-
-RESOURCE: strategy <Object>
-
-DESCRIPTION:
-     The deployment strategy to use to replace existing pods with new ones.
-
-     DeploymentStrategy describes how to replace existing pods with new ones.
-
-FIELDS:
-   rollingUpdate	<Object>
-     Rolling update config params. Present only if DeploymentStrategyType =
-     RollingUpdate.
-
-   type	<string>
-     Type of deployment. Can be "Recreate" or "RollingUpdate". Default is
-     RollingUpdate.
-```
-
 # 四、DaemonSet
+
+## 4.1 关于DaemonSet
 
 `DaemonSet`控制有下面特征：
 
@@ -428,15 +430,25 @@ NAME         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR 
 kube-proxy   1         1         1       1            1           beta.kubernetes.io/os=linux   6d22h
 ```
 
-## 4.1 DaemonSet示例
+## 4.2 资源清单
+
+
+
+## 4.3 DaemonSet示例
 
 
 
 # 五、Job
 
+## 5.1 关于Job
+
 负责处理一次性任务。
 
-## 5.1 Job示例
+## 5.2 资源清单
+
+- `spec.template`格式同`Pod`
+
+## 5.3 Job示例
 
 ```
 apiVersion: batch/v1
@@ -474,15 +486,19 @@ $ kubectl logs job-demo-8rl4c
 Thu Sep  3 07:19:11 UTC 2020
 ```
 
-## 5.2 资源清单
-
-- `spec.template`格式同`Pod`
-
 # 六、 CronJob
+
+## 6.1 关于CronJob
 
 `CronJob`就是在`Job`的基础上变成周期性的任务，可以周期性执行。周期设置的`schedule`和`crontab`一样。在后续可以看到，执行`CronJob`会产生`Job`。
 
-## 6.1 CronJob示例
+## 6.2 资源清单
+
+- `.spec.schedule`：调度，必需字段，指定任务运行周期，格式同Crontab。
+- `.spec.jobTemplate`：Job模板，必需字段，指定需要运行的任务，格式同Job
+- `.spec.successfulJobHistoryLimit`和`.spec.failedJobHistoryLimit`：历史限制，可选字段，指定可以保留多少完成或失败的Job。默认情况下，他们分别设置为3和1。设置为0相当于完成后不被保留。所以可以看到上面执行了多次，但实际Pod最多只有3个。
+
+## 6.3 CronJob示例
 
 ```
 apiVersion: batch/v1beta1
@@ -553,15 +569,9 @@ Events:
   Normal  SuccessfulDelete  2m24s  cronjob-controller  Deleted job cronjob-demo-1599117780
 ```
 
-## 6.2 资源清单
-
-- `.spec.schedule`：调度，必需字段，指定任务运行周期，格式同Crontab。
-- `.spec.jobTemplate`：Job模板，必需字段，指定需要运行的任务，格式同Job
-- `.spec.successfulJobHistoryLimit`和`.spec.failedJobHistoryLimit`：历史限制，可选字段，指定可以保留多少完成或失败的Job。默认情况下，他们分别设置为3和1。设置为0相当于完成后不被保留。所以可以看到上面执行了多次，但实际Pod最多只有3个。
-
 # 七、StatefulSet
 
-## 7.1 简述
+## 7.1 关于StatefulSet
 
 StatefulSet主要解决的是有状态服务的部署问题，前面使用Deployment+Service创建的是无状态的Pod。就好比Nginx的，通过SLB后面可以挂多个节点，每个节点都是平等的，更换机器只需要调整反向代理的服务即可。但有些服务不行，比如Redis，他涉及到数据的存储，数据之间是有状态的，如果切换机器需要将对应的数据存储同步迁移关联上才行，所以一般有状态的服务会配合PVC使用。
 
@@ -578,7 +588,11 @@ StatefulSet的应用特点：
 - volumeClaimTemplates 创建pvc，关联pv解决存储问题
 - StatefulSet 用于定义具体应用
 
-## 7.2 示例
+## 7.2 资源清单
+
+
+
+## 7.3 StatefulSet示例
 
 创建Headless Service。和Deployment中的Service类似，只是将clusterIP指定为None，不会分配VIP。
 
@@ -771,7 +785,23 @@ ss-nginx-2                      1/1     Running   0          24m
 
 # 八、Horizontal Pod Autoscaling
 
+## 8.1 关于HPA
+
 应用在日常运行过程中会有高峰也会有低估的情况，如果做到削峰填谷，提高集群资源的可利用率？HPA就是为了解决此问题。类似阿里云的弹性收缩功能。
+
+## 8.2 资源清单
+
+| 参数名                              | 字段类型          | 说明                               |
+| ----------------------------------- | ----------------- | ---------------------------------- |
+| spec.maxReplicas                    | integer[required] | 最大副本数量，不能小于最小副本数量 |
+| spec.minReplicas                    | integer           | 最小副本数量，默认值为1.           |
+| spec.targetCPUUtilizationPercentage | integer           | 平均CPU使用率，百分比              |
+| spec.scaleTargetRef                 | Object[required]  | 关联的资源对象                     |
+| spec.scaleTargetRef.apiVersion      | string            | 关联资源的api版本                  |
+| spec.scaleTargetRef.kind            | string[required]  | 关联资源的类型                     |
+| spec.scaleTargetRef.name            | string[required]  | 关联资源的名称                     |
+
+## 8.3 HPA示例
 
 对上面StatefulSet应用增加一个HPA控制
 
@@ -800,7 +830,7 @@ NAME           REFERENCE                 TARGETS         MINPODS   MAXPODS   REP
 hpa-demo       StatefulSet/ss-nginx      <unknown>/80%   3         10        0          4s
 ```
 
-创建起来不复杂，可以从多个维度进行监控，需要配合监控收集数据。这个留待后面在做整体测试。
+当前从文档上看到只定义了CPU字段，但很显然后续还有会内存、请求数等等指标。创建起来不复杂，但需要配合监控收集数据。这个留待后面在做整体测试。
 
 # 九、小结
 
