@@ -17,7 +17,7 @@
 | 3    | DaemonSet                             | 在每一个Node上面运行一个Pod；新加入的Node也同样会自动运行一个Pod | Agent      |
 | 4    | Job/CronJob                           | 一次性任务/周期任务                                          | 脚本、备份 |
 | 5    | ReplicaSet<br />ReplicationController | 控制Pod的副本数量                                            |            |
-| 6    | Horizontal Pod Autoscaling            | Pod水平自动缩放                                              |            |
+| 6    | Horizontal Pod Autoscaling            | Pod水平自动缩放                                              | 弹性收缩   |
 
 概念在前面章节已经提到，所以本章节主要从示例维度来对控制器进行说明。
 
@@ -136,46 +136,27 @@ $ kubectl scale rs rsname --replicas=2
 
 ##  3.2 资源清单
 
-看看资源清单中比较重要的节点：
-
-```
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx-pod
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5
-  template:
-```
-
-文档说明：
-
-```
-$ kubectl explain deploy.spec.strategy
-KIND:     Deployment
-VERSION:  apps/v1
-
-RESOURCE: strategy <Object>
-
-DESCRIPTION:
-     The deployment strategy to use to replace existing pods with new ones.
-
-     DeploymentStrategy describes how to replace existing pods with new ones.
-
-FIELDS:
-   rollingUpdate	<Object>
-     Rolling update config params. Present only if DeploymentStrategyType =
-     RollingUpdate.
-
-   type	<string>
-     Type of deployment. Can be "Recreate" or "RollingUpdate". Default is
-     RollingUpdate.
-```
+| 参数名                                     | 字段类型             | 说明                                                 |
+| ------------------------------------------ | -------------------- | ---------------------------------------------------- |
+| spec.minReadySeconds                       | Integer              |                                                      |
+| spec.paused                                | boolean              |                                                      |
+| spec.progressDeadlineSeconds               | integer              |                                                      |
+| spec.replicas                              | integer              | 控制Pod的副本数量                                    |
+| spec.revisionHistoryLimit                  | integer              |                                                      |
+| **spec.selector**                          | **Object[required]** | Pod筛选                                              |
+| spec.selector.matchExpressions             | []Object             |                                                      |
+| spec.selector.matchExpressions[].key       | string[required]     |                                                      |
+| spec.selector.matchExpressions[].operator  | string[required]     | 可选值有：`In`, `NotIn`, `Exists` and `DoesNotExist` |
+| spec.selector.matchExpressions.values      | []string             |                                                      |
+| spec.selector.matchLabels                  | map[string]string    |                                                      |
+| **spec.strategy**                          | **Object**           |                                                      |
+| spec.strategy.rollingUpdate                | Object               |                                                      |
+| spec.strategy.rollingUpdate.maxSurge       | string               |                                                      |
+| spec.strategy.rollingUpdate.maxUnavailable | string               |                                                      |
+| spec.strategy.type                         | string               |                                                      |
+| **spec.template**                          | **Object[required]** | Pod模板                                              |
+| spec.template.metadata                     | Object               |                                                      |
+| spec.template.spec                         | Object               |                                                      |
 
 ## 3.3 Deployment示例
 
@@ -432,7 +413,16 @@ kube-proxy   1         1         1       1            1           beta.kubernete
 
 ## 4.2 资源清单
 
-
+| 参数名                                           | 字段类型             | 说明                                                         |
+| ------------------------------------------------ | -------------------- | ------------------------------------------------------------ |
+| spec.minReadySeconds                             | Integer              |                                                              |
+| spec.revisionHistoryLimit                        | integer              |                                                              |
+| **spec.selector**                                | **Object[required]** | Pod筛选                                                      |
+| **spec.template**                                | **Object[required]** | Pod模板                                                      |
+| **spec.updateStrategy**                          | **Object**           |                                                              |
+| spec.updateStrategy.rollingUpdate                | Object               |                                                              |
+| spec.updateStrategy.rollingUpdate.maxUnavailable | string               |                                                              |
+| spec.updateStrategy.type                         | string               | 更新方式，可选值：RollingUpdate、OnDelete，默认RollingUpdate. |
 
 ## 4.3 DaemonSet示例
 
@@ -446,7 +436,16 @@ kube-proxy   1         1         1       1            1           beta.kubernete
 
 ## 5.2 资源清单
 
-- `spec.template`格式同`Pod`
+| 参数名                       | 字段类型   | 说明 |
+| ---------------------------- | ---------- | ---- |
+| spec.activeDeadlineSeconds   | integer    |      |
+| spec.backoffLimit            | integer    |      |
+| spec.completions             | integer    |      |
+| spec.manualSelector          | boolean    |      |
+| spec.parallelism             | integer    |      |
+| **spec.selector**            | **Object** |      |
+| **spec.template**            | **Object** |      |
+| spec.ttlSecondsAfterFinished | integer    |      |
 
 ## 5.3 Job示例
 
@@ -494,9 +493,15 @@ Thu Sep  3 07:19:11 UTC 2020
 
 ## 6.2 资源清单
 
-- `.spec.schedule`：调度，必需字段，指定任务运行周期，格式同Crontab。
-- `.spec.jobTemplate`：Job模板，必需字段，指定需要运行的任务，格式同Job
-- `.spec.successfulJobHistoryLimit`和`.spec.failedJobHistoryLimit`：历史限制，可选字段，指定可以保留多少完成或失败的Job。默认情况下，他们分别设置为3和1。设置为0相当于完成后不被保留。所以可以看到上面执行了多次，但实际Pod最多只有3个。
+| 参数名                          | 字段类型         | 说明                         |
+| ------------------------------- | ---------------- | ---------------------------- |
+| spec.concurrencyPolicy          | string           |                              |
+| spec.failedJobsHistoryLimit     | integer          | 保留是失败的Job记录，默认为1 |
+| **spec.jobTemplate**            | **Object**       | Job模板，格式同Job           |
+| spec.schedule                   | string[required] | Job运行周期，格式同`Crontab` |
+| spec.startingDeadlineSeconds    | integer          |                              |
+| spec.successfulJobsHistoryLimit | integer          | 保留完成的Job记录，默认为3   |
+| spec.suspend                    | boolean          |                              |
 
 ## 6.3 CronJob示例
 
@@ -573,28 +578,42 @@ Events:
 
 ## 7.1 关于StatefulSet
 
-StatefulSet主要解决的是有状态服务的部署问题，前面使用Deployment+Service创建的是无状态的Pod。就好比Nginx的，通过SLB后面可以挂多个节点，每个节点都是平等的，更换机器只需要调整反向代理的服务即可。但有些服务不行，比如Redis，他涉及到数据的存储，数据之间是有状态的，如果切换机器需要将对应的数据存储同步迁移关联上才行，所以一般有状态的服务会配合PVC使用。
+`StatefulSet`主要解决的是有状态服务的部署问题，前面使用`Deployment+Service`创建的是无状态的`Pod`。就好比`Nginx`的，通过反向代理后面可以挂多个节点，每个节点都是平等的，更换机器只需要调整反向代理的服务即可。但有些服务不行，比如`Redis`，他涉及到数据的存储，数据之间是有状态的，如果切换机器需要将对应的数据存储同步迁移关联上才行，所以一般有状态的服务会配合`PVC`使用。
 
-StatefulSet的应用特点：
+`StatefulSet`应用特点：
 
-- 稳定且唯一的网络标识符，当节点挂掉后，Pod重新调度后PodName和HostName不变，基于Headless Service实现。
-- 稳定且持久的存储，当节点挂掉后，Pod重新调度后访问相同的持久化存储，基于PVC实现。
-- 有序、平滑的扩展、部署。Pod是有序的，部署或者扩展的时候根据定义的顺序依次进行，从0到N-1，下一个Pod运行之前所有的Pod必须是Running和Ready状态，基于init containers实现
+- 稳定且唯一的网络标识符，当节点挂掉后，`Pod`重新调度后`PodName`和`HostName`不变，基于`Headless Service`实现。
+- 稳定且持久的存储，当节点挂掉后，`Pod`重新调度后访问相同的持久化存储，基于`PVC`实现。
+- 有序、平滑的扩展、部署。`Pod`是有序的，部署或者扩展的时候根据定义的顺序依次进行，从0到N-1，下一个`Pod`运行之前所有的`Pod`必须是`Running`和`Ready`状态，基于`init containers`实现
 - 有序、平滑的收缩、删除。根据定义的顺序倒序收缩，及从N-1到0
 
-所以StatefulSet的核心功能在于解决稳定的网络表示和持久的存储、服务启停顺序也是确定的，通常包含以下几部分：
+所以`StatefulSet`的核心功能在于解决稳定的网络表示和持久的存储、服务启停顺序也是确定的，通常包含以下几部分：
 
-- Headless Service 解决网络表示问题
-- volumeClaimTemplates 创建pvc，关联pv解决存储问题
-- StatefulSet 用于定义具体应用
+- `Headless Service`解决网络表示问题
+- `volumeClaimTemplates`创建pvc，关联`pv`解决存储问题
+- `StatefulSet`用于定义具体应用
 
 ## 7.2 资源清单
 
-
+| 参数名                                      | 字段类型             | 说明                 |
+| ------------------------------------------- | -------------------- | -------------------- |
+| spec.podManagementPolicy                    | string               |                      |
+| spec.replicas                               | integer              |                      |
+| spec.revisionHistoryLimit                   | integer              |                      |
+| **spec.selector**                           | **Object[required]** | Pod筛选              |
+| spec.serviceName                            | string[required]     | Service 名称         |
+| **spec.template**                           | **Object[required]** | Pod模板              |
+| **spec.updateStrategy**                     | **Object**           |                      |
+| spec.updateStrategy.rollingUpdate           | Object               |                      |
+| spec.updateStrategy.rollingUpdate.partition | integer              |                      |
+| spec.updateStrategy.type                    | string               | 默认值RollingUpdate. |
+| **spec.volumeClaimTemplates**               | **[]Object**         |                      |
 
 ## 7.3 StatefulSet示例
 
-创建Headless Service。和Deployment中的Service类似，只是将clusterIP指定为None，不会分配VIP。
+**1. 创建Headless Service**
+
+只是将`Service`中的`clusterIP`指定为`None`，不会分配`VIP`。
 
 ```
 apiVersion: v1
@@ -610,7 +629,9 @@ spec:
     app: ss-nginx-pod
 ```
 
-创建了3个pv
+**2. 创建pv**
+
+这里是存储在本机，也可以通过`nfs`挂载，用来持久化存储数据。
 
 ```
 apiVersion: v1
@@ -656,7 +677,9 @@ spec:
     path: /Users/peng/k8s/pv-data/pv003
 ```
 
-创建StatefulSet应用，这里为尽量简单，先以Nginx做测试。其中serviceName关联Headless Service。其他的配置同Deployment一样。
+**3. 创建StatefulSet应用**
+
+这里为尽量简单，先以`Nginx`做测试。其中`serviceName`关联`Headless Service`。其他的配置同`Deployment`一样。
 
 ```
 apiVersion: apps/v1
@@ -695,7 +718,7 @@ spec:
 
 ```
 
-查看statefulset、pv、pvc、pod、svc的状态
+查看`statefulset`、`pv`、`pvc`、`pod`、`svc`的状态
 
 ```
 $ kubectl get statefulset -o wide
@@ -738,13 +761,13 @@ Session Affinity:  None
 Events:            <none>
 ```
 
-3个Pod都创建成功了，每个Pod都可以通过以下域名进行访问，通信方式都是通过此域名来访问而非IP。
+3个`Pod`都创建成功了，每个`Pod`都可以通过以下域名进行访问，通信方式都是通过此域名来访问而非`IP`。
 
 ```
 <PodName>.<ServiceName>.<NamespaceName>.svc.cluster.local
 ```
 
-Pod故障后可能飘逸到其他节点上，PodIP可能会变，但`StatefulSet`会确保`PodName`以及这个域名不变。进入容器之后可以访问及查看。
+`Pod`故障后可能飘逸到其他节点上，`PodIP`可能会变，但`StatefulSet`会确保`PodName`以及这个域名不变。进入容器之后可以访问及查看。
 
 ```
 # more /etc/hosts
@@ -774,7 +797,7 @@ pv003
 pv001
 ```
 
-当我们删掉ss-nginx-0后，pod会重建，此时名称会和之前一样，pvc会关联同一个。实现原Pod相同的功能，达到有状态服务重启后保持相同状态的目的。
+当我们删掉`ss-nginx-0`后，`pod`会重建，此时名称会和之前一样，`pvc`会关联同一个。实现原`Pod`相同的功能，达到有状态服务重启后保持相同状态的目的。
 
 ```
 $ kubectl get pod
@@ -787,23 +810,23 @@ ss-nginx-2                      1/1     Running   0          24m
 
 ## 8.1 关于HPA
 
-应用在日常运行过程中会有高峰也会有低估的情况，如果做到削峰填谷，提高集群资源的可利用率？HPA就是为了解决此问题。类似阿里云的弹性收缩功能。
+应用在日常运行过程中会有高峰也会有低谷的情况，如何做到削峰填谷，提高集群资源的可利用率？HPA就是为了解决此问题。类似阿里云的弹性收缩功能。
 
 ## 8.2 资源清单
 
-| 参数名                              | 字段类型          | 说明                               |
-| ----------------------------------- | ----------------- | ---------------------------------- |
-| spec.maxReplicas                    | integer[required] | 最大副本数量，不能小于最小副本数量 |
-| spec.minReplicas                    | integer           | 最小副本数量，默认值为1.           |
-| spec.targetCPUUtilizationPercentage | integer           | 平均CPU使用率，百分比              |
-| spec.scaleTargetRef                 | Object[required]  | 关联的资源对象                     |
-| spec.scaleTargetRef.apiVersion      | string            | 关联资源的api版本                  |
-| spec.scaleTargetRef.kind            | string[required]  | 关联资源的类型                     |
-| spec.scaleTargetRef.name            | string[required]  | 关联资源的名称                     |
+| 参数名                              | 字段类型             | 说明                               |
+| ----------------------------------- | -------------------- | ---------------------------------- |
+| spec.maxReplicas                    | integer[required]    | 最大副本数量，不能小于最小副本数量 |
+| spec.minReplicas                    | integer              | 最小副本数量，默认值为1.           |
+| spec.targetCPUUtilizationPercentage | integer              | 平均CPU使用率，百分比              |
+| **spec.scaleTargetRef**             | **Object[required]** | 关联的资源对象                     |
+| spec.scaleTargetRef.apiVersion      | string               | 关联资源的api版本                  |
+| spec.scaleTargetRef.kind            | string[required]     | 关联资源的类型                     |
+| spec.scaleTargetRef.name            | string[required]     | 关联资源的名称                     |
 
 ## 8.3 HPA示例
 
-对上面StatefulSet应用增加一个HPA控制
+对前一节的StatefulSet应用增加一个HPA控制
 
 ```
 apiVersion: autoscaling/v1
@@ -820,7 +843,7 @@ spec:
   targetCPUUtilizationPercentage: 80
 ```
 
-设定副本数量最小3个，最大10个，定义CPU指标达到80%触发。
+设定副本数量最小3个，最大10个，定义`CPU`指标达到`80%`触发。
 
 ```
 $ kubectl apply -f hpa.yaml
@@ -830,7 +853,7 @@ NAME           REFERENCE                 TARGETS         MINPODS   MAXPODS   REP
 hpa-demo       StatefulSet/ss-nginx      <unknown>/80%   3         10        0          4s
 ```
 
-当前从文档上看到只定义了CPU字段，但很显然后续还有会内存、请求数等等指标。创建起来不复杂，但需要配合监控收集数据。这个留待后面在做整体测试。
+当前从文档上看到只定义了`CPU`字段，但很显然后续还有会内存、请求数等等指标。创建起来不复杂，但需要配合监控收集数据。这个留待后面在做整体测试。
 
 # 九、小结
 
