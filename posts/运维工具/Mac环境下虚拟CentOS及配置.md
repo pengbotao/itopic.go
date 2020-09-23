@@ -2,7 +2,7 @@
 {
     "url": "centos",
     "time": "2019/06/01 08:10",
-    "tag": "运维、CentOS",
+    "tag": "运维,Kubernetes",
     "public": "no"
 }
 ```
@@ -99,13 +99,15 @@ DNS1=172.16.196.2
 
 注：需要重启机器。
 
-## 2.3 添加授权KEY
+# 三、宿主机调整
+
+## 3.1 添加授权KEY
 
 ```
-ssh-copy-id ~/.ssh/id_rsa.pub root@172.16.196.200
+$ ssh-copy-id ~/.ssh/id_rsa.pub root@172.16.196.200
 ```
 
-**额外配置下hosts：**
+## 3.2 配置ssh与hosts
 
 ```
 172.16.196.200 peng-master-1
@@ -113,7 +115,7 @@ ssh-copy-id ~/.ssh/id_rsa.pub root@172.16.196.200
 172.16.196.202 peng-node-2
 ```
 
-**配置~/.ssh/config**
+**Mac下配置~/.ssh/config**
 
 ```
 Host peng-master-1
@@ -138,18 +140,4 @@ Host peng-node-2
     ServerAliveInterval 10
 ```
 
-宿主机登录方式：`ssh peng-master-1`
-
-# 三、用户管理
-
-
-
-# 四、系统资源
-
-
-
-# 五、内核参数
-
-```
-ss -s
-```
+宿主机登录方式：`ssh peng-master-1`，如果使用`Xshell`就可以省略掉这步。
