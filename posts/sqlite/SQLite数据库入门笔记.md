@@ -2,7 +2,7 @@
 {
     "url": "sqlite",
     "time": "2019/04/06 22:22",
-    "tag": "数据库,SQLite"
+    "tag": "SQLite"
 }
 ```
 

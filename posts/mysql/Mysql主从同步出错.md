@@ -2,7 +2,7 @@
 {
     "url": "mysql-master-slave-error",
     "time": "2014/08/07 20:13",
-    "tag": "数据库,Mysql"
+    "tag": "Mysql"
 }
 ```
 

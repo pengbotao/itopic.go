@@ -2,7 +2,7 @@
 {
     "url": "redis-cluster",
     "time": "2019/11/21 05:53",
-    "tag": "数据库,Redis",
+    "tag": "Redis",
     "public": "no"
 }
 ```

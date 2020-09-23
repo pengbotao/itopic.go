@@ -2,7 +2,7 @@
 {
     "url": "mysql-data-free",
     "time": "2019/04/15 06:44",
-    "tag": "数据库,Mysql"
+    "tag": "Mysql"
 }
 ```
 

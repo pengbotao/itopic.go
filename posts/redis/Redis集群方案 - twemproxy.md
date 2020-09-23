@@ -2,7 +2,7 @@
 {
     "url": "twemproxy",
     "time": "2016/08/29 16:13",
-    "tag": "数据库,Redis"
+    "tag": "Redis"
 }
 ```
 

@@ -2,7 +2,7 @@
 {
     "url": "redis-delete-keys",
     "time": "2014/02/28 22:30",
-    "tag": "数据库,Redis"
+    "tag": "Redis"
 }
 ```
 

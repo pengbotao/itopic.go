@@ -2,7 +2,7 @@
 {
     "url": "mysql-suipian-youhua",
     "time": "2013/03/06 22:16",
-    "tag": "数据库,Mysql"
+    "tag": "Mysql"
 }
 ```
 
