@@ -2,7 +2,8 @@
 {
     "url": "linux-sz-rz",
     "time": "2014/01/23 10:24",
-    "tag": "Linux"
+    "tag": "Linux",
+    "toc" : "no"
 }
 ```
 

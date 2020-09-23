@@ -2,7 +2,8 @@
 {
     "url": "mysql-suipian-youhua",
     "time": "2013/03/06 22:16",
-    "tag": "Mysql"
+    "tag": "Mysql",
+    "toc" : "no"
 }
 ```
 

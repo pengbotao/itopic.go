@@ -2,7 +2,8 @@
 {
     "url": "linux-memcache-install",
     "time": "2014/09/01 16:33",
-    "tag": "Linux,Memcache"
+    "tag": "Linux,Memcache",
+    "toc" : "no"
 }
 ```
 

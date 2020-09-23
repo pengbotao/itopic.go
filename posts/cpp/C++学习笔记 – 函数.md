@@ -2,7 +2,8 @@
 {
     "url": "cpp-primer-plus-function",
     "time": "2015/03/29 23:25",
-    "tag": "C++"
+    "tag": "C++",
+    "toc" : "no"
 }
 ```
 

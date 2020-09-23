@@ -2,7 +2,8 @@
 {
     "url": "linux-redis-install",
     "time": "2014/08/15 15:18",
-    "tag": "Linux,Redis"
+    "tag": "Linux,Redis",
+    "toc" : "no"
 }
 ```
 

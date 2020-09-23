@@ -22,8 +22,7 @@ const (
 		blackfriday.HTML_USE_SMARTYPANTS |
 		blackfriday.HTML_SMARTYPANTS_FRACTIONS |
 		blackfriday.HTML_SMARTYPANTS_DASHES |
-		blackfriday.HTML_SMARTYPANTS_LATEX_DASHES |
-		blackfriday.HTML_TOC
+		blackfriday.HTML_SMARTYPANTS_LATEX_DASHES
 	markdownExtensions = 0 |
 		blackfriday.EXTENSION_NO_INTRA_EMPHASIS |
 		blackfriday.EXTENSION_TABLES |
@@ -98,6 +97,7 @@ func GetTopicByPath(path string) (*Topic, error) {
 		Time     string
 		Tag      string
 		IsPublic string `json:"public"`
+		IsToc    string `json:"toc"`
 	}
 	var thj tHeadJSON
 	if err := json.Unmarshal([]byte(tHeadStr), &thj); err != nil {
@@ -143,8 +143,11 @@ func GetTopicByPath(path string) (*Topic, error) {
 		content.Write(scanner.Bytes())
 		content.WriteString("\n")
 	}
-
-	var markdownRenderer = blackfriday.HtmlRenderer(markdownHTMLFlags, "", "")
+	var mdFlag = markdownHTMLFlags
+	if thj.IsToc != "no" {
+		mdFlag = mdFlag | blackfriday.HTML_TOC
+	}
+	var markdownRenderer = blackfriday.HtmlRenderer(mdFlag, "", "")
 	t.Content = string(blackfriday.MarkdownOptions(content.Bytes(), markdownRenderer, blackfriday.Options{Extensions: markdownExtensions}))
 	t.TopicPath = path
 

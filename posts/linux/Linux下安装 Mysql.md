@@ -2,7 +2,8 @@
 {
     "url": "linux-mysql-install",
     "time": "2014/08/14 23:55",
-    "tag": "Linux,Mysql"
+    "tag": "Linux,Mysql",
+    "toc" : "no"
 }
 ```
 

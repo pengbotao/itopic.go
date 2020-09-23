@@ -2,7 +2,8 @@
 {
     "url": "will-kubernetes-kill-devops",
     "time": "2020/01/10 12:39",
-    "tag": "转载"
+    "tag": "转载",
+    "toc" : "no"
 }
 ```
 

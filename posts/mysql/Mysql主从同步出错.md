@@ -2,7 +2,8 @@
 {
     "url": "mysql-master-slave-error",
     "time": "2014/08/07 20:13",
-    "tag": "Mysql"
+    "tag": "Mysql",
+    "toc" : "no"
 }
 ```
 
