@@ -3,7 +3,7 @@
     "url": "shadowsocks",
     "time": "2016/11/21 22:45",
     "tag": "常用软件",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

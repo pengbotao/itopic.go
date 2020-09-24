@@ -3,7 +3,7 @@
     "url": "lua-start",
     "time": "2016/01/01 16:15",
     "tag": "Lua",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

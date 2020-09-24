@@ -3,7 +3,7 @@
     "url": "linux-c-chatroom-demo",
     "time": "2015/05/24 11:09",
     "tag": "C++",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

@@ -3,7 +3,7 @@
     "url": "dedaoinfo",
     "time": "2014/04/28 19:58",
     "tag": "随笔",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

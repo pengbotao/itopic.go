@@ -2,7 +2,8 @@
 {
     "url": "k8s-controller",
     "time": "2020/10/01 06:24",
-    "tag": "Kubernetes,容器化"
+    "tag": "Kubernetes,容器化",
+    "toc": "yes"
 }
 ```
 

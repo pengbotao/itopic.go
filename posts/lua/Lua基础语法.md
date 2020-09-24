@@ -2,7 +2,8 @@
 {
     "url": "lua-language",
     "time": "2016/01/10 12:55",
-    "tag": "Lua"
+    "tag": "Lua",
+    "toc": "yes"
 }
 ```
 

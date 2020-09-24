@@ -3,7 +3,7 @@
     "url": "php-phpize-ext",
     "time": "2014/08/14 19:14",
     "tag": "PHP,Linux",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

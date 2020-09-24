@@ -2,7 +2,8 @@
 {
     "url": "go-struct",
     "time": "2020/05/12 20:00",
-    "tag": "Golang"
+    "tag": "Golang",
+    "toc": "yes"
 }
 ```
 

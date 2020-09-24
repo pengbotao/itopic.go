@@ -3,7 +3,7 @@
     "url": "python-start",
     "time": "2015/12/07 06:14",
     "tag": "Python",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

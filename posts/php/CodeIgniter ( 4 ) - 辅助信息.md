@@ -2,7 +2,8 @@
 {
     "url": "codeigniter-helpers",
     "time": "2013/11/15 10:15",
-    "tag": "PHP,CodeIgniter"
+    "tag": "PHP,CodeIgniter",
+    "toc": "yes"
 }
 ```
 

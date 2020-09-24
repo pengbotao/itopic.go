@@ -3,7 +3,8 @@
     "url": "centos",
     "time": "2019/06/01 08:10",
     "tag": "运维,Kubernetes",
-    "public": "no"
+    "public": "no",
+    "toc": "yes"
 }
 ```
 

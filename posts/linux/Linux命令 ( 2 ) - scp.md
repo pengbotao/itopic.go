@@ -3,7 +3,7 @@
     "url": "linux-scp",
     "time": "2013/11/15 11:16",
     "tag": "Linux",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

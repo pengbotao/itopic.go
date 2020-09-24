@@ -3,7 +3,7 @@
     "url": "redis-memory-check",
     "time": "2019/08/28 15:29",
     "tag": "Redis",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

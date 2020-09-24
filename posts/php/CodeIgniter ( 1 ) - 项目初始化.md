@@ -2,7 +2,8 @@
 {
     "url": "codeigniter-initialization",
     "time": "2013/10/27 12:42",
-    "tag": "PHP,CodeIgniter"
+    "tag": "PHP,CodeIgniter",
+    "toc": "yes"
 }
 ```
 

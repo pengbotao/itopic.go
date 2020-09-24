@@ -3,7 +3,7 @@
     "url": "jquery-validate",
     "time": "2013/06/01 20:52",
     "tag": "jquery",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

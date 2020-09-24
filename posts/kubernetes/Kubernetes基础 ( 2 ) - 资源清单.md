@@ -2,7 +2,8 @@
 {
     "url": "k8s-yaml",
     "time": "2020/09/01 22:06",
-    "tag": "Kubernetes,容器化"
+    "tag": "Kubernetes,容器化",
+    "toc": "yes"
 }
 ```
 

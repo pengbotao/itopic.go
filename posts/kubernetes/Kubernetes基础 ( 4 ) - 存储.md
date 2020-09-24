@@ -2,7 +2,8 @@
 {
     "url": "k8s-storage",
     "time": "2020/09/25 12:08",
-    "tag": "Kubernetes,容器化"
+    "tag": "Kubernetes,容器化",
+    "toc": "yes"
 }
 ```
 

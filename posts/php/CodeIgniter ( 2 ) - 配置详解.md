@@ -2,7 +2,8 @@
 {
     "url": "codeigniter-config",
     "time": "2013/10/28 23:12",
-    "tag": "PHP,CodeIgniter"
+    "tag": "PHP,CodeIgniter",
+    "toc": "yes"
 }
 ```
 

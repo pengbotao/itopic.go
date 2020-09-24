@@ -2,7 +2,8 @@
 {
     "url": "goroutine",
     "time": "2020/04/20 11:00",
-    "tag": "Golang"
+    "tag": "Golang",
+    "toc": "yes"
 }
 ```
 

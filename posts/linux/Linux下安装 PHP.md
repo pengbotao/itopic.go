@@ -3,7 +3,7 @@
     "url": "linux-php-install",
     "time": "2014/08/14 23:16",
     "tag": "Linux,PHP",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

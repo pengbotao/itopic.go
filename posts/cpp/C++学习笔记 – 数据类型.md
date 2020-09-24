@@ -3,7 +3,7 @@
     "url": "cpp-primer-plus-type",
     "time": "2015/03/26 21:05",
     "tag": "C++",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 

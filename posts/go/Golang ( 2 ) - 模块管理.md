@@ -2,7 +2,8 @@
 {
     "url": "go-module",
     "time": "2020/04/06 16:00",
-    "tag": "Golang"
+    "tag": "Golang",
+    "toc": "yes"
 }
 ```
 

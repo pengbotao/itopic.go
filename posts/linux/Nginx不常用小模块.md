@@ -3,7 +3,7 @@
     "url": "nginx-module",
     "time": "2018/06/06 17:54",
     "tag": "Nginx,Linux",
-    "toc" : "no"
+    "toc": "no"
 }
 ```
 
