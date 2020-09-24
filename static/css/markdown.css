@@ -112,7 +112,8 @@ table tr {
   border-top: 1px solid #ccc;
   background-color: #fff; }
   table tr:nth-child(2n) {
-  background-color: #f8f8f8; }
+  background-color: #fdfdfd; }
+tbody tr:hover {background-color: #fffffd;}
 img {
   max-width: 80%;border:0px; }
 code, tt {
@@ -120,7 +121,7 @@ code, tt {
   margin: 0px 3px;
   white-space: nowrap;
   border: 1px solid #eaeaea;
-  background-color: rgba(27,31,35,.05);
+  background-color: #fdfdfd;
   font-size: 85%;
   border-radius: 3px;
   font-family: 'Courier New', "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
@@ -132,14 +133,15 @@ pre > code {
   border: none;
   background: transparent; }
 pre {
-  background-color: #f6f8fa;
+  background-color: #fdfdfd;
   padding: 16px;
   overflow: auto;
   border-radius: 3px;
   margin-top: 0;
   word-wrap: normal;
-  font: 14px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font: 18px Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
+
 pre code, pre tt {
     padding: 0;
     margin: 0;
@@ -152,6 +154,9 @@ pre code, pre tt {
     white-space: pre;
     border: 0;
 }
+
+pre:hover, code:hover {background-color: #fffffd;}
+
 sup, sub, a.footnote {font-size: 1.4ex;height: 0;line-height: 1;vertical-align: super;position: relative;}
 sub {vertical-align: sub;top: -1px; }
 img, pre, blockquote, table { page-break-inside: avoid; }
