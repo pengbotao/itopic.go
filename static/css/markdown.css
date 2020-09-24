@@ -20,8 +20,7 @@ html, body{
 
 .content {
   margin: 0px auto;
-  width: 1280px;
-  
+  max-width: 1280px;
 }
 
 a {color: #2D8CF0; text-decoration: none;}
@@ -198,19 +197,21 @@ code span::selection {background-color: rgba(0, 0, 0, 0.7) !important;color: #ee
     z-index: 1000;
   }
 }
-
-nav{
-  width:280px;
-  display: block;
-  position: fixed;
-  left: 0px;
-  z-index: 1000;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  top:80px;
-  bottom: 50px;
-  overflow: auto;
+nav {display: none;}
+@media (min-width: 1200px) {
+  nav{
+    width:280px;
+    display: block;
+    position: fixed;
+    left: 0px;
+    z-index: 1000;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    top:80px;
+    bottom: 50px;
+    overflow: auto;
+  }
 }
 
 .title{font-weight:500;font-size:3em;width:90%;margin-bottom:0px;border:0px;}

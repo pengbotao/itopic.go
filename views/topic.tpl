@@ -7,7 +7,9 @@
     <title>{{.title}}</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
     {{ if .topic.IsToc }}<style type="text/css">
-        .content{padding-left:280px;width:100%;}
+    @media (min-width: 1200px) {
+        .content{padding-left:280px;width:100%;max-width:100%;}
+    }
     </style>{{ end }}
 </head>
 <body>
