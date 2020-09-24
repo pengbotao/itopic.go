@@ -16,6 +16,7 @@ type Topic struct {
 	Content        string
 	TopicPath      string
 	IsPublic       bool //true for public，false for protected
+	IsToc          bool
 }
 
 //TopicTag struct

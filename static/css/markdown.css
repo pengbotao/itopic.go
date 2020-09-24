@@ -13,8 +13,15 @@ html, body{
   font:400 20px/1.5 "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
 }
 
-body {
-  margin-left:280px;
+.container {
+  margin: 0px auto;
+  max-width: 1280px;
+}
+
+.content {
+  margin: 0px auto;
+  width: 1280px;
+  
 }
 
 @media (max-width: 1200px) {
@@ -223,22 +230,20 @@ code span::selection {background-color: rgba(0, 0, 0, 0.7) !important;color: #ee
   }
 }
 
-nav {display: none;}
-@media (min-width: 1200px) {
-  nav{
-    width:250px;
-    display: block;
-    position: fixed;
-    left: 0px;
-    z-index: -1000;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.5;
-    top:80px;
-    bottom: 50px;
-    overflow: auto;
-  }
+nav{
+  width:280px;
+  display: block;
+  position: fixed;
+  left: 0px;
+  z-index: 1000;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  top:80px;
+  bottom: 50px;
+  overflow: auto;
 }
+
 .title{font-weight:500;font-size:3em;width:90%;margin-bottom:0px;border:0px;}
 .eof{padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;}
 .eof_arrow{float:right;}

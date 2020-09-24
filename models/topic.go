@@ -144,7 +144,9 @@ func GetTopicByPath(path string) (*Topic, error) {
 		content.WriteString("\n")
 	}
 	var mdFlag = markdownHTMLFlags
-	if thj.IsToc != "no" {
+	t.IsToc = false
+	if thj.IsToc == "yes" {
+		t.IsToc = true
 		mdFlag = mdFlag | blackfriday.HTML_TOC
 	}
 	var markdownRenderer = blackfriday.HtmlRenderer(mdFlag, "", "")
