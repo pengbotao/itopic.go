@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
-<div id="container">
+<div class="container">
     <h1 class="title">{{.title}}</h1>
     <a href="{{.domain}}/"><img src="/static/img/arrow-back.png" style="width:25px;height:25px;float:right;margin-top:-30px;" /></a>
 
