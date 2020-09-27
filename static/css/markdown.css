@@ -220,4 +220,4 @@ nav {display: none;}
 .eof{padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;}
 .eof_arrow{float:right;}
 .eof_tag{padding: 0 10px;text-align:right;float:right;}
-.title_arrow_back{width:25px;height:25px;float:right;margin-top:-30px;}
+.title_arrow_back{width:25px;height:25px;float:right;margin-top:-30px;margin-right: 2px;}

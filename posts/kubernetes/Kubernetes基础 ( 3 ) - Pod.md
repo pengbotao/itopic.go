@@ -348,11 +348,11 @@ $ kubectl exec -it php-nginx -c nginx /bin/sh
 
 他们处在同一个`Pod`里，可以直接用`127.0.0.1:9000`访问`PHP`，设置后重启`Nginx`后（`/usr/sbin/nginx -s reload`）就可以通过`curl 127.0.0.1`来访问了。
 
-需要注意的是`Pod`删除后目录就清掉了，所以`emptyDir`适用一些临时空间的场景。
+需要注意的是`Pod`删除后目录就清掉了。
 
 ### 2.5.2 hostPath
 
-还是以PHP+Nginx交互，我们来看看用hostPath如何配置。
+还是以`PHP` + `Nginx`交互，我们来看看用`hostPath`如何配置。
 
 ```
 apiVersion: v1

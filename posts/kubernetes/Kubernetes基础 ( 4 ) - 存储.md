@@ -9,7 +9,7 @@
 
 # 一、概述
 
-前一篇中介绍了Pod以及Volumes，这里接着对Pod中依赖的存储资源做介绍。
+前一篇中介绍了`Pod`以及`Volumes`，这里接着对`Pod`中依赖的存储资源做介绍。
 
 # 二、ConfigMap
 
@@ -257,7 +257,7 @@ $ kubectl edit cm blog-config
 
 # 三、Secret
 
-secret用来保存小片敏感数据的k8s资源，例如密码，token，或者秘钥。这类数据当然也可以存放在Pod或者镜像中，但是放在Secret中是为了更方便的控制如何使用数据，并减少暴露的风险。
+`secret`用来保存小片敏感数据的`k8s`资源，例如密码，`token`，或者秘钥。这类数据当然也可以存放在`Pod`或者镜像中，但是放在`Secret`中是为了更方便的控制如何使用数据，并减少暴露的风险。
 
 ## 3.1 资源清单
 
@@ -478,13 +478,13 @@ pv003   3Gi        RWO            Recycle          Available           host     
 
 ## 5.1 关于PVC
 
-PersistentVolumeClaim (PVC) 是对 PV 的申请 (Claim)。PVC 通常由普通用户创建和维护。需要为 Pod 分配存储资源时，用户可以创建一个 PVC，指明存储资源的容量大小和访问模式（比如只读）等信息，Kubernetes 会查找并提供满足条件的 PV。
+`PersistentVolumeClaim (PVC)` 是对 `PV` 的申请 (Claim)。PVC 通常由普通用户创建和维护。需要为 Pod 分配存储资源时，用户可以创建一个 PVC，指明存储资源的容量大小和访问模式（比如只读）等信息，Kubernetes 会查找并提供满足条件的 PV。
 
-有了 PersistentVolumeClaim，用户只需要告诉 Kubernetes 需要什么样的存储资源，而不必关心真正的空间从哪里分配，如何访问等底层细节信息。这些 Storage Provider 的底层信息交给管理员来处理，只有管理员才应该关心创建 PersistentVolume 的细节信息。
+有了 `PersistentVolumeClaim`，用户只需要告诉 `Kubernetes` 需要什么样的存储资源，而不必关心真正的空间从哪里分配，如何访问等底层细节信息。这些 Storage Provider 的底层信息交给管理员来处理，只有管理员才应该关心创建 `PersistentVolume` 的细节信息。
 
 ## 5.2 资源清单
 
-描述pvc对存储的要求，字段同pv。
+描述`pvc`对存储的要求，字段同`pv`。
 
 ## 5.3 示例
 
@@ -557,7 +557,7 @@ PV与PVC的关系大概是这样子：
 
 # 六、小结
 
-本章介绍了常用的存储方案，ConfigMap，Secret，PV&PVC，对几种存储方案有个印象，后续使用过程中，在进行说明。至此，跟Pod相关的资源清单、Pod的用法、Pod依赖的周边存储就整理完了，后面将会着重介绍服务部署过程中的三大块，Controller、Service、Ingress。接下来看看如果通过控制器来来控制Pod。
+本章介绍了常用的存储方案，`ConfigMap`，`Secret`，`PV&PVC`，对几种存储方案有个印象，后续使用过程中，在进行说明。至此，跟`Pod`相关的资源清单、`Pod`的用法、`Pod`依赖的周边存储就整理完了，后面将会着重介绍服务部署过程中的三大块，`Controller`、`Service`、`Ingress`。接下来看看如果通过控制器来来控制`Pod`。
 
 
 

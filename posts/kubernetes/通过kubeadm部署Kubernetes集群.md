@@ -1,7 +1,7 @@
 ```
 {
     "url": "k8s-kubeadm-install",
-    "time": "2020/11/01 22:00",
+    "time": "2020/11/30 22:00",
     "tag": "Kubernetes,容器化",
     "toc": "yes"
 }
@@ -320,7 +320,7 @@ github地址：https://github.com/kubernetes/dashboard
 
 ## 9.1 安装
 
-下载`yaml`文件，并对`Service`部分增加了`type`和`nodePort`节点。
+`Dashboard`没有使用`nodeport`，下载`yaml`文件，并对`Service`部分增加了`type`和`nodePort`节点。
 
 ```
 wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml
@@ -388,13 +388,15 @@ kubectl apply -f dashboard-adminuser.yaml
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep aks-dashboard-admin | awk '{print $1}')
 ```
 
+期间出现的问题时获取到的Token看不到名称空间，应该是权限的问题，按上面产生的Token可以。
+
 ## 9.3 宿主机访问
 
 ```
 https://peng-master-1:32000/
 ```
 
-用前一步的Token登录即可，Chrome可能无法登录，可以用FF试试。
+用前一步的Token登录即可，Chrome可能无法登录，可以用Firefox试试。
 
 
 

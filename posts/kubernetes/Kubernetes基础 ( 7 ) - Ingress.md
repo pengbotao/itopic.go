@@ -13,9 +13,9 @@
 
 ## 1.1 关于ingress
 
-在前一章中，我们可以通过Service中的NodePort、LoadBalancer的方式来暴露服务的端口，但这也意味着我们需要管理NodePort的端口映射关。
+在前一章中，我们可以通过`Service`中的`NodePort`、`LoadBalancer`的方式来暴露服务的端口，但这也意味着我们需要管理`NodePort`的端口映射关系。
 
-Ingress可以根据hostname和path将流量转发到不同的Service上。使用Ingress后的流程图如下，相当于在Service上又重新封装了一层，可以根据访问规则，将流量转到不同的Service上。
+`Ingress`可以根据`hostname`和`path`将流量转发到不同的`Service`上。使用`Ingress`后的流程图如下，相当于在`Service`上又重新封装了一层，可以根据访问规则，将流量转到不同的`Service`上。
 
 ![](../../static/uploads/k8s-ingress.png)
 
@@ -25,7 +25,7 @@ Ingress对象：k8s中的资源对象，可以通过yaml配置，作用是定义
 
 Ingress-controller：实现反向代理及负载均衡的控制器，解析Ingress规则，根据规则进行转发。
 
-常见的ingress-controller有：ingress-nginx、traefik
+常见的`ingress-controller`有：`ingress-nginx`、`traefik`，这里使用`ingres-nginx`
 
 # 二、ingress-nginx
 
@@ -126,7 +126,7 @@ k8s-go-demo-ingress   demo.k8s.com   localhost   80      47m
 
 > 默认使用的80端口，如果本地有其他程序占用80端口可能无法访问。
 
-可以进`ingress-nginx`容器看到，相当于通过Nginx把请求转给后端Service。
+可以进`ingress-nginx`容器看到，相当于通过`Nginx`把请求转给后端`Service`。
 
 ```
 $ kubectl get pod -n ingress-nginx

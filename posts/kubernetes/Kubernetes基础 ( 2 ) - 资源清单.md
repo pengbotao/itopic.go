@@ -100,7 +100,7 @@ spec:
 
 # 三、Yaml基础字段
 
-配置清单的写法如上面示例，不同的资源对象大同小异，通过`kubectl explain pod`的方式可以查看对应资源的说明文档，要看子节点可以用：`kubectl explain pod.spec`，所有Yaml中的定义的字段都可以通过该方法查看文档，后面会经常用到。
+配置清单的写法如上面示例，不同的资源对象大同小异，通过`kubectl explain pod`的方式可以查看对应资源的说明文档，要看子节点可以用：`kubectl explain pod.spec`，**所有`Yaml`中的定义的字段都可以通过该方法查看文档，后面会经常用到**。
 
 ```
 $ kubectl explain pod
@@ -190,7 +190,7 @@ error: unable to recognize "itopic.yaml": no matches for kind "deploy" in versio
 | spec.initContainers[] | List     | 初始化容器                                                   |
 | spec.containers[]     | List     | 定义容器列表                                                 |
 | spec.restartPolicy    | String   | 定义Pod重启策略，可选值：Always、Onfailure、Never，默认为Always<br />- Always：Pod一旦终止则理解重启<br />- Onfailure：非正常退出才重启（Code非0）<br />- Never：不重启 |
-| spec.volumes[]        | List     | 挂载卷                                                       |
+| spec.volumes[]        | List     | 存储卷                                                       |
 | ...                   |          |                                                              |
 
 # 四、Yaml解读
@@ -263,11 +263,11 @@ spec:
 
 来看看这个文件， 定义了一个`Deployment`，`metadata`下定义名字为`nginx-deploy`，这里没有给`Deployment`打标签，但注意如果定义标签是`Deployment`的标签，供其他地方做筛选。很多资源清单里这个标签和下面两个一致，但也需要弄清楚这个标签的作用。
 
-`spec.selector`定义了`Deployment`如何来筛选`Pod`，规则是存在标签`app = nginx-tpl-label`。
+- `spec.selector`定义了`Deployment`如何来筛选`Pod`，规则是存在标签`app = nginx-tpl-label`。
 
-`template`定义`Pod`，`template.metadata.labels`定义`Pod`的标签。所以说`spec.selector.matchLabels`下的标签和`spec.template.metadata.labels`下的要一致`Deployment`才可以匹配上该`Pod`。
+- `template`定义`Pod`，`template.metadata.labels`定义`Pod`的标签。所以说`spec.selector.matchLabels`下的标签和`spec.template.metadata.labels`下的要一致`Deployment`才可以匹配上该`Pod`。
 
-`spec.template.spec.containers`定义`Pod`下的容器信息，一个`Pod`下可以有多个容器。这张图形象的说明了文件中的各区域的作用：
+- `spec.template.spec.containers`定义`Pod`下的容器信息，一个`Pod`下可以有多个容器。这张图形象的说明了文件中的各区域的作用：
 
 ![](../../static/uploads/k8s-deploy-example.png)
 

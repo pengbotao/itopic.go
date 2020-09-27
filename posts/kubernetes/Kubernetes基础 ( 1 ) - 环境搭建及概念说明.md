@@ -54,7 +54,7 @@
 
 `kubectl`命令操作主节点，主节点要操作`Node`节点则通过和`Node`节点上的`kubelet`交互实现，`Client`访问则通过防火墙规则访问到`Node`节点里的特定`Pod`。
 
-了解到这里后可能就开始懵圈了，好多文章里还会看到`Deployment`、`Service`、`ReplicaSets/Replication Controller`等，一堆概念容易混淆。所以接下来我们先忽略概念，看怎么在Mac电脑上部署个k8s环境，操作一遍之后再来梳理概念和交互。
+了解到这里后可能就开始懵圈了，好多文章里还会看到`Deployment`、`Service`、`ReplicaSets/Replication Controller`等，一堆概念容易混淆。所以接下来我们先忽略概念，看怎么在个人电脑上部署个k8s环境，操作一遍之后再来梳理概念和交互。
 
 # 二、安装K8s
 
@@ -112,7 +112,9 @@ $ kubectl apply -f https://raw.githubusercontent.com/gotok8s/gotok8s/master/dash
 $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep kubernetes-dashboard-admin | awk '{print $1}')
 ```
 
-通过下面的连接访问`Dashboard`: `http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/`
+通过下面的连接访问`Dashboard`: 
+
+`http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/`
 
 输入上一步获取的`token`, 验证并登陆。到这里环境就装好了。
 
@@ -249,7 +251,7 @@ Events:                   <none>
 
 这个时候就可以通过`http://localhost:38001`访问了。
 
-> 注：Mac DockerDesktop环境下type指定其他没有走通，如果存在走不通的情况可以尝试切换type
+> 注：Mac DockerDesktop环境下type指定其他没有走通，正常指定`NodePort`应该可以。
 
 
 ## 3.3 扩容 / 缩容
@@ -278,7 +280,7 @@ $ kubectl delete deployment,service itopic
 
 ![](../../static/uploads/Kubernetes-Dashboard.png)
 
-从演示上使用到了Deployment、ReplicaSet、Pod、Service，从Dashboard左侧可以看到更多的名词，接写来对K8s的基础架构做一些描述。
+从演示上使用到了`Deployment`、`ReplicaSet`、`Pod`、`Service`，从`Dashboard`左侧可以看到更多的名词，接写来对`k8s`的基础架构做一些描述。
 
 # 四、节点说明
 
@@ -290,7 +292,7 @@ $ kubectl delete deployment,service itopic
 
 - `kube-apiserver`：资源增删改查的入口
 - `kube-controller-manager`：资源对象的大总管
-- `kube-scheduler`：负责资源调度（Pod调度）
+- `kube-scheduler`：负责资源调度（`Pod`调度）
 - `etcd Server`：`kubernetes`的所有的资源对象的数据保存在`etcd`中。
 
 ## 4.2 Node
@@ -310,10 +312,10 @@ $ kubectl delete deployment,service itopic
 `Pod`是`Kubernetes`中操作的基本单元，一个`Pod`下可以有多个容器。每个`Pod`中都有个根容器(`Pause容器`)，`Pause`容器的状态代表整个容器组的状态，其他业务容器共享`Pause`的`IP`，即`Pod IP`，共享`Pause`挂载的`Volume`，这样简化了同个`Pod中`不同容器之间的网络问题和文件共享问题。
 
 1. `Kubernetes`集群中，同宿主机的或不同宿主机的`Pod`之间要求能够TCP/IP直接通信，因此采用虚拟二层网络技术来实现，例如`Flannel`，`Openvswitch(OVS)`等，这样在同个集群中，不同的宿主机的Pod IP为不同IP段的IP，集群中的所有Pod IP都是唯一的，**不同Pod之间可以直接通信**。
-2. Pod有两种类型：`普通Pod`和`静态Pod`。`静态Pod`即不通过`K8S`调度和创建，直接在某个具体的Node机器上通过具体的文件来启动。`普通Pod`则是由`K8S`创建、调度，同时数据存放在`ETCD`中。
-3. Pod IP和具体的容器端口（`ContainnerPort`）组成一个具体的通信地址，即`Endpoint`。一个`Pod`中可以存在多个容器，可以有多个端口，`Pod IP`一样，即有多个`Endpoint`。
+2. `Pod`有两种类型：`普通Pod`和`静态Pod`。`静态Pod`即不通过`K8S`调度和创建，直接在某个具体的Node机器上通过具体的文件来启动。`普通Pod`则是由`K8S`创建、调度，同时数据存放在`ETCD`中。
+3. `Pod IP`和具体的容器端口（`ContainnerPort`）组成一个具体的通信地址，即`Endpoint`。一个`Pod`中可以存在多个容器，可以有多个端口，`Pod IP`一样，即有多个`Endpoint`。
 4. `Pod Volume`是定义在`Pod`之上，被各个容器挂载到自己的文件系统中，可以用分布式文件系统实现后端存储功能。
-5. Pod中的Event事件可以用来排查问题，可以通过`kubectl describe pod xxx`来查看对应的事件。
+5. `Pod`中的`Event`事件可以用来排查问题，可以通过`kubectl describe pod xxx`来查看对应的事件。
 6. 每个`Pod`可以对其能使用的服务器上的计算资源设置限额，一般为`CPU`和`Memory`。`K8S`中一般将千分之一个的`CPU`配置作为最小单位，用`m`表示，是一个绝对值，即`100m`对于一个Core的机器还是48个`Core`的机器都是一样的大小。`Memory`配额也是个绝对值，单位为内存字节数。
 7. 资源配额的两个参数
    - `Requests`：该资源的最小申请量，系统必须满足要求。
@@ -321,15 +323,32 @@ $ kubectl delete deployment,service itopic
 
 这几个概念应该还比较好理解。
 
-- 通过Master控制各Node节点
-- 操作Node节点实现节点上Pod的创建与管理
-- 客户访问Node节点上Pod提供的服务
+- 通过`Master`控制各`Node`节点
+- 操作`Node`节点实现节点上`Pod`的创建与管理
+- 客户访问`Node`节点上`Pod`提供的服务
+
+通过查看`kube-system`名称空间下的pod可以看到：
+
+```
+$ kubectl get pod -n kube-system
+NAME                                     READY   STATUS    RESTARTS   AGE
+coredns-5644d7b6d9-5tjhf                 1/1     Running   0          29d
+coredns-5644d7b6d9-mjw4w                 1/1     Running   0          29d
+etcd-docker-desktop                      1/1     Running   0          29d
+kube-apiserver-docker-desktop            1/1     Running   0          29d
+kube-controller-manager-docker-desktop   1/1     Running   0          29d
+kube-proxy-db9g7                         1/1     Running   0          29d
+kube-scheduler-docker-desktop            1/1     Running   0          29d
+storage-provisioner                      1/1     Running   1          29d
+vpnkit-controller                        1/1     Running   0          29d
+```
+
 
 # 五、概念说明 - Master
 
-## 5.1 apiserver
+## 5.1 kube-apiserver
 
-k8s API Server提供了k8s各类资源对象（pod,RC,Service等）的增删改查及watch等HTTP Rest接口，是整个系统的数据总线和数据中心。kubernetes API Server的功能： [<sup>[4]</sup>](#refer)
+`k8s API Server`提供了`k8s`各类资源对象（`pod`,`RC`,`Service`等）的增删改查及`watch`等`HTTP Rest`接口，是整个系统的数据总线和数据中心。`kubernetes API Server`的功能： [<sup>[4]</sup>](#refer)
 
 1. 提供了集群管理的REST API接口(包括认证授权、数据校验以及集群状态变更)；
 2. 提供其他模块之间的数据交互和通信的枢纽（其他模块通过API Server查询或修改数据，只有API Server才直接操作etcd）;
@@ -352,7 +371,7 @@ k8s API Server提供了k8s各类资源对象（pod,RC,Service等）的增删改�
 - 无状态服务
   - 是指该服务运行的实例不会在本地存储需要持久化的数据，并且多个实例对于同一个请求响应的结果是完全一致的。
   - 多个实例可以共享相同的持久化数据。例如：nginx实例，tomcat实例等
-  - 相关的k8s资源有：ReplicaSet、ReplicationController、Deployment等，由于是无状态服务，所以这些控制器创建的pod序号都是随机值。并且在缩容的时候并不会明确缩容某一个pod，而是随机的，因为所有实例得到的返回值都是一样，所以缩容任何一个pod都可以。
+  - 相关的`k8s`资源有：`ReplicaSet`、`ReplicationController`、`Deployment`等，由于是无状态服务，所以这些控制器创建的pod序号都是随机值。并且在缩容的时候并不会明确缩容某一个pod，而是随机的，因为所有实例得到的返回值都是一样，所以缩容任何一个`pod`都可以。
 - 有状态服务
   - 需要数据存储功能的服务、或者指多线程类型的服务，队列等。（mysql数据库、kafka、zookeeper等）
   - 每个实例都需要有自己独立的持久化存储，并且在k8s中是通过申明模板来进行定义。
@@ -396,7 +415,7 @@ DaemonSet的一些典型用法：
 
 应用的资源使用率通常都有高峰和骶骨的时候，如何削峰填谷提供集群的整体资源利用率，让service的pod个数自动调整呢？这就依赖于HPA了，顾名思义，使Pod水平自动缩放。
 
-## 5.3 kube-schedule
+## 5.3 kube-scheduler
 
 kube-scheduler是Kubernetes中的关键模块，扮演管家的角色遵从一套机制为Pod提供调度服务，例如基于资源的公平调度、调度Pod到指定节点、或者通信频繁的Pod调度到同一节点等。容器调度本身是一件比较复杂的事，因为要确保以下几个目标：
 
@@ -414,7 +433,7 @@ kube-scheduler是Kubernetes中的关键模块，扮演管家的角色遵从一�
 3. kube-scheduler将Pod与Node的绑定写入etcd（元数据管理服务）。
 4. 节点代理服务kubelet通过API Server监听到kube-scheduler产生的绑定信息，获得Pod列表，下载Image并启动容器，然后由kubelet负责拉起Pod。
 
-## 5.4 etcd server
+## 5.4 etcd
 
 Etcd是Kubernetes集群中的一个十分重要的组件，用于保存集群所有的网络配置和对象的状态信息。 [<sup>[7]</sup>](#refer)
 
@@ -437,7 +456,6 @@ kube-proxy是Kubernetes的核心组件，部署在每个Node节点上，它是�
 - service是通过Selector选择的一组Pods的服务抽象，其实就是一个微服务，提供了服务的LB和反向代理的能力，而kube-proxy的主要作用就是负责service的实现。
 - service另外一个重要作用是，一个服务后端的Pods可能会随着生存灭亡而发生IP的改变，service的出现，给服务提供了一个固定的IP，而无视后端Endpoint的变化。
 
-这两章中的概念就比较多了，其中的概念与交互流程需要再慢慢吸收下。
 
 # 七、小结
 
@@ -468,8 +486,7 @@ $ kubectl expose deployment itopic --type=LoadBalancer --port=38001 --target-por
 - 为`Pod`创建代理服务，从`apiserver`获取所有`server`信息，并根据`server`信息创建代理服务，实现`server`到`Pod`的请求路由和转发，从而实现`K8s`层级的虚拟转发网络，实现外部访问的访问。
 
 
-
-最后，本文档是一个边学习边整理的过程，也并未直接就上多台机器，先通过比较简单的一个环境熟悉起来，了解其中的概念、模块及交互，所以仅当一个入门知识介绍。本章引用的文档也比较多，可以先熟悉下在进入下一篇。
+最后，本文档是一个边学习边整理的过程，先通过比较简单的一个环境熟悉起来，了解其中的概念、模块及交互，所以仅当一个入门知识介绍。本章引用的文档、涉及的概念也比较多，可以先熟悉下在进入下一篇。
 
 
 ---

@@ -93,11 +93,11 @@ Kubernetes自1.9-alpha版本引入了ipvs代理模式，自1.11版本开始成�
 默认方式。根据是否生成`ClusterIP`又可分为`普通Service`和`Headless Service`两类：
 
 - `普通Service`：通过为`Kubernetes`的Service分配一个集群内部可访问的`固定虚拟IP`（`Cluster IP`），实现集群内的访问。为最常见的方式。
-- `Headless Service`：该服务不会分配`Cluster IP`，也不通过`kube-proxy`做反向代理和负载均衡。而是通过`DNS`提供稳定的络ID来访问，DNS会将`headless service`的后端直接解析为podIP列表。主要供`StatefulSet`使用。
+- `Headless Service`：该服务不会分配`Cluster IP`，也不通过`kube-proxy`做反向代理和负载均衡。而是通过`DNS`提供稳定的络ID来访问，DNS会将`headless service`的后端直接解析为`podIP`列表。主要供`StatefulSet`使用。
 
 ## 3.2 NodePort
 
-除了使用`Cluster IP`之外，还通过将service的port映射到集群内每个节点的相同一个端口，实现通过`nodeIP:nodePort`从集群外访问服务。
+除了使用`Cluster IP`之外，还通过将`service`的`port`映射到集群内每个节点的相同一个端口，实现通过`nodeIP:nodePort`从集群外访问服务。
 
 ## 3.3 LoadBalancer
 
@@ -109,7 +109,11 @@ Kubernetes自1.9-alpha版本引入了ipvs代理模式，自1.11版本开始成�
 比如，在service定义中指定`externalName`的值`my.database.example.com`：此时k8s集群内的DNS服务会给集群内的服务名 `..svc.cluster.local`创建一个`CNAME`记录，其值为指定的`my.database.example.com`。
 当查询k8s集群内的服务`my-service.prod.svc.cluster.local`时，集群的`DNS`服务将返回映射的`CNAME`记录`foo.bar.example.com`。
 
-> 备注：前3种模式，定义服务的时候通过selector指定服务对应的pods，根据pods的地址创建出endpoints作为服务后端；Endpoints Controller会watch Service以及pod的变化，维护对应的Endpoint信息。kube-proxy根据Service和Endpoint来维护本地的路由规则。当Endpoint发生变化，即Service以及关联的pod发生变化，kube-proxy都会在每个节点上更新iptables，实现一层负载均衡。而ExternalName模式则不指定selector，相应的也就没有port和endpoints。ExternalName和ClusterIP中的Headles Service同属于Headless Service的两种情况。Headless Service主要是指不分配Service IP，且不通过kube-proxy做反向代理和负载均衡的服务。
+> 备注：前3种模式，定义服务的时候通过`selector`指定服务对应的`pods`，根据`pods`的地址创建出`endpoints`作为服务后端；`Endpoints Controller`会watch `Service`以及pod的变化，维护对应的`Endpoint`信息。
+
+> `kube-proxy`根据Service和Endpoint来维护本地的路由规则。当`Endpoint`发生变化，即Service以及关联的pod发生变化，kube-proxy都会在每个节点上更新iptables，实现一层负载均衡。而ExternalName模式则不指定selector，相应的也就没有port和endpoints。
+
+> `ExternalName`和`ClusterIP`中的`Headles Service`同属于`Headless Service`的两种情况。`Headless Service`主要是指不分配`Service IP`，且不通过`kube-proxy`做反向代理和负载均衡的服务。
 
 # 四、配置示例
 
