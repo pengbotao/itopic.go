@@ -5,7 +5,6 @@
 html, body{
   margin: 0px auto;
   padding:0px 10px;
-  min-width: 640px;
   font-size: 20px;
   background:#FFFFFF none repeat scroll 0 0;
   color:#61687C;
@@ -113,8 +112,8 @@ table tr {
   table tr:nth-child(2n) {
   background-color: #fdfdfd; }
 tbody tr:hover {background-color: #fffffd;}
-img {
-  max-width: 80%;border:0px; }
+img {max-width: 80%;border:0px; margin:0px auto; display: block;}
+img:hover {opacity: 0.85;}
 code, tt {
   padding: 0.2em;
   margin: 0px 3px;
@@ -214,7 +213,7 @@ nav {display: none;}
   }
 }
 
-.title{font-weight:500;font-size:3em;width:90%;margin-bottom:0px;border:0px;}
+.title{font-weight:500;font-size:3em;width:100%;margin-bottom:0px;border:0px;padding-left: 10px;}
 .content > .title{margin-left: -24px;}
 .title:hover {color: #444;}
 .eof{padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;}
@@ -223,3 +222,12 @@ nav {display: none;}
 .title_arrow_back{width:25px;height:25px;float:right;margin-top:-30px;margin-right: 2px;}
 
 .github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+
+@media (max-width: 640px) {
+  html, body{font-size: 16px;}
+  h1{font-size: 1.5em;}
+  h2{font-size: 1.25em}
+  h3{font-size: 1em;}
+  .title{font-size:2em;}
+  #footer{font-size: 0.85em;}
+}
