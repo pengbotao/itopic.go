@@ -47,7 +47,18 @@
 
 这条命令是解出all.tar包中所有文件，-t是解开的意思
 
-# 压缩
+# 压缩与解压示例
+
+| 文件名     | 压缩                         | 解压                     |
+| ---------- | ---------------------------- | ------------------------ |
+| `.tar`     | `tar -cvf jpg.tar *.jpg`     | `tar -xvf file.tar`      |
+| `.tar.gz`  | `tar -czf jpg.tar.gz *.jpg`  | `tar -xzvf file.tar.gz`  |
+| `.tar.bz2` | `tar -cjf jpg.tar.bz2 *.jpg` | `tar -xjvf file.tar.bz2` |
+| `.tar.Z`   | `tar -cZf jpg.tar.Z *.jpg`   | `tar -xZvf file.tar.Z`   |
+| `.rar`     | `rar a jpg.rar *.jpg`        | `unrar e file.rar`       |
+| `.zip`     | `zip jpg.zip *.jpg`          | `unzip file.zip`         |
+
+## 压缩
 
 `tar -cvf jpg.tar *.jpg`
 
@@ -73,7 +84,7 @@ rar格式的压缩，需要先下载rar for linux
 
 zip格式的压缩，需要先下载zip for linux
 
-# 解压
+## 解压
 
 `tar -xvf file.tar` 
 

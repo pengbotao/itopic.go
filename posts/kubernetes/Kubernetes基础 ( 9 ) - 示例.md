@@ -754,7 +754,7 @@ $ curl http://pydemo.local.com:30080/
 
 两种方法感觉都一般，这个应用可以直接走`Ingress -> Flask StatefulSet`，从而去掉`Nginx`。
 
-## 2.8 小结
+## 3.8 小结
 
 这个环境更多的是为了演示，区分`Deploy`和`StatefulSet`，了解下`STS`的使用。
 
