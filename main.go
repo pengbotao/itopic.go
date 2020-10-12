@@ -182,9 +182,10 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	for i := range models.TopicsGroupByMonth {
 		var buff bytes.Buffer
 		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
-			"title":  models.TopicsGroupByMonth[i].Month,
-			"topics": models.TopicsGroupByMonth[i].Topics,
-			"domain": domain,
+			"title":     models.TopicsGroupByMonth[i].Month,
+			"topics":    models.TopicsGroupByMonth[i].Topics,
+			"domain":    domain,
+			"githubURL": githubURL,
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -202,9 +203,10 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	for i := range models.TopicsGroupByTag {
 		var buff bytes.Buffer
 		err := tpl.ExecuteTemplate(&buff, "list.tpl", map[string]interface{}{
-			"title":  models.TopicsGroupByTag[i].TagName,
-			"topics": models.TopicsGroupByTag[i].Topics,
-			"domain": domain,
+			"title":     models.TopicsGroupByTag[i].TagName,
+			"topics":    models.TopicsGroupByTag[i].Topics,
+			"domain":    domain,
+			"githubURL": githubURL,
 		})
 		if err != nil {
 			fmt.Println(err)
