@@ -24,7 +24,7 @@ html, body{
 
 a {color: #2D8CF0; text-decoration: none;}
 a:hover{text-decoration: underline; color: #555;}
-strong{font-weight: 600;}
+strong{font-weight: 800; color: #555;}
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
