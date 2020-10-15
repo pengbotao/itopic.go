@@ -68,7 +68,9 @@
 
 ## 2.1 Master配置
 
-
+```
+grep -v ^# /etc/salt/master|grep -v ^$
+```
 
 ## 2.2 Node配置
 
@@ -142,7 +144,27 @@ peng-node-1:
 
 # 三、 常用命令
 
-## 3.1 统计CPU
+## 3.1 基础命令
+
+指定所有机器
+
+```
+# salt '*' cmd.run 'cp /etc/hosts /etc/hosts.bak'
+```
+
+指定多个IP机器
+
+```
+# salt -L "127.0.0.1,128.0.0.1" cmd.run 'cat /etc/hosts | grep -E "127.0.0.1|128.0.0.1"'
+```
+
+指定设置好的组
+
+```
+# salt -N test cmd.run 'netstat -tlnp'
+```
+
+## 3.2 统计CPU
 
 统计`CPU`核数
 
@@ -160,12 +182,12 @@ $ salt -N peng cmd.run 'top -n 10 -b | grep "Cpu(s):" | awk -F "," "{print \$4}"
 $ salt -N peng cmd.run 'top -n 10 -b | grep "Cpu(s):" | awk -F "," "{print \$4}" | awk -F "%" "{a+=\$1}END{print a/10}"' | grep -v ":" | awk '{sum+=$1}END {print sum/NR}'
 ```
 
-## 3.2 统计内存
+## 3.3 统计内存
 
 统计内存大小
 
 ```
-salt '*' cmd.run 'cat /proc/meminfo | head -n 1'
+# salt '*' cmd.run 'cat /proc/meminfo | head -n 1'
 ```
 
 统计`peng`分组下内存使用
@@ -176,6 +198,14 @@ $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{print ($4
 
 # 所有机器的内存使用率
 $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{a+=$4;b+=$6;c+=$7;d+=$2}END{print (a+b+c)*100/d}'
+```
+
+## 3.4 Host进行IP替换
+
+替换`test`分组下的`Host`配置，`sed`去掉`-i`不会执行，只打印替换后的信息。
+
+```
+# salt -N test cmd.run 'sed -i "s/.*test.salt.com/128.0.0.1 test.salt.com/" /etc/hosts'
 ```
 
 
