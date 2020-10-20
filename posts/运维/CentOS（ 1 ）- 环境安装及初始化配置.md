@@ -141,3 +141,98 @@ Host peng-node-2
 ```
 
 宿主机登录方式：`ssh peng-master-1`，如果使用`Xshell`就可以省略掉这步。
+
+
+# 四、yum 配置
+
+yum 的配置文件分为两部分：main 和repository
+
+- main 部分定义了全局配置选项，整个yum 配置文件应该只有一个main。常位于/etc/yum.conf 中。
+- repository 部分定义了每个源/服务器的具体配置，可以有一到多个。常位于/etc/yum.repo.d 目录下的各文件中。
+
+yum.conf 文件一般位于/etc目录下，一般其中只包含main部分的配置选项。
+
+# 五、镜像
+
+## 5.1 CentOS镜像
+
+CentOS，是基于 Red Hat Linux 提供的可自由使用源代码的企业级 Linux 发行版本；是一个稳定，可预测，可管理和可复制的免费企业级计算平台。
+
+### 1. 备份
+
+```
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+```
+
+### 2. 下载镜像
+
+下载新的 CentOS-Base.repo 到 /etc/yum.repos.d/
+
+```
+# CentOS6
+$ wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-6.repo
+
+# CentOS7
+$ wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo
+
+# CentOS8
+$ wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-8.repo
+```
+
+### 3. 更新缓存
+
+```
+yum clean all
+yum makecache
+```
+
+## 5.2 epel 镜像
+
+EPEL (Extra Packages for Enterprise Linux), 是由 Fedora Special Interest Group 维护的 Enterprise Linux（RHEL、CentOS）中经常用到的包。
+
+### 1. 备份
+
+备份，如有配置其他epel源
+
+```
+mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.backup
+mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup
+```
+
+### 2. 下载镜像
+
+**epel(RHEL 8)**
+
+1）安装 epel 配置包
+
+```
+$ yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm
+```
+
+2）将 repo 配置中的地址替换为阿里云镜像站地址
+
+```
+sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+```
+
+**eple(RHEL5-7)**
+
+```
+$ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+
+$ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
+
+$ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-5.repo
+```
+
+### 3. 更新缓存
+
+```
+yum clean all
+yum makecache
+```
+
+
+- [1] [阿里云官方镜像站](https://developer.aliyun.com/mirror/)
+- [2] [网易开源镜像站](http://mirrors.163.com/)
