@@ -7,115 +7,79 @@
 }
 ```
 
-日常日志搜索查询，文件查找的工作少不了，grep、find等命令也经常使用，这里做一个整体的整理。主要解决以下文本、文件的查找及处理问题，比如：
-
-- 查询满足条件的日志内容
-- 根据创建时间查找文件并清理
-- 对文本内容进行批量替换等操作
-
-包含的命令：
-
-| 命令 | 说明         |
-| ---- | ------------ |
-| grep | 文本内容查找 |
-| find | 文件查找     |
-
 # 一、grep
 
 grep用来查找文件里符合条件的字符串。
 
+## 1.1 用法
+
+| 参数                         | 说明                   | 示例                                                   |
+| ---------------------------- | ---------------------- | ------------------------------------------------------ |
+| `-v`                         | 排除掉匹配的结果       | 不匹配127打头的host：<br />`$ grep -v ^127 /etc/hosts` |
+| `-i`                         | 忽略大小写             | `$ grep -i LOCAL /etc/hosts`                           |
+| `-n`                         | 显示行号               | `$ grep -n local /etc/hosts`                           |
+| `-m`                         | 最大匹配次数           | `$ grep local /etc/hosts -m 1`                         |
+| `-r`                         | 递归查询目录           |                                                        |
+| `--color=auto`               | 匹配字符串**高亮**显示 |                                                        |
+| <BR>                         |                        |                                                        |
+| `-l` `--files-with-matches`  | 只打印匹配的文件名     | `$ grep -l local /etc/hosts`                           |
+| `-L` `--files-without-match` | 只打印不匹配的文件名   |                                                        |
+| `-c` `--count`               | 只统计匹配的次数       |                                                        |
+| `-I`                         | 忽略二进制人间         |                                                        |
+
+## 1.2 查找字符串
+
+`hosts`文件中包含`local`的字符串，并高亮显示。
+
 ```
-# grep --help
-用法: grep [选项]... PATTERN [FILE]...
-在每个 FILE 或是标准输入中查找 PATTERN。
-默认的 PATTERN 是一个基本正则表达式(缩写为 BRE)。
-例如: grep -i 'hello world' menu.h main.c
-
-正则表达式选择与解释:
-  -E, --extended-regexp     PATTERN 是一个可扩展的正则表达式(缩写为 ERE)
-  -F, --fixed-strings       PATTERN 是一组由断行符分隔的定长字符串。
-  -G, --basic-regexp        PATTERN 是一个基本正则表达式(缩写为 BRE)
-  -P, --perl-regexp         PATTERN 是一个 Perl 正则表达式
-  -e, --regexp=PATTERN      用 PATTERN 来进行匹配操作
-  -f, --file=FILE           从 FILE 中取得 PATTERN
-  -i, --ignore-case         忽略大小写
-  -w, --word-regexp         强制 PATTERN 仅完全匹配字词
-  -x, --line-regexp         强制 PATTERN 仅完全匹配一行
-  -z, --null-data           一个 0 字节的数据行，但不是空行
-
-Miscellaneous:
-  -s, --no-messages         suppress error messages
-  -v, --invert-match        select non-matching lines
-  -V, --version             display version information and exit
-      --help                display this help text and exit
-
-输出控制:
-  -m, --max-count=NUM       NUM 次匹配后停止
-  -b, --byte-offset         输出的同时打印字节偏移
-  -n, --line-number         输出的同时打印行号
-      --line-buffered       每行输出清空
-  -H, --with-filename       为每一匹配项打印文件名
-  -h, --no-filename         输出时不显示文件名前缀
-      --label=LABEL         将LABEL 作为标准输入文件名前缀
-  -o, --only-matching       show only the part of a line matching PATTERN
-  -q, --quiet, --silent     suppress all normal output
-      --binary-files=TYPE   assume that binary files are TYPE;
-                            TYPE is 'binary', 'text', or 'without-match'
-  -a, --text                equivalent to --binary-files=text
-  -I                        equivalent to --binary-files=without-match
-  -d, --directories=ACTION  how to handle directories;
-                            ACTION is 'read', 'recurse', or 'skip'
-  -D, --devices=ACTION      how to handle devices, FIFOs and sockets;
-                            ACTION is 'read' or 'skip'
-  -r, --recursive           like --directories=recurse
-  -R, --dereference-recursive
-                            likewise, but follow all symlinks
-      --include=FILE_PATTERN
-                            search only files that match FILE_PATTERN
-      --exclude=FILE_PATTERN
-                            skip files and directories matching FILE_PATTERN
-      --exclude-from=FILE   skip files matching any file pattern from FILE
-      --exclude-dir=PATTERN directories that match PATTERN will be skipped.
-  -L, --files-without-match print only names of FILEs containing no match
-  -l, --files-with-matches  print only names of FILEs containing matches
-  -c, --count               print only a count of matching lines per FILE
-  -T, --initial-tab         make tabs line up (if needed)
-  -Z, --null                print 0 byte after FILE name
-
-文件控制:
-  -B, --before-context=NUM  打印以文本起始的NUM 行
-  -A, --after-context=NUM   打印以文本结尾的NUM 行
-  -C, --context=NUM         打印输出文本NUM 行
-  -NUM                      same as --context=NUM
-      --group-separator=SEP use SEP as a group separator
-      --no-group-separator  use empty string as a group separator
-      --color[=WHEN],
-      --colour[=WHEN]       use markers to highlight the matching strings;
-                            WHEN is 'always', 'never', or 'auto'
-  -U, --binary              do not strip CR characters at EOL (MSDOS/Windows)
-  -u, --unix-byte-offsets   report offsets as if CRs were not there
-                            (MSDOS/Windows)
-
-‘egrep’即‘grep -E’。‘fgrep’即‘grep -F’。
-直接使用‘egrep’或是‘fgrep’均已不可行了。
-若FILE 为 -，将读取标准输入。不带FILE，读取当前目录，除非命令行中指定了-r 选项。
-如果少于两个FILE 参数，就要默认使用-h 参数。
-如果有任意行被匹配，那退出状态为 0，否则为 1；
-如果有错误产生，且未指定 -q 参数，那退出状态为 2。
+$ grep local /etc/hosts --color=auto
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+127.0.0.1 api.local
 ```
 
-## 1.1 常用参数
+显示行数，不区分大小写：
 
-| 参数           | 说明               | 示例                                                   |
-| -------------- | ------------------ | ------------------------------------------------------ |
-| `-v`           | 排除掉匹配的结果   | 不匹配127打头的host：<br />`$ grep -v ^127 /etc/hosts` |
-| `-i`           | 忽略大小写         | `$ grep -i LOCAL /etc/hosts`                           |
-| `--color=auto` | 匹配字符串高亮显示 |                                                        |
-| `-n`           | 显示行号           |                                                        |
-| `-m`           | 最打匹配次数       | `grep local /etc/hosts -m 1`                           |
-| `-r`           | 递归查询目录       |                                                        |
+- `-i`：忽略大小写
+- `-n`：显示行号
 
-## 1.2 正则说明
+```
+$ grep -in LOCAL /etc/hosts --color=auto
+1:127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+2:::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+3:127.0.0.1 api.local
+```
+
+## 1.3 排除字符串
+
+前一步结果中排除掉包含`localhost`字样的行。
+
+```
+$ grep local /etc/hosts | grep -v "localhost"
+127.0.0.1 api.local
+```
+
+## 1.4 递归查找
+
+查找博客下包含`"tag": "Lua"`的字样
+
+```
+$ grep -r '"tag": "Lua"' .
+./posts/lua/Nginx+Lua入门知识.md:    "tag": "Lua"
+./posts/lua/Lua实现类与继承.md:    "tag": "Lua"
+./posts/lua/Lua基础语法.md:    "tag": "Lua"
+```
+
+通过`--include`，只查找文件包含Nginx的，也可以通过`--exclude`指定不包含。
+
+```
+$ grep -r '"tag": "Lua"' . --include=Lua* --exclude=*基础*
+./posts/lua/Lua实现类与继承.md:    "tag": "Lua"
+
+$ grep -r '"tag": "Lua"' . --include *.{php,py}
+```
+
+## 1.5 正则匹配
 
 | 正则表达式 | 说明                       | 示例                                                         |
 | ---------- | -------------------------- | ------------------------------------------------------------ |
@@ -129,95 +93,220 @@ Miscellaneous:
 | `[^abc]`   |                            |                                                              |
 | `{n,m}`    |                            |                                                              |
 
+## 
+
 # 二、find
 
-用grep类似，grep查找的是文件内容，而find查找的是文件。
+用grep类似，grep查找的是文件内容，而find查找的是文件，可以通过文件名、文件类型、修改时间等各种条件进行文件查找。
+
+## 2.1 用法
+
+```
+用法: find [-H] [-L] [-P] [-Olevel] [-D help|tree|search|stat|rates|opt|exec] [path...] [expression]
+```
+
+表达式，各种条件可以组合使用：
+
+| 表达式      | 说明                                          | 示例                                                         |
+| ----------- | --------------------------------------------- | ------------------------------------------------------------ |
+| `-name`     | 指定文件名                                    | 查找当前目录和子目录：`find . -name "*.py"`                  |
+| `-iname`    | 指定文件名，不区分大小写                      | 查找`root`目录和`usr`目录：`find /root /usr/ -iname readme.md` |
+| `-user`     | 指定文件所有者                                |                                                              |
+| `-group`    | 指定文件所属组                                |                                                              |
+| `-perm`     | 指定文件权限                                  | 查找当前目录下600权限的文件：<br />`find . -maxdepth 1 -type f -perm 600` |
+| `-type`     | 指定文件类型.<br /> `f` ：普通文件，`d`：目录 | 查找`usr`下的`doc`目录：`find /usr/ -type d -name doc`       |
+| `-atime`    | 指定文件最后访问时间                          | 如：`find . -type f -name "*.log" -atime -6`                 |
+| `-ctime`    | 指定文件修改时间                              | 如：`find . -type f -name "*.tar" -ctime +6`                 |
+| `-mtime`    | 指定文件内容被修改时间                        |                                                              |
+| `-size`     | 指定文件大小                                  | 查找当前目录下文件大小为0的：`find . -size 0`                |
+| `-maxdepth` | 指定最大查找层级                              | 查找空文件，最深2层：`find / -size 0 -maxdepth 2`            |
+| `-empty`    | 查找空白文件、文件夹                          | 查找空文件：`find / -maxdepth 1 -empty`                      |
+| <br />      |                                               |                                                              |
+| `-exec`     | 执行shell命令                                 | `find . -name "*.md" -exec ls -lh {} \;` <br />查找执行ls命令。`{} \;`相当于参数传给`ls`，`{}`和`\`之间有个空格。 |
+| `-print`    | 输出，以换行方式                              |                                                              |
+| `print0`    | 每一个输出结果后以NULL结束，而非换行          |                                                              |
+
+## 2.2 查找过期日志
+
+**查找日志目录下的文件并删除14天前的日志文件：**
+
+```
+find /data/logs -type f -ctime +14 -exec rm -rf {} \; > /dev/null 2>&1
+```
+
+也可以写成：
+
+```
+find /data/logs -type f -ctime +14 -print0 | xargs -0 rm -rf
+```
+
+
 
 # 三、sed
 
+## 3.1 用法
+
+用来处理文本文件，处理方式：
+
+- 每次读取一行内容
+- 根据规则匹配并修改数据。注意，sed默认不会修改源文件。
+
+基本格式如下：
+
 ```
-# sed --help
-用法: sed [选项]... {脚本(如果没有其他脚本)} [输入文件]...
+sed [选项]... {脚本(如果没有其他脚本)} [输入文件]...
+```
 
-  -n, --quiet, --silent
-                 取消自动打印模式空间
-  -e 脚本, --expression=脚本
-                 添加“脚本”到程序的运行列表
-  -f 脚本文件, --file=脚本文件
-                 添加“脚本文件”到程序的运行列表
-  --follow-symlinks
-                 follow symlinks when processing in place; hard links
-                 will still be broken.
-  -i[SUFFIX], --in-place[=SUFFIX]
-                 edit files in place (makes backup if extension supplied).
-                 The default operation mode is to break symbolic and hard links.
-                 This can be changed with --follow-symlinks and --copy.
-  -c, --copy
-                 use copy instead of rename when shuffling files in -i mode.
-                 While this will avoid breaking links (symbolic or hard), the
-                 resulting editing operation is not atomic.  This is rarely
-                 the desired mode; --follow-symlinks is usually enough, and
-                 it is both faster and more secure.
-  -l N, --line-length=N
-                 指定“l”命令的换行期望长度
-  --posix
-                 关闭所有 GNU 扩展
-  -r, --regexp-extended
-                 在脚本中使用扩展正则表达式
-  -s, --separate
-                 将输入文件视为各个独立的文件而不是一个长的连续输入
-  -u, --unbuffered
-                 从输入文件读取最少的数据，更频繁的刷新输出
-      --help     打印帮助并退出
-      --version  输出版本信息并退出
+**选项说明：**
 
-如果没有 -e, --expression, -f 或 --file 选项，那么第一个非选项参数被视为
-sed脚本。其他非选项参数被视为输入文件，如果没有输入文件，那么程序将从标准
-输入读取数据。
+| 选项 | 说明                                                         | 示例                                                         |
+| ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `-e` | `-e`脚本,` --expression`=脚本，添加“脚本”到程序的运行列表。  | `sed '2d' /etc/hosts`<br />默认是`-e`，即后面跟一串脚本`'2d'` |
+| `-f` | `-f` 脚本文件, `--file`=脚本文件，添加“脚本文件”到程序的运行列表。 |                                                              |
+| `-n` | 取消自动打印模式空间                                         |                                                              |
+| `-i` | 将修改后的内容写入源文件                                     |                                                              |
+
+## 3.2 字符串替换
+
+用法：
+
+- `sed -i 's/oldstr/newstr/' file` (替换每行第一个匹配)
+- `sed -i 's/oldstr/newstr/g' file` (替换所有匹配)
+
+**示例**：将`/etc/hosts`中`api.local`替换为`test.local`，不做替换查看输出。
+
+```
+$ sed 's/api.local/test.local/' /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+127.0.0.1 test.local
+```
+
+> 注意：上面示例只会替换每行第一个匹配到的结果，如果需要替换所有匹配，可以增加`/g`
+
+```
+$ sed 's/localhost/local/g' /etc/hosts
+127.0.0.1   local local.localdomain local4 local4.localdomain4
+::1         local local.localdomain local6 local6.localdomain6
+127.0.0.1 test.local
+```
+
+如果想将替换后的内容会写到文件，可以增加`-i`参数：
+
+```
+$ sed -i 's/api.local/test.local/' /etc/hosts
+```
+
+## 3.3 删除匹配行
+
+将`hosts`文件中`127.0.0.1 test.local`进行删除，查看输出结果
+
+```
+$ sed '/127.0.0.1 test.local/d' /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+```
+
+将输出结果保存到文件：
+
+```
+$ sed -i '/127.0.0.1 test.local/d' /etc/hosts
+```
+
+## 3.4 删除指定行
+
+1、删除最后一行：
+
+```
+$ sed '$d' /etc/hosts
+```
+
+2、删除第二行
+
+```
+$ sed '2d' /etc/hosts
+```
+
+3、删除第二行到最后一行：
+
+```
+$ sed '2,$d' /etc/hosts
+```
+
+同上，如果需要写入到文件，需要增加`-i`参数。
+
+## 3.5 查找指定行
+
+```
+$ sed -n '2p' /etc/hosts
+$ sed -n '2,3p' /etc/passwd
+$ sed -n '3,$p' /etc/passwd
 ```
 
 
 
 # 四、awk
 
+AWK 是一种处理文本文件的语言，是一个强大的文本分析工具。之所以叫 AWK 是因为其取了三位创始人 Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的 Family Name 的首字符。
+
+## 4.1 用法
+
+和`sed`一样，`awk`也是逐行扫描文件，如果匹配成功则执行操作，反之则不做处理。
+
+基本格式：
+
 ```
-# awk --help
-用法: awk [POSIX 或 GNU 风格选项] -f 脚本文件 [--] 文件 ...
-用法: awk [POSIX 或 GNU 风格选项] [--] '程序' 文件 ...
-POSIX 选项:     		GNU 长选项:
-	-f 脚本文件		--file=脚本文件
-	-F fs			--field-separator=fs
-	-v var=val		--assign=var=val
-	-m[fr] val
-	-O			--optimize
-	-W compat		--compat
-	-W copyleft		--copyleft
-	-W copyright		--copyright
-	-W dump-variables[=file]	--dump-variables[=file]
-	-W exec=file		--exec=file
-	-W gen-po		--gen-po
-	-W help			--help
-	-W lint[=fatal]		--lint[=fatal]
-	-W lint-old		--lint-old
-	-W non-decimal-data	--non-decimal-data
-	-W profile[=file]	--profile[=file]
-	-W posix		--posix
-	-W re-interval		--re-interval
-	-W source=program-text	--source=program-text
-	-W traditional		--traditional
-	-W usage		--usage
-	-W use-lc-numeric	--use-lc-numeric
-	-W version		--version
-
-提交错误报告请参考“gawk.info”中的“Bugs”页，它位于打印版本中的“Reporting
-Problems and Bugs”一节
-
-翻译错误请发信至 translation-team-zh-cn@lists.sourceforge.net
-
-gawk 是一个模式扫描及处理语言。缺省情况下它从标准输入读入并写至标准输出。
-
-范例:
-	gawk '{ sum += $1 }; END { print sum }' file
-	gawk -F: '{ print $1 }' /etc/passwd
+awk [选项] '脚本命令' 文件名
 ```
+
+| 选项    | 说明                           | 示例                          |
+| ------- | ------------------------------ | ----------------------------- |
+| `-F fs` | 指定分隔符，默认是空格或制表符 | `awk '{print $1}' /etc/hosts` |
+
+**内置变量：**
+
+| 变量  | 说明                                |
+| ----- | ----------------------------------- |
+| `$0`  | 整行文本                            |
+| `$1`  | 分隔后的第一段，`$2`则表示第二段    |
+| `$NF` | 最后一段，`$(NF-1)`则表示倒数第二段 |
+| `NR`  | 行数                                |
+
+## 4.2 字符串切割
+
+切割`/etc/passwd`打印用户名
+
+```
+$ awk -F ':' '{print $1}' /etc/passwd
+```
+
+切割后最后一段等于`/sbin/nologin`，打印整行内容
+
+```
+$ awk -F ':' '$NF=="/sbin/nologin"{print $0}' /etc/passwd
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+```
+
+## 4.3 输出指定行
+
+```
+$ awk -F ':' 'NR>1 && NR<10{print NR " " $0}' /etc/passwd
+2 bin:x:1:1:bin:/bin:/sbin/nologin
+3 daemon:x:2:2:daemon:/sbin:/sbin/nologin
+```
+
+## 4.4 变量计算
+
+```
+$ free -m
+             total       used       free     shared    buffers     cached
+Mem:         16080      15786        294       1052        538       8276
+
+# 内存空闲：free + buffers + cached / total
+$ free -m | sed -n '2p' | awk '{print ($4+$6+$7)*100/$2}'
+56.6418
+```
+
+
 
