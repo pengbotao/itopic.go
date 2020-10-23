@@ -7,7 +7,9 @@
 }
 ```
 
+# 一、CPU
 
+## 1.1 top
 
 
 
@@ -39,11 +41,7 @@ Swap:        0k total,        0k used,        0k free,  2144800k cached
 
 可以看到平均负载，按1可以看到Cpu数量和内存信息。
 
-
-
-# 一、CPU
-
-## 1.1 sar
+## 1.2 sar
 
 ```
 [root@peng ~]# sar 1
@@ -63,7 +61,7 @@ Linux 2.6.32-754.25.1.el6.x86_64 (peng) 	2020年10月13日 	_x86_64_	(16 CPU)
 05时02分30秒     all      0.06      0.00      0.06      0.00      0.00     99.87
 ```
 
-## 1.2 vmstat
+## 1.3 vmstat
 
 ```
 [root@peng ~]# vmstat 1
@@ -86,6 +84,10 @@ Mem:           15G       2.7G        12G       1.1M       316M       2.0G
 -/+ buffers/cache:       386M        15G
 Swap:           0B         0B         0B
 ```
+
+## 2.2  /proc/meminfo
+
+
 
 # 三、磁盘
 
@@ -126,11 +128,17 @@ tmpfs           7.8G   12K  7.8G   1% /dev/shm
 
 
 
- ## 4.2 pstree
+## 4.2 lsof
 
 
 
-## 4.3 strace
+ ## 4.3 pstree
+
+
+
+## 4.4 strace
+
+
 
 # 五、网络连接
 
@@ -144,11 +152,9 @@ tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LIST
 tcp        0      0 0.0.0.0:10050               0.0.0.0:*                   LISTEN      16856/zabbix_agentd
 ```
 
-## 5.2 lsof
 
 
-
-## 5.3 ss
+## 5.2 ss
 
 ```
 [root@peng ~]# ss -s
@@ -166,20 +172,13 @@ FRAG	  0         0         0
 
 
 
-## 5.4 smokeping
-
 
 
 # 六、网络流量
 
-iftop
+## 6.1 iftop
 
 
 
+## 6.2 smokeping
 
-
-
-
-https://www.cnblogs.com/peida/archive/2013/03/11/2953420.html
-
-https://www.jb51.net/article/50436.htm

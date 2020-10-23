@@ -20,6 +20,14 @@ mysqldump -uroot -p123456 -t dbname > dbname.sql
 mysqldump -uroot -p123456 dbname > dbname.sql
 ```
 
+
+
+```
+mysqldump --opt --default-character-set=utf8 --hex-blob test --skip-triggers --skip-lock-tables > /data/peng/test.sql
+```
+
+
+
 # 导出数据库中指定表
 
 ```
