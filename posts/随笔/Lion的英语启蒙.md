@@ -2,9 +2,7 @@
 {
     "url": "lion-english",
     "time": "2020/12/24 13:14",
-    "tag": "随笔",
-    "toc": "no",
-    "public": "no"
+    "tag": "随笔"
 }
 ```
 
