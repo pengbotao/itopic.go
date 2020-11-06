@@ -174,7 +174,7 @@ do
 done
 ```
 
-`in`后的内容是一组值（数字、字符串等）组成的序列，每个值通过空格分隔。每循环一次，就将列表中的下一个值赋给变量。
+`in`后的内容是一组值（数字、字符串等）组成的序列，每个值通过空格分隔。每循环一次，就将列表中的下一个值赋给变量。循环内部也可以使用`break`或`continue`跳出循环。
 
 ## 3.2 while循环
 
@@ -329,6 +329,98 @@ do
 echo $loop
 done
 ```
+
+# 六、输入输出重定向
+
+`Unix`命令默认从标准输入设备(`stdin`)获取输入，将结果输出到标准输出设备(`stdout`)显示。一般情况下，标准输入设备就是键盘，标准输出设备就是终端，即显示器。一般情况下，每个`Unix/Linux`命令运行时都会打开三个文件：
+
+- 标准输入文件(`stdin`)：stdin的文件描述符为0，Unix程序默认从stdin读取数据。
+- 标准输出文件(`stdout`)：stdout 的文件描述符为1，Unix程序默认向stdout输出数据。
+- 标准错误文件(`stderr`)：stderr的文件描述符为2，Unix程序会向stderr流中写入错误信息。
+
+## 6.1 输出重定向
+
+将标准输出内容重定向到文件，`>` 执行会覆盖原文件内容，`>>`会以追加的方式写到文件。
+
+```
+$ command > file
+```
+
+如果希望将stderr重定向到file文件：
+
+```
+$ command 2 > file
+```
+
+如果希望将 stdout 和 stderr 合并后重定向到 file，可以这样写：`/data/shell/backup.sh > /dev/null 2>&1`
+
+```
+$ command > file 2>&1
+```
+
+以追加的方式将内容写到文件，只是多了一个`>`
+
+```
+$ command >> file
+```
+
+## 6.2 输入重定向
+
+```
+$ command < file
+```
+
+## 6.3 Here Document
+
+```
+$ command << delimiter
+    document
+delimiter
+```
+
+它的作用是将两个 delimiter 之间的内容(document) 作为输入传递给 command。注意：
+
+- 结尾的delimiter 一定要顶格写，前面不能有任何字符，后面也不能有任何字符，包括空格和 tab 缩进。
+- 开始的delimiter前后的空格会被忽略掉。
+
+示例（可以保持多行的输入）：
+
+```
+$ cat << EOF | curl -X PUT -H "Content-type: application/json" 'http://localhost:9200/demo?pretty' -d @- 
+{
+    "mappings": {
+        "_doc": {
+            "properties": {
+                "title": {
+                    "type" : "keyword"
+                },
+                "content": {
+                    "type": "text"
+                }
+            }
+        }
+    }
+}
+EOF
+```
+
+## 6.4 /dev/null文件
+
+如果希望执行某个命令，但又不希望在屏幕上显示输出结果，那么可以将输出重定向到`/dev/null`：
+
+```
+$ command > /dev/null
+```
+
+`/dev/null` 是一个特殊的文件，写入到它的内容都会被丢弃；如果尝试从该文件读取内容，那么什么也读不到。但是`/dev/null` 文件非常有用，将命令的输出重定向到它，会起到”禁止输出“的效果。
+
+如果希望屏蔽`stdout`和 `stderr`，可以这样写：
+
+```
+$ command > /dev/null 2>&1
+```
+
+
 
 
 
