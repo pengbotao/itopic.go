@@ -149,7 +149,7 @@ peng-node-1:
 指定所有机器
 
 ```
-# salt '*' cmd.run 'cp /etc/hosts /etc/hosts.bak'
+# salt '*' cmd.run 'cp /etc/hosts /etc/hosts-$(date +%F)'
 ```
 
 指定多个IP机器
@@ -205,7 +205,9 @@ $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{a+=$4;b+=
 替换`test`分组下的`Host`配置，`sed`去掉`-i`不会执行，只打印替换后的信息。
 
 ```
-# salt -N test cmd.run 'sed -i "s/.*test.salt.com/128.0.0.1 test.salt.com/" /etc/hosts'
+# salt -N test cmd.run 'sed -i "s/127.0.0.1 test.salt.com/128.0.0.1 test.salt.com/" /etc/hosts'
+
+# salt -N test cmd.run 'sed -i "/127.0.0.1 test.local/d" /etc/hosts'
 ```
 
 
