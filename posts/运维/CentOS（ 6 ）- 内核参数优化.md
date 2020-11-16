@@ -106,4 +106,11 @@ zabbix_se 2309 zabbix  mem    REG              252,1   340018  269509 /lib64/lib
 zabbix_se 2309 zabbix  mem    REG              252,1   528075  269246 /lib64/libnsl-2.18.so
 ```
 
+# net.ipv4.tcp_tw_recycle
+
+可能发现有系统大量的`TIME_WAIT`而开启`net.ipv4.tcp_tw_recycle`，但貌似这个参数打开后问题比较多：
+
+- [tcp_tw_recycle参数引发的系统问题](https://blog.csdn.net/zhuyiquan/article/details/68925707)
+- [调整 net.ipv4.tcp_tw_recycle 造成的故障](https://witee.github.io/2019/01/24/%E8%B0%83%E6%95%B4net.ipv4.tcp_tw_recycle%E9%80%A0%E6%88%90%E7%9A%84%E6%95%85%E9%9A%9C/)
+- [血淋淋教训，生产环境不要乱修改net.ipv4.tcp_tw_recycle](https://www.iyunw.cn/archives/xie-lin-lin-jiao-xun-sheng-cheng-huan-jing-bu-yao-luan-xiu-gai-net-ipv4-tcp-tw-recycle/)
 
