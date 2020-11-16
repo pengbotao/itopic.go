@@ -214,7 +214,7 @@ nav {display: none;}
 }
 
 .title{font-weight:500;font-size:3em;width:100%;margin-bottom:0px;border:0px;padding-left: 10px;}
-.content > .title{margin-left: -24px;}
+.content > .title{margin-left: -24px; text-align: center;}
 .title:hover {color: #444;}
 .eof{padding: 0 10px;float:left;margin-bottom:20px;color:#aaa;}
 .eof_arrow{float:right;}

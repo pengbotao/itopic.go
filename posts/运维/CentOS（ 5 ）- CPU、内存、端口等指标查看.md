@@ -3,7 +3,8 @@
     "url": "linux-monitor",
     "time": "2017/12/10 21:30",
     "tag": "运维",
-    "toc": "yes"
+    "toc": "yes",
+    "public": "no"
 }
 ```
 
@@ -132,7 +133,7 @@ tmpfs           7.8G   12K  7.8G   1% /dev/shm
 
 
 
- ## 4.3 pstree
+## 4.3 pstree
 
 
 
