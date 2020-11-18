@@ -86,7 +86,7 @@ func main() {
 	})
 	if isCreateREADME == true {
 		for i := 0; i < len(models.Topics); i++ {
-			fmt.Println("- [" + models.Topics[i].Time.Format("2006-01-02") + "] [" + models.Topics[i].Title + "]" + "(" + url.QueryEscape(models.Topics[i].TopicPath) + ")")
+			fmt.Println("- [" + models.Topics[i].Time.Format("2006-01-02") + "] [" + models.Topics[i].Title + "]" + "(" + url.PathEscape(models.Topics[i].TopicPath) + ")")
 		}
 		os.Exit(0)
 	}
