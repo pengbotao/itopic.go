@@ -2,7 +2,7 @@
 {
     "url": "linux-file",
     "time": "2017/12/01 21:30",
-    "tag": "运维",
+    "tag": "运维,CentOS",
     "toc": "yes",
     "public": "no"
 }

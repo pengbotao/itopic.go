@@ -2,9 +2,8 @@
 {
     "url": "linux-monitor",
     "time": "2017/12/10 21:30",
-    "tag": "运维",
-    "toc": "yes",
-    "public": "no"
+    "tag": "运维,CentOS",
+    "toc": "yes"
 }
 ```
 

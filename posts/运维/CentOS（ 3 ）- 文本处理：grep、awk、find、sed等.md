@@ -2,7 +2,7 @@
 {
     "url": "grep-sed-awk",
     "time": "2017/11/18 21:24",
-    "tag": "运维",
+    "tag": "运维,CentOS",
     "toc": "yes"
 }
 ```

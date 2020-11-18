@@ -2,7 +2,7 @@
 {
     "url": "centos",
     "time": "2017/10/01 08:10",
-    "tag": "运维",
+    "tag": "运维,CentOS",
     "toc": "yes"
 }
 ```
