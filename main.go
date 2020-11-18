@@ -21,19 +21,21 @@ import (
 )
 
 var (
-	host         = ""
-	isCreateHTML = false
-	isDebug      = false
-	htmlPrefix   = ""  //without last slash
-	htmlDuration = 300 //5 minutes
-	domain       = ""
-	githubURL    = "https://github.com/pengbotao/itopic.go"
+	host           = ""
+	isCreateHTML   = false
+	isDebug        = false
+	isCreateREADME = false
+	htmlPrefix     = ""  //without last slash
+	htmlDuration   = 300 //5 minutes
+	domain         = ""
+	githubURL      = "https://github.com/pengbotao/itopic.go"
 )
 
 func init() {
 	flag.StringVar(&host, "host", "127.0.0.1:8001", "host")
 	flag.StringVar(&htmlPrefix, "prefix", "../itopic.org", "html folder")
 	flag.BoolVar(&isCreateHTML, "html", false, "is create html")
+	flag.BoolVar(&isCreateREADME, "readme", false, "is create readme")
 	flag.IntVar(&htmlDuration, "duration", 300, "create html duration")
 	flag.BoolVar(&isDebug, "debug", false, "debug mode")
 }
@@ -82,7 +84,12 @@ func main() {
 		router = hr
 		http.NotFound(w, r)
 	})
-
+	if isCreateREADME == true {
+		for i := 0; i < len(models.Topics); i++ {
+			fmt.Println("- [" + models.Topics[i].Time.Format("2006-01-02") + "] [" + models.Topics[i].Title + "]" + "(" + models.Topics[i].TopicPath + ")")
+		}
+		os.Exit(0)
+	}
 	fmt.Printf("The topic server is running at http://%s\n", host)
 	fmt.Printf("Quit the server with Control-C\n\n")
 	if err := http.ListenAndServe(host, nil); err != nil {
