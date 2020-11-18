@@ -39,6 +39,12 @@ mysqldump -uroot -p123456 -t dbname test > test.sql
  
 -- 导出dbname下的test表结构和数据
 mysqldump -uroot -p123456 dbname test > test.sql
+
+-- 导出dbname下的test1 test2表结构和数据
+mysqldump -uroot -p123456 dbname test1 test2 > test.sql
+
+-- 导出t_开头的表结构和数据
+mysqldump -uroot -p 库名 $(mysq l -uroot -p 库名 -Bse "show tables like 't_%'") > "导出位置.sql"
 ```
 
 # 还原
@@ -78,8 +84,12 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
 
 注： 从本地导入远程服务器需使用`LOAD DATA LOCAL INFILE`
 
-确保local_infile打开且有权限的情况下LOAD DATA若报错：message:The used command is not allowed with this MySQL version
+确保local_infile打开且有权限的情况下LOAD DATA若报错：
 
-1.mysql_connect指定第五个参数128测试，即mysql_connect($host, $user, $pwd, false, CLIENT_LOCAL_FILES)
+```
+message:The used command is not allowed with this MySQL version
+```
 
-2.PHP中mysql扩展版本（待确认）
+1. mysql_connect指定第五个参数128测试，即`mysql_connect($host, $user, $pwd, false, CLIENT_LOCAL_FILES)`
+
+2. PHP中mysql扩展版本（待确认）
