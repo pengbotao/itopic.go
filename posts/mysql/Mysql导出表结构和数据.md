@@ -2,8 +2,7 @@
 {
     "url": "mysqldump",
     "time": "2013/05/15 18:15",
-    "tag": "Mysql",
-    "toc": "no"
+    "tag": "Mysql"
 }
 ```
 

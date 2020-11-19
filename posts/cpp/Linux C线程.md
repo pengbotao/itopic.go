@@ -2,8 +2,7 @@
 {
     "url": "linux-c-thread",
     "time": "2015/05/25 17:52",
-    "tag": "C++",
-    "toc": "no"
+    "tag": "C++"
 }
 ```
 

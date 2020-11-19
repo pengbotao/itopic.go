@@ -2,8 +2,7 @@
 {
     "url": "php-ignore-items",
     "time": "2014/01/06 11:30",
-    "tag": "随笔,吐槽,PHP",
-    "toc": "no"
+    "tag": "随笔,吐槽,PHP"
 }
 ```
 

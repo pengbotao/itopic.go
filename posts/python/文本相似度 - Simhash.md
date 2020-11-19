@@ -2,8 +2,7 @@
 {
     "url": "simhash",
     "time": "2018/03/04 22:36",
-    "tag": "Python",
-    "toc": "no"
+    "tag": "Python"
 }
 ```
 

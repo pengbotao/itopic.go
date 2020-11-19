@@ -2,8 +2,7 @@
 {
     "url": "mysql-data-free",
     "time": "2019/04/15 06:44",
-    "tag": "Mysql",
-    "toc": "no"
+    "tag": "Mysql"
 }
 ```
 
@@ -11,7 +10,7 @@
 
 # 一、获取库/表占用存储大小
 
-information_schema.tables单表中有各个表的基本信息，可以看到存储大小，行数，可以通过汇总做库级和表级别的统计：
+`information_schema.tables`单表中有各个表的基本信息，可以看到存储大小，行数，可以通过汇总做库级和表级别的统计：
 
 **统计数据库占用存储**
 

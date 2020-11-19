@@ -2,8 +2,7 @@
 {
     "url": "lua-class",
     "time": "2016/01/17 20:22",
-    "tag": "Lua",
-    "toc": "no"
+    "tag": "Lua"
 }
 ```
 

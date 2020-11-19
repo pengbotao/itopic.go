@@ -2,8 +2,7 @@
 {
     "url": "uploadify-tips",
     "time": "2013/04/21 17:34",
-    "tag": "jquery",
-    "toc": "no"
+    "tag": "jquery"
 }
 ```
 

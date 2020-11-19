@@ -2,8 +2,7 @@
 {
     "url": "post-content-type",
     "time": "2014/04/16 09:42",
-    "tag": "HTTP",
-    "toc": "no"
+    "tag": "HTTP"
 }
 ```
 

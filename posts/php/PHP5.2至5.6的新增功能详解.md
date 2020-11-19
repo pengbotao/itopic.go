@@ -2,8 +2,7 @@
 {
     "url": "php5-upgrading",
     "time": "2014/03/12 16:05",
-    "tag": "PHP",
-    "toc": "no"
+    "tag": "PHP"
 }
 ```
 
