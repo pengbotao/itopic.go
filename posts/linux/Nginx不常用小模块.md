@@ -79,3 +79,12 @@ server {
 # 三、GeoIP2进行地域转发
 
 参考：https://www.cnblogs.com/itusye/p/11926980.html
+
+# 四、打印客户端IP
+
+```
+	location /ipaddr {
+		add_header 'Content-Type' 'application/json; charset=utf-8';
+		return 200 '{"Host": "$host", "X-Real-IP": "$remote_addr", "X-Forwarded-For": "$proxy_add_x_forwarded_for"}';
+	}
+```

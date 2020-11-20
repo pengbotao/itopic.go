@@ -243,7 +243,16 @@ $ sed -n '2,3p' /etc/passwd
 $ sed -n '3,$p' /etc/passwd
 ```
 
+## 3.6 指定行后添加数据
 
+查找`u.local`并在后面增加一行：`127.0.0.1 t.local`
+
+```
+$ sed '/u.local/a\127.0.0.1 t.local' /etc/hosts
+```
+
+- 前一行：`/i`
+- 后一行：`/a`
 
 # 四、awk
 
