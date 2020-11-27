@@ -76,7 +76,8 @@ $ /usr/local/elasticsearch-6.8.12/bin/elasticsearch
 
 - [1]: max file descriptors [65535] for elasticsearch process is too low, increase to at least [65536]
 - [2]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
-- [3]: java.lang.RuntimeException: can not run elasticsearch as root
+- [3]: max number of threads [1024] for user [es] is too low, increase to at least [4096]
+- [4]: java.lang.RuntimeException: can not run elasticsearch as root
 
 **1. 调整文件句柄数**
 
@@ -97,7 +98,20 @@ vm.max_map_count=655360
 $ sysctl -p
 ```
 
-**3. 切换账户**
+**3. 线程数**
+
+```
+$ vi /etc/security/limits.d/90-nproc.conf
+$ cat /etc/security/limits.d/90-nproc.conf
+# Default limit for number of user's processes to prevent
+# accidental fork bombs.
+# See rhbz #432903 for reasoning.
+
+*          soft    nproc     102400
+root       soft    nproc     unlimited
+```
+
+**4. 切换账户**
 
 提示不能以`root`用户启动，需切换到其他用户，放后台执行可以通过`-d`参数：
 
