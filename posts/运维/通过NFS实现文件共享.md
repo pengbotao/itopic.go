@@ -6,7 +6,7 @@
 }
 ```
 
-# NFS服务端安装
+# 一、NFS服务端安装
 
 查询是否有安装`nfs`服务，没有输出则表示没有安装。
 
@@ -20,31 +20,7 @@ $ rpm -qa | grep nfs
 $ yum install -y nfs-utils
 ```
 
-`nfs`依赖`rpcbind`，`yum`安装会自动解决依赖
-
-```
-依赖关系解决
-
-============================================================================================================
-
- 软件包                     架构                版本                             仓库                  大小
-
-正在安装:
- nfs-utils                  x86_64              1:1.2.3-78.el6_10.2              updates              337 k
-为依赖而安装:
- keyutils                   x86_64              1.4-5.el6                        base                  39 k
- libevent                   x86_64              1.4.13-4.el6                     base                  66 k
- libgssglue                 x86_64              0.1-11.el6                       base                  23 k
- libtirpc                   x86_64              0.2.1-15.el6                     base                  82 k
- nfs-utils-lib              x86_64              1.1.5-13.el6                     base                  71 k
- rpcbind                    x86_64              0.2.0-16.el6                     base                  51 k
-
-事务概要
-============================================================================================================
-Install       7 Package(s)
-```
-
-安装之后再查询就可以查询到了
+`nfs`依赖`rpcbind`，`yum`安装会自动解决依赖，安装之后再查询就可以查询到了
 
 ```
 $ rpm -qa | grep nfs
@@ -60,7 +36,7 @@ $ chkconfig --level 35 nfs on
 
 到这里安装过程就完成了。
 
-# NFS服务端启动
+# 二、NFS服务端启动
 
 查看`nfs`服务状态：
 
@@ -99,7 +75,7 @@ rpc.nfsd: unable to set any sockets for nfsd
 $ service rpcbind status
 rpcbind is stopped
 
-$service rpcbind start
+$ service rpcbind start
 Starting rpcbind:                                          [  OK  ]
 ```
 
@@ -131,21 +107,7 @@ nfsd (pid 27806 27805 27804 27803 27802 27801 27800 27799) is running...
 rpc.rquotad (pid 27769) is running...
 ```
 
-查看`TCP`端口：
-
-```
-$ netstat -tlnp
-Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name
-tcp        0      0 0.0.0.0:2049                0.0.0.0:*                   LISTEN      -
-tcp        0      0 0.0.0.0:2308                0.0.0.0:*                   LISTEN      27786/rpc.mountd
-tcp        0      0 0.0.0.0:11628               0.0.0.0:*                   LISTEN      27786/rpc.mountd
-tcp        0      0 0.0.0.0:5710                0.0.0.0:*                   LISTEN      27786/rpc.mountd
-tcp        0      0 0.0.0.0:875                 0.0.0.0:*                   LISTEN      27769/rpc.rquotad
-tcp        0      0 0.0.0.0:111                 0.0.0.0:*                   LISTEN      12265/rpcbind
-```
-
-# NFS服务端配置
+# 三、NFS服务端配置
 
 配置文件在`/etc/exports`，配置文件的格式是：
 
@@ -160,50 +122,45 @@ $ cat /etc/exports
 /data/logs 172.16.0.20(rw,async,no_root_squash)
 ```
 
-其中：`/data/logs`表示共享目录，`172.16.0.20`表示共享给指定`IP`，括号内为`nfs`共享的相关参数，文件编辑后可以通过`exportfs -v`校验。
+其中：`/data/logs`表示共享目录，`172.16.0.20`表示共享给指定`IP`，括号内为`nfs`共享的相关参数。
 
-### 1. 共享给所有主机
+文件编辑后可以通过`exportfs -v`校验，通过`exportfs -r`重新加载。
+
+## 3.1 Client设置
+
+1、共享给所有主机
 
 ```
 /data/logs *(sync)
 ```
 
-### 2. 共享给特定IP段
-
-共享给`172.16.0.*`的机器。
+2、共享给特定IP段，共享给`172.16.0.*`的机器。IP也可以写成：`172.16.0.0/24`
 
 ```
 /data/logs 172.16.0.0/255.255.255.0(sync)
 ```
 
-或者写成：
-
-```
-/data/logs 172.16.0.0/24(sync)
-```
-
-### 3. 共享给多主机
-
-共享给`172.16.0.*`和`172.16.1.*`
+3、共享给多主机，共享给`172.16.0.*` 和 `172.16.1.*`
 
 ```
 /data/logs 172.16.0.0/255.255.255.0(sync)
 /data/logs 172.16.1.0/255.255.255.0(sync)
 ```
 
-## OPTIONS参数说明：
+## 3.2 OPTIONS参数说明：
 
-### 1. ro && rw
+| 选项             | 说明                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| `rw`             | 读写访问                                                     |
+| `ro`             | 只读访问                                                     |
+| `root_squash`    | 把客户端`root`账号当普通用户对待（默认）                     |
+| `no_root_squash` | 客户端`root`具有超级权限                                     |
+| `all_squash`     | 共享文件的`UID`和`GID`映射匿名用户`anonymous`，适合公用目录  |
+| `no_all_squash`  | 保留共享文件的`UID`和`GID`（默认）                           |
+| `sync`           | 同步写入，有修改时同步写入                                   |
+| `async`          | 可以异步写入，通常可以提升性能，但数据没有实时落地，有异常时可能有丢失。 |
 
-- `rw`：读写访问
-- `ro`：只读访问
-
-## 2. root_squash && no_root_squash
-
-- `root_squash`：把客户端`root`账号当普通用户对待（默认） 。
-- `no_root_squash`：客户端`root`具有超级权限。
-
-比如：
+关于`root_squash`说明：
 
 ```
 $ cat /etc/exports
@@ -212,19 +169,9 @@ $ exportfs -v
 /data/test    	172.16.0.30(rw,wdelay,root_squash,no_subtree_check,sec=sys,rw,root_squash,no_all_squash)
 ```
 
-这个时候挂载之后，客户端`root`账号创建的文件属于`nfsnobody`，如果服务端`nfsnobody`没有`test`目录权限，那么客户端`root`用户也无法写入，即把客户端`root`用户当普通用户看待。
+挂载之后，客户端`root`账号创建的文件属于`nfsnobody`，如果服务端`nfsnobody`没有`test`目录权限，那么客户端`root`用户也无法写入，即把客户端`root`用户当普通用户看待。
 
 如果调整为`no_root_squash`，则`root`相当于有超级用户的权限，可以创建文件，同时创建的文件所有者为`root`。
-
-### 3. all_squash && no_all_squash
-
-- `all_squash`：共享文件的UID和GID映射匿名用户anonymous，适合公用目录。
-- `no_all_squash`：保留共享文件的UID和GID（默认） 。
-
-### 4. sync && aysnc
-
-- `sync`：同步写入，有修改时同步写入
-- `async`：可以异步写入，通常可以提升性能，但数据没有实时落地，有异常时可能有丢失。
 
 **配置完成之后重新加载`exports`文件：**
 
@@ -232,7 +179,7 @@ $ exportfs -v
 $ exportfs -r
 ```
 
-# 客户端挂载
+# 四、客户端挂载
 
 客户端也需要安装`yum install -y nfs-utils`，挂载命令是：
 
