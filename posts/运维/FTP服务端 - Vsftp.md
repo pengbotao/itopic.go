@@ -1,8 +1,8 @@
 ```
 {
-    "url": "linux-vsftp-install",
+    "url": "vsftp",
     "time": "2014/09/01 22:52",
-    "tag": "Linux"
+    "tag": "运维"
 }
 ```
 
