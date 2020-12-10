@@ -273,7 +273,7 @@ $ usermod -L peng
 同上面`passwd`操作，就是在`/etc/passwd`文件的密码字段前增加了一个`!`，解锁操作则会去掉`!`
 
 ```
-$ usermode -U peng
+$ usermod -U peng
 ```
 
 其他的

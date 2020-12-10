@@ -16,6 +16,7 @@ vsftpd-2.0.5-28.el5
 yum直接安装vsftpd
 ```
 # yum -y install vsftpd
+# chkconfig --level 35 vsftpd on
 ```
 vsftpd服务启动及停止
 ```
@@ -144,7 +145,7 @@ user_config_dir=/etc/vsftpd/vconf
 ```
 ## 6、根据虚拟用户设置不同的权限
 
-设定ftp_www只能访问/data/ftp/www，ftp_log只能文芳/data/ftp/log，创建所需的文件和配置信息。
+设定ftp_www只能访问/data/ftp/www，ftp_log只能访问/data/ftp/log，创建所需的文件和配置信息。
 ```
 # mkdir -p /data/ftp/{www,log}
 # chown -R vsftpd:vsftpd /data/ftp/*
