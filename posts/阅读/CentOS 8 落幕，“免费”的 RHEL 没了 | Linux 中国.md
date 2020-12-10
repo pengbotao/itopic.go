@@ -1,6 +1,6 @@
 ```
 {
-    "url": "centos-8-eol",
+    "url": "centos-8-eos",
     "time": "2020/12/09 21:30",
     "tag": "阅读,CentOS"
 }
