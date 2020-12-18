@@ -104,8 +104,11 @@ $ brew install zlib
 # MAC下升级openssl才得以解决
 $ brew upgrade openssl
 $ CFLAGS="-I$(brew --prefix openssl)/include -I$(xcrun --show-sdk-path)/usr/include" CPPFLAGS="-I$(brew --prefix openssl)/include" LDFLAGS="-L$(brew --prefix openssl)/lib" pyenv install -v 3.7.2
+```
 
-# CentOS
+### CentOS安装
+
+```
 $ yum install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel findutils
 $ CFLAGS=-I/usr/include/openssl \
 LDFLAGS=-L/usr/lib64 \
@@ -123,6 +126,13 @@ $ pyenv versions
   3.7.2
 ```
 
+@2020-12-18 在CentOS中安装3.7.8成功后安装包`DBUtils`时出现以下报错：
+
+```
+ModuleNotFoundError: No module named '_ctypes'
+```
+
+需要先卸载Python，安装`yum install libffi-devel`后重装修复。
 
 **2. pyenv使用**
 
