@@ -281,7 +281,7 @@ net.ipv4.tcp_max_tw_buckets = 20000
 net.core.somaxconn = 65535
 ```
 
-
+Redis开启bgsave可考虑设置`vm.overcommit_memory = 1`
 
 ---
 
