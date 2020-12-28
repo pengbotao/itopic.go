@@ -146,6 +146,8 @@ $ jps -l
 22429 org.apache.hadoop.hdfs.server.namenode.NameNode
 ```
 
+注：整个配置方式配置了Hosts文件，调用的机器上也需要配置对应的Hosts才能访问。
+
 # 四、数据迁移
 
 ## 4.1 购买BDS
@@ -179,6 +181,3 @@ $ hadoop fs -chown hadoop /.copytmp
 
 在`BDS`后台创建迁移任务即可。
 
-
-
-> 注：这里配置了Hosts文件，调用的机器上也需要配置对应的Hosts才行
