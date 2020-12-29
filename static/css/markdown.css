@@ -127,7 +127,9 @@ pre > code {
   padding: 0;
   white-space: pre;
   border: none;
-  background: transparent; }
+  background: transparent;
+  font-family: 'Courier New', "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
+}
 pre {
   background-color: #fdfdfd;
   padding: 16px;
