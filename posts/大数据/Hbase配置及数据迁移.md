@@ -176,11 +176,17 @@ $ jps -l
 
 ## 4.3 账号授权
 
-迁移之前在`Master`机器创建`.copytmp`目录并给`hadoop`账号授权
+迁移之前在`Master`机器创建`.copytmp`目录并给`hadoop`账号授权。
 
 ```
 $ hadoop fs -mkdir /.copytmp
 $ hadoop fs -chown hadoop /.copytmp
+```
+
+未授权时出现的错误为：
+
+```
+err=org.apache.hadoop.security.AccessControlException: Permission denied: user=hadoop, access=WRITE
 ```
 
 ## 4.4 创建迁移任务
