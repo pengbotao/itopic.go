@@ -118,11 +118,9 @@ code, tt {
   padding: 0.2em;
   margin: 0px 3px;
   white-space: nowrap;
-  border: 1px solid #eaeaea;
+  border: 1px solid #e7eaed;
   background-color: #fdfdfd;
-  font-size: 85%;
   border-radius: 3px;
-  font-family: 'Courier New', "Noto Serif",Georgia,Cambria,"Times New Roman",Times,serif;
 }
 pre > code {
   margin: 0;
@@ -137,7 +135,7 @@ pre {
   border-radius: 3px;
   margin-top: 0;
   word-wrap: normal;
-  font: 18px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 1.2em;
 }
 
 pre code, pre tt {
@@ -153,7 +151,7 @@ pre code, pre tt {
     border: 0;
 }
 
-pre:hover, code:hover {background-color: #fffffd;}
+pre:hover, code:hover {background-color: #fdfdfd;}
 
 sup, sub, a.footnote {font-size: 1.4ex;height: 0;line-height: 1;vertical-align: super;position: relative;}
 sub {vertical-align: sub;top: -1px; }
