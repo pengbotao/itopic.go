@@ -74,7 +74,22 @@ $ ntpdate time.windows.com
 -rw-r--r-- 1 hadoop hadoop   80 12月 24 14:48 slaves
 ```
 
-同步配置文件到各台机器，`Master`机器上执行格式化`namenode`，否则可能出现`NameNode`未启动的情况。
+**core-site.xml**
+
+````
+<value>hdfs://peng-hbase-1:9000</value>
+````
+
+**slaves**
+
+```
+peng-hbase-1
+peng-hbase-2
+peng-hbase-3
+peng-hbase-4
+```
+
+同步配置文件到各台机器，`Master`机器上执行格式化`namenode`，否则可能出现`NameNode`未启动的情况。(用前面配置授权KEY的账号)
 
 ```
 $ hadoop namenode -format
@@ -100,6 +115,51 @@ $ jps -l
 
 ![](../../static/uploads/dfshealth.png)
 
+**测试hdfs是否安装成功**，查看文件列表，命令和文件操作的命令类似：
+
+```
+$ hadoop fs -ls /
+Found 1 items
+drwxr-xr-x   - hadoop supergroup          0 2020-12-29 23:56 /hbase
+```
+
+创建目录
+
+```
+$ hadoop fs -mkdir /peng
+```
+
+上传文件
+
+```
+$ hadoop fs -put README.md /peng
+```
+
+下载文件
+
+```
+hadoop fs -get /peng/README.md
+```
+
+查看文件内容
+
+```
+$ hadoop fs -cat /peng/README.md
+Hello HDFS
+```
+
+删除文件
+
+```
+$ hadoop fs -rm /peng/README.md
+```
+
+删除目录
+
+```
+$ hadoop fs -rm -r /peng
+```
+
 # 三、安装Hbase
 
 下载对应的hbase安装文件，配置文件目录`{hbasepath}/conf`，调整配置文件：
@@ -109,6 +169,38 @@ $ jps -l
 -rw-r--r-- 1 hadoop hadoop 3.2K 12月 24 15:45 hbase-site.xml
 -rw-r--r-- 1 hadoop hadoop   81 12月 24 15:03 regionservers
 -rw-rw-r-- 1 hadoop hadoop   20 12月 24 15:01 backup-masters
+```
+
+**regionservers**
+
+```
+peng-hbase-1
+peng-hbase-2
+peng-hbase-3
+peng-hbase-4
+```
+
+**backup-masters**
+
+```
+peng-hbase-4
+```
+
+**hbase-site.xml**
+
+```
+<property>
+    <!-- hbase存放数据目录 -->
+    <name>hbase.rootdir</name>
+    <!-- 端口要和Hadoop的fs.defaultFS端口一致-->
+    <value>hdfs://peng-hbase-1:9000/hbase</value>
+</property>
+    
+<property>
+    <!-- list of  zookooper -->
+    <name>hbase.zookeeper.quorum</name>
+    <value>192.168.0.100:2181,192.168.0.101:2181,192.168.0.102:2181</value>
+</property>
 ```
 
 同步配置文件到各台机器，启动Hbase：
@@ -152,7 +244,138 @@ $ jps -l
 22429 org.apache.hadoop.hdfs.server.namenode.NameNode
 ```
 
-注：整个配置方式配置了Hosts文件，调用的机器上也需要配置对应的Hosts才能访问。
+注：整个配置方式配置了Hosts文件，调用的机器上也需要配置对应的Hosts才能访问。接下来测试Hbase是否安装成功：
+
+登录hbase命令行
+
+```
+$ hbase shell
+HBase Shell
+Use "help" to get list of supported commands.
+Use "exit" to quit this interactive shell.
+For Reference, please visit: http://hbase.apache.org/2.0/book.html#shell
+Version 2.1.8, rd8333e556c8ed739cf39dab58ddc6b43a50c0965, Tue Nov 19 15:29:04 UTC 2019
+Took 0.0024 seconds
+hbase(main):001:0> list
+TABLE
+0 row(s)
+Took 0.3120 seconds
+=> []
+```
+
+创建名称空间
+
+```
+> create_namespace 'demo'
+Took 1.1799 seconds
+```
+
+创建数据表
+
+```
+> create 'demo:peng', { NAME => 'info', TTL => 86400, VERSIONS => 3 } , { NAME => 'exp' , TTL => 3600}
+Created table demo:peng
+Took 1.2183 seconds
+=> Hbase::Table - demo:peng
+
+> describe 'demo:peng'
+{
+    NAME => 'exp', 
+    VERSIONS => '1', 
+    EVICT_BLOCKS_ON_CLOSE => 'false', 
+    NEW_VERSION_BEHAVIOR => 'false', 
+    KEEP_DELETED_CELLS => 'FALSE', 
+    CACHE_DATA_ON_WRITE => 'false', 
+    DATA_BLOCK_ENCODING => 'NONE', 
+    TTL => '3600 SECONDS (1 HOUR)', 
+    MIN_VERSIONS => '0', 
+    REPLICATION_SCOPE => '0', 
+    BLOOMFILTER => 'ROW', 
+    CACHE_INDEX_ON_WRITE => 'false', 
+    IN_MEMORY => 'false', 
+    CACHE_BLOOMS_ON_WRITE => 'false', 
+    PREFETCH_BLOCKS_ON_OPEN => 'false', 
+    COMPRESSION => 'NONE', 
+    BLOCKCACHE => 'true', 
+    BLOCKSIZE => '65536'
+},
+{
+    NAME => 'info', 
+    VERSIONS => '3', 
+    EVICT_BLOCKS_ON_CLOSE => 'false', 
+    NEW_VERSION_BEHAVIOR => 'false', 
+    KEEP_DELETED_CELLS => 'FALSE', 
+    CACHE_DATA_ON_WRITE => 'false', 
+    DATA_BLOCK_ENCODING => 'NONE', 
+    TTL => '86400 SECONDS (1 DAY)', 
+    MIN_VERSIONS => '0', 
+    REPLICATION_SCOPE => '0', 
+    BLOOMFILTER => 'ROW', 
+    CACHE_INDEX_ON_WRITE => 'false', 
+    IN_MEMORY => 'false', 
+    CACHE_BLOOMS_ON_WRITE => 'false', 
+    PREFETCH_BLOCKS_ON_OPEN => 'false', 
+    COMPRESSION => 'NONE', 
+    BLOCKCACHE => 'true', 
+    BLOCKSIZE => '65536'
+}
+```
+
+写入数据
+
+```
+> put 'demo:peng', 'peng','info:name','peng'
+> put 'demo:peng', 'peng','info:age','18'
+```
+
+遍历表
+
+```
+> scan 'demo:peng'
+ROW                            COLUMN+CELL
+ Lion                          column=info:age, timestamp=1609293900382, value=5
+ peng                          column=info:age, timestamp=1609293815916, value=18
+ peng                          column=info:name, timestamp=1609293806251, value=peng
+
+> scan 'demo:peng', {'LIMIT' => 1}
+ROW                            COLUMN+CELL
+ Lion                          column=info:age, timestamp=1609293900382, value=5
+```
+
+查看单条记录
+
+```
+> get 'demo:peng', 'peng'
+COLUMN                         CELL
+ info:age                      timestamp=1609293815916, value=18
+ info:name                     timestamp=1609293806251, value=peng
+```
+
+多版本测试，表定义中info中定义VERSIONS = 3，多次更新时会保留最后的3个版本。
+
+```
+> put 'demo:peng', 'peng','info:age','30'
+> put 'demo:peng', 'peng','info:age','32'
+> put 'demo:peng', 'peng','info:age','36'
+> get 'demo:peng', 'peng'
+COLUMN                         CELL
+ info:age                      timestamp=1609306879659, value=36
+ info:name                     timestamp=1609306782683, value=peng
+ 
+> get 'demo:peng','peng',{COLUMN=>'info:age',VERSIONS=>3}
+COLUMN                         CELL
+ info:age                      timestamp=1609306879659, value=36
+ info:age                      timestamp=1609306877282, value=32
+ info:age                      timestamp=1609306864690, value=30
+1 row(s)
+```
+
+删除表，删除之前需要先禁用表
+
+```
+> disable 'demo:peng'
+> drop 'demo:peng'
+```
 
 # 四、数据迁移
 
