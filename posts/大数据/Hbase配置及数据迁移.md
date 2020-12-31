@@ -18,7 +18,7 @@ HBase是一个分布式，版本化，面向列的开源数据库，构建在 Ap
 
 # 二、准备工作
 
-Hbase下载地址：http://www.apache.org/dyn/closer.cgi/hbase/
+Hbase下载地址：http://hbase.apache.org/downloads.html
 
 Hadoop下载地址：https://hadoop.apache.org/releases.html
 
