@@ -424,3 +424,4 @@ err=org.apache.hadoop.security.AccessControlException: Permission denied: user=h
 
 在`BDS`后台创建迁移任务即可。
 
+![](../../static/uploads/hbase-bds.png)
