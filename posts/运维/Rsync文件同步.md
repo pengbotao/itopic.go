@@ -102,6 +102,18 @@ $ rsync --daemon --config=/etc/rsyncd.conf
 $ rsync -avzP --password-file=rsync.secrets rsync@172.16.196.200::demo/ .
 ```
 
+# 五、示例
+
+同步目录下指定类型的文件(只同步py文件)
+
+```
+$ rsync -avzP --include="*.py" --exclude="*.*"  root@172.16.0.1:/data/project/  /data/project/
+```
+
+
+
+
+
 ---
 
 - [1] [rsync 用法教程](http://www.ruanyifeng.com/blog/2020/08/rsync.html)
