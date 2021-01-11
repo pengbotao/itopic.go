@@ -147,7 +147,7 @@ $ hadoop fs -put README.md /peng
 下载文件
 
 ```
-hadoop fs -get /peng/README.md
+$ hadoop fs -get /peng/README.md
 ```
 
 查看文件内容
@@ -167,6 +167,12 @@ $ hadoop fs -rm /peng/README.md
 
 ```
 $ hadoop fs -rm -r /peng
+```
+
+查看Hbase存储占用
+
+```
+$ hadoop fs -du -h /hbase/data
 ```
 
 # 三、安装Hbase
