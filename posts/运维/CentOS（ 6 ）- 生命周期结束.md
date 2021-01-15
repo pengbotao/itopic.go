@@ -145,6 +145,12 @@ gpgcheck=0
 gpgkey=http://mirrors.aliyuncs.com/epel-archive/RPM-GPG-KEY-EPEL-6
 ```
 
+**更新**
+
+```
+$ yum clean all
+$ yum makecache
+```
 
 
 ---
