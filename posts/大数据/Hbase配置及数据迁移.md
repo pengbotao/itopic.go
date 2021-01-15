@@ -618,14 +618,14 @@ $ ./sbin/start-balancer.sh
 
 ## 6.4 重启
 
-操作指定节点
+操作指定节点后查看Datanode Information管理页面就可以看到新增的存储空间了。我这里数据有多份，逐一重启datanode后扩容成功。
 
 ```
-$ hadoop-daemon.sh start datanode 
-$ hadoop-daemon.sh stop datanode 
+$ ./hadoop-daemon.sh stop datanode 
+$ ./hadoop-daemon.sh start datanode 
 ```
 
-启停集群
+直接启停整个集群可使用
 
 ```
 $ ./start-dfs.sh
