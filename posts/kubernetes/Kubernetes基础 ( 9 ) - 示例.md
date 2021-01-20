@@ -17,14 +17,12 @@
 
 ## 2.1 环境说明
 
-`PHP`、`Python`、`Go`这几种语言中，`PHP`的部署算是最麻烦的了，他需要依赖`Nginx`，`PHP`和`Nginx`之间还需要文件共享，静态页面由`Nginx`处理，`PHP`页面交给`php-fpm`解析，所以要配置`PHP+Nginx`需要先理一理：
-
-`PHP`和`Nginx`的交互方式，大概有两种方式可供选择：
+`PHP`、`Python`、`Go`这几种语言中，`PHP`的部署算是最麻烦的了，他需要依赖`Nginx`，`PHP`和`Nginx`之间还需要文件共享，静态页面由`Nginx`处理，`PHP`页面交给`php-fpm`解析，所以要配置`PHP+Nginx`需要先理一理`PHP`和`Nginx`的交互方式，大概有两种方式可供选择：
 
 - `PHP` 和 `Nginx`在同一个`Pod`中
 - `PHP` 和 `Nginx`属于不同的`Pod`，文件通过`Volumes`挂载到同一个目录实现共享
 
-**这里选择在同一个Pod中**，`PHP`和`Nginx`容器都需要能够读取到源代码文件，同一个`Pod`中挂载的目录各个容器都可以读到，我们可以直接挂个空目录，应用镜像只打代码文件，然后在`Pod`的`initController`容器里将代码都拷贝到容器去。
+**这里选择在同一个Pod中，即同一个Pod中的多个容器**，`PHP`和`Nginx`容器都需要能够读取到源代码文件，同一个`Pod`中挂载的目录各个容器都可以读到，我们可以直接挂个空目录，应用镜像只打代码文件，然后在`Pod`的`initController`容器里将代码都拷贝到容器去。
 
 另外，常规项目配置上的要求：
 
@@ -53,13 +51,13 @@ $ ls
 Dockerfile api.php    config.php index.php
 ```
 
-代码文件：`index.php`
+**1. 代码文件**：`index.php`
 
 ```
 <?php phpinfo();
 ```
 
-代码文件：`api.php`，引用了配置文件。
+**2. 代码文件**：`api.php`，引用了配置文件。
 
 ```
 <?php
@@ -67,7 +65,7 @@ include "config.php";
 echo json_encode($config);
 ```
 
-代码文件：`config.php`
+**3. 代码文件**：`config.php`
 
 ```
 <?php
@@ -459,7 +457,7 @@ REVISION  CHANGE-CAUSE
 这里主要还是出于演示目的，尽量体现出每个`Demo`的差异化，`Python`环境这边想这么做：
 
 - 通过`StatefulSet`来配置服务（实际环境中可能和上面`PHP`类似属于无状态服务）
-- `Pod`中的`Nginx`与`Python`容器隔离，让他们属于不同的`Pod`
+- `Pod`中的`Nginx`与`Python`容器隔离，很多Gunicorn应用会在上面加一层Nginx，这里就是按照这种来配置，演示不同`Pod`之间的用法
 - 实现就绪检测和存活检测
 
 ## 3.2 配置镜像
