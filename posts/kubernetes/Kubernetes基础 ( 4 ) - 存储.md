@@ -245,6 +245,32 @@ MYSQL_USER = 'root'
 MYSQL_PORT = 3306
 ```
 
+也可以分开将data.key挂载到不同的文件上：
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-demo
+spec:
+  restartPolicy: Never
+  containers:
+  - name: busybox
+    image: busybox:1.32.0
+    command: ["sh", "-c", "sleep 1000"]
+    volumeMounts:
+    - name: pod-blog-config
+      mountPath: /etc/config.ini
+      subPath: config.ini
+    - name: pod-blog-config
+      mountPath: /bin/database.py
+      subPath: database.py
+  volumes:
+  - name: pod-blog-config
+    configMap:
+      name: blog-config
+```
+
 ## 2.4 热更新
 
 ```
@@ -376,6 +402,31 @@ spec:
   - name: myregistry
 ```
 
+### 3.2.3 创建SSL证书
+
+Ingress中可以支持SSL证书配置，可直接通过文件创建：
+
+```
+$ kubectl create secret tls tls-demo-com --cert=demo.com.pem --key=demo.com.key
+```
+
+查看如下
+
+```
+$ kubectl describe secret tls-demo-com
+Name:         tls-demo-com
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  kubernetes.io/tls
+
+Data
+====
+tls.crt:  4047 bytes
+tls.key:  1676 bytes
+```
+
 ## 3.3 使用Secret
 
 使用上和`ConfigMap`类似。
@@ -471,8 +522,6 @@ pv001   1Gi        RWO            Recycle          Available           host     
 pv002   2Gi        RWO            Recycle          Available           host                    87s
 pv003   3Gi        RWO            Recycle          Available           host                    64s
 ```
-
-
 
 # 五、Persistent Volume Claim
 

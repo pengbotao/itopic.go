@@ -64,6 +64,29 @@
 
 配置文件在`/etc/salt/minion`
 
+如果配置了阿里源还是找不到，可以按照官网的配置方式(CentOS7)：https://repo.saltstack.com/#rhel
+
+1. *Run the following commands to install the SaltStack repository and key:*
+
+   ```
+   sudo yum install https://repo.saltstack.com/py3/redhat/salt-py3-repo-3002.el7.noarch.rpm 
+   ```
+
+2. *Run* `sudo yum clean expire-cache`
+3. *Install the salt-minion, salt-master, or other Salt components:*
+   - `sudo yum install salt-master`
+   - `sudo yum install salt-minion`
+   - `sudo yum install salt-ssh`
+   - `sudo yum install salt-syndic`
+   - `sudo yum install salt-cloud`
+   - `sudo yum install salt-api`
+
+4. *(**Upgrade only**) Restart all upgraded services, for example:*
+
+   ```
+   sudo systemctl restart salt-minion
+   ```
+
 # 二、Salt配置
 
 ## 2.1 Master配置

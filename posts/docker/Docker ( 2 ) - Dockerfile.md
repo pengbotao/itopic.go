@@ -318,6 +318,12 @@ http://mirrors.aliyun.com/alpine/v3.12/main
 http://mirrors.aliyun.com/alpine/v3.12/community
 ```
 
+也可以指定容器名字
+
+```
+$ docker run -it --name test e101c0717b4f /bin/sh
+```
+
 # 六、私有镜像仓库
 
 ## 6.1 通过registry镜像搭建
