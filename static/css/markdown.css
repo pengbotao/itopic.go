@@ -110,9 +110,9 @@ table {
   font-size: 100%;
   font: inherit; }
 table th {
-  font-weight: bold;
+  font-weight: 800;
   border: 1px solid #ccc;
-  background: #ffffed;
+  background: #fffdf7;
   padding: 6px 13px; }
 table td {
   border: 1px solid #ccc;
