@@ -14,12 +14,22 @@ html, body{
 
 .container {
   margin: 0px auto;
-  max-width: 1280px;
+  max-width: 80%;
 }
 
 .content {
   margin: 0px auto;
-  max-width: 1280px;
+  max-width: 80%;
+}
+@media (max-width: 750px) {
+  .container {
+    margin: 0px auto;
+    max-width: 100%;
+  }
+  .content {
+    margin: 0px auto;
+    max-width: 100%;
+  }
 }
 
 a {color: #2D8CF0; text-decoration: none;}
