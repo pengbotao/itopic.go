@@ -112,6 +112,7 @@ table {
 table th {
   font-weight: bold;
   border: 1px solid #ccc;
+  background: #ffffed;
   padding: 6px 13px; }
 table td {
   border: 1px solid #ccc;
@@ -119,18 +120,17 @@ table td {
 table tr {
   border-top: 1px solid #ccc;
   background-color: #fff; }
-  table tr:nth-child(2n) {
-  background-color: #fdfdfd; }
+table tr:nth-child(2n) {background-color: #fdfdfd; }
 tbody tr:hover {background-color: #fffffd;}
 img {max-width: 80%;border:0px; margin:0px auto; display: block;}
 img:hover {opacity: 0.85;}
 code, tt {
-  padding: 0.2em;
+  padding: 0.1em;
   margin: 0px 3px;
   white-space: nowrap;
   border: 1px solid #e7eaed;
   background-color: #fdfdfd;
-  border-radius: 3px;
+  border-radius: 6px;
 }
 pre > code {
   margin: 0;
@@ -144,7 +144,7 @@ pre {
   background-color: #fdfdfd;
   padding: 16px;
   overflow: auto;
-  border-radius: 3px;
+  border-radius: 12px;
   margin-top: 0;
   word-wrap: normal;
   line-height: 1.2em;
@@ -163,7 +163,7 @@ pre code, pre tt {
     border: 0;
 }
 
-pre:hover, code:hover {background-color: #fdfdfd;}
+pre:hover{background-color: #ebf7ffa8;}
 
 sup, sub, a.footnote {font-size: 1.4ex;height: 0;line-height: 1;vertical-align: super;position: relative;}
 sub {vertical-align: sub;top: -1px; }

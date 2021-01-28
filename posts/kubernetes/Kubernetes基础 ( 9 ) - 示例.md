@@ -40,34 +40,26 @@
 我们会使用到3个镜像，分别是`PHP`镜像、`Nginx`镜像以及代码镜像。
 
 - `PHP`镜像：选择我们[前面](dockerfile.html)创建好的`pengbotao/php:7.4.8-fpm-alpine`
-
 - `Nginx`镜像：我们选择`nginx:1.19.2-alpine`
-- 代码镜像：我们选择`busybox:1.32.0`为基础镜像，负责存储源文件。如果代码文件不进镜像，直接通过文件挂载方式共享文件，那是否意味着滚动更新的作用就削弱了，只需要更新共享的代码文件即可，而此过程有可能引起服务的短暂不可用。
+- 代码镜像：我们选择`busybox:1.32.0`为基础镜像，负责将源文件打入镜像。
 
-我们模拟一个简单的项目，包含以下文件：
+还有一种说法是代码文件不进镜像，直接通过文件挂载方式共享文件，但这是否意味着滚动更新的作用就削弱了，只需要更新共享的代码文件即可，而此过程有可能引起服务的短暂不可用。
+
+我们模拟一个简单的项目，包含以下3个文件：
 
 ```
 $ ls
-Dockerfile api.php    config.php index.php
-```
+Dockerfile api.php config.php index.php
 
-**1. 代码文件**：`index.php`
-
-```
+# index.php
 <?php phpinfo();
-```
 
-**2. 代码文件**：`api.php`，引用了配置文件。
-
-```
+# api.php
 <?php
 include "config.php";
 echo json_encode($config);
-```
 
-**3. 代码文件**：`config.php`
-
-```
+# config.php
 <?php
 $config = [
     "host" => "127.0.0.1",
@@ -75,7 +67,7 @@ $config = [
 ];
 ```
 
-为简单起见，只设置了这么3个文件，`config.php`配置文件需要通过`ConfigMap`注入。接下来写`Dockerfile`
+为简单起见，只设置了这么3个文件，`config.php`配置文件需要通过`ConfigMap`注入。接下来创建`Dockerfile`，只需要将源代码拷贝到容器中即可。
 
 ```
 FROM busybox:1.32.0
@@ -84,7 +76,7 @@ WORKDIR /src
 COPY . /src
 ```
 
-接下来在目录中创建镜像:
+然后在目录中创建镜像:
 
 ```
 $ docker build -t pengbotao/project-php:v1 .
