@@ -19,25 +19,7 @@
 - 2、在`docker-compose.yml`中定义服务，定义的服务可以在一个独立的环境中运行
 - 3、通过`docker-compose`命令进行启停所有的服务
 
-`docker-compose.yml`示例：
-
-```
-version: '2.0'
-services:
-  web:
-    build: .
-    ports:
-    - "5000:5000"
-    volumes:
-    - .:/code
-    - logvolume01:/var/log
-    links:
-    - redis
-  redis:
-    image: redis
-volumes:
-  logvolume01: {}
-```
+Compose的用法更适合于开发环境中，使用Dockerfile很容易创建出镜像，然后通过Compose简单的将多个容器组合起来，至于线上对容器的管理则Kubernetes更适合。
 
 ## 1.2 `docker-compose`
 
@@ -56,7 +38,25 @@ volumes:
 
 ## 1.3 `docker-compose.yml`
 
-`docker-compose`通过对YAML配置文件的解析实现对容器的整体控制，配置文件常用参数如下：
+`docker-compose`通过对YAML配置文件的解析实现对容器的整体控制，配置示例如下：
+
+```
+version: '2.0'
+services:
+  web:
+    build: .
+    ports:
+    - "5000:5000"
+    volumes:
+    - .:/code
+    - logvolume01:/var/log
+    links:
+    - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
+```
 
 # 二、参数详解
 

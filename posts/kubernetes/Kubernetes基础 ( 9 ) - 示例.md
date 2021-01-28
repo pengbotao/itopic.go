@@ -181,7 +181,7 @@ spec:
       - name: init-phpdemo-src
         image: pengbotao/project-php:v2
         imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', "cp -rf /src/* /src-www && cp /src-config/* /src-www/ && chown -R www-data:www-data /src-www"]
+        command: ['sh', '-c', "cp -rf /src/* /src-www && cp /src-config/* /src-www/ "]
         volumeMounts:
         - name: wwwroot
           mountPath: /src-www
@@ -239,7 +239,7 @@ spec:
 说明：
 
 - 配置了2个副本
-- 通过`initController`将文件拷贝到`/data/www`，需要调一下权限，否则php-fpm可能没有写入权限。
+- 通过`initController`将文件拷贝到`/data/www`，如果php-fpm非root执行需要考虑修改对应权限：`&& chown -R www-data:www-data /src-www`，否则php-fpm可能没有写入权限。
 - `PHP`设定了最低内存为64M，`CPU`为0.25
 - `Nginx`配置文件通过`ConfigMap`挂载
 - `Nginx`日志文件通过`hostPath`挂载本机目录

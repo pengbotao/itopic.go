@@ -1,7 +1,7 @@
 ```
 {
     "url": "dockerfile",
-    "time": "2020/07/09 14:08",
+    "time": "2020/06/30 14:08",
     "tag": "Docker,容器化",
     "toc": "yes"
 }
@@ -27,6 +27,12 @@ $ docker build -f /path/to/a/Dockerfile .
 - 标记为多个镜像：
 ```
 $ docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .
+```
+
+- 给镜像打别名
+
+```
+$ docker tag pengbotao/php:7.4.8-fpm-alpine 127.0.0.1:5000/php:7.4.8-fpm-alpine
 ```
 
 ## 1.3 文件格式
