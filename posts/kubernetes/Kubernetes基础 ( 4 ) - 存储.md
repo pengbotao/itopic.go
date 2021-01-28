@@ -44,7 +44,7 @@ FIELDS:
    metadata	<Object>
 ```
 
-相比前面的资源对象少了`spec`字段，多了`data`和`binaryData`字段，用来存储自定义的配置，类型都是`map[string]string`。
+相比前面的资源对象少了`spec`字段，多了`data`和`binaryData`字段，用来存储自定义的配置，类型都是`map[string]string`，示例：
 
 ```
 apiVersion: v1
@@ -62,9 +62,45 @@ data:
 
 ## 2.2 创建ConfigMap
 
-除了通过资源清单方式创建外，还有一些其他方式：
+### 2.2.1 通过Yaml创建
 
-### 2.2.1 通过文件或目录创建
+除了上面示例中的单行常量类型的定义，也可以将整个文件的内容定义在ConfigMap中：
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: s-nginx-conf
+  namespace: default
+data:
+  s.peng.local.conf: |
+    server {
+        listen 80;
+        index  index.php index.html;
+        root /www/public/;
+
+        location / {
+            if (!-e $request_filename) {
+                rewrite ^/(.*)$ /index.php?s=/$1 last;
+            }
+        }
+        fastcgi_intercept_errors on;
+        location ~ \.php {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            fastcgi_split_path_info ^(.+\.php)(/.*)$;
+            fastcgi_param PATH_INFO $fastcgi_path_info;
+            fastcgi_read_timeout 60;
+            fastcgi_connect_timeout 30;
+            fastcgi_send_timeout 30;
+            proxy_next_upstream off;
+            include        fastcgi_params;
+        }
+    }
+```
+
+### 2.2.2 通过文件或目录创建
 
 ```
 $ ls -lh
@@ -89,38 +125,10 @@ $ kubectl create configmap database --from-file=./database.py
 
 `--from-file`指定目录，目录下的所有文件都会在ConfigMap里创建键值对，键名就是文件名，键值就是文件内容。
 
-```
-$ kubectl get cm
-NAME          DATA   AGE
-app-config    2      19m
-blog-config   2      5m
-database      1      2m18s
-
-$ kubectl describe cm blog-config
-Name:         blog-config
-Namespace:    default
-Labels:       <none>
-Annotations:  <none>
-
-Data
-====
-config.ini:
-----
-[runtime]
-env  = online
-host = k8s.local
-database.py:
-----
-MYSQL_HOST = '127.0.0.1'
-MYSQL_USER = 'root'
-MYSQL_PORT = 3306
-Events:  <none>
-```
-
 ### 2.2.2 通过字面值创建
 
 ```
-kubectl create configmap network-config --from-literal=GATEWAY=192.168.0.1 --from-literal=DNS1=192.168.0.1
+$ kubectl create configmap network-config --from-literal=GATEWAY=192.168.0.1 --from-literal=DNS1=192.168.0.1
 configmap/network-config created
 ```
 
@@ -245,7 +253,7 @@ MYSQL_USER = 'root'
 MYSQL_PORT = 3306
 ```
 
-也可以分开将data.key挂载到不同的文件上：
+也可以分开将data.key挂载到不同的文件上，如将config.ini挂载到/etc/config.ini，将database.py挂载到/bin/dabase.py：
 
 ```
 apiVersion: v1
@@ -257,7 +265,7 @@ spec:
   containers:
   - name: busybox
     image: busybox:1.32.0
-    command: ["sh", "-c", "sleep 1000"]
+    command: ["sh", "-c", "sleep infinity"]
     volumeMounts:
     - name: pod-blog-config
       mountPath: /etc/config.ini
@@ -280,10 +288,12 @@ $ kubectl edit cm blog-config
 延用`Volume`的示例，修改`ConfigMap`之后，过一小会，再次进入容器查看，可以看到上面文件的值就变了，更新`ConfigMap`不会触发`Pod`的滚动更新，应用程序如果有缓存也需要重新读取才能生效。
 
 > Volume挂载的方式可以热更新，但`Env`的方式更新后环境变量不会同步更新。
+>
+> **[Note](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#mounted-configmaps-are-updated-automatically):**  A container using a ConfigMap as a subPath volume will not receive ConfigMap updates.
 
 # 三、Secret
 
-`secret`用来保存小片敏感数据的`k8s`资源，例如密码，`token`，或者秘钥。这类数据当然也可以存放在`Pod`或者镜像中，但是放在`Secret`中是为了更方便的控制如何使用数据，并减少暴露的风险。
+`secret`用来保存小片敏感数据的`k8s`资源，例如密码，`token`，或者秘钥。
 
 ## 3.1 资源清单
 
@@ -319,7 +329,7 @@ FIELDS:
 
 - `Opaque`：base64编码格式的Secret，用来存储密码、秘钥等
 
-- `kubernetes.io/service-account-token`：用来访问Kubernetes API，由Kubernetes自动创建，并且会自动挂载到Pod的`/run/secrets/kubernetes.io/serviceaccount`目录中。
+- `kubernetes.io/service-account-token`：用来访问Kubernetes API，由Kubernetes自动创建，并且会自动挂载到Pod的/run/secrets/kubernetes.io/serviceaccount目录中。
 - `kubernetes.io/dockerconfigjson`：用来存储私有docker registry的认证信息
 
 **`kubernetes.io/service-account-token`**：前面安装`kubernetes-dashboard`后的登陆Token就是存储在Secret中，可以看看他的信息。
@@ -602,7 +612,7 @@ PV与PVC的关系大概是这样子：
 - 开发人员声明PVC，系统会根据PVC的要求绑定对应的PV
 - 最后特定的Pod关联PVC，如果没有可用的PV则Pod创建失败
 
-这里只是演示了Pod引用PVC，PVC和PV关联，PV绑定存储，只是服务架构里最底层的一步，并没有展现出在实际服务部署中优势。后面的章节中将会再着重介绍。
+这里只是演示了Pod引用PVC，PVC和PV关联，PV绑定存储，只是服务架构里最底层的一步，并没有展现出在实际服务部署中优势。
 
 # 六、小结
 

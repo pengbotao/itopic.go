@@ -20,12 +20,12 @@ ACK托管版选项说明：
 
 - Pod网络和Service的网络CIDR需要不同，且与VPC不重复。可根据集群大小填写合适的CIDR。
 - API Server：K8s集群的API Server部分，配置连接信息后可以通过kubectl来访问集群。如果只是内网访问可以不用勾选`使用EIP暴露API Server`，也可以后续再配置。
-- Ingress：负载均衡类型也选择了内网，后面需要公网再手动配置EIP。
+- Ingress：负载均衡类型也选择了内网。开启Ingress会自动创建一个SLB，后面在这个SLB上绑EIP就可以对公网暴露。
 
 配置好之后就可以登录`Node`节点进行查看：
 
 - Node 和 Pod的网络是互通的，这点很重要，解决了通信问题
-- 集群自动创建了2个SLB，一个用来访问API Server，一个用来暴露Ingress
+- 集群自动创建了2个SLB，一个用来访问API Server，一个是勾选的Ingress创建的Service，通过LoadBalancer方式暴露服务
 - 按照连接信息配置config，即可使用kubectl访问集群
 
 拿到集群后做了各种尝试发现都比较通畅，碰到一个问题是，通过Service来暴露Pod时，从Pod里访问Service的IP会出现时好时坏的情况，如果调度到自己就出问题。原因是Flannel默认设置不允许回环访问。如果有这种需求考虑用headless Service来暴露服务或者集群使用Terway网络组件。
