@@ -9,15 +9,13 @@
 
 # 一、概述
 
-## 1.1 关于ingress
-
 在前一章中，我们可以通过`Service`中的`NodePort`、`LoadBalancer`的方式来暴露服务的端口，但这也意味着我们需要管理`NodePort`的端口映射关系。
 
 `Ingress`可以根据`hostname`和`path`将流量转发到不同的`Service`上。使用`Ingress`后的流程图如下，相当于在`Service`上又重新封装了一层，可以根据访问规则，将流量转到不同的`Service`上。
 
 ![](../../static/uploads/k8s-ingress.png)
 
-## 1.2 Ingress与Ingress-controller
+**Ingress与Ingress-controller**
 
 Ingress对象：k8s中的资源对象，可以通过yaml配置，作用是定义到service的转发规则。
 
@@ -27,7 +25,7 @@ Ingress-controller：实现反向代理及负载均衡的控制器，解析Ingre
 
 # 二、ingress-nginx
 
-## 2.1 安装ingress-nginx
+## 2.1 安装
 
 通过官方仓库说明文档 [<sup>[1]</sup>](#refer)，我的环境是`Docker for Mac`，应该是执行下面语句。
 
@@ -43,7 +41,7 @@ image: k8s.gcr.io/ingress-nginx/controller:v0.35.0@sha256:fc4979d8b8443a831c9789
 
 我这里的处理方法是借助阿里云的仓库，通过构建`Github`上的`Dockerfile`。然后直接用阿里云的仓库替换掉后再`apply`。
 
-## 2.2 ingress-nginx示例
+## 2.2 示例
 
 ```
 apiVersion: apps/v1
@@ -159,6 +157,109 @@ server {
 
 ```
 
+## 2.3 配置SSL
+
+也可以配置HTTPS访问，首先创建secret保存证书：
+
+```
+$ kubectl create secret tls demo-k8s-com --cert=demo.k8s.com.pem --key=demo.k8s.com.key
+```
+
+然后配置ingress使用配置的证书，在注解中设置了ssl-redirect为true会自动跳转到https：
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  tls:
+  - hosts:
+    - demo.k8s.com
+    secretName: demo-k8s-com
+  rules:
+  - host: demo.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demo
+          servicePort: 80
+```
+
+## 2.4 会话保持
+
+默认情况下请求会随机转给后端的pod，可以在注解中增加以下配置达到保持会话的目的。
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+spec:
+  rules:
+  - host: demo.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demo
+          servicePort: 80
+```
+
+> mode有balanced和persistent，一个是扩容缩时自动均衡，一个是永久固定；另外会在客户端增加一个Cookie，默认名称是INGRESSCOOKIE，上面指定为route
+
+## 2.5 多站点配置
+
+也支持同时配置多个站点
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+spec:
+  tls:
+  - hosts:
+    - demo.k8s.com
+    - test.k8s.com
+    - alpha.k8s.com
+    secretName: demo-k8s-com
+  rules:
+  - host: demo.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demo
+          servicePort: 80
+  - host: test.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: test
+          servicePort: 80
+  - host: alpha.k8s.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: alpha
+          servicePort: 80
+```
+
 # 三、小结
 
 到这里，访问流程大致如下：
@@ -172,3 +273,4 @@ server {
 - [1] [Installation Guide](https://github.com/kubernetes/ingress-nginx/blob/master/docs/deploy/index.md)
 - [2] [k8s ingress原理及ingress-nginx部署测试](https://segmentfault.com/a/1190000019908991)
 - [3] [kubernetes学习笔记之七： Ingress-nginx 部署使用](https://www.cnblogs.com/panwenbin-logs/p/9915927.html)
+- [4] [ingress nginx affinity](https://kubernetes.github.io/ingress-nginx/examples/affinity/cookie/)
