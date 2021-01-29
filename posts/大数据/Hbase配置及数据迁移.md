@@ -44,7 +44,7 @@ $ source /etc/profile
 
 ## 2.2 配置SSH免登陆
 
-首先给每台机器配置Hosts，
+首先给每台机器配置Hosts
 
 ```
 192.168.0.100 peng-hbase-1
