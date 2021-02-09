@@ -94,8 +94,36 @@ spec:
 
 **6. 日志**
 
-这部分目前还没考虑，部署的是无状态应用，日志存储在容器内部，随着pod生命周期的结束，容器内的日志就丢失了。在部署之前有考虑使用有状态还是无状态，相比而言还是更倾向于无状态，应用本身也不需要管理状态，所以日志这块是后续需要考虑的地方。
+部署的是无状态应用，日志存储在容器内部，随着pod生命周期的结束，容器内的日志就丢失了。在部署之前有考虑使用有状态还是无状态，相比而言还是更倾向于无状态，应用本身也不需要管理状态。
+
+日志目前可以直接使用阿里云日志，安装时就开启了日志服务，只需要在Yaml文件中通过简单的配置即可：
+
+```
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: test
+        image: v20210125005
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        env:
+        - name: aliyun_logs_test-api-log
+          value: /log/test.log
+        volumeMounts:
+        - name: test-api-log
+          mountPath: /log
+      volumes:
+      - name: test-api-log
+        emptyDir: {}
+```
+
+日中env的`name:aliyun_logs_{test-api-log}`定义了logstore的名字为test-api-log，收集的是test.log中的内容。
 
 **7. 监控与部署**
 
-集群上有`Prometheus`监控，可以观察到Node、Pod的运行情况，集群装了metrics，也通过`kubectl top node/pod`来查看资源使用情况。项目部署上需要做2个动作，一个是打新的镜像，然后就是通知集群更新镜像即可。要添加Node也很方便，通过后台直接添加节点即可，会自动装好Node需要的环境，Node下线做个节点排水设置不调度就自动在其他Node上创建了。
+集群上有`Prometheus`监控，可以观察到Node、Pod的运行情况，集群装了metrics，也通过`kubectl top node/pod`来查看资源使用情况。
+
+项目部署上需要做2个动作，一个是打新的镜像，然后就是通知集群更新镜像即可。
+
+要添加Node也很方便，通过后台直接添加节点即可，会自动装好Node需要的环境，Node下线做个节点排水设置不调度就自动在其他Node上创建了。
