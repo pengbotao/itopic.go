@@ -43,8 +43,9 @@ k8s集群后面的资源是一个由许多Node节点组成的大的资源池，�
 
 ## 2.2 优选策略
 
-
 # 三、node调度
+
+上面是理论层面的一些信息，在实际运行中可以通过配置的方式来实现对调度策略的干预。比如Reids部署到内存型的机器上，有IP限制的服务部署到指定的服务节点上，有以下三种方式实现对pod调度到node的干预，解决的是pod与node之间的关系。
 
 ## 3.1 nodeName
 
@@ -226,16 +227,100 @@ nodeSelectorTerms下的多个条件满足一个就行，matchExpressions下的�
 
 # 四、pod调度
 
+node亲和性是根据node的标签给pod找node，而pod亲和性则更细一些，考虑的是pod与其他pod之间的亲和性。
+
+- podAffinity：匹配pod标签，觉得pod可以和哪些pod运行在一起
+- podAntiAffinity：pod反亲和性，表示不可以运行和哪些pod运行在一起
+
+我们可以对Node打标签，系统也会预设一些标签：
+
+| 标签                                     | 示例                      |
+| ---------------------------------------- | ------------------------- |
+| failure-domain.beta.kubernetes.io/region | cn-hangzhou               |
+| failure-domain.beta.kubernetes.io/zone   | cn-hangzhou-h             |
+| kubernetes.io/arch                       | amd64                     |
+| kubernetes.io/hostname                   | cn-hangzhou.192.168.0.100 |
+| kubernetes.io/os                         | linux                     |
+| beta.kubernetes.io/instance-type         | ecs.c6.4xlarge            |
+
+云厂商也会打一些标签，比如：
+
+| 标签                                          | 示例          |
+| --------------------------------------------- | ------------- |
+| alibabacloud.com/nodepool-id                  |               |
+| topology.diskplugin.csi.alibabacloud.com/zone | cn-hangzhou-h |
+| topology.kubernetes.io/region                 | cn-hangzhou   |
+| topology.kubernetes.io/zone                   | cn-hangzhou-h |
+
+运行在一起的意思时可以根据指定某些标签比如都是linux系统，都在某一区域等，可以通过topologyKey来指定。
+
+用法同node类似，通过label选择时支持的操作符有：In、NotIn、Exists、DoesNotExists
+
 ## 4.1 pod亲和性
 
-podAffinity
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-go-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: k8s-go-demo
+  template:
+    metadata:
+      labels:
+        app: k8s-go-demo
+    spec:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                - key: service
+                  operator: In
+                  values: 
+                  - order
+      containers:
+      - name: k8s-go-demo
+        image: pengbotao/k8s-go-demo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 38001
+```
+
+也可以使用requiredDuringSchedulingIgnoredDuringExecution
+
+```
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: service
+                operator: In
+                values: 
+                - order
+            topologyKey: kubernetes.io/hostname
+```
+
+通过topologyKey定义位置划分方式，上面表示想要或者必须和运行了service=order的pod运行在一起，通过hostname标签来区分，不过往往hostname都是唯一的，也就是得运行在同一个节点。
+
+> pod的亲和性属于比较细的场景了，topologyKey设置自定义的标签留待以后碰到了在测试。
 
 ## 4.2 pod反亲和性
 
-podAntiAffinity
+定义在字段pod.spec.affinity.podAntiAffinity，使用方式和上面是一样，只是逻辑是反的。
 
+# 五、污点与容忍
 
-# 五、污点
+- 污点(taints)
+- 容忍(tolerations)
 
 
 
