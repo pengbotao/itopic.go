@@ -269,16 +269,32 @@ vm.overcommit_memory = 1
 
 ```
 vm.swappiness = 0
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_synack_retries = 2
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_keepalive_time = 1200
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.ip_local_port_range = 1024 65000
-net.ipv4.ip_local_reserved_ports = 9001,30001
-net.ipv4.tcp_max_syn_backlog = 8192
+kernel.sysrq=1
+
+net.ipv4.neigh.default.gc_stale_time = 120
+
+# see details in https://help.aliyun.com/knowledge_detail/39428.html
+net.ipv4.conf.all.rp_filter = 0
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.default.arp_announce = 2
+net.ipv4.conf.lo.arp_announce = 2
+net.ipv4.conf.all.arp_announce = 2
+
+# see details in https://help.aliyun.com/knowledge_detail/41334.html
 net.ipv4.tcp_max_tw_buckets = 20000
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.tcp_synack_retries = 2
+
+net.ipv4.tcp_tw_reuse = 1 
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 1200
+
 net.core.somaxconn = 65535
+net.netfilter.nf_conntrack_max = 655360
+net.netfilter.nf_conntrack_tcp_timeout_established = 1200
+net.nf_conntrack_max = 655360
+
 ```
 
 Redis开启bgsave可考虑设置`vm.overcommit_memory = 1`
