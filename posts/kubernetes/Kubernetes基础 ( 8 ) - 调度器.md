@@ -319,8 +319,76 @@ spec:
 
 # 五、污点与容忍
 
-- 污点(taints)
-- 容忍(tolerations)
+污点（taints）与容忍（tolerations）也是用来定义Pod与Node的调度关系，污点打在Node上，容忍设置在Pod上。当Node被打上污点时按字面理解就是该Node有缺陷，如果Pod可以容忍该缺陷才有可能调度到该Node上。
+
+## 5.1 定义污点
+
+```
+定义污点
+$ kubectl taint nodes [node] key=value[effect]
+删除污点，和Label类似加个减号
+$ kubectl taint nodes [node] key=value[effect]-
+查看污点
+$ kubectl describe node docker-desktop | grep Taints
+```
+
+value可以省略，其中effect的可选值有： [ NoSchedule | PreferNoSchedule | NoExecute ]
+
+- NoSchedule：必须设置容忍才会调度，否则不会调度。不会驱逐Node上已有Pod
+- PreferNoSchedule：未设置容忍的Pod尽量不会调度到该节点，但还是会被调度到。不会驱逐Node上已有Pod
+- NoExecute：同NoSchedule，但会驱逐Node上已有Pod
+
+示例：
+
+```
+$ kubectl taint nodes docker-desktop env=test:NoSchedule
+node/docker-desktop tainted
+$ kubectl describe node docker-desktop | grep Taints
+Taints:             env=test:NoSchedule
+$ kubectl taint nodes docker-desktop env-
+node/docker-desktop untainted
+```
+
+## 5.2 定义容忍
+
+当设置污点NoSchedule，但不设置容忍时Pod会处于Pengding并提示：
+
+> default-scheduler  0/1 nodes are available: 1 node(s) had taint {env: test}, that the pod didn't tolerate.
+
+容忍设置方式
+
+```
+$ kubectl describe node docker-desktop | grep Taints
+Taints:             env=test:NoSchedule
+
+$ kubectl apply -f k8s-go-demo.yaml
+$ cat k8s-go-demo.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-go-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: k8s-go-demo
+  template:
+    metadata:
+      labels:
+        app: k8s-go-demo
+    spec:
+      tolerations:
+      - key: "env"
+        value: "test"
+        operator: "Equal"
+        effect: "NoSchedule"
+      containers:
+      - name: k8s-go-demo
+        image: pengbotao/k8s-go-demo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 38001
+```
 
 
 
