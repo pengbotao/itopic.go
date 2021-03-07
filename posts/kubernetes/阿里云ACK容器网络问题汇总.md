@@ -179,9 +179,9 @@ Service有几种类型，默认是ClusterIP，只能集群内部访问；还有�
 
 前一步中已经通过Ingress实现了内外网的SLB分离，但还是有个问题，如果原有服务带非80端口，则Ingress是不方便处理的。这个时候我们可以通过LoadBalancer来暴露服务。
 
-**第一步，**手动创建一个SLB，也可以不设置自动创建，问题是自动创建出来的slb不支持复用，关于区别可以看下面参考文档。
+**第一步，** 手动创建一个SLB，也可以不设置自动创建，问题是自动创建出来的slb不支持复用，关于区别可以看下面参考文档。
 
-**第二步，**创建Service并指定类型为LoadBalancer
+**第二步，** 创建Service并指定类型为LoadBalancer
 
 ```
 apiVersion: v1
@@ -213,7 +213,7 @@ spec:
 
 # 5. Pod内访问SLB不通
 
-Service中有一个参数spec.externalTrafficPolicy，可定义为Local或者Cluster，默认通过阿里云SLB出去的配置为Local。这种类型的SLB地址只有在Node中部署了对应的后端Pod才能呗访问，所以前面的Ingress、Service通过SLB暴露服务时需要注意下内部访问情况。
+Service中有一个参数spec.externalTrafficPolicy，可定义为Local或者Cluster，默认为Local。这种类型的SLB地址只有在Node中部署了对应的后端Pod才能被访问，所以前面的Ingress、Service通过SLB暴露服务时需要注意下内部访问情况。
 
 ```
 $ kubectl get svc nginx-ingress-lb -n kube-system -o yaml | grep externalTrafficPolicy
