@@ -191,7 +191,7 @@ spec:
 $ kubectl label node docker-desktop env=sandbox
 ```
 
-其中operator有：In、NotIn、Exists、DoesNotExists、Gt、Lt ，比如要指定打了env=sandbox标签或者没有打过标签的：
+其中operator有：In、NotIn、Exists、DoesNotExist、Gt、Lt ，比如要指定打了env=sandbox标签或者没有打过标签的：
 
 ```
     spec:
@@ -206,7 +206,7 @@ $ kubectl label node docker-desktop env=sandbox
                 - sandbox
             - matchExpressions:
               - key: env
-                operator: DoesNotExists
+                operator: DoesNotExist
 ```
 
 nodeSelectorTerms下的多个条件满足一个就行，matchExpressions下的需要满足所有条件才行。如果是指定preferredDuringSchedulingRequiredDuringExecution则可以这么使用：
@@ -254,7 +254,7 @@ node亲和性是根据node的标签给pod找node，而pod亲和性则更细一�
 
 运行在一起的意思时可以根据指定某些标签比如都是linux系统，都在某一区域等，可以通过topologyKey来指定。
 
-用法同node类似，通过label选择时支持的操作符有：In、NotIn、Exists、DoesNotExists
+用法同node类似，通过label选择时支持的操作符有：In、NotIn、Exists、DoesNotExist
 
 ## 4.1 pod亲和性
 
