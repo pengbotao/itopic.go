@@ -2,7 +2,8 @@
 {
     "url": "linux-sysctl",
     "time": "2017/12/24 19:30",
-    "tag": "运维,CentOS"
+    "tag": "运维,CentOS",
+    "toc": "yes"
 }
 ```
 
@@ -116,7 +117,9 @@ zabbix_se 2309 zabbix  mem    REG              252,1   528075  269246 /lib64/lib
 
 （图二：Four-Way Wavehand）
 
-**1. net.ipv4.tcp_syncookies**
+### net.ipv4.tcp_syncookies
+
+net下的参数也可以在/proc/sys/net/下看到对应的文件。
 
 ```
 net.ipv4.tcp_syncookies = 1
@@ -143,7 +146,7 @@ net.core.somaxconn = 65535
 - `net.ipv4.tcp_synack_retries`：TCP失败重传次数，默认是15，可减少重传次数
 - `net.ipv4.tcp_max_syn_backlo`：调整半连接队列大小
 
-**2. net.ipv4.tcp_tw_recycle**
+### net.ipv4.tcp_tw_recycle
 
 查看当前系统的`TCP`连接情况，可以看到`TIME_WAIT`的数量比较多。在主动关闭的一方发出最后的`ACK`后状态变为`TIME_WAIT`，但这个时候会等待`2MSL`的时间，如果这个时间内没有收到被动关闭方的重传的`FIN`包，则结束`TCP`连接，主要是为了防止最后的`ACK`包发送后对方没有收到而重传`FIN`包。
 
@@ -182,7 +185,7 @@ net.ipv4.tcp_timestamps = 1
 
 与`TIME_WAIT`对应的是`COSE_WAIT`，被动关闭方收到关闭请求后置为`CLOSE_WAIT`状态，但没有在主动发包，通常是程序里对资源没有调用`Close Socket`操作。
 
-**3. net.ipv4.tcp_tw_reuse**
+### net.ipv4.tcp_tw_reuse
 
 ```
 net.ipv4.tcp_tw_reuse = 1
@@ -191,7 +194,7 @@ net.ipv4.tcp_timestamps = 1
 
 开启`TCP`连接重用，允许将`TIME_WAIT`的连接用于新的TCP连接，默认为0，表示关闭。
 
-**4. net.ipv4.tcp_fin_timeout**
+### net.ipv4.tcp_fin_timeout
 
 ```
 net.ipv4.tcp_fin_timeout = 30
@@ -199,7 +202,7 @@ net.ipv4.tcp_fin_timeout = 30
 
 设置`FIN-WAIT-2`超时时间，当主动关闭的一方处于该状态，但一直收不到对方的`FIN`包时，超过设定的时间就直接`CLOSE`掉了。
 
-**5. net.ipv4.tcp_keepalive_time**
+### net.ipv4.tcp_keepalive_time
 
 ```
 net.ipv4.tcp_keepalive_time = 1200
@@ -209,7 +212,7 @@ net.ipv4.tcp_keepalive_probes = 2
 
 默认是2个小时。`tcp_keepalive_intvl`表示探测包发送的时间间隔，默认75s。`tcp_keepalive_probes`对方不予应答发送探测包的次数，默认是9次。
 
-**6. net.ipv4.ip_local_reserved_ports**
+### net.ipv4.ip_local_reserved_ports
 
 ```
 net.ipv4.ip_local_port_range = 1024 65000
@@ -218,7 +221,19 @@ net.ipv4.ip_local_reserved_ports = 9001,30001
 
 有时候重启服务的时候发现某个端口被占用导致服务无法启动，可以设置此参数，`TCP`建立连接时从`ip_local_port_range`中选取端口，同时会排除`ip_local_reserved_ports中`设定的端口。
 
-## 2.2 Swap分区
+## 2.2 系统丢包
+
+当请求量到一定数量时可能会出现丢包的情况，这个时候就可能跟nf_conntrack模块的设置有关了。通过系统日志可以看到类似`kernel: nf_conntrack: table full, dropping packet`的日志信息。nf_conntrack模块会使用一个哈希表记录TCP协议“established connection”记录，当这个哈希表满之后，新的连接会引发“nf_conntrack: table full, dropping packet”错误。
+
+###net.netfilter.nf_conntrack_max
+
+```
+sudo sysctl -w net.netfilter.nf_conntrack_max=1503232
+sudo sysctl -w net.netfilter.nf_conntrack_buckets=375808  # 如果使用非4.19内核，该选项可能无法在运行时修改
+sudo sysctl -w net.netfilter.nf_conntrack_tcp_timeout_time_wait=60
+```
+
+## 2.3 Swap分区
 
 ```
 vm.swappiness = 0
@@ -251,7 +266,7 @@ Mem:        127162      63028      64133          1        142      51670
 Swap:        20479          0      20479
 ```
 
-## 2.3 内存分配策略
+## 2.4 内存分配策略
 
 ```
 vm.overcommit_memory = 1
@@ -263,9 +278,7 @@ vm.overcommit_memory = 1
 - 1， 表示内核允许分配所有的物理内存，而不管当前的内存状态如何。
 - 2， 表示内核允许分配超过所有物理内存和交换空间总和的内存。
 
----
-
-## 完整示例
+# 完整示例
 
 ```
 vm.swappiness = 0
@@ -291,10 +304,9 @@ net.ipv4.tcp_fin_timeout = 30
 net.ipv4.tcp_keepalive_time = 1200
 
 net.core.somaxconn = 65535
-net.netfilter.nf_conntrack_max = 655360
+net.netfilter.nf_conntrack_max = 1503232
+#net.netfilter.nf_conntrack_buckets = 375808
 net.netfilter.nf_conntrack_tcp_timeout_established = 1200
-net.nf_conntrack_max = 655360
-
 ```
 
 Redis开启bgsave可考虑设置`vm.overcommit_memory = 1`
@@ -302,3 +314,5 @@ Redis开启bgsave可考虑设置`vm.overcommit_memory = 1`
 ---
 
 - [深入浅出TCP中的SYN-Cookies](https://segmentfault.com/a/1190000019292140)
+- [[踩坑总结] nf_conntrack: table full, dropping packet](http://keithmo.me/post/2018/08/25/conntrack-tuning/)
+
