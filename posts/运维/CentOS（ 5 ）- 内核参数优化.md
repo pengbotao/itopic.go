@@ -225,7 +225,7 @@ net.ipv4.ip_local_reserved_ports = 9001,30001
 
 当请求量到一定数量时可能会出现丢包的情况，这个时候就可能跟nf_conntrack模块的设置有关了。通过系统日志可以看到类似`kernel: nf_conntrack: table full, dropping packet`的日志信息。nf_conntrack模块会使用一个哈希表记录TCP协议“established connection”记录，当这个哈希表满之后，新的连接会引发“nf_conntrack: table full, dropping packet”错误。
 
-###net.netfilter.nf_conntrack_max
+### net.netfilter.nf_conntrack_max
 
 ```
 sudo sysctl -w net.netfilter.nf_conntrack_max=1503232
