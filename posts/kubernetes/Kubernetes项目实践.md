@@ -118,12 +118,41 @@ spec:
         emptyDir: {}
 ```
 
-日中env的`name:aliyun_logs_{test-api-log}`定义了logstore的名字为test-api-log，收集的是test.log中的内容。
+日中env的`name:aliyun_logs_{test-api-log}`定义了logstore的名字为test-api-log，收集的是test.log中的内容。当然也可以以CRD的方式来收集日志：
 
-**7. 监控与部署**
+```
+apiVersion: log.alibabacloud.com/v1alpha1
+kind: AliyunLogConfig
+metadata:
+  name: api-log
+spec:
+  logstore: aliyun-api-log-storename
+  lifeCycle: 30
+  logtailConfig:
+    inputType: file
+    configName: api-log
+    inputDetail:
+      logType: common_reg_log
+      logPath: /data/log
+      filePattern: api.log
+      logBeginRegex: '\d+-\d+-\d+\s+\d+:\d+:\d+,\d+\s+-\s+.*'
+      dockerFile: true
+      dockerIncludeEnv:
+        ALIYUN_LOGTAIL_USER_DEFINED_ID: "api"
+```
+
+具体的可参考：https://help.aliyun.com/document_detail/74878.html
+
+**7. 有状态应用**
+
+对于有状态应用则可以通过挂载外部存储卷，比如NAS存储，支持动态或者静态的方式创建，挂上就可以解决有状态应用存储的问题了。
+
+**8. 监控与部署**
 
 集群上有`Prometheus`监控，可以观察到Node、Pod的运行情况，集群装了metrics，也通过`kubectl top node/pod`来查看资源使用情况。
 
 项目部署上需要做2个动作，一个是打新的镜像，然后就是通知集群更新镜像即可。
 
 要添加Node也很方便，通过后台直接添加节点即可，会自动装好Node需要的环境，Node下线做个节点排水设置不调度就自动在其他Node上创建了。
+
+总之，阿里云的ACK容器提供了完整的解决方案，也有比较完善的文档：https://help.aliyun.com/document_detail/86987.html
