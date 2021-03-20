@@ -225,6 +225,10 @@ $ kubectl get svc nginx-ingress-lb -n kube-system -o yaml | grep externalTraffic
 
 参考文档：[Kubernetes集群中访问LoadBalancer暴露出去的SLB地址不通](https://help.aliyun.com/knowledge_detail/171437.html)
 
+而且这个方案还有一个问题是容易触发到SLB的上限： [https://slbnext.console.aliyun.com/slb/quota](https://slbnext.console.aliyun.com/slb/quota?spm=5176.smartservice_service_chat.0.0.49373f1bbsfycD)
 
+一个SLB开M个端口，目前集群有N个节点，则一个SLB上面会有M*N个ECS实例，而单个SLB的服务器上限默认为200.如果你有50个Node，则每个SLB上只能开4个端口。但为啥还考虑调整为Cluster呢？还是因为旧的内部业务迁移到容器内后，容器内和容器外都还需要访问，但容器内有容器内的访问地址，如果迁移过程不想容器内的调用方调整访问地址，就需要考虑到这个问题。
 
+---
 
+[1] [Kubernetes集群用户指南](https://help.aliyun.com/document_detail/86987.html)
