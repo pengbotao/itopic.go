@@ -53,11 +53,11 @@ Nginx的limit模块可以从不同维度进行流量限制，也可以组合使�
 
 ```
 http {
-		limit_req_log_level warn;
+    limit_req_log_level warn;
     limit_req_zone $binary_remote_addr zone=foo:10m rate=5r/s;
     
     server {
-    	 limit_req zone=foo burst=15 delay=10;
+        limit_req zone=foo burst=15 delay=10;
     }
 }
 ```
@@ -80,12 +80,12 @@ limit_req zone=foo burst=15 nodelay;
 
 ```
 http {
-		limit_conn_log_level warn
-		limit_conn_zone $binary_remote_addr zone=addr:10m;
-		
-		server {
-				limit_conn addr 10;
-		}
+    limit_conn_log_level warn
+    limit_conn_zone $binary_remote_addr zone=addr:10m;
+    
+    server {
+            limit_conn addr 10;
+    }
 }
 ```
 
@@ -98,10 +98,10 @@ http {
 ```
 server {
 
-		location /download/ {
-				limit_rate 500k;
-				limit_rate_after 1m;
-		}
+    location /download/ {
+            limit_rate 500k;
+            limit_rate_after 1m;
+    }
 }
 
 ```
@@ -157,9 +157,9 @@ http {
     
     
     server {
-    		if ($geoip2_data_country_code != "CN") {
-		    		rewrite ^/(.*)$ https://s.com/$1 permanent;
-    		}
+        if ($geoip2_data_country_code != "CN") {
+            rewrite ^/(.*)$ https://s.com/$1 permanent;
+        }
     }
 }
 ```
@@ -179,8 +179,8 @@ server {
 # 五、打印客户端IP
 
 ```
-	location /ipaddr {
-		add_header 'Content-Type' 'application/json; charset=utf-8';
-		return 200 '{"Host": "$host", "X-Real-IP": "$remote_addr", "X-Forwarded-For": "$proxy_add_x_forwarded_for"}';
-	}
+location /ipaddr {
+    add_header 'Content-Type' 'application/json; charset=utf-8';
+    return 200 '{"Host": "$host", "X-Real-IP": "$remote_addr", "X-Forwarded-For": "$proxy_add_x_forwarded_for"}';
+}
 ```
