@@ -140,8 +140,17 @@ $ kubectl edit configmap coredns -n kube-system
         prometheus :9153
 ```
 
+除了配置Hosts也可以通过配置CNAME的方式调整解析：
+
+```
+rewrite stop {
+  name regex demo.api.com demo.default.svc.cluster.local
+  answer name demo.default.svc.cluster.local demo.api.com
+}
+```
 
 # 3. 创建多套Ingress
+
 **场景说明：**
 
 > 迁移项目到Kubernetes集群，但无法一步到位，新建k8s集群和原有机器节点在同一个vpc下。那迁移到集群的项目有内网项目和公网项目，而初始化集群创建的SLB如果是私网，那公网项目的Ingress就无法对外（vpc外部）；如果是公网，则内部服务通过Ingress就暴露出去了，只是可能没有在DNS中指定Ingress对应的域名解析，但实际绑hosts到公网IP后内网服务就暴露了。
