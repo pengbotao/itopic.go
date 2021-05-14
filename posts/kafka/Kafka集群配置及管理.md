@@ -9,6 +9,8 @@
 
 # 一、概述
 
+![](../../static/uploads/Apache-Kafka-UML-Class-Diagram1.png)
+
 ## 1.1 安装ZooKeeper
 
 参考[分布式协调服务 - Zookeeper](/zookeeper.html)
