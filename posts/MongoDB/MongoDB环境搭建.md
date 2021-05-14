@@ -80,6 +80,15 @@ server should be down...
 
 ## 增删查改
 
+**连接**
+
+```
+$ /data/mongodb-macos-x86_64-4.4.3/bin/mongo --host 127.0.0.1 --port 27017
+$ use demo
+$ db.auth("demo", "passwd")
+$ show collections
+```
+
 **查询**
 
 ```
@@ -166,6 +175,15 @@ WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 ```
 > db.articles.remove({title: "Shell脚本入门"})
 WriteResult({ "nRemoved" : 1 })
+```
+
+# 数据修复
+
+同步数据后可能出现**ERROR: child process failed, exited with error number 51**
+
+```
+$ rm /data/mongodb-macos-x86_64-4.4.3/data/mongod.lock
+$ /data/mongodb-macos-x86_64-4.4.3/bin/mongod --repair --dbpath=/data/mongodb-macos-x86_64-4.4.3/data
 ```
 
 
