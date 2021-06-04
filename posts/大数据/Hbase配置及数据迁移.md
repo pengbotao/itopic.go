@@ -283,6 +283,12 @@ Took 0.3120 seconds
 ```
 > create_namespace 'demo'
 Took 1.1799 seconds
+
+> list_namespace
+NAMESPACE
+demo
+1 row(s)
+Took 0.6149 seconds
 ```
 
 创建数据表
