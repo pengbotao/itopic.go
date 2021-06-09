@@ -2,12 +2,18 @@
 {
     "url": "elasticsearch-in-k8s",
     "time": "2021/05/22 19:46",
-    "tag": "Elasticsearch,容器化",
-    "public": "no"
+    "tag": "Elasticsearch,容器化"
 }
 ```
 
-# 创建pv/pvc
+Elasticsearch的配置相对简单，可以通过环境变量注册配置信息，基本上就是常规的StatefulSet的配置方式。包括以下几点：
+
+- 创建pv与pvc
+- 创建service
+- 创建statefulSet
+- 创建kibana
+
+**1. 创建pv/pvc**
 
 ```
 apiVersion: v1
@@ -49,7 +55,7 @@ spec:
       project: es-demo-pv
 ```
 
-# 创建Service
+**2. 创建Service**
 
 ```
 apiVersion: v1
@@ -71,7 +77,9 @@ spec:
   clusterIP: None
 ```
 
-# 创建StatefulSet
+**3. 创建StatefulSet**
+
+pv里的子目录data用于存储es的数据，kibana目录用于存储kibana数据，他们共用了一个pv。其中`ES_JAVA_OPTS`用来定义Java程序申请的内存空间。
 
 ```
 apiVersion: apps/v1
@@ -149,7 +157,9 @@ spec:
           claimName: es-demo-pvc
 ```
 
-# 创建kibana
+**4. 创建kibana**
+
+pv使用和es相同的pv，只是子目录不同。
 
 ```
 apiVersion: apps/v1
@@ -220,7 +230,7 @@ spec:
           servicePort: 80
 ```
 
-# 集群模式
+**5. 集群模式**
 
 ```
         env:
@@ -250,16 +260,15 @@ spec:
           value: "2"
 ```
 
-
-
-# 索引迁移
+**索引迁移**
 
 Github: https://github.com/medcl/esm
 
 `esm`支持跨版本进行数据迁移，对数据比较规整的情况迁移也挺快。这里有个40多G的索引跨版本升级，一直迁移不成功，机器内存升级到256G跑到一半就蹦了，当然也有可能跟数据有关系，涉及到数据迁移的不妨一试。
 
 ```
-./esm -s http://192.168.0.100:9200 -d http://192.168.0.101:9200 -x orders -y orders -w 4
+$ ./esm -s http://192.168.0.100:9200 -d http://192.168.0.101:9200 -x orders -y orders -w 4
+
 [05-24 17:47:04] [INF] [main.go:474,main] start data migration..
 Scroll 1428110 / 1428110 [===============================================================] 100.00% 2m5s
 Bulk 1428005 / 1428110 [=================================================================]  99.99% 2m5s
