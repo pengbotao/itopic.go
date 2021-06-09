@@ -223,13 +223,27 @@ $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{print ($4
 $ salt -N peng cmd.run 'free |head -n 2| tail -n 1' | grep Mem | awk '{a+=$4;b+=$6;c+=$7;d+=$2}END{print (a+b+c)*100/d}'
 ```
 
-## 3.4 Host进行IP替换
+## 3.4 Host替换
 
-替换`test`分组下的`Host`配置，`sed`去掉`-i`不会执行，只打印替换后的信息。
+修改`127.0.0.1 test.salt.com`为`128.0.0.1 test.salt.com`
 
 ```
 # salt -N test cmd.run 'sed -i "s/127.0.0.1 test.salt.com/128.0.0.1 test.salt.com/" /etc/hosts'
+```
 
+## 3.5 Host追加
+
+在`127.0.0.1 test.local`后增加一行`128.0.0.1 test.salt.com`
+
+```
+# salt -N test cmd.run 'sed -i "/127.0.0.1 test.local/a\128.0.0.1 test.salt.com" /etc/hosts'
+```
+
+## 3.6 删除Host
+
+删除`127.0.0.1 test.local`配置
+
+```
 # salt -N test cmd.run 'sed -i "/127.0.0.1 test.local/d" /etc/hosts'
 ```
 
