@@ -76,3 +76,19 @@ mem_allocator:jemalloc-3.2.0
 ```
 
 mem_fragmentation_ratio的问题可能还需要优化下，从redis这个问题可以看到，设置cache的时候我们也需要考虑到cache的维护问题，是否该设置cache的过期时间，key的命名方式如何管理，不能只想着把数据塞进去就万事大吉了。
+
+# 命令
+
+通过`keys *`来删除
+
+```
+$ redis-cli --raw keys "test*" | xargs redis-cli del
+```
+
+通过`scan` 来删除
+
+```
+$ redis-cli --scan --pattern "test*" | xargs -L 1000 redis-cli del
+```
+
+示例是删除本机，如果非本机管道前后需要指定host和port。
