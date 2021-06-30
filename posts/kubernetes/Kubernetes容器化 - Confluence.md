@@ -178,3 +178,14 @@ spec:
           servicePort: 80
 ```
 
+**数据迁移**
+
+1、在`备份与还原`界面可以进行数据恢复，但可能出现恢复出错的情况：
+
+![](../../static/uploads/confluence-restore-error.png)
+
+重启后的效果是有部分空间是好的，有一些空间不展示，这时可以通过管理页面`备份与还原`下一个菜单`内容索引`，尝试重建索引完成数据迁移。
+
+2、无访问权限。
+
+进入之后如果管理员有权限，其他用户没有权限可以访问`/admin/permissions/pagepermsadmin.action`重构页面权限。
