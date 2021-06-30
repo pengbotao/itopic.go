@@ -154,7 +154,18 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8090
-
+        env:
+        - name: JVM_MINIMUM_MEMORY
+          value: 1024m
+        - name: JVM_MAXIMUM_MEMORY
+          value: 2048m
+        volumeMounts:
+        - name: confluence-pv
+          mountPath: /var/atlassian/application-data/confluence
+      volumes:
+      - name: confluence-pv
+        persistentVolumeClaim:
+          claimName: confluence-pvc
 ---
 
 apiVersion: extensions/v1beta1
