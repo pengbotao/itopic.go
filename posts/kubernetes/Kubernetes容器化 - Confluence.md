@@ -2,7 +2,7 @@
 {
     "url": "confluence-in-k8s",
     "time": "2021/06/02 04:46",
-    "tag": "容器化"
+    "tag": "Kubernetes,容器化"
 }
 ```
 

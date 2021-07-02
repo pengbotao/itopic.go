@@ -2,7 +2,7 @@
 {
     "url": "elasticsearch-in-k8s",
     "time": "2021/05/22 19:46",
-    "tag": "Elasticsearch,容器化"
+    "tag": "Elasticsearch,Kubernetes,容器化"
 }
 ```
 

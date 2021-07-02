@@ -2,7 +2,7 @@
 {
     "url": "mongo-in-k8s",
     "time": "2021/07/02 21:10",
-    "tag": "MongoDB"
+    "tag": "MongoDB,Kubernetes,容器化"
 }
 ```
 
