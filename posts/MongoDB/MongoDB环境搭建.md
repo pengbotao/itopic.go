@@ -6,6 +6,8 @@
 }
 ```
 
+# 一、安装
+
 通过官方下载社区版本（MongoDB Community Server），选择对应平台下载后解压即可看到可执行程序。
 
 ```
@@ -68,8 +70,6 @@ server should be down...
 
 ![](../../static/uploads/mongodb-compass.png)
 
-# 常用命令
-
 **MongoDB与Mysql结构对比**
 
 | MYSQL         | MongoDB           | 说明                             |
@@ -78,18 +78,30 @@ server should be down...
 | 表 - table    | 集合 - collection | 表示一组文档                     |
 | 行 - row      | 文档 - document   | 基本单元，类似关系型数据库中的行 |
 
-## 增删查改
+# 二、基本用法
 
-**连接**
+## 2.1 登录
 
 ```
-$ /data/mongodb-macos-x86_64-4.4.3/bin/mongo --host 127.0.0.1 --port 27017
+$ mongo --host 127.0.0.1 --port 27017
 $ use demo
+
+# 配置文件有开启授权认证时需要先验证
 $ db.auth("demo", "passwd")
 $ show collections
 ```
 
-**查询**
+也可以直接登录时指定密码，前面的demo是demo库
+
+```
+> mongo demo -udemo -p
+MongoDB shell version v3.4.24
+Enter password:
+connecting to: mongodb://127.0.0.1:27017/demo
+MongoDB server version: 3.4.24
+```
+
+## 2.2 基本查询
 
 ```
 # 显示数据库列表
@@ -108,28 +120,6 @@ $ show collections
 	"_id" : ObjectId("6006394a1e1382e154503c71"),
 	"title" : "Hbase配置及数据迁移",
 	"href" : "https://itopic.org/hbase.html"
-}
-{
-	"_id" : ObjectId("6006396c1e1382e154503c72"),
-	"title" : "Apache Airflow数据库迁移",
-	"href" : "https://itopic.org/airflow-data-migration.html",
-	"top" : 1
-}
-{
-	"_id" : ObjectId("6006398f1e1382e154503c73"),
-	"title" : "通过kubeadm部署Kubernetes集群",
-	"href" : "https://itopic.org/k8s-kubeadm-install.html",
-	"top" : 0
-}
-{
-	"_id" : ObjectId("60063a931e1382e154503c74"),
-	"title" : "Python入门知识点整理",
-	"href" : "https://itopic.org/python.html",
-	"top" : 1,
-	"author" : {
-		"name" : "peng",
-		"age" : 18
-	}
 }
 
 > db.articles.find({top:1}).pretty()
@@ -154,7 +144,12 @@ $ show collections
 
 > db.articles.count()
 4
+
+# 按创建时间倒叙取3条
+> db.articles.find().limit(3).sort({created_ts: -1})
 ```
+
+## 2.3 插入与更新
 
 **数据插入**
 
@@ -170,14 +165,130 @@ WriteResult({ "nInserted" : 1 })
 WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 ```
 
-**数据删除**
+## 2.4 数据删除
 
 ```
 > db.articles.remove({title: "Shell脚本入门"})
 WriteResult({ "nRemoved" : 1 })
 ```
 
-# 数据修复
+# 三、用户管理
+
+## 3.1 创建用户
+
+创建admin用户，创建用户时指定角色为root。内置了一些角色：
+
+| **角色**             | **介绍**                                                     |
+| -------------------- | ------------------------------------------------------------ |
+| read                 | 提供读取所有非系统的集合（数据库）                           |
+| readWrite            | 提供读写所有非系统的集合（数据库）和读取所有角色的所有权限   |
+| dbAdmin              | 提供执行管理任务的功能，例如与架构相关的任务，索引编制，收集统计信息。此角色不授予用户和角色管理权限。 |
+| dbOwner              | 提供对数据库执行任何管理操作的功能。此角色组合了readWrite，dbAdmin和userAdmin角色授予的权限。 |
+| userAdmin            | 提供在当前数据库上创建和修改角色和用户的功能。由于userAdmin角色允许用户向任何用户（包括他们自己）授予任何权限，因此该角色还间接提供对数据库的超级用户访问权限，或者，如果作用于管理数据库，则提供对群集的访问权限。 |
+| clusterAdmin         | 提供最佳的集群管理访问。此角色组合了clusterManager，clusterMonitor和hostManager角色授予的权限。此外，该角色还提供了dropDatabase操作。 |
+| readAnyDatabase      | 仅在admin 数据库中使用，提供所有数据库的读权限。             |
+| readWriteAnyDatabase | 尽在admin 数据库中使用，提供所有数据库的读写权限             |
+| userAdminAnyDatabase | 尽在admin 数据库中使用，提供与userAdmin相同的用户管理操作访问权限，允许用户向任何用户（包括他们自己）授予任何权限，因此该角色还间接提供超级用户访问权限。 |
+| dbAdminAnyDatabase   | 仅在admin 数据库中使用，提供与dbAdmin相同的数据库管理操作访问权限，该角色还在整个群集上提供listDatabases操作。 |
+| root                 | 尽在admin 数据库中使用，提供超级权限                         |
+
+```
+> use.admin  
+> db.createUser({
+  user: 'admin',
+  pwd: '123456',
+  roles:[{
+    role: 'root',
+    db: 'admin'
+  }]
+})
+
+Successfully added user: {
+	"user" : "admin",
+	"roles" : [
+		{
+			"role" : "root",
+			"db" : "admin"
+		}
+	]
+}
+```
+
+**查看用户**，需要切换到对应的库下面
+
+```
+> use demo
+switched to db demo
+> show users
+{
+	"_id" : "demo.demo",
+	"userId" : BinData(4,"dzjECUu2Q4aNATGogyNRTw=="),
+	"user" : "demo",
+	"db" : "demo",
+	"roles" : [
+		{
+			"role" : "dbOwner",
+			"db" : "demo"
+		}
+	]
+}
+> use admin
+> db.system.users.find().pretty()
+```
+
+**创建用户**
+
+```
+> use demo
+> db.createUser({
+  user: 'demo',
+  pwd: '123456',
+  roles:[{
+    role: 'dbOwner',
+    db: 'demo'
+  }]
+})
+```
+
+## 3.2 删除用户
+
+```
+> use demo
+> db.dropUser('demo')
+```
+
+## 3.3 更新密码
+
+```
+> db.updateUser('demo', {pwd: '123456'})
+```
+
+# 四、数据库管理
+
+## 4.1 创建数据库
+
+**创建数据库**，需要传入一条记录才可以看到对应的数据库。
+
+```
+> use demo
+> db.articles.insert({title: "Shell脚本入门", href: "https://itopic.org/shell-start.html"})
+```
+
+## 4.2 删除集合
+
+````
+> show collections
+> db.articles.drop()
+````
+
+## 4.3 删除数据库
+
+```
+> use demo
+> db.dropDatabase()
+```
+
+# 五、数据修复
 
 同步数据后可能出现**ERROR: child process failed, exited with error number 51**
 
@@ -192,3 +303,4 @@ $ /data/mongodb-macos-x86_64-4.4.3/bin/mongod --repair --dbpath=/data/mongodb-ma
 
 - [1] [MongoDB官网](https://www.mongodb.com)
 - [2] [MongoDB数据库系列](https://www.kancloud.cn/noahs/linux/1425612)
+
