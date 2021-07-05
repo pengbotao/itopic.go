@@ -59,9 +59,9 @@ services:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: zookeeper-kafka-pv1
+  name: zookeeper-pv1
   labels:
-    project: zookeeper-kafka-pv
+    project: zookeeper-pv
 spec:
   capacity:
     storage: 5Gi
@@ -70,10 +70,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nasplugin.csi.alibabacloud.com
-    volumeHandle: zookeeper-kafka-pv1
+    volumeHandle: zookeeper-pv1
     volumeAttributes:
       server: "nasid.cn-hangzhou.nas.aliyuncs.com"
-      path: "/zookeeper-kafka/data1"
+      path: "/zookeeper/data1"
   mountOptions:
   - nolock,tcp,noresvport
   - vers=3
@@ -83,9 +83,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: zookeeper-kafka-pv2
+  name: zookeeper-pv2
   labels:
-    project: zookeeper-kafka-pv
+    project: zookeeper-pv
 spec:
   capacity:
     storage: 5Gi
@@ -94,10 +94,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nasplugin.csi.alibabacloud.com
-    volumeHandle: zookeeper-kafka-pv2
+    volumeHandle: zookeeper-pv2
     volumeAttributes:
       server: "nasid.cn-hangzhou.nas.aliyuncs.com"
-      path: "/zookeeper-kafka/data2"
+      path: "/zookeeper/data2"
   mountOptions:
   - nolock,tcp,noresvport
   - vers=3
@@ -107,9 +107,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: zookeeper-kafka-pv3
+  name: zookeeper-pv3
   labels:
-    project: zookeeper-kafka-pv
+    project: zookeeper-pv
 spec:
   capacity:
     storage: 5Gi
@@ -118,10 +118,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nasplugin.csi.alibabacloud.com
-    volumeHandle: zookeeper-kafka-pv3
+    volumeHandle: zookeeper-pv3
     volumeAttributes:
       server: "nasid.cn-hangzhou.nas.aliyuncs.com"
-      path: "/zookeeper-kafka/data3"
+      path: "/zookeeper/data3"
   mountOptions:
   - nolock,tcp,noresvport
   - vers=3
@@ -133,13 +133,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zookeeper-kafka
+  name: zookeeper
   namespace: default
   labels:
-    project: zookeeper-kafka
+    project: zookeeper
 spec:
   selector:
-    project: zookeeper-kafka
+    project: zookeeper
   ports:
   - name: client
     port: 2181
@@ -156,26 +156,26 @@ spec:
   clusterIP: None
 ```
 
-**第三步**，创建StatefulSet，通过`podAntiAffinity`来避免`Pod`都运行在同一个节点上，通过Service提供的服务地址来访问，从而忽略PodIP，如：`zookeeper-kafka-0.zookeeper-kafka.default.svc.cluster.local`
+**第三步**，创建StatefulSet，通过`podAntiAffinity`来避免`Pod`都运行在同一个节点上，通过Service提供的服务地址来访问，从而忽略PodIP，如：`zookeeper-0.zookeeper.default.svc.cluster.local`
 
 ```
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: zookeeper-kafka
+  name: zookeeper
   namespace: default
   labels:
-    project: zookeeper-kafka
+    project: zookeeper
 spec:
-  serviceName: zookeeper-kafka
+  serviceName: zookeeper
   replicas: 3
   selector:
     matchLabels:
-      project: zookeeper-kafka
+      project: zookeeper
   template:
     metadata:
       labels:
-        project: zookeeper-kafka
+        project: zookeeper
     spec:
       restartPolicy: Always
       affinity:
@@ -189,7 +189,7 @@ spec:
                 - key: project
                   operator: In
                   values: 
-                  - zookeeper-kafka
+                  - zookeeper
       containers:
       - name: zookeeper
         image: zookeeper:3.6.3
@@ -223,13 +223,13 @@ spec:
         - name: ZOO_STANDALONE_ENABLED
           value: "false"
         - name: ZOO_SERVERS
-          value: "server.1=zookeeper-kafka-0.zookeeper-kafka.default.svc.cluster.local:2888:3888;2181 server.2=zookeeper-kafka-1.zookeeper-kafka.default.svc.cluster.local:2888:3888;2181 server.3=zookeeper-kafka-2.zookeeper-kafka.default.svc.cluster.local:2888:3888;2181"
+          value: "server.1=zookeeper-0.zookeeper.default.svc.cluster.local:2888:3888;2181 server.2=zookeeper-1.zookeeper.default.svc.cluster.local:2888:3888;2181 server.3=zookeeper-2.zookeeper.default.svc.cluster.local:2888:3888;2181"
         volumeMounts:
-        - name: zookeeper-kafka-pvc
+        - name: zookeeper-pvc
           mountPath: /data
   volumeClaimTemplates:
   - metadata:
-      name: zookeeper-kafka-pvc
+      name: zookeeper-pvc
     spec:
         accessModes:
           - ReadWriteOnce
@@ -238,7 +238,7 @@ spec:
             storage: 5Gi
         selector:
           matchLabels:
-            project: zookeeper-kafka-pv
+            project: zookeeper-pv
 
 ```
 
