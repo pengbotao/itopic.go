@@ -204,22 +204,16 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 2181
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           timeoutSeconds: 15
           periodSeconds: 5
         livenessProbe:
           tcpSocket: 
             port: 2181
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           timeoutSeconds: 15
           periodSeconds: 15
         env:
-        - name: ZOO_TICK_TIME
-          value: "3000"
-        - name: ZOO_INIT_LIMIT
-          value: "10"
-        - name: ZOO_SYNC_LIMIT
-          value: "5"
         - name: ZOO_STANDALONE_ENABLED
           value: "false"
         - name: ZOO_SERVERS
