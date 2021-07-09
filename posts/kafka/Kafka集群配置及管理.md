@@ -152,6 +152,39 @@ $ ./kafka-reassign-partitions.sh --zookeeper 192.168.1.100:2181 --reassignment-j
 $ ./kafka-topics.sh --zookeeper 192.168.1.100:2181 --alter --topic peng --partitions 5
 ```
 
+## 3.3 调整副本数
+
+**第一步，生成文件，参考Stack Overflow上的脚本** 
+
+```
+#!/bin/bash
+
+brokerids="0,1,2"
+#topics=`./kafka-topics.sh --list --zookeeper zookeeper-kafka:2181`
+topics="peng"
+while read -r line; do lines+=("$line"); done <<<"$topics"
+echo '{"version":1,
+  "partitions":['
+for t in $topics; do
+    sep=","
+    pcount=$(./kafka-topics.sh --describe --zookeeper zookeeper-kafka:2181 --topic $t | awk '{print $2}' | uniq -c |awk 'NR==2{print $1}')
+    for i in $(seq 0 $[pcount - 1]); do
+        if [ "${t}" == "${lines[-1]}" ] && [ "$[pcount - 1]" == "$i" ]; then sep=""; fi
+        randombrokers=$(echo "$brokerids" | sed -r 's/,/ /g' | tr " " "\n" | shuf | tr  "\n" "," | head -c -1)
+        echo "    {\"topic\":\"${t}\",\"partition\":${i},\"replicas\":[${randombrokers}]}$sep"
+    done
+done
+
+echo '  ]
+}'
+```
+
+**第二步，执行调整**
+
+```
+./kafka-reassign-partitions.sh --zookeeper zookeeper-kafka:2181 --reassignment-json-file tmp.json --execute
+```
+
 # 四、Kafka-manager
 
 > CMAK (Cluster Manager for Apache Kafka, previously known as Kafka Manager)
@@ -164,6 +197,4 @@ $ ./kafka-topics.sh --zookeeper 192.168.1.100:2181 --alter --topic peng --partit
 
 - [1] [Apache Kafka](http://kafka.apache.org/)
 - [2] [Kafka-Manager](https://github.com/yahoo/CMAK/)
-
-
-
+- [3] [How to change the number of replicas of a Kafka topic?](https://stackoverflow.com/questions/37960767/how-to-change-the-number-of-replicas-of-a-kafka-topic)

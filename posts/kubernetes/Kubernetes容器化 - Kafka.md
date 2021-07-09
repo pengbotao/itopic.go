@@ -103,6 +103,8 @@ spec:
           value: "168"
         - name: KAFKA_DELETE_TOPIC_ENABLE
           value: "false"
+        - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+          value: "2"
         volumeMounts:
         - name: kafka-pvc
           mountPath: /kafka
