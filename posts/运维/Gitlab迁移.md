@@ -2,7 +2,7 @@
 {
     "url": "gitlab-migration",
     "time": "2019/06/01 11:52",
-    "tag": "运维"
+    "tag": "Gitlab,运维"
 }
 ```
 

@@ -1,12 +1,14 @@
 ```
 {
     "url": "gitlab-in-k8s",
-    "time": "2021/07/16 23:19",
+    "time": "2021/07/24 20:10",
     "tag": "Gitlab,Kubernetes,容器化"
 }
 ```
 
+Gitlab的镜像（`docker pull gitlab/gitlab-ce:latest`）里已经包含了各种依赖环境，如果不考虑拆分postgresql和redis搭建还是挺简单，而且Gitlab上的备份和恢复目前用起来都还挺顺利，所以这里是直接使用的镜像里的数据库和缓存。
 
+首先，第一步还是准备好pv/pvc存储。
 
 ```
 apiVersion: v1
@@ -48,9 +50,7 @@ spec:
       project: gitlab-pv
 ```
 
-
-
-
+第二步，创建需要的Service
 
 ```
 apiVersion: v1
@@ -72,9 +72,7 @@ spec:
   clusterIP: None
 ```
 
-
-
-
+第三步，创建StatefulSet，这里将配置文件也进行了挂载，就没有配置ConfigMap。
 
 ```
 apiVersion: apps/v1
@@ -123,19 +121,7 @@ spec:
           claimName: gitlab-pvc
 ```
 
-
-
-```
-$ cat /etc/gitlab/gitlab.rb
-prometheus['enable'] = false
-prometheus_monitoring['enable'] = false
-external_url 'http://gitlab.x.com'
-unicorn['worker_processes'] = 2
-```
-
-
-
-
+通过前面几步创建之后服务就创建好了，但上面使用到的是内网Service，由于需要暴露多个端口，这里直接通过阿里云同一个SLB来暴露2个默认端口，这样在拉取仓库的时候都不需要带额外的端口。
 
 ```
 apiVersion: v1
@@ -158,5 +144,15 @@ spec:
     targetPort: 22
     protocol: TCP
   type: LoadBalancer
+```
+
+上面配置之后Gitlab仓库地址还不是以域名的方式在呈现，这时需要调整一下gitlab.rb配置参数：`external_url`
+
+```
+$ cat /etc/gitlab/gitlab.rb
+prometheus['enable'] = false
+prometheus_monitoring['enable'] = false
+external_url 'http://gitlab.x.com'
+unicorn['worker_processes'] = 2
 ```
 
