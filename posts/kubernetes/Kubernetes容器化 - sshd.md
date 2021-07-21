@@ -2,8 +2,7 @@
 {
     "url": "sshd-in-k8s",
     "time": "2021/08/01 21:10",
-    "tag": "sshd,Kubernetes,容器化",
-    "public": "no"
+    "tag": "sshd,Kubernetes,容器化"
 }
 ```
 
@@ -13,25 +12,24 @@
 
 ```
 $ cat Dockerfile
-FROM centos:7
+FROM debian:buster
 
+MAINTAINER pengbotao "pengbotao@vip.qq.com"
 ENV TZ=Asia/Shanghai
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN yum install -y openssh-server openssh-clients 
+RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list && sed -i s@/security.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list && apt-get update
 
-RUN ssh-keygen -t rsa -f /root/.ssh/id_rsa -N ""
-RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ""
-RUN ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ""
-RUN ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
-RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
-RUN sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+RUN apt-get install -y locales
+RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen && locale-gen && echo "export LANG=zh_CN.UTF-8" >> /etc/bash.bashrc
+
+RUN apt-get install -y ssh
+RUN apt-get -y clean && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
-
 ```
 
 **entrypint.sh**
@@ -41,6 +39,10 @@ $ cat entrypoint.sh
 #!/bin/bash
 set -e
 
+if [[ ! -d "/run/sshd" ]]; then
+    mkdir -p /run/sshd
+fi
+
 if [[ -z "$SSH_USER_FILE" ]]; then
     SSH_USER_FILE=/root/ssh_user_list
 fi
@@ -48,16 +50,15 @@ fi
 if [[ -f "$SSH_USER_FILE" ]]; then
     user_list=$(cat $SSH_USER_FILE | awk -F ':' '{print $1}')
     for user in $user_list; do
-        useradd -M -s /sbin/nologin -n  $user
+        useradd -M -s /usr/sbin/nologin -N $user
     done
     chpasswd < $SSH_USER_FILE
 fi
 
-/usr/sbin/sshd
-/usr/bin/sleep infinity
+/usr/sbin/sshd -D
 ```
 
-由于启动时直接后台了，所以加了个sleep操作。可以通过环境变量`SSH_USER_FILE`来定义账号文件，该账号只能用于SSH代理而不能直接登录节点。文件格式：
+可以通过环境变量`SSH_USER_FILE`来定义账号文件，该账号只能用于SSH代理而不能直接登录节点（需要登录服务器可以通过下一篇中的JumpServer来实现）。文件格式：
 
 ```
 userA:passwdA
@@ -85,7 +86,7 @@ spec:
     spec:
       containers:
       - name: ssh
-        image: ssh:centos7-20210716
+        image: pengbotao/sshd
         imagePullPolicy: IfNotPresent
         ports:
         - name: ssh
@@ -100,4 +101,4 @@ spec:
           name: ssh-config
 ```
 
-通过ConfigMap来进行账号管理，添加账号之后需要重启服务，暴露服务则是通过阿里云的SLB来进行暴露。
+通过ConfigMap来进行账号管理，添加账号之后需要重启服务。最后公网需要访问通过SLB作为入口，也可以绑定弹性IP并将pod调度到对应节点。
