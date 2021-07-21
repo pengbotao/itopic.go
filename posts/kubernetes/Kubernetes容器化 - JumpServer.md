@@ -2,12 +2,16 @@
 {
     "url": "jumpserver-in-k8s",
     "time": "2021/08/10 23:14",
-    "tag": "JumpServer,Kubernetes,容器化",
-    "public": "no"
+    "tag": "JumpServer,Kubernetes,容器化"
 }
 ```
 
-和SSHD的功能类似，JumpServer的作用则是在本地可以实现对远程服务的访问，同时可以方便的进行授权、审计等。
+和sshd的功能类似，这里只是将ssh代理访问和ssh登录进行了分离，JumpServer的作用则是在本地可以实现对远程服务的访问，同时可以方便的进行授权管理、操作回放、审计等。JumpServer需要Mysql和Redis支持，关于Mysql和Redis的容器化安装可查看前面的文章。官网目前给的环境要求：
+
+- Mysql >= 5.7
+- Reids >= 6.0
+
+Deployment文件如下，有使用到外部存储用来存储操作回放文件，pv的存储前面配置的较多，可直接使用阿里云的Nas或者磁盘。
 
 ```
 apiVersion: apps/v1
@@ -67,7 +71,7 @@ spec:
           claimName: jumpserver-pvc
 ```
 
-
+暴露可以通过Service+Ingress的方式，只需要将站点配置好即可在网页上连接机器。
 
 ```
 apiVersion: v1
@@ -83,46 +87,6 @@ spec:
     protocol: TCP
 ```
 
+整个过程不需要开放22端口，可理解成配置好站点即可。最后的效果图如下：
 
-
-```
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: jumpserver-pv
-  labels:
-    app: jumpserver
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: nasplugin.csi.alibabacloud.com
-    volumeHandle: jumpserver-pv
-    volumeAttributes:
-      server: "nasid.cn-hangzhou.nas.aliyuncs.com"
-      path: "/jumpserver"
-  mountOptions:
-  - nolock,tcp,noresvport
-  - vers=3
-
----
-
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: jumpserver-pvc
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 5Gi
-  selector:
-    matchLabels:
-      app: jumpserver
-
-```
-
+![](../../static/uploads/jumpserver.png)
