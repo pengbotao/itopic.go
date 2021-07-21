@@ -11,10 +11,14 @@
 ```
 FROM debian:buster
 
+MAINTAINER pengbotao "pengbotao@vip.qq.com"
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list && sed -i s@/security.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list && apt-get update
+
+RUN apt-get install -y locales
+RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen && locale-gen && echo "export LANG=zh_CN.UTF-8" >> /etc/bash.bashrc
 
 RUN apt-get install -y subversion
 RUN apt-get -y clean && rm -rf /var/lib/apt/lists/*
@@ -30,7 +34,8 @@ CMD ["/usr/bin/entrypoint.sh"]
 其中`entrypoint.sh`：通过`SUBVERSION_REPOS`来配置需要启动的目录，如果目录不存在则创建。
 
 ```
-#!/usr/bin/env bash
+#!/bin/bash
+set -e
 
 if [[ -z "${SUBVERSION_REPOS}" ]]; then
     SUBVERSION_REPOS=/var/svn/repos
