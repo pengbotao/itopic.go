@@ -1,7 +1,7 @@
 ```
 {
     "url": "jumpserver-in-k8s",
-    "time": "2021/08/10 23:14",
+    "time": "2021/07/10 23:14",
     "tag": "JumpServer,Kubernetes,容器化"
 }
 ```
