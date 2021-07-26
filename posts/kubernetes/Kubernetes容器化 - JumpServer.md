@@ -64,11 +64,21 @@ spec:
           value: ""
         volumeMounts:
         - name: jumpserver-pv
-          mountPath: /opt/jumpserver/data/media
+          mountPath: /opt/jumpserver/data
+        - name: koko-pv
+          mountPath: /opt/koko/data
+        - name: lion-pv
+          mountPath: /opt/lion/data
       volumes:
       - name: jumpserver-pv
         persistentVolumeClaim:
           claimName: jumpserver-pvc
+      - name: koko-pv
+        persistentVolumeClaim:
+          claimName: koko-pvc
+      - name: lion-pv
+        persistentVolumeClaim:
+          claimName: lion-pvc
 ```
 
 暴露可以通过Service+Ingress的方式，只需要将站点配置好即可在网页上连接机器。
