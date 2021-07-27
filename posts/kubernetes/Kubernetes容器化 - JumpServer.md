@@ -11,16 +11,17 @@
 - Mysql >= 5.7
 - Reids >= 6.0
 
-Deployment文件如下，有使用到外部存储用来存储操作回放文件，pv的存储前面配置的较多，可直接使用阿里云的Nas或者磁盘。
+StatefulSet文件如下，有使用到外部存储用来存储操作回放文件，pv的存储前面配置的较多，可直接使用阿里云的Nas或者磁盘。
 
 ```
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: jumpserver
   labels:
     app: jumpserver
 spec:
+  serviceName: jumpserver
   replicas: 1
   selector:
     matchLabels:
