@@ -55,7 +55,7 @@ func main() {
 	//方式二：定义并初始化
 	var q = Person{Name: "iTopic", Age: 18}
 
-	//方法三：方法二相同，只不过这种写法最后一行需要保留分号
+	//方法三：方法二相同，只不过这种写法最后一行需要保留逗号
 	m := Person{
 		Name: "iTopic",
 		Age:  18,
