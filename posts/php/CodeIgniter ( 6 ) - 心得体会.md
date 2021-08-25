@@ -2,8 +2,7 @@
 {
     "url": "codeigniter-exp-1",
     "time": "2013/12/01 23:30",
-    "tag": "PHP,CodeIgniter",
-    "toc": "yes"
+    "tag": "PHP,CodeIgniter"
 }
 ```
 
