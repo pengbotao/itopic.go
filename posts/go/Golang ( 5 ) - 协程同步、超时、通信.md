@@ -30,7 +30,7 @@ func main() {
 - 协程同步：多个协程之间同步等待、超时退出等
 - 协程通信：多个协程之间的数据通信
 
-Channel正是为协程间通信而产生。
+Channel正是为协程间通信而产生，接下来分开看看同步等待、超时、通信的问题。
 
 # 二、 Channel
 
@@ -200,7 +200,7 @@ func main() {
 
 ## 4.1 Channel同步超时
 
-3.1中有启10个goroutine，如果要2s超时则可以：
+来看看`3.1`中多个goroutine的超时问题，如果主线程想最多只等待2s：
 
 ```
 func main() {
@@ -241,7 +241,7 @@ EXIT:
 
 ## 4.2 sync同步超时
 
-这里也借助了Channel实现超时。
+`3.2`的超时也借助了Channel来实现。
 
 ```
 func main() {
@@ -332,49 +332,7 @@ func main() {
 }
 ```
 
-# 六、示例
-
-## 6.1 模拟生产者与消费者
-
-```
-func main() {
-	ch := make(chan string)
-
-	ticker := time.NewTicker(time.Second)
-	go func() {
-		for {
-			<-ticker.C
-			ch <- time.Now().Format("2006-01-02 15:04:05")
-		}
-	}()
-
-	go func() {
-		for {
-			fmt.Println(<-ch)
-		}
-	}()
-
-	select {}
-}
-```
-
-这个示例启动了2个协程，一个用来每一秒往通道里写一个时间，另一个用来从通道里读取，模拟生产者和消费者的情况。当然就示例本身实现起来只需要上面生产者并打印即可。
-
-```
-func main() {
-	ticker := time.NewTicker(time.Second)
-	for {
-		select {
-		case <-ticker.C:
-			fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
-		}
-	}
-}
-```
-
-
-
-
+协程之间的通信进制大体如上，下一篇将介绍怎么通过上下文`Context`来控制协程之间的交互。
 
 ---
 
