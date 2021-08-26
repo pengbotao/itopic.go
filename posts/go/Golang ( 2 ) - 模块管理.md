@@ -239,7 +239,7 @@ go mod why|explain why packages or modules are needed
 
 # 四、GOPROXY
 
-国内下载GO的包可能会碰到被墙的问题，可以通过设置代理解决。
+最后附加设置Proxy，国内下载GO的包可能会碰到被墙的问题，可以通过设置代理解决。
 
 
 名称|地址
@@ -253,6 +253,18 @@ Goproxy China|`https://goproxy.cn`
 ```
 $ go env -w GO111MODULE=on
 $ go env -w GOPROXY=https://goproxy.cn,direct
+```
+
+取消代理
+
+```
+$ go env -u GOPROXY
+```
+
+查看代理
+
+```
+$ go env | grep PROXY
 ```
 
 ---
