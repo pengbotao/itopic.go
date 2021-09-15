@@ -83,12 +83,28 @@ $ ansible-doc -s copy
 
 ## 2.2 shell
 
-
+执行被控制机上的命令。
 
 ## 2.3 script
 
+**Description:**
 
+```
+- name: Runs a local script on a remote node after transferring it
+  script：
+    chdir:
+    cmd:
+    creates:
+    decrypt:
+    free_form:
+    removes:
+```
 
+**Usage:**
+
+```
+$ ansible test -m script -a '/root/1.sh'
+```
 
 # 三、用户模块
 
