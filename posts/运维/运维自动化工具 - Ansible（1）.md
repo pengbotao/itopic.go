@@ -2,7 +2,8 @@
 {
     "url": "ansible-1",
     "time": "2021/09/12 08:50",
-    "tag": "运维"
+    "tag": "运维",
+    "toc": "yes"
 }
 ```
 
@@ -79,11 +80,19 @@ $ ansible-doc -s copy
 
 ## 2.1 command
 
+默认模块，可省略。
 
+```
+$ ansible test -m command -a 'ls'
+```
 
 ## 2.2 shell
 
 执行被控制机上的命令。
+
+```
+$ ansible test -m shell -a 'ls'
+```
 
 ## 2.3 script
 
@@ -110,33 +119,76 @@ $ ansible test -m script -a '/root/1.sh'
 
 ## 3.1 user
 
+**Description:**
 
+```
+- name: Manage user accounts
+  user:
+    name:  (required) Name of the user to create, remove or modify.
+    group: Optionally sets the user's primary group (takes a group name).
+    comment: Optionally sets the description (aka `GECOS') of user account.
+    home: Optionally set the user's home directory.
+    state:  Whether the account should exist or not, taking action if the state is different from what is stated.
+```
 
+**Usage:**
+
+```
+$ ansible test -m user -a 'name=peng'
+```
 
 ## 3.2 group
 
+**Description:**
+
 ```
-ansible test -m group -a 'name=mysql'
+- name: Add or remove groups
+  group:
+    name: (required) Name of the group to manage.
+    state: Whether the group should be present or not on the remote host.
 ```
 
+**Usage:**
+
+```
+$ ansible test -m group -a 'name=mysql'
+```
 
 # 四、文件模块
 
 ## 4.1 file
 
+**Description:**
+
 ```
-ansible test -m file -a 'path=/root/file.md owner=root group=root mode=644 state=touch'
+- name: Manage files and file properties
+  file:
+    state:
+      - file：即使文件不存在，也不会被创建
+      - link：创建软连接；
+      - hard：创建硬连接；
+      - touch：如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新其最后修改时间
+      - absent：删除目录、文件或者取消链接文件
 ```
 
-**state:**
+**Usage:**:
 
-- file：即使文件不存在，也不会被创建
-- link：创建软连接；
-- hard：创建硬连接；
-- touch：如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新其最后修改时间
-- absent：删除目录、文件或者取消链接文件
+```
+$ ansible test -m file -a 'path=/root/file.md owner=root group=root mode=644 state=touch'
+```
 
 ## 4.2 copy
+
+**Description:**
+
+```
+- name: Copy files to remote locations
+  copy:
+    src: Local path to a file to copy to the remote server.
+    dest: (required) Remote absolute path where the file should be
+```
+
+**Usage:**:
 
 ```
 $ ansible test -m copy -a 'src=./www.ini dest=/tmp/ owner=root group=root mode=644'
@@ -145,6 +197,20 @@ $ ansible test -m copy -a 'src=./www.ini dest=/tmp/ owner=root group=root mode=6
 ## 4.3 fetch
 
 
+**Description:**
+
+```
+- name: Fetch files from remote nodes
+  fetch:
+    src: (required) The file on the remote system to fetch.
+    dest: (required) A directory to save the file into.
+```
+
+**Usage:**
+
+```
+$ ansible test -m fetch -a 'src=/root/file.md dest=/tmp/'
+```
 
 ## 4.4 synchronize
 
