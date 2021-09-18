@@ -149,13 +149,13 @@ $ cat roles/nginx/tasks/start.yml
   service: name=nginx enabled=yes state=started
 ```
 
-## 2.3 模板
+## 2.3 建立模板
 
 模板在`templates`目录，内容同前面。
 
-## 2.4 变量
+## 2.4 模板变量
 
-变量在vars目录。
+模板变量在vars目录。
 
 ```
 $ cat roles/nginx/vars/main.yml
@@ -165,9 +165,9 @@ $ cat roles/nginx/vars/main.yml
 listen_port: 8801
 ```
 
-## 2.5 回调
+## 2.5 回调程序
 
-回调目录在`handlers`
+回调程序目录在`handlers`
 
 ```
 $ cat roles/nginx/handlers/main.yml
