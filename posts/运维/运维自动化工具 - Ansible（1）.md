@@ -214,41 +214,118 @@ $ ansible test -m fetch -a 'src=/root/file.md dest=/tmp/'
 
 ## 4.4 synchronize
 
+**Description:**
+
+```
+- name: A wrapper around rsync to make common tasks in your playbooks quick and easy
+  synchronize:
+    src: # (required) Path on the source host that will be synchronized
+    dest: # (required) Path on the destination host that will be
+
+``` 
+
+**Usage:**
+
+```
+$ ansible test -m synchronize -a 'src=/root/test dest=/home/peng'
+```
 
 
 ## 4.5 unarchive
 
+**Description:**
 
+```
+- name: Unpacks an archive after (optionally) copying it from the local machine.
+  unarchive:
+    copy：在解压文件之前，是否先将文件复制到远程主机，默认为yes。若为no，则要求目标主机上压缩包必须存在。
+    src: 如果copy为yes，则需要指定压缩文件的源路径 
+    dest: 远程主机上的一个路径，即文件解压的路径 
+```
+
+**Usage:**
+
+```
+$ ansible test -m unarchive -a 'src=/root/test.tar.gz dest=/home/peng copy=yes'
+```
 
 # 五、服务相关
 
 ## 5.1 yum
 
+**Description:**
 
+```
+- name: Manages packages with the `yum' package manager
+  yum:
+    name:  A package name or package specifier with version, like `name-1.0'.
+```
+
+**Usage:**
+
+```
+$ ansible test -m yum -a 'name=nginx'
+```
 
 ## 5.2 service
 
+**Description:**
+
+```
+- name: Manage services
+  service:
+    name: (required) Name of the service.
+```
+
+**Usage:**
+
+```
+$ ansible test -m service -a 'name=nginx enabled=yes state=started'
+```
 
 
-## 5.3 pip
+## 5.3 cron
 
+**Description:**
 
+```
+- name: Manage cron.d and crontab entries
+  cron:
+```
 
-## 5.4 cron
+**Usage:**
 
+```
+$ ansible test -m cron -a 'name="Test" minute="*/10" job="/bin/echo Hello"'
+```
 
+## 5.4 pip
 
+**Description:**
 
-# 六、其他
+```
+- name: Manages Python library dependencies
+  pip:
+```
 
-## 6.1 template
+## 5.5 setup
 
+**Description:**
 
+```
+- name: Gathers facts about remote hosts
+  setup:
+```
 
+**Usage:**
+
+```
+$ ansible test -m setup -a 'filter=ansible_memory_mb'
+```
 
 ---
 
 - [1] [非常好的Ansible入门教程（超简单）](https://blog.csdn.net/pushiqiang/article/details/78126063)
 - [2] [ansible常用模块](https://www.cnblogs.com/ccorz/p/ansible-chang-yong-mo-kuai.html)
-- [3] [ansible - dylloveyou](https://blog.csdn.net/dylloveyou/category_7621040.html)
+- [3] [ansible专栏 - dylloveyou](https://blog.csdn.net/dylloveyou/category_7621040.html)
 - [4] [ansible 批量在远程主机上执行命令](https://www.cnblogs.com/amber-liu/p/10403512.html)
