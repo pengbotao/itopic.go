@@ -95,10 +95,131 @@ PLAY RECAP *********************************************************************
 
 角色的理解更像是可以单独使用的组件，独立于主机之上，可以将Nginx、Mysql这些组件都以角色的方式来编排，实现公用。
 
-Roles有一套自定义的结构，按照结构来定义可以免去维护文件之间的调用关系。
+Roles有一套自定义的结构，按照结构来定义可以免去维护文件之间的调用关系，Role的初始化及结构：
 
 ![](../../static/uploads/Ansible_Roles.png)
 
+接下来，把前面的例子通过Roles的方式来实现：
+
+## 2.1 初始化
+
+通过`ansible-galaxy`来初始化目录结构。
+
+```
+[root@peng nginx]# mkdir roles && cd roles
+[root@peng nginx]# ansible-galaxy init nginx
+[root@peng nginx]# ls
+defaults  files  handlers  meta  README.md  tasks  templates  tests  vars
+```
+
+## 2.2 创建任务
+
+任务在`tasks`目录，`main.yml`为入口文件，可以通过`include_tasks`来调用其他任务。
+
+```
+$ cat roles/nginx/tasks/main.yml
+---
+# tasks file for nginx
+
+- name: include install.yml
+  include_tasks: install.yml
+
+- name: include conf.yml
+  include_tasks: conf.yml
+
+- name: include start.yaml
+  include_tasks: start.yml
+
+$ cat roles/nginx/tasks/install.yml
+- name: Install Nginx
+  yum: name=nginx state=present
+
+$ cat roles/nginx/tasks/conf.yml
+- name: Copy Nginx Config File
+  template:
+    src: test.conf.j2
+    dest: /etc/nginx/conf.d/test.conf
+    owner: nginx
+    group: nginx
+  notify: 
+  - restart nginx
+
+$ cat roles/nginx/tasks/start.yml
+- name: Start Nginx
+  service: name=nginx enabled=yes state=started
+```
+
+## 2.3 模板
+
+模板在`templates`目录，内容同前面。
+
+## 2.4 变量
+
+变量在vars目录。
+
+```
+$ cat roles/nginx/vars/main.yml
+---
+# vars file for nginx
+
+listen_port: 8801
+```
+
+## 2.5 回调
+
+回调目录在`handlers`
+
+```
+$ cat roles/nginx/handlers/main.yml
+---
+# handlers file for nginx
+
+- name: restart nginx
+  service: name=nginx state=restarted
+```
+
+## 2.6 调用角色
+
+最后和`roles`目录同级别创建Playbook并执行:
+
+```
+[root@peng ~]# cat nginx.yml
+
+- hosts: test
+  roles:
+  - nginx
+
+[root@peng ~]# ansible-playbook nginx.yml
+
+PLAY [test] ********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.88.200]
+
+TASK [nginx : include install.yml] *********************************************
+included: /root/roles/nginx/tasks/install.yml for 192.168.88.200
+
+TASK [nginx : Install Nginx] ***************************************************
+ok: [192.168.88.200]
+
+TASK [nginx : include conf.yml] ************************************************
+included: /root/roles/nginx/tasks/conf.yml for 192.168.88.200
+
+TASK [nginx : Copy Nginx Config File] ******************************************
+changed: [192.168.88.200]
+
+TASK [nginx : include start.yaml] **********************************************
+included: /root/roles/nginx/tasks/start.yml for 192.168.88.200
+
+TASK [nginx : Start Nginx] *****************************************************
+ok: [192.168.88.200]
+
+RUNNING HANDLER [restart nginx] ************************************************
+changed: [192.168.88.200]
+
+PLAY RECAP *********************************************************************
+192.168.88.200             : ok=8    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
 
 ---
 
