@@ -14,13 +14,13 @@
 
 # 二、剧本 - Playbooks
 
-PlayBook可以通过Yaml的定义方式来告诉Ansible需要调用的模块、将这些调用组合起来就形成了一个PlayBook。针对Playbook、Play、Tasks的概念可以看下图。
+PlayBook可以通过Yaml的定义方式来告诉Ansible需要调用的模块、将这些模块调用组合起来就形成了一个PlayBook。针对Playbook、Play、Tasks的概念可以看下图。
 
 ![](../../static/uploads/Ansible_Playbook.png)
 
 先来看一个示例：
 
-## 1.1 剧本示例
+## 2.1 剧本示例
 
 - 示例场景：安装Nginx服务并从本地模板拷贝个配置文件过去。
 - 操作步骤：首先创建`main.yaml`文件和模板文件`./templates/test.conf.j2`
@@ -82,7 +82,7 @@ PLAY RECAP *********************************************************************
 192.168.88.200: ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-## 1.2 示例解读
+## 2.2 示例解读
 
 - 定义了一个`PlayBook`，名字是`Playbook Test`，作用于分类为`test`的主机群组。
 - 通过`vars`来定义了变量，用于传递给配置文件。这里的作用不明显，应该考虑加载变量文件`vars_files`，这样模块文件里能更充分发挥模板的作用。
@@ -91,7 +91,7 @@ PLAY RECAP *********************************************************************
 
 剧本的基本用法如上，指定需要执行的主机、调用一组模块来实现功能，可以将模块的组合调用作用发挥出来。
 
-# 二、角色 - Roles
+# 三、角色 - Roles
 
 角色的理解更像是可以单独使用的组件，独立于主机之上，可以将Nginx、Mysql这些组件都以角色的方式来编排，实现公用。
 
@@ -101,9 +101,9 @@ Roles有一套自定义的结构，按照结构来定义可以免去维护文件
 
 接下来，把前面的例子通过Roles的方式来实现：
 
-## 2.1 初始化
+## 3.1 初始化
 
-通过`ansible-galaxy`来初始化目录结构。
+可以在系统默认的角色目录里创建角色，也可以自己指定，如果在自己指定的目录里创建，后面调用角色的Playbook需要和它同目录。通过`ansible-galaxy`来初始化角色目录结构。
 
 ```
 [root@peng nginx]# mkdir roles && cd roles
@@ -112,9 +112,9 @@ Roles有一套自定义的结构，按照结构来定义可以免去维护文件
 defaults  files  handlers  meta  README.md  tasks  templates  tests  vars
 ```
 
-## 2.2 创建任务
+## 3.2 创建任务
 
-任务在`tasks`目录，`main.yml`为入口文件，可以通过`include_tasks`来调用其他任务。
+任务在`tasks`目录，`main.yml`为入口文件，可以通过`include_tasks`来调用其他任务，文件内也可以编写任务。
 
 ```
 $ cat roles/nginx/tasks/main.yml
@@ -149,13 +149,9 @@ $ cat roles/nginx/tasks/start.yml
   service: name=nginx enabled=yes state=started
 ```
 
-## 2.3 建立模板
+## 3.3 模板变量
 
-模板在`templates`目录，内容同前面。
-
-## 2.4 模板变量
-
-模板变量在vars目录。
+模板变量在vars目录。前面是将变量放在Playbook中，变量较多时放在变量定义文件是更好的选择。
 
 ```
 $ cat roles/nginx/vars/main.yml
@@ -165,7 +161,13 @@ $ cat roles/nginx/vars/main.yml
 listen_port: 8801
 ```
 
-## 2.5 回调程序
+变量文件中可以支持更多的类型：字典、数组等，定义方式和Yaml的写法是一致的。
+
+## 3.4 建立模板
+
+模板在`templates`目录，内容同前面。在playbook、inventory、模板变量文件中定义的变量以及facts收集到的变量都可以被模板文件访问到，Ansible使用的模板文件的语法是Python的Jinja2。
+
+## 3.5 回调程序
 
 回调程序目录在`handlers`
 
@@ -178,7 +180,7 @@ $ cat roles/nginx/handlers/main.yml
   service: name=nginx state=restarted
 ```
 
-## 2.6 调用角色
+## 3.6 调用角色
 
 最后和`roles`目录同级别创建Playbook并执行:
 

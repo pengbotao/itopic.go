@@ -9,7 +9,7 @@
 
 # 一、关于Ansible
 
-Ansible是一款自动化运维工具，基于Python开发，与Salt不同，Ansible属于无Agent的实现方式。
+`Ansible`是一款自动化运维工具，基于Python开发，与Salt不同的是Ansible属于无Agent的实现方式。
 
 ## 1.1 安装
 
@@ -34,7 +34,7 @@ $ ssh-copy-id 192.168.88.100
 $ ansible 192.168.88.100 -m command -a 'pwd'
 ```
 
-## 1.2 管理清单
+## 1.2 清单 - Inventory
 
 `Inventory` - 清单， 用来配置需要管理的主机列表，默认配置文件在`/etc/ansible/hosts`，可以通过`-i`来指定使用不同的主机清单。
 
@@ -67,13 +67,13 @@ $ ansible -i /etc/ansible/hosts all -m command -a 'free -m'
 ```
 
 - `-i`: 指定主机清单，使用默认配置的话可以省略，后面的`all`是匹配需要执行命令的主机，不可省略。
-- `-m`: 指定使用的模块，默认是`command`，可以省略。`ansible`内置了很多的模块，熟悉下就好。
+- `-m`: 指定使用的模块，默认是`command`，可以省略。`ansible`内置了很多的模块，模块的用法是ansible的基础。
 - `-a`: 传递给模块的参数，参数和模块关联，根据对应的模块而定，可以通过`ansible-doc`来查看。
 
 如果需要查看特定模块的文档可以`ansible-doc`查看，后面的章节都是基本模块的用法。
 
 ```
-$ ansible-doc -s copy
+$ ansible-doc -s [module]
 ```
 
 # 二、执行命令
@@ -95,6 +95,8 @@ $ ansible test -m shell -a 'ls'
 ```
 
 ## 2.3 script
+
+执行控制机上的脚本。
 
 **Description:**
 
@@ -222,7 +224,7 @@ $ ansible test -m fetch -a 'src=/root/file.md dest=/tmp/'
     src: # (required) Path on the source host that will be synchronized
     dest: # (required) Path on the destination host that will be
 
-``` 
+```
 
 **Usage:**
 
@@ -283,8 +285,9 @@ $ ansible test -m yum -a 'name=nginx'
 $ ansible test -m service -a 'name=nginx enabled=yes state=started'
 ```
 
-
 ## 5.3 cron
+
+管理被管理机上的Crontab。
 
 **Description:**
 
@@ -309,6 +312,8 @@ $ ansible test -m cron -a 'name="Test" minute="*/10" job="/bin/echo Hello"'
 ```
 
 ## 5.5 setup
+
+获取被管理机器的资源信息，比如CPU、内存等。
 
 **Description:**
 
