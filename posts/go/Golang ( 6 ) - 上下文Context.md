@@ -3,8 +3,7 @@
     "url": "go-context",
     "time": "2021/08/28 19:00",
     "tag": "Golang",
-    "toc": "yes",
-    "public": "no"
+    "toc": "yes"
 }
 ```
 
