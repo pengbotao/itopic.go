@@ -20,7 +20,7 @@ context.Background()
 context.TODO()
 ```
 
-同时支持四种使用方式：
+支持四种使用方式，使用时需要传入`context.Context`对象并返回新的Context对象，其中取消、超时会返回一个取消函数。
 
 ## 2.1 WithCancel
 
@@ -40,7 +40,7 @@ WithDeadline(parent Context, d time.Time) (Context, CancelFunc)
 
 ## 2.3 WithTimeout
 
-超时信号，对`WithDeadline`的封装，时间点从当前时间点开始的相对时间。
+超时信号，和`WithDeadline`的相似，时间点从`WithDeadline`的具体时间点变为从当前时间开始的相对时间。
 
 ```
 func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
@@ -55,8 +55,6 @@ func WithValue(parent Context, key, val interface{}) Context
 ```
 
 # 三、基础理解
-
-
 
 
 
