@@ -305,7 +305,6 @@ csi-rbdplugin-ggj9q                                3/3     Running   0          
 csi-rbdplugin-provisioner-84bb9bdd56-7qtnh         6/6     Running   0          14d
 csi-rbdplugin-provisioner-84bb9bdd56-sdscf         6/6     Running   0          14d
 csi-rbdplugin-provisioner-84bb9bdd56-xjz2r         6/6     Running   0          14d
-csi-rbdplugin-svfv2
 ```
 
 已创建的VMI 对应的 PVC卷
