@@ -709,7 +709,7 @@ $ curl http://pydemo.local.com:30080/
 这里的访问流程：`Ingress -> Nginx Depolyment -> Flask StatefulSet -> Pod`。正常访问是没有问题，但当`sts`做更新的时候会存在问题，更新流程：
 
 - 触发`sts`更新。这个时候会停掉一个，比如停掉`flask-sts-1`
-- 由于对应的`Pod`停了，`flask-svc`关联的`Endpoints`会去掉`flask-sts-1`的`PodIP`，也就是指有`1`个后端IP了
+- 由于对应的`Pod`停了，`flask-svc`关联的`Endpoints`会去掉`flask-sts-1`的`PodIP`，也就是只有`1`个后端IP了
 - 上面配置的`Nginx`关联的是`flask-svc`，但`Nginx`并不会更新解析地址
 - 没有更新解析，原`IP`失效，再访问站点就失败了，需要重启`Nginx`才行
 
