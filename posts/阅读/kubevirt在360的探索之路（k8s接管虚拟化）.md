@@ -2,11 +2,12 @@
 {
     "url": "360-kubevirt-explore",
     "time": "2021/08/15 21:02",
-    "tag": "阅读"
+    "tag": "阅读",
+    "toc": "yes"
 }
 ```
 
-KubeVirt是一个Kubernetes插件,在调度容器之余也可以调度传统的虚拟机。它通过使用自定义资源（CRD）和其它 Kubernetes 功能来无缝扩展现有的集群，以提供一组可用于管理虚拟机的虚拟化的API。本文作者经过长时间对kubevirt的调研和实践，总结了kubevirt的一些关键技术和使用经验，现在就跟随作者一起探讨下吧。
+KubeVirt是一个Kubernetes插件，在调度容器之余也可以调度传统的虚拟机。它通过使用自定义资源（CRD）和其它 Kubernetes 功能来无缝扩展现有的集群，以提供一组可用于管理虚拟机的虚拟化的API。本文作者经过长时间对Kubevirt的调研和实践，总结了Kubevirt的一些关键技术和使用经验，现在就跟随作者一起探讨下吧。
 
 # 背景简介
 
@@ -54,23 +55,23 @@ https://kubevirt.io/2017/technology-comparison.html
 
 基于如上考虑，最终技术选型确定了kubevirt，接下来对kubevirt的一些概念和逻辑架构，还有在360的测试和验证之路做一个简单介绍。
 
-## 1、Kubevirt 是什么
+# 1、Kubevirt 是什么
 
 Kubevirt 是 Redhat 开源一套以容器方式运行虚拟机的项目，通过 kubernetes 云原生来管理虚拟机生命周期。
 
-## 2、Kubevirt CRD
+# 2、Kubevirt CRD
 
-在介绍kubevirt 前我们先了解一下CRD，在kubernetes里面有一个核心思想既一切都是资源，如同Puppet 里面一切都是资源思想。CRD 是kubernetes 1.7之后添加的自定义资源二次开发来扩展kubernetes API，通过CRD 可以向API 中添加资源类型，该功能提升了 Kubernetes 的扩展能力，那么KUBEVIRT 有哪些需要我们理解的CRD资源，这些资源会在我们的学习和理解过程中都是需要注意的，大概简介绍如下几种：
+在介绍kubevirt 前我们先了解一下CRD，在kubernetes里面有一个核心思想既一切都是资源，如同Puppet里面一切都是资源思想。CRD 是kubernetes 1.7之后添加的自定义资源二次开发来扩展kubernetes API，通过CRD 可以向API 中添加资源类型，该功能提升了 Kubernetes 的扩展能力，那么kubevirt有哪些需要我们理解的CRD资源，这些资源会在我们的学习和理解过程中都是需要注意的，大概简介绍如下几种：
 
 ![](../../static/uploads/source/image-32-1024x350.png)
 
-## 3、Kubevirt 组件介绍
+# 3、Kubevirt 组件介绍
 
 与OpenStack 类似， kubevirt 每个组件负责不同的功能，不同点是资源调度策略由k8s 去管理，其中主要组件如下: virt-api，virt-controller，virt-handler，virt-launcher。
 
 ![](../../static/uploads/source/image-33-1024x590.png)
 
-## 4、Kubevirt 常见操作
+# 4、Kubevirt 常见操作
 
 ```
 type DomainManager interface {
@@ -100,7 +101,7 @@ type DomainManager interface {
 }
 ```
 
-## 5、kubevirt 虚机VMI
+# 5、kubevirt 虚机VMI
 
 ```
 [root@openstack825 ~]# kubectl get vmi -o wide
@@ -128,11 +129,11 @@ virtvnc-947874d99-hn7k5            1/1     Running   0          6d19h
 
 总结：同时我们在调研过程遇到一些问题，比如重启数据丢失、VMI 重启和热迁移后IP 改变、镜像导入数据缓慢、VMI 启动调度缓慢、热迁移网络与存储支持等等。Kubevirt 通过CRD 方式将 VM 管理接口接入到k8s集群，而 POD 使用 libvirtd 管理VMI，如容器一样去管理VMI，最后通过标准化插件方式管理调度网络和存储资源对象，将其整合在一起形成一套 具有 K8s 管理虚拟化的技术栈。
 
-## 6、kubevirt 存储
+# 6、kubevirt 存储
 
 虚拟机镜像（磁盘）是启动虚拟机必不可少的部分，目前 KubeVirt 中提供多种方式的虚拟机磁盘。
 
-- cloudInitNoCloud/cloudInitConfigDrive:用于提供 cloud-init 初始化所需要的 user-data，使用 configmap 作为数据源，此时VMI 内部将出现第二块大约为356KB的第二块硬盘。
+- cloudInitNoCloud/cloudInitConfigDrive:用于提供 cloud-init 初始化所需要的 user-data，使用 configmap 作为数据源，此时VMI内部将出现第二块大约为356KB的第二块硬盘。
 
 ```
   devices:
@@ -199,7 +200,7 @@ Dynamically provision, de-provision Block mode RWX volume
 位置：pkg/vm-handler/vm.go
 
 ```
-//主要通过调用磁盘、网络相关函数，来判断当前VMI 是否适合迁移
+//主要通过调用磁盘、网络相关函数，来判断当前VMI是否适合迁移
 func (d *VirtualMachineController) calculateLiveMigrationCondition(vmi *v1.VirtualMachineInstance, hasHotplug bool) (*v1.VirtualMachineInstanceCondition, bool) {
 	liveMigrationCondition := v1.VirtualMachineInstanceCondition{
 		Type:   v1.VirtualMachineInstanceIsMigratable,
@@ -354,11 +355,11 @@ RAW STORAGE:
    TOTAL     98 TiB     98 TiB     655 GiB      682 GiB          0.68
 ```
 
-## 7、kubevirt 网络
+# 7、kubevirt 网络
 
 ![](../../static/uploads/source/image-35-1024x793.png)
 
-kubernetes是Kubevirt 底座，提供了管理容器和虚拟机的混合部署的方式，存储和网络也是通过集成到kubernetes中， VMI 使用了POD进行通信。为了实现该目标，KubeVirt 的对网络做了特殊实现。虚拟机具体的网络如图所示， virt-launcher Pod 网络的网卡不再挂有 Pod IP，而是作为虚拟机的虚拟网卡的与外部网络通信的交接物理网卡。
+Kubernetes是Kubevirt 底座，提供了管理容器和虚拟机的混合部署的方式，存储和网络也是通过集成到kubernetes中， VMI 使用了POD进行通信。为了实现该目标，KubeVirt 的对网络做了特殊实现。虚拟机具体的网络如图所示， virt-launcher Pod 网络的网卡不再挂有 Pod IP，而是作为虚拟机的虚拟网卡的与外部网络通信的交接物理网卡。
 
 在当前的场景我们使用经典的大二层网络模型，用户在一个地址空间下，VM 使用固定IP，在OpenStack社区，虚拟网络方案成熟，OVS 基本已经成为网络虚拟化的标准。所以我门选择目前灵雀云（alauda） 开源的网络方案：Kube-OVN，它是基于OVN的Kubernetes网络组件，提供了大量目前Kubernetes不具备的网络功能，并在原有基础上进行增强。通过将OpenStack领域成熟的网络功能平移到Kubernetes，来应对更加复杂的基础环境和应用合规性要求。 
 
@@ -427,7 +428,7 @@ Invalid value: 0x0: must be specified for an update
 https://www.codeleading.com/article/27252474726/
 ```
 
-## 8、kubevirt SDK
+# 8、kubevirt SDK
 
 kubevirt sdk现状   当前kubevirt提供了Python版本以及Golang版本的SDK，具体的信息参考如下：
 
@@ -474,13 +475,15 @@ api_instance = kubevirt.DefaultApi(api_client)
 展示所有namespace下的vm资源( list_virtual_machine_for_all_namespaces)
 展示所有namespace下的vmi资源( list_virtual_machine_instance_for_all_namespaces)
 获取某个namespace某个name下的vm资源( read_namespaced_virtual_machine)
-获取某个namespace某个name下的vmi资源( read_namespaced_virtual_machine_instance) 注意：在获取vm资源时无法获取到node_name,uuid,ip的数据，获取vmi资源时无法获取到disk以及image_url的数据，笔者认为vm是虚拟机资源，vmi是虚拟机实例资源，只有在running状态下的vm才是vmi，由于k8s中ip是动态分配的，因此才会出现node_name,uuid,ip数据在vm中获取不到
+获取某个namespace某个name下的vmi资源( read_namespaced_virtual_machine_instance) 
 启动虚拟机( v1alpha3_start)
 停止虚拟机( v1alpha3_stop)
 重启虚拟机( v1alpha3_restart) 注意: 重启虚拟机只能在虚拟机状态是running是才能调用，否则会失败
 修改虚拟机名称( v1alpha3_rename)
 替换虚拟机的配置文件( replace_namespaced_virtual_machine_instance)
 ```
+
+> 注意：在获取vm资源时无法获取到node_name,uuid,ip的数据，获取vmi资源时无法获取到disk以及image_url的数据，笔者认为vm是虚拟机资源，vmi是虚拟机实例资源，只有在running状态下的vm才是vmi，由于k8s中ip是动态分配的，因此才会出现node_name,uuid,ip数据在vm中获取不到
 
 sdk使用注意事项
 
@@ -569,13 +572,13 @@ def v1alpha3_rename_with_http_info(self, name, newName, namespace, **kwargs):
                                    collection_formats=collection_formats)
 ```
 
-## 9、Ultron 平台创建基于kubevirt 的虚拟机
+# 9、Ultron 平台创建基于kubevirt的虚拟机
 
 奥创平台是公司内的私有云管理平台（类似horizon），可以通过其管理openstack VM，本次我们同时纳入到对Kubevirt 虚拟机的支持，创建方式和OpenStack方式一样。最后用户体验和功能特性也和OpenStack一致，用户本身也是不关注底层实现，性能特性方面后续文章会有对比。
 
 ![](../../static/uploads/source/image-40.png)
 
-## 10、总结
+# 10、总结
 
 kubevirt作为一个兼容方案，当前在cncf中孵化的也挺好，好像也要开始自己的KubeVirt Summit，主要是实际的解决了一些痛点，但目前看，kubevirt还是适合在私有云，肯定满足不了公有云，因为k8s在iaas方面有先天劣势，所以kubevirt应该是给大家在私有云领域落地虚拟化除了用OpenStack以外多了一种选择方案。
 
