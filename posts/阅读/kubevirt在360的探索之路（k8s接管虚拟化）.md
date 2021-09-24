@@ -442,10 +442,10 @@ sdk实现的功能本章笔者详细介绍一下使用到的一些sdk中的功�
 
 - 创建使用实例
 
-sdk主要使用的是kubevirt.apis.default_api中的DefaultApi对象，进行接口调用个的。DefaultApi对象需要ApiClient对象，该对象实际上是连接k8s的实例。因此在使用之前，需要在底层的k8s中起一个proxy。通过创建DefaultApi对象即可调用后续的接口了，具体的创建方法如下：
+sdk主要使用的是kubevirt.apis.default_api中的DefaultApi对象，进行接口调用的。DefaultApi对象需要ApiClient对象，该对象实际上是连接k8s的实例。因此在使用之前，需要在底层的k8s中起一个proxy。通过创建DefaultApi对象即可调用后续的接口了，具体的创建方法如下：
 
 ```
- import kubevirt
+import kubevirt
  
 def get_api_client(host):
    api_client = kubevirt.ApiClient(host=host, header_name="Content-Type", header_value="application/json")
@@ -486,7 +486,7 @@ sdk使用注意事项
 
 1、k8s版本问题
 
-官方给出的kubevirt sdk中对于创建删除以及替换配置文件等部分接口，k8s版 本是固定的稳定版v1版本，这显然不满足于sdk的灵活使用，因此笔者在使用时对api版本进行了兼容，保证用户可以通过传参的形式正确的使用。
+官方给出的kubevirt sdk中对于创建删除以及替换配置文件等部分接口，k8s版本是固定的稳定版v1版本，这显然不满足于sdk的灵活使用，因此笔者在使用时对api版本进行了兼容，保证用户可以通过传参的形式正确的使用。
 
 2、修改虚拟机名称缺乏参数
 
