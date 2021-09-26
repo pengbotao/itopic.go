@@ -79,3 +79,8 @@ $ helm install nfs-storage apphub/nfs-client-provisioner \
 --set nfs.sotrageClass.name=nfs-storage \
 --set sotrageClass.defaultClass=true
 ```
+
+
+---
+
+- [1] [在Kubernetes上安装nfs-client-provisioner来提供StorageClass](https://knner.wang/2019/12/02/install-nfs-client-provisioner-storageclass.html)
