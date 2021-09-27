@@ -746,7 +746,90 @@ Keyword字段常用来做排序、聚合、Term级别查询，避免将keyword�
 
 # 六、查询语句
 
-@todo
+## 6.1 查询列表
+
+```
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
+## 6.2 精确查询 - Term
+
+Term查询用于查询确定的值。相当于`Where Name = Peng`
+
+```
+{
+  "query": {
+    "term": {"name": "Peng"}
+  }
+}
+```
+
+相当于`Where Name in ('Peng', 'Lion')`
+
+```
+{
+  "query": {
+    "terms": {"name": ["Peng", "Lion"]}
+  }
+}
+```
+
+## 6.3 全文查询 - Match
+
+会进行分词后查询，默认为或的操作。
+
+```
+{
+  "query": {
+    "match": {"name": "Bobby Peng"}
+  }
+}
+```
+
+可调整为`and`
+
+```
+{
+  "query": {
+     "match": {
+        "name": {
+          "query": "Bobby Peng",
+          "operator" : "and"
+       }
+      }
+    }
+}
+```
+
+## 6.4 范围查询
+
+```
+{
+  "query": {
+      "range": {
+          "age": {
+              "gte": 18,
+              "lt": 30 
+          }
+      }
+  }
+}
+```
+
+
+
+## 6.5 符合查询
+
+bool 复合查询用于组合叶子查询语句或复合查询语句。如：must, should, must_not, or filter。
+
+- must 必须匹配。
+- should 至少匹配一个文档。
+- filter 必须匹配，忽略相关性评分。
+- must_not 必须不匹配，忽略相关性评分。
 
 ```
 GET /_search
@@ -762,13 +845,14 @@ GET /_search
         { "range": { "publish_date": { "gte": "2015-01-01" }}}
       ]
     }
+  },
+  "from": 0,
+  "size": 10,
+  "sort": {
+    "timestamp": "desc"
   }
 }
 ```
-
-
-
-
 
 ---
 
@@ -780,4 +864,4 @@ GET /_search
 - [4] [全文搜索引擎 Elasticsearch 入门教程](http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html)
 - [5] [Elasticsearch: analyzer](https://www.cnblogs.com/sanduzxcvbnm/p/12084607.html)
 - [6] [ES Mapping、字段类型Field type详解](https://blog.csdn.net/ZYC88888/article/details/83059040)
-
+- [7] [Elasticsearch DSL 查询详解](https://blog.csdn.net/lamp_yang_3533/article/details/97618687)
