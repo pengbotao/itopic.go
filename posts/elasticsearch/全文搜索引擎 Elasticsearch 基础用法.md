@@ -711,28 +711,9 @@ EOF
 
 # 五、索引定义
 
-通过前面章节对es有个简单的认知，其中有两块内容日常使用会比较频繁，一个是如何建立索引，索引的字段如何定义；一个是如何查询。本章节来看看索引定义中需要注意的问题。
+## 5.1 索引类型
 
-**字段类型**
-
-| 分类                         | 类型                                                         | 说明                                                         |
-| ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Common Types                 | binary                                                       | Binary value encoded as a Base64 string.                     |
-|                              | bollean                                                      | `true` and `false` values.                                   |
-|                              | Keyword: <br />- keyword<br />- constant_keyword<br />- wildcard | The keyword family, including `keyword`, `constant_keyword`, and `wildcard`. |
-|                              | Numbers:<br />- long<br />- double                           | Numeric types, such as `long` and `double`, used to express amounts. |
-|                              | Dates:<br />- date<br />- date_nanos                         |                                                              |
-|                              | alias                                                        | Defines an alias for an existing field.                      |
-| Objects and relational types | Object                                                       | A JSON object.                                               |
-| Structured data types        | Range:<br />- long_rage<br />- double_range<br />- date_range<br />- ip_range | Range types, such as `long_range`, `double_range`, `date_range`, and `ip_range`. |
-|                              | ip                                                           | IPv4 and IPv6 addresses.                                     |
-| Text search types            | text                                                         |                                                              |
-| Spatial data types           | geo_point                                                    | Latitude and longitude points.                               |
-|                              | geo_shape                                                    | Complex shapes, such as polygons.                            |
-
-- https://www.elastic.co/guide/en/elasticsearch/reference/master/mapping-types.html
-
-## 5.1 Keyword
+### 5.1.1 Keyword
 
 - keyword: 通常用来存储结构化数据，比如ID、Email、状态码、标签等
 - constant_keyword: 始终包含相同值的字段
@@ -740,7 +721,7 @@ EOF
 
 Keyword字段常用来做排序、聚合、Term级别查询，避免将keyword用于全文搜索，全文搜索可以使用text类型。
 
-## 5.2 Text
+### 5.1.2 Text
 
 会进行全文索引的字段，会对字段进行分词，然后索引，可以模糊查询。
 
@@ -758,7 +739,7 @@ Keyword字段常用来做排序、聚合、Term级别查询，避免将keyword�
 
 ## 6.2 精确查询 - Term
 
-Term查询用于查询确定的值。相当于`Where Name = Peng`
+Term查询用于查询确定的值。相当于`Where Name = Peng`。
 
 ```
 {
@@ -777,6 +758,22 @@ Term查询用于查询确定的值。相当于`Where Name = Peng`
   }
 }
 ```
+
+但需要注意的是被查询的字段会否会分词，默认`text`会分词、忽略大小写，这就可能造成无法返回结果。文本类型有`text`和`keyword`类型，其中`keyword`取代了不需要分词的`string`。比如：
+
+```
+"name" : {
+  "type" : "text",
+  "fields" : {
+    "keyword" : {
+      "type" : "keyword",
+      "ignore_above" : 256
+    }
+  }
+},
+```
+
+上面例子如果要精确匹配可以使用下面的`keyword`：`name.keyword`。
 
 ## 6.3 全文查询 - Match
 
@@ -805,6 +802,34 @@ Term查询用于查询确定的值。相当于`Where Name = Peng`
 }
 ```
 
+match还有2个变种：`match_phrase` 和 `multi_match`，match_phrase用于同时满足所有词，同时也可以增加slop调整少一个也行。
+
+```
+{
+  "query": {
+     "match_phrase": {
+        "name": {
+          "query": "Bobby Peng",
+          "slop" : 1
+       }
+      }
+    }
+}
+```
+
+multi_match用于多个字段匹配，有一个字段满足即可
+
+```
+{
+  "query": {
+     "multi_match": {
+          "query": "Bobby Peng",
+          "fields" : ["name", "title"]
+      }
+    }
+}
+```
+
 ## 6.4 范围查询
 
 ```
@@ -822,7 +847,7 @@ Term查询用于查询确定的值。相当于`Where Name = Peng`
 
 
 
-## 6.5 符合查询
+## 6.5 复合查询
 
 bool 复合查询用于组合叶子查询语句或复合查询语句。如：must, should, must_not, or filter。
 
