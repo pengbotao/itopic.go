@@ -38,18 +38,20 @@ Channel正是为协程间通信而产生，接下来分开看看同步等待、�
 
 ## 2.1 通道定义
 
-Channel是Go中的一个核心类型，你可以把它看成一个管道，通过它并发核心单元就可以发送或者接收数据进行通讯，它的操作符是箭头 `<-`(箭头的指向就是数据的流向)。
+Channel是Go中的一个核心类型，Goroutine通过它发送或者接收数据。就像`map`和`slice`数据类型一样,`channel`必须先创建再使用:
+
+```
+ch := make(chan int)
+```
+
+操作符是箭头 `<-`(箭头的指向就是数据的流向)。
 
 ```
 ch <- v    // 发送值v到Channel ch中
 v := <-ch  // 从Channel ch中接收数据，并将数据赋值给v
 ```
 
-就像`map`和`slice`数据类型一样,`channel`必须先创建再使用:
-
-```
-ch := make(chan int)
-```
+chan按读写方向可以分为双向Channel和单向Channel（只读Channel和只写Channel），根据是否缓冲可以分为带缓冲的Channel和无缓冲Channel。
 
 ## 2.2 select语句
 
