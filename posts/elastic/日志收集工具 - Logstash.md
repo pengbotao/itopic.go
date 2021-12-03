@@ -17,9 +17,9 @@
 
 从上图中可以看到Logstash的主要作用就是进行数据规整转换。主要模块有：
 
-- 数据输入：支持
+- 数据输入：支持不下50种数据接入，常见的如文件、Redis、Kafka等。
 - 数据过滤：对数据进行结构化处理、过滤等。
-- 数据输出：将规整之后的数据写到Elasticsearch、文件等
+- 数据输出：将规整之后的数据写到Elasticsearch、文件等。
 
 ## 1.2 操作流程
 
@@ -27,11 +27,13 @@
 - 定义配置文件：通过该文件配置数据源、可以进行数据处理并输出到对应存储中。
 - 启动收集程序：`bin/logstash -f logstash.conf`
 
-## 1.3 示例 - 基础
+# 二、常见示例
+
+## 2.1 示例 - 基础
 
 创建配置文件: `logstash.conf`，表示从标准输出接受数据，并输出到标准输出，中间没有做数据过滤。
 
-```
+```json
 input {
     stdin { }
 }
@@ -45,7 +47,7 @@ output {
 
 执行：`logstash -f logstash.conf，待程序启动后即可在命令行输入并回车，可以看到类似如下输出：
 
-```
+```json
 Hello World
 
 {
@@ -56,11 +58,11 @@ Hello World
 }
 ```
 
-## 1.4 示例 - 解析JSON
+## 2.2 示例 - 解析JSON
 
 前面例子太简单，假设源数据为JSON格式，则解析JSON数据源只需要增加一条：
 
-```
+```json
 input {
     stdin { 
         codec => json
@@ -70,7 +72,7 @@ input {
 
 重新输入json数据可以看到JSON数据已经被解析过了。
 
-```
+```json
 {"Name": "Peng", "Age": 18} 
 
 {
@@ -82,7 +84,7 @@ input {
 } 
 ```
 
-## 1.5 示例 - 解析Nginx
+## 2.3 示例 - Nginx日志
 
 来个相对复杂点的，解析Nginx日志，默认日志格式如下：
 
@@ -92,7 +94,7 @@ log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
 ```
 
-还是从标准输入获取数据源，只记录GET请求，同时输出到标准输出和文件。
+为方便测试还是从标准输入获取数据源，只记录GET请求，同时输出到标准输出和文件。
 
 ```
 input {
@@ -142,17 +144,15 @@ output {
 }
 ```
 
-到这里对Logstash的基本使用应该有个大致的了解：基本流程只有`输入-处理-输出`。但这里把这个流程玩出花了，可以从多个数据源获取数据，针对不同的数据源做不同的格式处理、过滤，最后也可以输出到多个地方。详细文档可查看：[Logstash Reference](https://www.elastic.co/guide/en/logstash/current/index.html)
+到这里对Logstash的基本使用应该有个大致的了解：基本流程只有`输入-处理-输出`。但这里把这个流程玩出花了，可以从多个数据源获取数据，针对不同的数据源做不同的格式处理、过滤，最后也可以输出到多个地方，详细文档可查看：[Logstash Reference](https://www.elastic.co/guide/en/logstash/current/index.html)
 
-# 二、数据源
+# 三、数据源
 
-官网文档上列了不下50种数据源的计入方式，可见Logstash支持的数据源有多强大。
-
-## 2.1 文件输入
+## 3.1 文件输入
 
 通过File Input 插件进行收集，示例：
 
-```
+```json
 input {
   file {
     path => "/data/logs/nginx.log"
@@ -161,43 +161,91 @@ input {
 }
 ```
 
-## 2.2 Kafka输入
+## 3.2 Kafka输入
 
+可以通过启动多个Logstash增加吞吐量，前提条件：
 
+- 多个Logstash属于同一个group_id，即group_id要相同
+- 有多个分区，让更多的示例可以消费
 
+```json
+input {
+    kafka {
+        bootstrap_servers => "192.168.0.100:9092"
+        group_id => "http-nginx-log"
+        client_id => "logstash-nginx-01"
+        auto_offset_reset => "latest"
+        topics => ["http-nginx-log"]
+        codec => json {charset => "UTF-8"}
+        type => "nginx"
+    }
 
-
-# 三、过滤器
-
-## 3.1 Json
+    kafka {
+        bootstrap_servers => "192.168.0.101:9092"
+        group_id => "http-apache-log"
+        client_id => "logstash-apache-01"
+        auto_offset_reset => "latest"
+        topics => ["http-nginx-log"]
+        codec => json {charset => "UTF-8"}
+        type => "apache"
+    }
+}
 
 ```
+
+这里增加了一个type参数，用于演示`5.1`的分开输出，可以去掉。
+
+# 四、过滤器
+
+## 4.1 Json
+
+```json
 filter {
     json {
         source => "message"
+        remove_field => "message"
     }
 }
 ```
 
-## 3.2 grok
+## 4.2 grok
 
 
 
 
 
-# 四、输出
+# 五、输出
 
-## 4.1 输出到文件
+## 5.1 输出到文件
 
+```json
+output{
+    if [type]  == "nginx" {
+        file {
+            path => "/data/logs/nginx-%{+YYYY-MM-dd}-%{host}.log"
+            gzip => true
+        }
+    }
 
+    if [type]  == "apache" {
+        file {
+            path => "/data/logs/apache-%{+YYYY-MM-dd}-%{host}.log"
+            gzip => true
+        }
+    }
+}
+```
 
-## 4.2 输出到Elasticsearch
+## 5.2 输出到ES
 
-
-
-
-
-
+```json
+output {
+　　elasticsearch{
+   　　hosts => ["192.168.0.100:9200"]
+      index => "http-log-%{+YYYY-MM-dd}"
+   }
+}
+```
 
 ---
 
