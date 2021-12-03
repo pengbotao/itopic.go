@@ -146,9 +146,9 @@ output {
 
 到这里对Logstash的基本使用应该有个大致的了解：基本流程只有`输入-处理-输出`。但这里把这个流程玩出花了，可以从多个数据源获取数据，针对不同的数据源做不同的格式处理、过滤，最后也可以输出到多个地方，详细文档可查看：[Logstash Reference](https://www.elastic.co/guide/en/logstash/current/index.html)
 
-# 三、数据源
+# 三、输入
 
-## 3.1 文件输入
+## 3.1 文件
 
 通过File Input 插件进行收集，示例：
 
@@ -161,7 +161,7 @@ input {
 }
 ```
 
-## 3.2 Kafka输入
+## 3.2 Kafka
 
 可以通过启动多个Logstash增加吞吐量，前提条件：
 
@@ -210,13 +210,39 @@ filter {
 
 ## 4.2 grok
 
+grok支持标准的正则，对于不规整的数据格式可以用它来规整。同时，它内置了120多种可以直接用的匹配规则。比如他也定义了HTTP日志格式，用此就不需要写前面那一长串了，当然前提是和他定义的格式得匹配。
 
+```
+filter {
+    grok {
+        match => { "message" => "%{HTTPD_COMMONLOG}" }
+        remove_field => "message"
+    }
+}
+```
 
+也有一些grok在线测试匹配的站点，更多匹配规则可以参考：https://github.com/logstash-plugins/logstash-patterns-core/tree/main/patterns
 
+## 4.3 mutate
+
+它提供了丰富的基础类型数据处理能力。包括类型转换，字符串处理和字段处理等。比如下面示例：按 `.` 切割，增加字段，重命名。
+
+```json
+filter {
+    mutate {
+        split => { "hostname" => "." }
+        add_field => { "shortHostname" => "%{[hostname][0]}" }
+    }
+
+    mutate {
+        rename => {"shortHostname" => "hostname"}
+    }
+}
+```
 
 # 五、输出
 
-## 5.1 输出到文件
+## 5.1 文件
 
 ```json
 output{
@@ -236,7 +262,7 @@ output{
 }
 ```
 
-## 5.2 输出到ES
+## 5.2 Elasticsearch
 
 ```json
 output {
