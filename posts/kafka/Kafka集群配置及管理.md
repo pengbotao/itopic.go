@@ -2,7 +2,7 @@
 {
     "url": "kafka",
     "time": "2021/04/12 19:00",
-    "tag": "Kafka",
+    "tag": "Kafka,ELK",
     "toc": "yes"
 }
 ```
@@ -92,6 +92,12 @@ $ ./kafka-console-producer.sh --bootstrap-server 192.168.1.100:8080 --topic peng
 
 ```
 $ ./kafka-console-consumer.sh --bootstrap-server 192.168.1.100:8080 --topic peng --from-beginning 
+```
+
+## 2.7 查看消费情况
+
+```
+$ ./kafka-consumer-groups.sh --bootstrap-server 192.168.1.100:8080 --describe --group http
 ```
 
 # 三、日常管理
