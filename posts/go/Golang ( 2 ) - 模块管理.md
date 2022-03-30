@@ -237,7 +237,10 @@ go mod verify|verify dependencies have expected content
 go mod why|explain why packages or modules are needed
 
 
-# 四、GOPROXY
+# 四、Go 工作区
+
+
+# 五、GOPROXY
 
 最后附加设置Proxy，国内下载GO的包可能会碰到被墙的问题，可以通过设置代理解决。
 
