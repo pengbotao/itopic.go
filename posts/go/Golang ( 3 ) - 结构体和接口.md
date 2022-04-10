@@ -42,6 +42,41 @@ func (p Person) Info() string {
 - 结构体类型限定`(p Person)`，`p`表示形参名可以用任意变量名;`Person`是`p`的数据类型。
 - 可通过`.`形式来获取到结构体的成员属性和方法，如`p.Name`
 
+当然并不只有`struct`可以定义方法，比如给`[]int`增加排序功能：
+
+```
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+type MyInt []int
+
+func (m MyInt) Len() int {
+	return len(m)
+}
+
+func (m MyInt) Less(i, j int) bool {
+	return m[i] > m[j]
+}
+
+func (m MyInt) Swap(i, j int) {
+	m[i], m[j] = m[j], m[i]
+}
+
+func main() {
+	data := MyInt{1, 3, 2, 4}
+	sort.Sort(data)
+	fmt.Println(data)
+}
+```
+
+> 注：方法中的类型限定如果是指针，则只能通过指针类型调用；如果非指针，则通过值和指针类型都可以调用。
+> 
+> 一个值类型可能有多处引用无法确定唯一，但一个引用可以关联到确定的值，所以指针类型只能通过指针调用。
+
 
 ## 1.2 初始化及调用
 
@@ -121,27 +156,7 @@ Name: iTopic, Age: 19
 - `Info`方法的结构体类型改为了`(p *Person)`，多了一个星号（`*`）。
 - `Info`方法内部使用去区别，还是用`p.Age`访问，并且可以成功修改`Age`属性。
 - 如果把`Info`方法的`(p *Person)`定义改回`(p Person)`，重新执行可以看到执行完成之后`p.Age`还会是18，即值拷贝。
-
-但这里有一个潜在的类型问题，既然p的类型为`*Person`，改为`(p Person)`为何方法不会报类型错误。同样，不使用new来创建`*Person`类型，也可以调用成功。
-
-```
-func main() {
-	p := Person{"iTopic", 18}
-	fmt.Println(p)
-	fmt.Println(p.Info())
-	fmt.Println(p)
-}
-```
-
-如果定义一个函数形参为`p *Person`，此时若传入非引用则会报类型错误：`cannot use p (type Person) as type *Person in argument to test`，可见正常情况下会认定为不同的类型。
-
-```
-func test(p *Person) {
-	fmt.Println(p.Name)
-}
-```
-
-但从实际情况上看，请求的两种方式：`Person{"iTopic", 18}` 和 `new(Person)` 与 方法定义的两种方式`(p Person)` 和 `(p *Person)`，这四种情况组合起来都可以执行成功，唯一的区别点在于如果方法上是`(p *Person)`则实参会被改写，否则不会（传值与传址区别这里不表）。
+- 此处为指针接收器，则不可以通过`Person{}.Info()`来调用，函数传递上需要是`*Person`类型。
 
 
 # 三、结构体内嵌
@@ -290,6 +305,12 @@ func main() {
 }
 ```
 
+注：不能声明一个接口的指针，比如函数使用`*ExportHandler`类型， 则会提示：
+
+```
+type *ExportHandler is pointer to interface, not interface
+```
+
 ## 4.2 空接口
 
 空接口就是不含有方法的接口：`interface{}`，相当于所有的类型都实现了空接口，从示例可以看到类型都可以传给函数`show`而不会报类型错误。
@@ -319,7 +340,7 @@ func main() {
 //invalid operation: v + 1 (mismatched types interface {} and int)
 ```
 
-所以要做运算需要做数据类型判断：
+所以要做运算需要做断言：
 
 ```
 func show(v interface{}) {

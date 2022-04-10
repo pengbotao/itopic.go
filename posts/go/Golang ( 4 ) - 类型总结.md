@@ -68,7 +68,7 @@ Golang中有一些基础类型：`byte` 、 `int` 、 `uint` 、 `string` 、`bo
 
 - 如何自定义类型，查看当前变量的类型
 - 不同类型之间的类型转换
-- 各类型是传值还是传引用
+- 各类型是传值还是传指针
 
 
 # 二、类型初始化
@@ -268,10 +268,32 @@ str := strconv.FormatFloat(f float64, fmt byte, prec, bitSize int)
 s := string(b)
 ```
 
-# 四、传值与传引用
+# 四、传值与传指针
 
+```
+type Person struct {
+	Name string
+	Age  int
+}
 
+func Test(p *Person) {
+	fmt.Printf("%p, %v\n", &p, p)
+	p.Name = "BBB"
 
+}
+
+func main() {
+	p := &Person{Name: "Lion", Age: 8}
+	fmt.Printf("%p, %v\n", &p, p)
+	Test(p)
+	fmt.Printf("%p, %v\n", &p, p)
+}
+```
+
+- 传值不可以修改实参，传指针可以
+- 无论是定义为`Test(p *Person)` 还是 `Test(p Person)`， 函数内打印变量的内存地址都和main里的不同，可见每次都有拷贝
+- 对于`int`、`string`拷贝的是值， 而`struct`指针、`slice`、`map`这些它的值实际是存储的内存地址，所以拷贝的也是内存地址，但指向同一地址从而可以实现修改
+- 至于引用传递，形参只是实参的一个别名，他们具有相同的内存地址，但从上面可以看到内存地址是不同的，所以有人说Go里都是传值的方式而没有引用传递
 
 
 ---
