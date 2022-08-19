@@ -398,7 +398,22 @@ Date:   Thu Jun 29 14:14:10 2017 +0800
 
 ## 4.4 版本回滚
 
-### 4.4.1 文件添加到暂存区
+### 4.4.1 还原本地修改未暂存的文件
+
+只在本地做了修改，想丢弃这些修改。
+
+```
+git checkout -- filename
+```
+
+如果是本地修改了很多文件，想全部恢复可使用
+
+```
+git checkout -- .
+```
+
+
+### 4.4.2 文件添加到暂存区的文件
 
 文件添加到暂存区，但是没有提交到本地仓库。通过`git status`可以看到`unstage`操作命令。
 
@@ -413,29 +428,26 @@ Changes to be committed:
 	modified:   test.php
 ```
 
-通过`git reset HEAD <file>`从暂存区移除。通过`git reset HEAD`移除所有添加到暂存区的文件。
+通过`git reset HEAD <file>`从暂存区移除。
+通过`git reset HEAD`移除所有添加到暂存区和工作区修改的文件。
 
-### 4.4.2 还原本地修改的文件
-
-只在本地做了修改，想丢弃这些修改。
-
-```
-git checkout -- filename
-```
-
-如果是本地修改了很多文件，想全部恢复可使用
-
-```
-git checkout -- .
-```
 
 ### 4.4.3 还原已提交到本地的文件
 
 文件已经添加并提交到本地仓库，但是未推送到远程仓库。可通过`git log`查看`commit id`,reset后
 
 ```
-git reset --hard 77e02cd8dc43940f0c817379c94935a79d476510
+git reset 77e02cd8dc43940f0c817379c94935a79d476510
 ```
+
+reset语法格式：
+
+> git reset [--soft | --mixed | --hard] [HEAD]
+
+`--mixed` 为默认，可以不用带该参数，用于重置暂存区的文件与上一次的提交(commit)保持一致，工作区文件内容保持不变。
+`--soft` 和mixed类似，会将修改放到暂存区。
+`--hard` 参数撤销工作区中所有未提交的修改内容，将暂存区与工作区都回到上一次版本，并删除之前的所有信息提交。注意，为删除修改！
+
 
 用master分支内容替换当前分支
 
@@ -443,6 +455,19 @@ git reset --hard 77e02cd8dc43940f0c817379c94935a79d476510
 git reset --hard master
 ```
 
+### 4.4.4 撤销已产生的提交
+
+撤销已产生的提交：`git revert <commit id>` 。会产生新一个新的Commit，被revert的提交内容将被删除。
+
+## 4.5 分支操作
+
+### 4.5.1 将提交应用到其他分支
+
+切换到对应的分支执行：`git cherry-pick <commitHash>`
+
+### 4.5.2 暂存修改
+
+在分支切换时如果当前分支有修改会提示需要先提交在切换，如果不想提交可以先进行`git stash`，后面回到该分支在进行 `git statsh pop|apply`
 
 
 ---
