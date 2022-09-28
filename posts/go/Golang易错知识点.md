@@ -72,3 +72,75 @@ func main() {
 
 发现每次都随机到相同的值，需要指定下随机种子：`rand.Seed(time.Now().UnixNano())`
 
+
+### 4. Map元素不可寻址
+
+```
+type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	x := make(map[string]Person)
+	x["Lion"] = Person{"Lion", 3}
+
+	x["Lion"].Name = "Test"
+}
+```
+
+> ./main.go:17:17: cannot assign to struct field x["Lion"].Name in map
+
+### 5. defer函数
+
+```
+func A(s string) string {
+	fmt.Println("Defer ", s)
+	return s
+}
+
+func main() {
+	defer A(A("A"))
+	defer A(A("B"))
+}
+```
+
+Output:
+
+```
+Defer  A
+Defer  B
+Defer  B
+Defer  A
+```
+
+### 5. make参数
+
+```
+func main() {
+	s := make([]int, 3)
+	s = append(s, 1, 2, 3)
+	fmt.Println(s)
+}
+```
+
+### 6. map并发读写
+
+```
+func main() {
+	m := make(map[int]struct{})
+	go func() {
+		for {
+			m[0] = struct{}{}
+		}
+	}()
+	go func() {
+		for {
+			fmt.Println(m[0])
+		}
+	}()
+	select {}
+}
+```
+
+> fatal error: concurrent map read and map write
