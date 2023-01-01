@@ -269,3 +269,11 @@ userGroup.Use(middleware)
 - `ctx.Get(key string) (value any, exists bool)`：跨`gin.HanderFunc`取值
 
 所以，当一个路由可以支持多个路由处理函数后，路由处理函数和中间件其实讲的是同一个东西，可以针对所有的路由执行一段逻辑，也可以在特定路由或者路由组前后执行一段逻辑。
+
+> 注意：在中间件或 handler 中启动新的 Goroutine 时，**不能**使用原始的上下文，必须使用只读副本（ctx.Copy()）。
+
+
+
+---
+
+[1] [Gin Web Framework 示例](https://gin-gonic.com/zh-cn/docs/examples/)
