@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="title">iTopic.org</h1>
+    <h1 class="title">因上努力，果上随缘</h1>
 
     <div id="left-sider">
         {{range .topics_l}}
