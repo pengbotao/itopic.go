@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 ```
 type User struct {
-	UserId    int       `gorm:"column:id;PRIMARY_KEY"`
+	UserId    int       `gorm:"column:id;primaryKey"`
 	Mobile    string    `gorm:"column:mobile"`
 	Nickname  string    `gorm:"column:nickname"`
 	Age       int       `gorm:"column:age"`
@@ -136,6 +136,14 @@ return db.Omit("created_ts").Create(&users).Error
 db.CreateInBatches(&users, 2).Error
 ```
 
+**5. 存在更新，不存在插入**
+
+与Create相似的还有一个Save方法，如果主键为零值则执行插入，否则执行更新操作。
+
+```
+db.Save(&user)
+```
+
 ## 3.2 数据更新
 
 **1. 更新单列**
@@ -175,14 +183,6 @@ db.Model(&User{}).Select("age").
 	Updates(User{Nickname: "Test", Age: 99})
 ```
 
-**3. 存在更新，不存在插入**
-
-如果主键为零值则执行插入，否则执行更新操作。
-
-```
-db.Save(&user)
-```
-
 ## 3.3 删除数据
 
 **1. 按主键删除**
@@ -216,17 +216,14 @@ GORM 提供了 `First`、`Take`、`Last` 方法，以便从数据库中检索单
 **1. 查询单条记录**
 
 ```
-// 获取一条记录，没有指定排序字段
+// 获取一条记录，没有指定排序字段 SELECT * FROM users LIMIT 1;
 db.Take(&user)
-// SELECT * FROM users LIMIT 1;
 
-// 获取第一条记录（主键升序）
+// 获取第一条记录（主键升序）SELECT * FROM users ORDER BY id LIMIT 1;
 db.First(&user)
-// SELECT * FROM users ORDER BY id LIMIT 1;
 
-// 获取最后一条记录（主键降序）
+// 获取最后一条记录（主键降序）SELECT * FROM users ORDER BY id DESC LIMIT 1;
 db.Last(&user)
-// SELECT * FROM users ORDER BY id DESC LIMIT 1;
 
 result := db.First(&user)
 result.RowsAffected // 返回找到的记录数
@@ -239,7 +236,20 @@ errors.Is(result.Error, gorm.ErrRecordNotFound)
 db.Limit(1).Find(&user)
 ```
 
-**2. 查询多条记录**
+**2. 根据主键检索**
+
+```
+# SELECT * FROM users WHERE id = 10;
+db.First(&user, 10)
+
+# SELECT * FROM users WHERE id = 10;
+db.First(&user, "10")
+
+# SELECT * FROM users WHERE id IN (1,2,3);
+db.Find(&users, []int{1,2,3})
+```
+
+**3. 查询多条记录**
 
 ```
 users := []User{}
@@ -257,7 +267,7 @@ db.Where("user_id > ?", 0).
 	Find(&user)
 ```
 
-**3. 查询Count**
+**4. 查询Count**
 
 ```
 var total int64 = 0
@@ -265,7 +275,7 @@ var total int64 = 0
 db.Model(User{}).Count(&total)
 ```
 
-**4. 分组Group**
+**5. 分组Group**
 
 ```
 type result struct {
