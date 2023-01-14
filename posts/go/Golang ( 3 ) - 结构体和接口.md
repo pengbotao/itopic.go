@@ -42,39 +42,8 @@ func (p Person) Info() string {
 - 结构体类型限定`(p Person)`，`p`表示形参名可以用任意变量名;`Person`是`p`的数据类型。
 - 可通过`.`形式来获取到结构体的成员属性和方法，如`p.Name`
 
-当然并不只有`struct`可以定义方法，比如给`[]int`增加排序功能：
 
-```
-package main
-
-import (
-	"fmt"
-	"sort"
-)
-
-type MyInt []int
-
-func (m MyInt) Len() int {
-	return len(m)
-}
-
-func (m MyInt) Less(i, j int) bool {
-	return m[i] > m[j]
-}
-
-func (m MyInt) Swap(i, j int) {
-	m[i], m[j] = m[j], m[i]
-}
-
-func main() {
-	data := MyInt{1, 3, 2, 4}
-	sort.Sort(data)
-	fmt.Println(data)
-}
-```
-
-
-## 1.2 初始化及调用
+## 1.2 初始化
 
 ```
 func main() {
@@ -103,22 +72,13 @@ func main() {
 ```
 
 - 属性和方法都通过`.`来访问。
-- 调用过程就像是初始化了一个类，并调用了类的方法。`Info()`方法可以访问当前结构体示例`p`的成员属性。
+- 调用过程就像是初始化了一个类，并调用了类的方法。`Info()`方法也可以访问当前结构体实例`p`的成员属性。
 
-# 二、结构体传参
+# 二、结构体指针
 
-## 2.1 指针
+## 2.1 指针接收器
 
-可以用`new`函数来创建一个结构体指针，如：`p := new(Person)`，此时实际返回的数据类型是`*Person`，通过`var p Person`定义返回的数据类型为`Person`。
-
-- 结构体也是值类型，函数内部不会改变，而结构体指针作为参数传递时是可以改变实参的值。所以是否使用指针可以看是否需要在函数内部改变实参的值。
-- 虽然是`*Person`类型，但使用时并不需要`*`来访问结构体成员，直接使用`.`就可以。
-- 另外，相比值类型的拷贝，指针类型只是传递一个地址拷贝，效率上好一些。
-- 除了`new`之后还有一种方式 `&Person{}`，表达式`new(Type)`和`&Type{}`是等价的。
-
-## 2.2 结构体指针与传参
-
-结构体也是传值的类型，有了指针，前面结构体方法定义与参数传递上则有一些变化的情况，如:
+前面结构体方法上也可以通过指针的方式来接收。
 
 ```
 type Person struct {
@@ -132,9 +92,7 @@ func (p *Person) Info() string {
 }
 
 func main() {
-	p := new(Person)
-	p.Name = "iTopic"
-	p.Age = 18
+	p := &Person{"iTopic", 18}
 	fmt.Println(p)
 	fmt.Println(p.Info())
 	fmt.Println(p)
@@ -150,9 +108,44 @@ Name: iTopic, Age: 19
 和前面的区别可以看到
 
 - `Info`方法的结构体类型改为了`(p *Person)`，多了一个星号（`*`）。
-- `Info`方法内部使用去区别，还是用`p.Age`访问，并且可以成功修改`Age`属性。
+- `Info`方法内部使用无区别，还是用`p.Age`访问，由于是接收的指针，可以直接修改结构的属性。
 - 如果把`Info`方法的`(p *Person)`定义改回`(p Person)`，重新执行可以看到执行完成之后`p.Age`还会是18，即值拷贝。
-- 此处为指针接收器，则不可以通过`Person{}.Info()`来调用，函数传递上需要是`*Person`类型。
+- 此处为指针接收器，则不可以通过`Person{}.Info()`来调用，函数传递上需要是`*Person`类型，可以写成：`(&Person{}).Info()`
+
+## 2.2 结构体调用
+
+这里一种有4种调用方式：
+
+```
+func (p *Person) Info() {
+	fmt.Printf("Pointer: Name: %s, Age: %d\n", p.Name, p.Age)
+}
+
+func (p Person) Job() {
+	fmt.Printf("Value: Name: %s, Age: %d\n", p.Name, p.Age)
+}
+
+func main() {
+	//第一种情况：不通，报错 cannot call pointer method on Person{}
+	//Person{}.Info()
+	Person{}.Job()     // 输出：Value: Name: , Age: 0
+	(&Person{}).Info() //输出：Pointer: Name: , Age: 0
+	(&Person{}).Job()  //输出：Value: Name: , Age: 0
+}
+```
+
+第一种方式报错，提示不能通过结构体值类型来调用指针方法。如果我们将初始化赋值给一个新的变量，则Go语言会帮我们做自动转换，都可以调用成功：
+
+```
+func main() {
+	p1 := Person{}
+	p2 := &Person{}
+	p1.Info()
+	p1.Job()
+	p2.Info()
+	p2.Job()
+}
+```
 
 
 # 三、结构体内嵌
