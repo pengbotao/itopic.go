@@ -111,9 +111,9 @@ func main() {
 ```
 
 - 因为两个通道都要等1秒，存在default则直接执行了default语句，打印`Read From Default`，退出`swith`
-- 如果去掉default，则阻塞等待打印出`Read From ch1`
+- 如果去掉default，则阻塞等待可能打印出`Read From ch1`
 
-如果`select`里啥都没有 `select{}`，则会等待，达到阻塞的目的。
+如果`select`里啥都没有 `select{}`，则会等待，达到阻塞Goroutine的目的。如果当前运行环境没有新的协程而使用该语句则会抛错。
 
 
 # 三、协程同步
@@ -330,6 +330,100 @@ func sum() int {
 func main() {
 	for i := 0; i < 100; i++ {
 		fmt.Print(sum(), " ")
+	}
+}
+```
+
+# 六、并发控制
+
+## 6.1 先处理再消费
+
+这里为等待所有任务处理完成后再对结果进行处理，通过`sync.WaitGroup`来确认同步阻塞，通过有缓冲Channel的阻塞特性来控制最大执行的并发数，在启动Goroutine之前往通道里写值，处理完成之后再读取。处理成功后将结果写到`result`通道中，这里模拟了一个延时与错误操作，也就是`result`通道可能写不满，所以在任务执行完毕后做了`close(result)`操作，避免后续遍历通道时阻塞。
+
+```
+var (
+	taskNum     = 10
+	maxParalNum = 3
+)
+
+func main() {
+	wg := sync.WaitGroup{}
+	limit := make(chan struct{}, maxParalNum)
+	result := make(chan int, taskNum)
+
+	task := func() (int, error) {
+		time.Sleep(time.Second * 2)
+		if rand.Intn(3) == 1 {
+			return 0, fmt.Errorf("task error")
+		}
+		return 1, nil
+	}
+
+	for i := 1; i <= taskNum; i++ {
+		wg.Add(1)
+		limit <- struct{}{}
+		go func(i int) {
+			fmt.Println("start task", i, time.Now())
+			defer func() {
+				<-limit
+				wg.Done()
+			}()
+			if t, err := task(); err == nil {
+				result <- t
+			}
+		}(i)
+	}
+	wg.Wait()
+	close(result)
+	for res := range result {
+		fmt.Printf("%+v", res)
+	}
+}
+```
+
+## 6.2 边处理边消费
+
+如果想限制并发的同时，一边处理一边消费。则可以调整为发送时起新的协程去发送，通过`limit`来控制发送的数量，根据任务次数来读取，不过这就要求执行任务时需往通道里写入对应数量的结果。
+
+```
+var (
+	taskNum     = 10
+	maxParalNum = 3
+)
+
+type data struct {
+	code int
+	res  int
+}
+
+func main() {
+	limit := make(chan struct{}, maxParalNum)
+	result := make(chan data, taskNum)
+
+	task := func() (data, error) {
+		time.Sleep(time.Second * 2)
+		if rand.Intn(3) == 1 {
+			return data{}, fmt.Errorf("task error")
+		}
+		return data{code: 1}, nil
+	}
+	go func() {
+		for i := 1; i <= taskNum; i++ {
+			limit <- struct{}{}
+			go func(i int) {
+				fmt.Println("start task", i, time.Now())
+				defer func() {
+					<-limit
+				}()
+				t, _ := task()
+				result <- t
+			}(i)
+		}
+	}()
+
+	for i := 0; i < taskNum; i++ {
+		res := <-result
+		fmt.Printf("%+v\n", res)
 	}
 }
 ```
