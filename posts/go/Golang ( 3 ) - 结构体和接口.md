@@ -74,7 +74,9 @@ func main() {
 - 属性和方法都通过`.`来访问。
 - 调用过程就像是初始化了一个类，并调用了类的方法。`Info()`方法也可以访问当前结构体实例`p`的成员属性。
 
-# 二、结构体指针
+# 二、方法接收器
+
+前面定义方法里使用的接收类型是`Person`，他等效于：`func Info(p Person) string {}`，我们知道函数是可以传指针的，这里的接收方式也可以通过指针来接收。
 
 ## 2.1 指针接收器
 
@@ -147,12 +149,33 @@ func main() {
 }
 ```
 
+这里有一个示例，可以看看梳理下结构体的调用：
+
+```
+type Person struct {
+	Name string
+}
+
+func (p *Person) Info() {
+	fmt.Printf("Name: %s\n", p.Name)
+}
+
+func main() {
+	p := []Person{{"A"}, {"B"}, {"C"}}
+	for _, v := range p {
+		go v.Info()
+	}
+	time.Sleep(3 * time.Second)
+}
+```
+
+由于Person定义的是值类型，而调用的是指针接收的方法，所以Go的语法糖会帮我们做转换，直接运行的是`go (*v).Info()`，也就是取了v的地址，而range遍历过程中v用的是同一个变量地址。所以最后输出的是3个C，如果将Person的指针接收改成值接收的方式就可以顺利的输出ABC了。
 
 # 三、结构体内嵌
 
 ## 3.1 基本嵌套
 
-结构体是由多种数据类型组合起来的高级类型，自然结构体也可以嵌套结构体。按理所当然的去设置和访问就好了，比如：`p.Job.CompanyName`
+结构体是由多种数据类型组合起来的高级类型，自然结构体也可以嵌套结构体，这种用法就相当于定义了一个属性是一个复合类型。
 
 ```
 type Person struct {
@@ -207,7 +230,7 @@ func main() {
 {iTopic 18 {iTopic.org}} Name: iTopic, Age: 19 Job: iTopic.org
 ```
 
-如果存在同名的字段和方法则会优先获取到当前结构体的属性和方法，不存在才会去父结构体找。比如将`Job.CompanyName`改成`Name`，方法改成`Info()`，则可以这样子访问：
+如果存在同名的字段和方法则会优先获取到当前结构体的属性和方法，不存在才会去父结构体找。比如将`Job.CompanyName`改成`Name`，方法改成`Info()`，则可以按下面这样子访问，如果有多个这种继承字段也存在同名的方法，则就需要上面这种显示的指定了，否则会报：`ambiguous selector p.Info`
 
 ```
 func main() {
@@ -219,11 +242,40 @@ func main() {
 }
 ```
 
-如果有多个这种继承字段也存在同名的方法，则就需要上面这种显示的指定了，否则会报：`ambiguous selector p.Info`
+关于匿名嵌套这里有一点要补充，他其实并不是其它语言中的继承思路，Go本身是不支持继承，而是一种组合的思路。组合之后新的结构体有的老的结构体的方法和属性，但从访问层级上看还是满足原有的访问规则，并不是通过继承改变基类的属性和方法。
+
+```
+type Person struct {
+	Name string
+	Age  int
+}
+
+func (p *Person) Info() {
+	fmt.Printf("Name: %s\n", p.Name)
+}
+
+type Student struct {
+	Person
+	Name string
+}
+
+func (s *Student) Detail() {
+	fmt.Printf("Name: %s\n", s.Name)
+	s.Info()
+}
+
+func main() {
+	s := Student{}
+	s.Name = "Lion"
+	s.Detail()
+}
+```
+
+示例中设置`s.Name`按优先级设置的是`Student`结构体的，而`s.Info()`中访问的`p.Name`是`Person`的，由于并没有对`Person.Name`赋值，所以`s.Info()`打印就是就初始值空字符串。
 
 ## 3.2 结构体锁
 
-这里为前一章节的一个示例，比如对`Age`进行一千次调用累加操作，如果要确保数据准确就需要上锁，而`sync.Mutex`也是一个结构体，所以可以直接用内嵌的方式，`Person`就继承了`Lock()`和`Unlock()`方法了。
+这里为前一章节的一个示例，比如对`Age`进行一千次调用累加操作，如果要确保数据准确就需要上锁，而`sync.Mutex`也是一个结构体，所以可以直接用内嵌的方式，`Person`就组合了`Lock()`和`Unlock()`方法了。
 
 ```
 type Person struct {
@@ -347,6 +399,63 @@ func main() {
 	show(1)
 }
 ```
+
+## 4.3 接口嵌套
+
+接口也是支持内嵌的，通过嵌入其他接口就可以实现接口的组合。比如这是io包中的接口定义，`ReadWriter`接口通过组合的方式就相当于定义了两个方法。
+
+```
+type Reader interface {
+	Read(p []byte) (n int, err error)
+}
+
+type Writer interface {
+	Write(p []byte) (n int, err error)
+}
+
+type ReadWriter interface {
+	Reader
+	Writer
+}
+```
+
+# 五、结构体与接口
+
+## 5.1 结构体实现接口
+
+前面接口定义中已经通过结构体来实现了接口，但如果想让某个结构体强制实现接口中的定义，可以这么做，相当于做了一个变量初始化，值做了类型强转。
+
+```
+var _ ExportHandler = (*CsvExporter)(nil)
+```
+
+## 5.2 结构体内嵌接口
+
+内嵌接口就相当于给结构体多定义了几个方法，可以通过传入外部实现了的接口的结构体。
+
+```
+type Person struct {
+	Name string
+	Age  int
+	Human
+}
+
+type Student struct {
+	Name string
+	Human
+}
+
+func (s Student) Info() {
+	fmt.Printf("Name: %s\n", s.Name)
+}
+
+func main() {
+	p := Person{Human: Student{Name: "ABC"}}
+	p.Info()
+}
+```
+
+
 
 ---
 
