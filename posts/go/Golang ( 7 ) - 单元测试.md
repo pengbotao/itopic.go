@@ -3,8 +3,7 @@
     "url": "go-testing",
     "time": "2021/02/01 21:01",
     "tag": "Golang",
-    "toc": "yes",
-    "public": "no"
+    "toc": "yes"
 }
 ```
 
