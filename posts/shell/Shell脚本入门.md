@@ -500,9 +500,112 @@ $ command > /dev/null
 $ command > /dev/null 2>&1
 ```
 
+# 七、代码片段
+
+## 7.1 循环处理
+
+```
+#! /bin/bash
+
+output_file="./export/test.data"
+
+> "$output_file"
+
+for idx in {0..100}; do
+    echo "start export idx:$idx" >> "$output_file"
+done
+
+echo "output: $output_file"
+```
+
+## 7.2 读取文件
+
+```
+#!/bin/sh
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <file_path>"
+    exit 1
+fi
+
+file_path="$1"
+
+while IFS= read -r line || [ -n "$line" ]; do
+  echo "$line"
+done < "$file_path"
+```
+
+## 7.3 按函数执行
+
+```
+#!/bin/bash
+
+check_keyword() {
+    local filename="$1"
+    local keyword="$2"
+
+    tmpdir="./data/tmp"
+    if [ ! -d "$tmpdir" ]; then
+        mkdir -p "$tmpdir"
+    fi
+
+    while IFS= read -r file || [ -n "$file" ]; do
+        output="${tmpdir}/${file}_search.txt"
+        > "$output"
+        grep "$keyword" $file >> "$output"
+    done < "$filename"
+}
+
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <filename> <keyword>"
+    exit 1
+fi
+
+# 调用函数，并传递参数
+check_keyword "$1" "$2"
+```
+
+## 7.4 多个函数
+
+```
+#!/bin/bash
+
+main() {
+    if [ "$#" -ne 2 ]; then
+        echo "Usage: $0 <source> <keyword>"
+        exit 1
+    fi
+
+    local source="$1"
+    local keyword="$2"
+
+    case "$source" in
+        "1")
+            process_1
+            ;;
+        "2")
+            process_2
+            ;;
+        *)
+            echo "Invalid source: $source"
+            exit 1
+            ;;
+    esac
+}
 
 
+process_1() {
+   echo "$keyword"
+}
 
+process_2() {
+   :
+}
+
+
+# 调用主函数
+main "$@"
+```
 
 
 - [1] [Linux Shell脚本教程：30分钟玩转Shell脚本编程](http://c.biancheng.net/cpp/shell/)
