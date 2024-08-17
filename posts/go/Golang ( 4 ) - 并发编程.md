@@ -471,7 +471,180 @@ func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
 func WithValue(parent Context, key, val interface{}) Context
 ```
 
+# 八、并发库
 
+## 8.1 errgroup
+
+1、通过errgroup来执行通过方法，最后同步等待执行完成，从示例看少了Add/Done的操作。
+
+```
+eg := errgroup.Group{}
+eg.Go(func() error {
+	// logic 1
+})
+eg.Go(func() error {
+	// logic 2
+})
+if err = eg.Wait(); err != nil {
+	return
+}
+```
+
+2、可以控制并发
+
+```
+var (
+	eg    = errgroup.Group{}
+	limit = make(chan struct{}, consts.Five)
+	mu    sync.Mutex
+)
+for _, classID := range classList {
+	limit <- struct{}{}
+	classID := classID
+	eg.Go(func() error {
+		defer func() {
+			<-limit
+		}()
+
+		var classInfo string // logic
+
+		mu.Lock()
+		resp[classID] = classInfo
+		mu.Unlock()
+		return nil
+	})
+}
+err = eg.Wait()
+return
+```
+
+3、还可以增加取消函数，当有函数执行失败时可以提前取消。
+
+```
+var (
+	eg, cancel    = errgroup.WithContext(ctx)
+	mu            = sync.Mutex{}
+	limit         = make(chan struct{}, consts.Five)
+	resp = map[string]string{}
+)
+
+for _, classID := range classList {
+	limit <- struct{}{}
+	classID := classID
+	eg.Go(func() error {
+		defer func() {
+			<-limit
+		}()
+		select {
+		case <-cancel.Done():
+			return nil
+		default:
+			var classInfo string // logic
+
+			mu.Lock()
+			resp[classID] = classInfo
+			mu.Unlock()
+		}
+		return nil
+	})
+}
+if err = eg.Wait(); err != nil {
+	return
+}
+```
+
+## 8.2 ants
+
+ants是一个高性能的 goroutine 池，实现了对大规模 goroutine 的调度管理、goroutine 复用，允许使用者在开发并发程序的时候限制 goroutine 数量，复用资源，达到更高效执行任务的效果。
+
+```
+func main() {
+	var wg sync.WaitGroup
+
+	// 任务函数
+	task := func() {
+		fmt.Println("Running task")
+		time.Sleep(1 * time.Second) // 模拟任务执行时间
+		wg.Done()                   // 任务完成，计数减1
+	}
+
+	// 创建一个大小为 10 的 goroutine 池
+	pool, _ := ants.NewPool(10)
+	defer pool.Release()
+
+	// 提交任务到池中
+	for i := 0; i < 20; i++ {
+		wg.Add(1) // 计数加1
+
+		// 提交任务并检查错误
+		err := pool.Submit(task)
+		if err != nil {
+			fmt.Printf("Task submission failed: %v\n", err)
+			wg.Done() // 提交失败时手动调用 Done 以避免阻塞
+		}
+	}
+
+	// 等待所有任务完成
+	wg.Wait()
+
+	fmt.Println("All tasks completed.")
+}
+```
+
+这里是一个并发读取文件，然后分批处理的协程池示例：
+
+```
+pool, err := ants.NewPool(poolNum)
+if err != nil {
+	return
+}
+defer pool.Release()
+var (
+	wg = &sync.WaitGroup{}
+
+	batchChan     = make(chan []string, 10000)
+	scanner       = bufio.NewScanner(objFile)
+	batchLineNum  = 100 // 100行处理一次
+)
+go func() {
+	defer close(batchChan)
+	var (
+		lines  = make([]string, 0, batchLineNum)
+	)
+	for scanner.Scan() {
+		var line = scanner.Text()
+		lines = append(lines, line)
+		if len(lines) >= batchLineNum {
+			batchChan <- lines
+			lines = make([]string, 0, batchLineNum)
+		}
+	}
+	if len(lines) > 0 {
+		batchChan <- lines
+	}
+	if err = scanner.Err(); err != nil {
+		// log
+	}
+}()
+
+processBatch := func(ctx *gin.Context, batch []string) {
+	wg.Add(1)
+	e := pool.Submit(func() {
+		defer wg.Done()
+
+		// logic
+	})
+	if e != nil {
+		wg.Done()
+	}
+}
+
+for batch := range batchChan {
+	processBatch(ctx, batch)
+}
+
+wg.Wait()
+```
 
 ---
 
