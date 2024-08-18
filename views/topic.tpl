@@ -58,7 +58,6 @@
 </div>
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 
-<--<a href="{{.githubURL}}/blob/master/{{.topic.TopicPath}}" target="_blank"  class="github-corner">-->
 <a href="{{.domain}}/home.html" class="github-corner">
 <svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
