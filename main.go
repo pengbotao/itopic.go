@@ -140,8 +140,8 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	router["/"] = buff
-	router["/index"] = buff
+
+	router["/home"] = buff
 	pages = append(pages, map[string]string{
 		"loc":        domain + "/",
 		"lastmod":    time.Now().Format("2006-01-02"),
@@ -172,6 +172,7 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 			"domain":      domain,
 			"time":        time.Now(),
 			"githubURL":   githubURL,
+			"i":           i,
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -246,6 +247,10 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 				generateHTML(router)
 			}
 		}()
+	}
+	if len(models.Topics) > 0 {
+		router["/"] = router["/"+models.Topics[0].TopicID]
+		router["/index"] = router["/"]
 	}
 	return router
 }

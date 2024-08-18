@@ -24,7 +24,7 @@
         <ul>
             <li>- 古人学问无遗力，少壮工夫老始成</li>
             <li>
-            @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>] <b>Github地址</b>：{{.githubURL}}</li>
+            @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[<a  href="/home.html">目录</a>]&nbsp; [Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>] <b>Github地址</b>：{{.githubURL}}</li>
         </ul>
     </div>
 </div>
