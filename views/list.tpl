@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>{{.title}}</title>
+    <title>{{.title}} - IT驿站</title>
     <link rel="stylesheet" href="/static/css/markdown.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
         <ul>
             <li>- 古人学问无遗力，少壮工夫老始成</li>
             <li>
-            @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[<a  href="/home.html">目录</a>]&nbsp; [Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>] <b>Github地址</b>：{{.githubURL}}</li>
+            @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[鄂ICP备2024070731号-1] <b>Github地址</b>：{{.githubURL}}</li>
         </ul>
     </div>
 </div>

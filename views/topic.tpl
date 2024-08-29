@@ -16,7 +16,7 @@
 <div class="content">
     <h1 class="title">{{.topic.Title}}</h1>
 
-    <!--<a href="{{.domain}}/home.html"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>-->
+    <!--<a href="{{.domain}}/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>-->
 
     {{.topic.Content}}
     <div class="eof">-- EOF --</div>
@@ -48,17 +48,14 @@
             <b>下一篇</b>：<a href="{{$.domain}}/{{.topic_right.TopicID}}.html">{{.topic_right.Title}}</a>
             </li>{{end}}
             <li>
-                <b>Github地址</b>：<a href="{{.githubURL}}/blob/master/{{.topic.TopicPath}}">{{.githubURL}}/blob/master/{{.topic.TopicPath}}</a>
-            <li>
-            <li>
-                @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[<a  href="/home.html">目录</a>]&nbsp; [Hosted by <a href="https://pages.github.com/" style="font-weight: bold" target="_blank">Github Pages</a>]
+                @2013-{{.time.Format "2006"}} 老彭的博客&nbsp;[鄂ICP备2024070731号-1] <BR><b>Github地址</b>：<a href="{{.githubURL}}/blob/master/{{.topic.TopicPath}}">{{.githubURL}}/blob/master/{{.topic.TopicPath}}</a>
             </li>
         </ul>
     </div>
 </div>
 <div id="top"><a href="#"><img src="/static/img/arrow-top.png" style="width:40px;height:40px;" /></a></div>
 
-<a href="{{.domain}}/home.html" class="github-corner">
+<a href="{{.domain}}/" class="github-corner">
 <svg width="60" height="60" viewBox="0 0 250 250" style="fill: #61687C; color:#fff; position: absolute;top: 0;border: 0;right: 0;" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
     <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
