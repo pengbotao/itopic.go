@@ -225,4 +225,122 @@ PLAY RECAP *********************************************************************
 
 ---
 
+# 四、剧本示例
+
+## 4.1 设置机器IP
+
+```
+---
+- name: 设置主机名
+  hosts: all
+  become: yes
+  tasks:
+    - name: 获取IP地址
+      shell: ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1
+      register: ip_address
+      changed_when: False
+
+    - name: 解析IP地址
+      set_fact:
+        last_two_octets: "{{ ip_address.stdout.split('.')[-2:] | join('-') }}"
+
+    - name: 主机名
+      set_fact:
+        new_hostname: "hd-www-{{ last_two_octets }}"
+
+    - name: 设置主机名
+      command: hostnamectl set-hostname "{{ new_hostname }}"
+      notify: Update /etc/hosts
+
+    - name: 更新hosts
+      lineinfile:
+        path: /etc/hosts
+        regexp: '127\.0\.1\.1\s+.*'
+        line: "127.0.1.1 {{ new_hostname }}"
+        state: present
+
+  handlers:
+    - name: Update /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        regexp: '127\.0\.1\.1\s+.*'
+        line: "127.0.1.1 {{ new_hostname }}"
+        state: present
+
+```
+
+## 4.2 设置内核参数
+
+```
+---
+- name: 优化内核参数
+  hosts: all
+  become: yes
+  tasks:
+    - name: 加载nf_conntrack
+      command: modprobe nf_conntrack
+      ignore_errors: yes
+
+    - name: 配置sysctl.conf
+      lineinfile:
+        path: /etc/sysctl.conf
+        line: "{{ item }}"
+        create: yes
+        state: present
+      loop:
+        - net.ipv4.tcp_tw_reuse = 1
+        - net.ipv4.tcp_fin_timeout = 30
+        - net.ipv4.tcp_keepalive_time = 1200
+        - net.core.somaxconn = 65535
+        - net.netfilter.nf_conntrack_max = 1503232
+
+    - name: Apply sysctl settings
+      command: sysctl -p
+      notify:
+        - Reload sysctl settings
+
+  handlers:
+    - name: Reload sysctl settings
+      command: sysctl -p
+```
+
+## 4.3 创建用户
+
+创建一个新的`www`用户，并配置必要的SSH访问和sudo权限。
+
+```
+---
+- name: 创建用户
+  hosts: all
+  become: yes
+  tasks:
+    - name: 创建www用户
+      user:
+        name: www
+        shell: /bin/bash
+        state: present
+    - name: 创建ssh目录
+      file:
+        path: /home/www/.ssh
+        state: directory
+        owner: www
+        group: www
+        mode: '0700'
+    - name: 添加公钥
+      copy:
+        content: "{{ lookup('file', '/home/www/.ssh/id_rsa.pub') }}"
+        dest: /home/www/.ssh/authorized_keys
+        owner: www
+        group: www
+        mode: '0600'
+    - name: 添加sudo
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^www ALL='
+        line: 'www ALL=(ALL) NOPASSWD: ALL'
+        validate: '/usr/sbin/visudo -cf %s'
+
+```
+
 [1] [Ansible-playbook 运维笔记](https://www.cnblogs.com/kevingrace/p/5569648.html)
