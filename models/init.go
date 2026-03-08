@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -45,6 +46,8 @@ var (
 	TopicsGroupByMonth []*TopicMonth
 	//TopicsGroupByTag store all the tag
 	TopicsGroupByTag []*TopicTag
+	//Mutex for thread safety
+	topicsMutex sync.RWMutex
 )
 
 func init() {

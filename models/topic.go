@@ -38,9 +38,12 @@ const (
 
 //InitTopicList load all the topic on init
 func InitTopicList() error {
-	Topics = Topics[:0]
-	TopicsGroupByMonth = TopicsGroupByMonth[:0]
-	TopicsGroupByTag = TopicsGroupByTag[:0]
+	topicsMutex.Lock()
+	defer topicsMutex.Unlock()
+	
+	Topics = make([]*Topic, 0)        // 不保留容量
+	TopicsGroupByMonth = make([]*TopicMonth, 0)
+	TopicsGroupByTag = make([]*TopicTag, 0)
 	return filepath.Walk(topicMarkdownFolder, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() || filepath.Ext(path) != ".md" {
 			return nil
@@ -57,6 +60,12 @@ func InitTopicList() error {
 		}
 		SetTopicToTag(t)
 		SetTopicToMonth(t)
+		
+		// 添加nil检查
+		if t == nil || t.Time.IsZero() {
+			return nil
+		}
+		
 		//append topics desc
 		for i := range Topics {
 			if t.Time.After(Topics[i].Time) {
@@ -110,7 +119,12 @@ func GetTopicByPath(path string) (*Topic, error) {
 	}
 	t.Time, err = time.Parse("2006/01/02 15:04", thj.Time)
 	if err != nil {
-		return nil, errors.New(t.Title + "：" + err.Error())
+		// 如果解析失败，使用文件修改时间
+		if info, err := os.Stat(path); err == nil {
+			t.Time = info.ModTime()
+		} else {
+			t.Time = time.Now() // 最后备选
+		}
 	}
 	if strings.Compare(thj.IsPublic, "no") == 0 {
 		t.IsPublic = false
@@ -166,13 +180,23 @@ func SetTopicToTag(t *Topic) {
 	if IsDebug == false && t.IsPublic == false {
 		return
 	}
+	if t == nil {
+		return
+	}
 	for i := range t.Tag {
+		if t.Tag[i] == nil {
+			continue
+		}
+		
 		for k := range TopicsGroupByTag {
-			if TopicsGroupByTag[k].TagID != t.Tag[i].TagID {
+			if TopicsGroupByTag[k] == nil || TopicsGroupByTag[k].TagID != t.Tag[i].TagID {
 				continue
 			}
 			isFind := false
 			for j := range TopicsGroupByTag[k].Topics {
+				if TopicsGroupByTag[k].Topics[j] == nil {
+					continue
+				}
 				if t.Time.After(TopicsGroupByTag[k].Topics[j].Time) {
 					TopicsGroupByTag[k].Topics = append(TopicsGroupByTag[k].Topics, nil)
 					copy(TopicsGroupByTag[k].Topics[j+1:], TopicsGroupByTag[k].Topics[j:])

@@ -12,7 +12,7 @@
     <h1 class="title">{{.title}}</h1>
     <a href="{{.domain}}/"><img src="/static/img/arrow-back.png" class="title_arrow_back" /></a>
     <ul>{{range .topics}}
-        <li>[{{.Time.Format "06-01-02"}}] <a href="{{$.domain}}/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
+        <li>[{{if .Time}}{{.Time.Format "06-01-02"}}{{else}}未知时间{{end}}] <a href="{{$.domain}}/{{.TopicID}}.html">{{.Title}}</a></li>{{end}}
     </ul>
 
     <div class="eof">-- EOF --</div>
