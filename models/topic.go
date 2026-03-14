@@ -40,24 +40,35 @@ const (
 func InitTopicList() error {
 	topicsMutex.Lock()
 	defer topicsMutex.Unlock()
-	
+
 	Topics = make([]*Topic, 0)        // 不保留容量
 	TopicsGroupByMonth = make([]*TopicMonth, 0)
 	TopicsGroupByTag = make([]*TopicTag, 0)
-	return filepath.Walk(topicMarkdownFolder, func(path string, info os.FileInfo, err error) error {
+
+	fileCount := 0
+	successCount := 0
+	err := filepath.Walk(topicMarkdownFolder, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() || filepath.Ext(path) != ".md" {
 			return nil
 		}
+		fileCount++
 		t, err := GetTopicByPath(path)
 		if err != nil {
-			return err
+			if IsDebug {
+				fmt.Printf("Error loading %s: %v\n", path, err)
+			}
+			return nil
 		}
 		if t.TopicPath == "" {
+			if IsDebug {
+				fmt.Printf("Skipping %s: empty TopicPath\n", path)
+			}
 			return nil
 		}
 		if IsDebug == false && t.IsPublic == false {
 			return nil
 		}
+		successCount++
 		SetTopicToTag(t)
 		SetTopicToMonth(t)
 		
@@ -78,6 +89,11 @@ func InitTopicList() error {
 		Topics = append(Topics, t)
 		return nil
 	})
+	if IsDebug {
+		fmt.Printf("InitTopicList: scanned %d files, loaded %d topics, %d private skipped\n",
+			fileCount, successCount, fileCount-successCount)
+	}
+	return err
 }
 
 //GetTopicByPath read the topic by path

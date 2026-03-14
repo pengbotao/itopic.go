@@ -29,6 +29,7 @@ var (
 	htmlDuration   = 300 //5 minutes
 	domain         = ""
 	githubURL      = "https://github.com/pengbotao/itopic.go"
+	router         map[string]bytes.Buffer
 )
 
 func init() {
@@ -44,7 +45,7 @@ func main() {
 	flag.Parse()
 	htmlPrefix = strings.TrimRight(htmlPrefix, "/")
 	models.IsDebug = isDebug
-	router := loadHTTPRouter()
+	router = loadHTTPRouter()
 	ticker := time.NewTicker(1800 * time.Second)
 	go func() {
 		for range ticker.C {
@@ -57,11 +58,8 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if isDebug == true {
-			models.InitTopicList()
-			hr := loadHTTPRouter()
-			router = hr
-		}
+		// 不在每次请求时重新加载，避免性能问题
+		// 只在启动时和定时器触发时重新加载
 		path := r.URL.Path
 		if pos := strings.LastIndex(path, "."); pos > 0 {
 			path = path[0:pos]
@@ -112,6 +110,15 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	topicDivCnt := topicCnt / 2
 	var topicsLeft []*models.TopicMonth
 	var topicsRight []*models.TopicMonth
+
+	if isDebug == true {
+		fmt.Printf("Homepage: topicCnt=%d, topicDivCnt=%d, months=%d\n",
+			topicCnt, topicDivCnt, len(models.TopicsGroupByMonth))
+		for i, m := range models.TopicsGroupByMonth {
+			fmt.Printf("  Month[%d]: %s, topics=%d\n", i, m.Month, len(m.Topics))
+		}
+	}
+
 	if topicDivCnt > 0 {
 		t := 0
 		isSplit := false
@@ -130,6 +137,24 @@ func loadHTTPRouter() map[string]bytes.Buffer {
 	} else {
 		topicsLeft = models.TopicsGroupByMonth
 	}
+
+	if isDebug == true {
+		fmt.Printf("Homepage split: leftMonths=%d, rightMonths=%d\n",
+			len(topicsLeft), len(topicsRight))
+
+		// 计算实际文章数量
+		leftTopics := 0
+		for _, m := range topicsLeft {
+			leftTopics += len(m.Topics)
+		}
+		rightTopics := 0
+		for _, m := range topicsRight {
+			rightTopics += len(m.Topics)
+		}
+		fmt.Printf("Homepage topics: left=%d, right=%d, total=%d\n",
+			leftTopics, rightTopics, leftTopics+rightTopics)
+	}
+
 	if err := tpl.ExecuteTemplate(&buff, "index.tpl", map[string]interface{}{
 		"topics_l":  topicsLeft,
 		"topics_r":  topicsRight,
