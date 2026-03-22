@@ -2,7 +2,8 @@
 {
     "url": "openclaw-config-guide",
     "time": "2026/03/22 12:40",
-    "tag": "OpenClaw, 配置"
+    "tag": "OpenClaw, 配置",
+    "toc": "yes"
 }
 ```
 
