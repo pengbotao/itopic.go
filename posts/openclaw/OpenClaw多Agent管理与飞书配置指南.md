@@ -160,20 +160,20 @@ openclaw config set agents.list[index].model zai/glm-4.6
       "connectionMode": "websocket",
       "requireMention": true,
       "appId": "cli_a921cf23b4781cb5",
-      "appSecret": "fZ42Zxvg2y5dgGBrU8oGYeJz71pYjMFw",
+      "appSecret": "your_app_secret",
       "defaultAgent": "main",
       "accounts": {
         "default": {
           "appId": "cli_a921cf23b4781cb5",
-          "appSecret": "fZ42Zxvg2y5dgGBrU8oGYeJz71pYjMFw"
+          "appSecret": "your_app_secret_default"
         },
         "stock": {
           "appId": "cli_a92658933778dcb1",
-          "appSecret": "irou84vCySoFlVk4D3eNkV3VFjHFN1DD"
+          "appSecret": "your_app_secret_stock"
         },
         "analyst": {
           "appId": "cli_a927874d0078dcc2",
-          "appSecret": "9xzPcKOorTHDUDrReJoRUc2yLdVFyXSp"
+          "appSecret": "your_app_secret_analyst"
         }
       }
     }
